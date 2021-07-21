@@ -3,6 +3,9 @@
     "openedPathsList": {
         "entries": [
             {
+                "fileUri": "file:///home/jonas/README.md"
+            },
+            {
                 "fileUri": "file:///home/jonas/git_backup/.authinfo.gpg"
             },
             {
@@ -52,6 +55,17 @@
                                 },
                                 {
                                     "id": "vscode.menubar.separator"
+                                },
+                                {
+                                    "id": "openRecentFile",
+                                    "uri": {
+                                        "$mid": 1,
+                                        "external": "file:///home/jonas/README.md",
+                                        "path": "/home/jonas/README.md",
+                                        "scheme": "file"
+                                    },
+                                    "enabled": true,
+                                    "label": "~/README.md"
                                 },
                                 {
                                     "id": "openRecentFile",
@@ -572,7 +586,7 @@
                     {
                         "id": "editor.action.toggleWordWrap",
                         "label": "&&Word Wrap",
-                        "enabled": false
+                        "checked": true
                     },
                     {
                         "id": "editor.action.toggleMinimap",
@@ -1476,13 +1490,13 @@
     "themeBackground": "#1e1e1e",
     "windowsState": {
         "lastActiveWindow": {
-            "backupPath": "/home/jonas/.config/Code - OSS/Backups/1626728283552",
+            "backupPath": "/home/jonas/.config/Code - OSS/Backups/1626858367004",
             "uiState": {
                 "mode": 1,
-                "x": 962,
-                "y": 525,
-                "width": 956,
-                "height": 519
+                "x": 969,
+                "y": 532,
+                "width": 920,
+                "height": 483
             }
         },
         "openedWindows": []

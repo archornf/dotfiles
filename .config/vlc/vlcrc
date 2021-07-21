@@ -187,7 +187,7 @@
 [qt] # Qt interface
 
 # Start in minimal view (without menus) (boolean)
-#qt-minimal-view=0
+qt-minimal-view=1
 
 # Systray icon (boolean)
 #qt-system-tray=1
@@ -313,6 +313,11 @@ qt-privacy-ask=0
 # RTSP frame buffer size (integer)
 #rtsp-frame-buffer-size=250000
 
+[nfs] # NFS input
+
+# Set NFS uid/guid automatically (boolean)
+#nfs-auto-guid=1
+
 [udp] # UDP input
 
 # UDP Source timeout (sec) (integer)
@@ -344,6 +349,17 @@ qt-privacy-ask=0
 
 # Frame rate (string)
 #timecode-fps=25/1
+
+[smb] # SMB input
+
+# Username (string)
+#smb-user=
+
+# Password (string)
+#smb-pwd=
+
+# SMB domain (string)
+#smb-domain=
 
 [satip] # SAT>IP Receiver Plugin
 
@@ -681,6 +697,11 @@ qt-privacy-ask=0
 # Follow the mouse (boolean)
 #screen-follow-mouse=0
 
+[dvdread] # DVDRead Input (no menu support)
+
+# DVD angle (integer)
+#dvdread-angle=1
+
 [http] # HTTP input
 
 # Auto re-connect (boolean)
@@ -878,6 +899,11 @@ qt-privacy-ask=0
 
 # Delay of the ES (ms) (integer)
 #sout-delay-delay=0
+
+[stream_out_chromaprint] # Chromaprint stream output
+
+# Duration of the fingerprinting (integer)
+#duration=90
 
 [record] # Record stream output
 
@@ -1583,6 +1609,38 @@ qt-privacy-ask=0
 # Stream name (string)
 #sout-rist-stream-name=
 
+[access_output_shout] # IceCAST output
+
+# Stream name (string)
+#sout-shout-name=VLC media player - Live stream
+
+# Stream description (string)
+#sout-shout-description=Live stream from VLC media player
+
+# Stream MP3 (boolean)
+#sout-shout-mp3=0
+
+# Genre description (string)
+#sout-shout-genre=Alternative
+
+# URL description (string)
+#sout-shout-url=http://www.videolan.org/vlc
+
+# Bitrate (string)
+#sout-shout-bitrate=
+
+# Samplerate (string)
+#sout-shout-samplerate=
+
+# Number of channels (string)
+#sout-shout-channels=
+
+# Ogg Vorbis Quality (string)
+#sout-shout-quality=
+
+# Stream public (boolean)
+#sout-shout-public=0
+
 [http] # HTTP stream output
 
 # Username (string)
@@ -2045,6 +2103,20 @@ qt-privacy-ask=0
 
 # Formatted Subtitles (boolean)
 #subsdec-formatted=1
+
+[twolame] # Libtwolame audio encoder
+
+# Encoding quality (float)
+#sout-twolame-quality=0.000000
+
+# Stereo mode (integer)
+#sout-twolame-mode=0
+
+# VBR mode (boolean)
+#sout-twolame-vbr=0
+
+# Psycho-acoustic model (integer)
+#sout-twolame-psy=3
 
 [dvbsub] # DVB subtitles decoder
 
