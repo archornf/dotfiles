@@ -203,6 +203,7 @@ autocmd FileType sql inoremap vie<Tab> create view x as<Enter>select <Esc>/x<Ent
 
 autocmd FileType vtxt,text inoremap <line<Tab> --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------<Enter>
 autocmd FileType vtxt,text inoremap <date<Tab> <-- <C-R>=strftime("%Y-%m-%d %a")<CR><Esc>A -->
+autocmd FileType c inoremap for<Tab> for(int i = 0; i < val; i++){<Enter><Enter>}<Esc>?val<Enter>ciw
 
 " Statusline
 "set statusline=

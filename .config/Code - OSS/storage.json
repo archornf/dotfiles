@@ -3,6 +3,9 @@
     "openedPathsList": {
         "entries": [
             {
+                "fileUri": "file:///home/jonas/dwm/dwmblocks/README.md"
+            },
+            {
                 "fileUri": "file:///home/jonas/README.md"
             },
             {
@@ -55,6 +58,17 @@
                                 },
                                 {
                                     "id": "vscode.menubar.separator"
+                                },
+                                {
+                                    "id": "openRecentFile",
+                                    "uri": {
+                                        "$mid": 1,
+                                        "external": "file:///home/jonas/dwm/dwmblocks/README.md",
+                                        "path": "/home/jonas/dwm/dwmblocks/README.md",
+                                        "scheme": "file"
+                                    },
+                                    "enabled": true,
+                                    "label": "~/dwm/dwmblocks/README.md"
                                 },
                                 {
                                     "id": "openRecentFile",
@@ -1490,13 +1504,13 @@
     "themeBackground": "#1e1e1e",
     "windowsState": {
         "lastActiveWindow": {
-            "backupPath": "/home/jonas/.config/Code - OSS/Backups/1626858367004",
+            "backupPath": "/home/jonas/.config/Code - OSS/Backups/1626968937678",
             "uiState": {
                 "mode": 1,
-                "x": 969,
-                "y": 532,
-                "width": 920,
-                "height": 483
+                "x": 962,
+                "y": 2,
+                "width": 956,
+                "height": 1042
             }
         },
         "openedWindows": []

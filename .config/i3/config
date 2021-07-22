@@ -202,8 +202,10 @@ mode "exit: [l]ogout, [r]eboot, [s]hutdown" {
 bindsym $mod+Shift+e exec ~/.local/bin/my_scripts/alert_exit.sh; exec ~/.config/polybar/forest/scripts/powermenu.sh
 
 #BRIGHTNESS KEYS
-bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 10 #decrease brightness
-bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 10 #decrease brightness
+#bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 10 #increase brightness
+#bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 10 #decrease brightness
+bindsym XF86MonBrightnessUp exec --no-startup-id ~/.local/bin/my_scripts/incbrightness.sh
+bindsym XF86MonBrightnessDown exec --no-startup-id ~/.local/bin/my_scripts/decbrightness.sh
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -248,8 +250,8 @@ exec_always nm-applet
 # swap some keys
 #exec_always --no-startup-id xmodmap ~/.Xmodmap
 #set wallpaper
-#exec_always feh --bg-fill ~/.config/i3/wallpaper.png
-exec_always feh --bg-fill ~/Pictures/Wallpapers/wallpaper.png
+#exec_always feh --bg-scale ~/Pictures/Wallpapers/wallpaper.png
+exec_always feh --bg-fill --randomize ~/Pictures/Wallpapers/* &
 
 # MY KEYBINDS
 bindsym $mod+shift+n exec emacsclient -c
@@ -298,3 +300,4 @@ for_window [class="Gnome-calculator"] floating enable, move position 900 px 580 
 # Alternating layout
 exec_always ~/.local/bin/my_scripts/i3-alternating-layout/alternating_layouts.py
 #exec --no-startup-id ~/.bin/scripts/i3-alternating-layout/alternating_layouts.py
+exec --no-startup-id compton
