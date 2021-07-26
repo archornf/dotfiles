@@ -1,10 +1,10 @@
 /* See LICENSE file for copyright and license details. */
 
 /* Constants */
-#define TERMINAL "st"
-/* #define TERMINAL "urxvt" */
-#define TERMCLASS "St"
-/* #define TERMCLASS "Urxvt" */
+/* #define TERMINAL "st" */
+#define TERMINAL "urxvt"
+/* #define TERMCLASS "St" */
+#define TERMCLASS "Urxvt"
 
 /* appearance */
 static unsigned int borderpx  = 3;        /* border pixel of windows */
@@ -310,7 +310,6 @@ static Key keys[] = {
 static Button buttons[] = {
 	/* click                event mask      button          function        argument */
 #ifndef __OpenBSD__
-	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
 	{ ClkStatusText,        0,              Button1,        sigdwmblocks,   {.i = 1} },
 	{ ClkStatusText,        0,              Button2,        sigdwmblocks,   {.i = 2} },
 	{ ClkStatusText,        0,              Button3,        sigdwmblocks,   {.i = 3} },
