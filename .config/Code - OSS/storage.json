@@ -3,6 +3,15 @@
     "openedPathsList": {
         "entries": [
             {
+                "fileUri": "file:///home/jonas/disable-web-security"
+            },
+            {
+                "fileUri": "file:///home/jonas/Documents/first_notes.txt"
+            },
+            {
+                "fileUri": "file:///home/jonas/dwm/dwm/larbs.mom"
+            },
+            {
                 "fileUri": "file:///home/jonas/dwm/dwmblocks/README.md"
             },
             {
@@ -58,6 +67,39 @@
                                 },
                                 {
                                     "id": "vscode.menubar.separator"
+                                },
+                                {
+                                    "id": "openRecentFile",
+                                    "uri": {
+                                        "$mid": 1,
+                                        "external": "file:///home/jonas/disable-web-security",
+                                        "path": "/home/jonas/disable-web-security",
+                                        "scheme": "file"
+                                    },
+                                    "enabled": true,
+                                    "label": "~/disable-web-security"
+                                },
+                                {
+                                    "id": "openRecentFile",
+                                    "uri": {
+                                        "$mid": 1,
+                                        "external": "file:///home/jonas/Documents/first_notes.txt",
+                                        "path": "/home/jonas/Documents/first_notes.txt",
+                                        "scheme": "file"
+                                    },
+                                    "enabled": true,
+                                    "label": "~/Documents/first_notes.txt"
+                                },
+                                {
+                                    "id": "openRecentFile",
+                                    "uri": {
+                                        "$mid": 1,
+                                        "external": "file:///home/jonas/dwm/dwm/larbs.mom",
+                                        "path": "/home/jonas/dwm/dwm/larbs.mom",
+                                        "scheme": "file"
+                                    },
+                                    "enabled": true,
+                                    "label": "~/dwm/dwm/larbs.mom"
                                 },
                                 {
                                     "id": "openRecentFile",
@@ -159,8 +201,7 @@
                     },
                     {
                         "id": "saveAll",
-                        "label": "Save A&&ll",
-                        "enabled": false
+                        "label": "Save A&&ll"
                     },
                     {
                         "id": "vscode.menubar.separator"
@@ -227,7 +268,8 @@
                     },
                     {
                         "id": "workbench.action.files.revert",
-                        "label": "Re&&vert File"
+                        "label": "Re&&vert File",
+                        "enabled": false
                     },
                     {
                         "id": "workbench.action.closeActiveEditor",
@@ -432,7 +474,8 @@
                                 },
                                 {
                                     "id": "workbench.action.toggleSidebarVisibility",
-                                    "label": "Show &&Side Bar"
+                                    "label": "Show &&Side Bar",
+                                    "checked": true
                                 },
                                 {
                                     "id": "workbench.action.toggleStatusbarVisibility",
@@ -446,7 +489,8 @@
                                 },
                                 {
                                     "id": "workbench.action.togglePanel",
-                                    "label": "Show &&Panel"
+                                    "label": "Show &&Panel",
+                                    "checked": true
                                 },
                                 {
                                     "id": "workbench.action.toggleEditorVisibility",
@@ -599,8 +643,7 @@
                     },
                     {
                         "id": "editor.action.toggleWordWrap",
-                        "label": "&&Word Wrap",
-                        "checked": true
+                        "label": "&&Word Wrap"
                     },
                     {
                         "id": "editor.action.toggleMinimap",
@@ -955,8 +998,7 @@
                     },
                     {
                         "id": "workbench.action.terminal.split",
-                        "label": "&&Split Terminal",
-                        "enabled": false
+                        "label": "&&Split Terminal"
                     },
                     {
                         "id": "vscode.menubar.separator"
@@ -1504,7 +1546,7 @@
     "themeBackground": "#1e1e1e",
     "windowsState": {
         "lastActiveWindow": {
-            "backupPath": "/home/jonas/.config/Code - OSS/Backups/1626968937678",
+            "backupPath": "/home/jonas/.config/Code - OSS/Backups/1626969863730",
             "uiState": {
                 "mode": 1,
                 "x": 962,
@@ -1532,9 +1574,10 @@
             "editorPartMinWidth": 220,
             "titleBarHeight": 0,
             "activityBarWidth": 48,
-            "sideBarWidth": 0,
+            "sideBarWidth": 239,
             "statusBarHeight": 22,
             "windowBorder": false
         }
-    }
+    },
+    "pickerWorkingDir": "/home/jonas/Documents"
 }

@@ -321,6 +321,7 @@ let g:coc_global_extensions = [
   \ 'coc-java',
   \ 'coc-tsserver',
   \ 'coc-json',
+  \ 'coc-c',
   \ ]
 " Remap for rename current word
 nmap <F2> <Plug>(coc-rename)

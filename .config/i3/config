@@ -39,7 +39,7 @@ bindsym XF86AudioPause exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
-bindsym XF836AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
@@ -202,10 +202,8 @@ mode "exit: [l]ogout, [r]eboot, [s]hutdown" {
 bindsym $mod+Shift+e exec ~/.local/bin/my_scripts/alert_exit.sh; exec ~/.config/polybar/forest/scripts/powermenu.sh
 
 #BRIGHTNESS KEYS
-#bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 10 #increase brightness
-#bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 10 #decrease brightness
-bindsym XF86MonBrightnessUp exec --no-startup-id ~/.local/bin/my_scripts/incbrightness.sh
-bindsym XF86MonBrightnessDown exec --no-startup-id ~/.local/bin/my_scripts/decbrightness.sh
+bindsym XF86MonBrightnessUp exec --no-startup-id ~/.local/bin/my_scripts/brightness.sh +10
+bindsym XF86MonBrightnessDown exec --no-startup-id ~/.local/bin/my_scripts/brightness.sh -10
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -301,3 +299,4 @@ for_window [class="Gnome-calculator"] floating enable, move position 900 px 580 
 exec_always ~/.local/bin/my_scripts/i3-alternating-layout/alternating_layouts.py
 #exec --no-startup-id ~/.bin/scripts/i3-alternating-layout/alternating_layouts.py
 exec --no-startup-id compton
+exec --no-startup-id xfce4-power-manager

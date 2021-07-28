@@ -1,0 +1,40 @@
+[2021-07-25 12:10:14.843] [sharedprocess] [info] [logs cleanup]: Starting to clean up old logs.
+[2021-07-25 12:10:34.834] [sharedprocess] [info] [code cache cleanup]: Starting to clean up old code cache folders.
+[2021-07-25 12:10:34.834] [sharedprocess] [info] [storage cleanup]: Starting to clean up storage folders.
+[2021-07-25 12:10:44.834] [sharedprocess] [info] [language pack cache cleanup]: Starting to clean up unused language packs.
+[2021-07-25 12:10:53.179] [sharedprocess] [info] Installing extension: vscodevim.vim
+[2021-07-25 12:10:54.689] [sharedprocess] [info] Downloaded extension: vscodevim.vim /home/jonas/.config/Code/CachedExtensionVSIXs/vscodevim.vim-1.21.5
+[2021-07-25 12:10:54.807] [sharedprocess] [info] Extracted extension to /home/jonas/.vscode/extensions/.75a4847d-82f9-4754-834a-6997057fcaf6: vscodevim.vim
+[2021-07-25 12:10:54.812] [sharedprocess] [info] Renamed to /home/jonas/.vscode/extensions/vscodevim.vim-1.21.5
+[2021-07-25 12:10:54.813] [sharedprocess] [info] Installation completed. vscodevim.vim
+[2021-07-25 12:10:54.817] [sharedprocess] [info] Extensions installed successfully: vscodevim.vim
+[2021-07-25 12:11:05.442] [sharedprocess] [info] Installing extension: ms-vscode.cpptools
+[2021-07-25 12:11:06.912] [sharedprocess] [info] Downloaded extension: ms-vscode.cpptools /home/jonas/.config/Code/CachedExtensionVSIXs/ms-vscode.cpptools-1.5.1
+[2021-07-25 12:11:07.179] [sharedprocess] [info] Extracted extension to /home/jonas/.vscode/extensions/.7c6fc81b-96e0-4d1b-9fd7-af067beac8ad: ms-vscode.cpptools
+[2021-07-25 12:11:07.187] [sharedprocess] [info] Renamed to /home/jonas/.vscode/extensions/ms-vscode.cpptools-1.5.1
+[2021-07-25 12:11:07.190] [sharedprocess] [info] Installation completed. ms-vscode.cpptools
+[2021-07-25 12:11:07.195] [sharedprocess] [info] Extensions installed successfully: ms-vscode.cpptools
+[2021-07-25 12:11:26.657] [sharedprocess] [info] Installing extension: redhat.java
+[2021-07-25 12:11:29.497] [sharedprocess] [info] Downloaded extension: redhat.java /home/jonas/.config/Code/CachedExtensionVSIXs/redhat.java-0.80.0
+[2021-07-25 12:11:29.957] [sharedprocess] [info] Extracted extension to /home/jonas/.vscode/extensions/.9e919b40-6354-4881-ba0d-807a8819ad6b: redhat.java
+[2021-07-25 12:11:29.966] [sharedprocess] [info] Renamed to /home/jonas/.vscode/extensions/redhat.java-0.80.0
+[2021-07-25 12:11:29.970] [sharedprocess] [info] Installation completed. redhat.java
+[2021-07-25 12:11:29.980] [sharedprocess] [info] Extensions installed successfully: redhat.java
+[2021-07-25 12:11:37.607] [sharedprocess] [info] Installing extension: ms-python.python
+[2021-07-25 12:11:38.999] [sharedprocess] [info] Installing extension: ms-toolsai.jupyter
+[2021-07-25 12:11:38.999] [sharedprocess] [info] Installing extension: ms-python.vscode-pylance
+[2021-07-25 12:11:41.060] [sharedprocess] [info] Downloaded extension: ms-python.python /home/jonas/.config/Code/CachedExtensionVSIXs/ms-python.python-2021.7.1060902895
+[2021-07-25 12:11:41.303] [sharedprocess] [info] Downloaded extension: ms-toolsai.jupyter /home/jonas/.config/Code/CachedExtensionVSIXs/ms-toolsai.jupyter-2021.8.1054968649
+[2021-07-25 12:11:42.245] [sharedprocess] [info] Extracted extension to /home/jonas/.vscode/extensions/.949759c1-f78f-4b61-8cdf-68a0e9ccd0c0: ms-toolsai.jupyter
+[2021-07-25 12:11:42.260] [sharedprocess] [info] Renamed to /home/jonas/.vscode/extensions/ms-toolsai.jupyter-2021.8.1054968649
+[2021-07-25 12:11:42.262] [sharedprocess] [info] Installation completed. ms-toolsai.jupyter
+[2021-07-25 12:11:42.267] [sharedprocess] [info] Extensions installed successfully: ms-toolsai.jupyter
+[2021-07-25 12:11:43.430] [sharedprocess] [info] Extracted extension to /home/jonas/.vscode/extensions/.46d75da1-322d-494e-9c5b-a9289b87ff82: ms-python.python
+[2021-07-25 12:11:43.444] [sharedprocess] [info] Renamed to /home/jonas/.vscode/extensions/ms-python.python-2021.7.1060902895
+[2021-07-25 12:11:43.449] [sharedprocess] [info] Installation completed. ms-python.python
+[2021-07-25 12:11:43.462] [sharedprocess] [info] Extensions installed successfully: ms-python.python
+[2021-07-25 12:11:45.128] [sharedprocess] [info] Downloaded extension: ms-python.vscode-pylance /home/jonas/.config/Code/CachedExtensionVSIXs/ms-python.vscode-pylance-2021.7.5
+[2021-07-25 12:11:46.812] [sharedprocess] [info] Extracted extension to /home/jonas/.vscode/extensions/.1299a6c5-ebec-4e99-94bd-a3dc897cb526: ms-python.vscode-pylance
+[2021-07-25 12:11:46.828] [sharedprocess] [info] Renamed to /home/jonas/.vscode/extensions/ms-python.vscode-pylance-2021.7.5
+[2021-07-25 12:11:46.830] [sharedprocess] [info] Installation completed. ms-python.vscode-pylance
+[2021-07-25 12:11:46.838] [sharedprocess] [info] Extensions installed successfully: ms-python.vscode-pylance
