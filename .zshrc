@@ -119,11 +119,11 @@ alias i3conf='nvim ~/.config/i3/config'
 
 #General Aliases
 alias jnb='jupyter notebook ~/Dev/Notebooks'
-alias cat='bat'
 alias down='cd ~/Downloads'
 alias dev='cd ~/Dev'
 alias docs='cd ~/Documents'
 alias pics='cd ~/Pictures'
+#alias cat='bat'
 #alias emacs='emacsclient -nw'
 alias neofetch='neofetch --color_blocks off'
 alias diskspace='ncdu'
@@ -131,8 +131,8 @@ alias cb='clipboard'
 alias tb='nc termbin.com 9999'
 alias doomsync='~/.emacs.d/bin/doom sync && systemctl restart emacs --user'
 alias vim='nvim'
-alias xup 'xrdb ~/.Xresources'
-
+alias xup='xrdb ~/.Xresources'
+alias grep='grep -rin --color'
 
 # use the vi navigation keys in menu completion
 #bindkey -M menuselect 'h' vi-backward-char

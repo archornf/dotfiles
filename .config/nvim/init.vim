@@ -27,6 +27,7 @@ Plug 'jalvesaq/vimcmdline'
 call plug#end()
 
 "let g:python3_host_prog='/bin/python3'
+"let g:coc_node_path = "/usr/bin/node"
 set runtimepath+=~/.vim
 set rtp+=~/.fzf
 " Get syntax highlighting
@@ -118,10 +119,10 @@ nnoremap <M-d> :FZF ../../..<cr>
 nnoremap <M-o> :FZF /<cr>
 
 " NERDTree
-nnoremap <M-w> :NERDTreeToggle %:p<CR>
+map <M-w> :NERDTree ~/<CR>
+nnoremap <M-e> :NERDTreeToggle %:p<CR>
 map <C-b> :NERDTreeToggle<CR>
 " Open Nerd Tree in home folder
-map <M-e> :NERDTree ~/<CR>
 
 " Settings
 map <M-z> :noh<CR>
@@ -230,19 +231,17 @@ autocmd FileType c inoremap for<Tab> for(int i = 0; i < val; i++){<Enter><Enter>
 " Better tabbing
 vnoremap < <gv
 vnoremap > >gv
-imap <C-v> <C-r>+
+"imap <C-v> <C-r>+
+imap <C-v> <Esc>"+gP
 
 " Function for compiling code
 func! CompileRun()
     exec "w"
     if &filetype == 'c'
-        exec "!gcc % -o %<"
-		exec "!%:r.exe"
-        "exec "!time ./%<"
+        exec "!gcc % && ./a.out"
     elseif &filetype == 'cpp'
         exec "!g++ % -o %<"
 		exec "!%:r.exe"
-        "exec "!time ./%<"
     elseif &filetype == 'java'
         "exec "!java -cp %:p:h %:t:r"
         exec "!java %"
@@ -265,8 +264,7 @@ func! CompileRun()
         exec "!~/.vim/markdown.pl % > %.html &"
         exec "!firefox %.html &"
     elseif &filetype == 'cs'
-        exec "!csc %"
-        exec "!%:r.exe"
+        exec "!mcs % && mono ./%:t:r.exe"
     endif
 endfunc
 
@@ -321,7 +319,7 @@ let g:coc_global_extensions = [
   \ 'coc-java',
   \ 'coc-tsserver',
   \ 'coc-json',
-  \ 'coc-c',
+  \ 'coc-clangd',
   \ ]
 " Remap for rename current word
 nmap <F2> <Plug>(coc-rename)

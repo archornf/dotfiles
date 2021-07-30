@@ -1,0 +1,39 @@
+!SESSION 2021-07-30 10:58:24.802 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=16.0.1
+java.vendor=N/A
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -data /home/jonas/.config/coc/extensions/coc-java-data/jdt_ws_7c4de3e544c47ab33897cc2ebf548228
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2021-07-30 10:58:25.609
+!MESSAGE class org.eclipse.jdt.ls.core.internal.JavaLanguageServerPlugin is started
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2021-07-30 10:58:25.747
+!MESSAGE Main thread is waiting
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2021-07-30 10:58:25.773
+!MESSAGE >> initialize
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2021-07-30 10:58:25.778
+!MESSAGE Initializing Java Language Server 1.3.0.202107291901
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2021-07-30 10:58:25.825
+!MESSAGE Static Commands: []
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2021-07-30 10:58:25.826
+!MESSAGE Non-Static Commands: [java.edit.organizeImports, java.project.refreshDiagnostics, java.project.import, java.navigate.openTypeHierarchy, java.project.removeFromSourcePath, java.project.listSourcePaths, java.project.provideSemanticTokens, java.project.resolveStackTraceLocation, java.project.getAll, java.project.isTestFile, java.project.getClasspaths, java.navigate.resolveTypeHierarchy, java.project.getSemanticTokensLegend, java.edit.stringFormatting, java.project.getSettings, java.project.updateSourceAttachment, java.project.resolveSourceAttachment, java.project.addToSourcePath]
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2021-07-30 10:58:25.875
+!MESSAGE >> initialized
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2021-07-30 10:58:25.881
+!MESSAGE Creating the Java project jdt.ls-java-project
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2021-07-30 10:58:25.940
+!MESSAGE Finished creating the Java project jdt.ls-java-project
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2021-07-30 10:58:26.542
+!MESSAGE Importing Gradle project(s)
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2021-07-30 10:58:26.544
+!MESSAGE No previous Gradle project at /media/data/Files/Kod/Backup/2D-Game-In-Android-Studio/IHaveToFly, it must be synchronized
