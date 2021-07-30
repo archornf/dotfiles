@@ -233,6 +233,8 @@ vnoremap < <gv
 vnoremap > >gv
 "imap <C-v> <C-r>+
 imap <C-v> <Esc>"+gP
+vnoremap  <leader>d "xd
+nnoremap  <leader>d "xd
 
 " Function for compiling code
 func! CompileRun()
@@ -329,7 +331,7 @@ nmap <leader>f  <Plug>(coc-format-selected)
 xmap <leader>fg  mcggVG<Plug>(coc-format-selected)'c
 nmap <leader>fg  mcggVG<Plug>(coc-format-selected)'c
 " Show all diagnostics using CocList
-nnoremap <silent> <leader>d  :<C-u>CocList diagnostics<cr>
+nnoremap <silent> <leader>g  :<C-u>CocList diagnostics<cr>
 " Prettier command for coc
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
