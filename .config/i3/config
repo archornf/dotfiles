@@ -120,9 +120,12 @@ bindsym $mod+Shift+a focus parent
 
 # open tmux
 bindsym $mod+a exec i3-sensible-terminal -e tmux
-# Open nautilus
+# Open nautilus in wd
 #bindsym $mod+w exec nautilus --no-desktop
-bindsym $mod+n exec nautilus -w --no-desktop
+bindsym $mod+n exec ~/.local/bin/my_scripts/nautilus_wd.sh
+bindsym $mod+Shift+n exec nautilus -w --no-desktop
+# Open nautilus at home
+
 # open ranger
 bindsym $mod+w exec urxvt -e ranger ~/
 # open ranger from wd

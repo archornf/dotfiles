@@ -77,8 +77,8 @@ class fzf_select(Command):
             -o -type d -print 2> /dev/null | sed 1d | cut -b3- | fzf +m"
         else:
             # match files and directories
-            #command="find -L . \( -path '*/\.*' -o -fstype 'dev' -o -fstype 'proc' \) -prune \
-            #-o -print 2> /dev/null | sed 1d | cut -b3- | fzf +m"
+            # command="find -L . \( -path '*/\.*' -o -fstype 'dev' -o -fstype 'proc' \) -prune \
+            # command="find -L . \( -path '*/\.*' -o -fstype 'dev' -o -fstype 'proc' -path ./temp \) -prune \ -o -print 2> /dev/null | sed 1d | cut -b3- | fzf +m"
             #command="find -L . \( -path '*/\.*' -o -fstype 'dev' -o -fstype 'proc' \) | fzf +m"
             #command="find -L | fzf"
             command="find -L . \( -path '*/\.*' -o -fstype 'dev' -o -fstype 'proc' \) -print 2> /dev/null | sed 1d | cut -b3- | fzf +m"
