@@ -1,3 +1,3 @@
 #!/bin/bash
 WHEREAMI=$(cat /tmp/whereami)
-nautilus "$WHEREAMI"
+nautilus -w --no-desktop "$WHEREAMI"
