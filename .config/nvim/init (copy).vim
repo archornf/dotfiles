@@ -2,11 +2,15 @@ if &compatible
   set nocompatible               " Be iMproved
 endif
 
-call plug#begin('~/.vim/plugged') " Specify a directory for plugins
+" Specify a directory for plugins
+call plug#begin('~/.vim/plugged')
 
+Plug 'junegunn/fzf'
 Plug 'preservim/nerdtree'
 Plug 'tpope/vim-surround'
 Plug 'justinmk/vim-sneak'
+"Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
 Plug 'morhetz/gruvbox'
 Plug 'w0ng/vim-hybrid'
 Plug 'sainnhe/sonokai'
@@ -17,21 +21,18 @@ Plug 'mhinz/vim-startify'
 Plug 'vimwiki/vimwiki'
 Plug 'dracula/vim'
 Plug 'jalvesaq/vimcmdline'
-Plug 'junegunn/fzf'
-Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
-"Plug 'neoclide/coc.nvim', {'branch': 'release'}
-"Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 "Plug 'nvim-treesitter/nvim-treesitter'
-"Plug 'jalvesaq/vimcmdline'
 
-call plug#end() " Initialize plugin system
+" Initialize plugin system
+call plug#end()
 
+"let g:python3_host_prog='/bin/python3'
+"let g:coc_node_path = "/usr/bin/node"
 set runtimepath+=~/.vim
 set rtp+=~/.fzf
-"let mysyntaxfile = "~/.vim/syntax/vtxt.vim" " Get syntax highlighting
+" Get syntax highlighting
+"let mysyntaxfile = "~/.vim/syntax/vtxt.vim"
 "au BufRead,BufNewFile *.vtxt set filetype=vtxt
-
-" General settings
 filetype plugin indent on
 if (has("termguicolors"))
     set termguicolors
@@ -45,7 +46,13 @@ set noeb vb t_vb=
 set autoread
 set autowrite
 set wildmenu
+"set guifont=Consolas:h10
+":winpos -8 -1
 set backspace=indent,eol,start
+"set lines=48
+"set columns=210
+"set lines=999" cumns=999 "set fullscreen
+"set tw=235
 set nocompatible
 set smartindent
 set autoindent
@@ -70,6 +77,16 @@ set completeopt+=longest,menuone
 set completeopt+=preview
 let g:jedi#popup_on_dot = 1
 
+" If on laptop
+if !empty(glob("~/isLaptop.txt"))
+	colorscheme gruvbox
+	set tw=180
+else
+	"colorscheme hybrid
+	colorscheme gruvbox
+	"colorscheme dracula
+endif
+
 " Disables automatic commenting on newline:
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 " Turns off highlighting on the bits of code that are changed, so the line that is changed is highlighted but the actual text that has changed stands out on the line and is readable.
@@ -83,12 +100,6 @@ let mapleader=" "
 " Replace from void
 noremap <leader>p viw"_dP
 noremap Y y$
-" Delete to void
-vnoremap <leader>d "_d
-nnoremap <leader>d "_d
-" Paste from previous registers
-noremap <leader>1 "0p
-noremap <leader>2 "1p
 
 " Vimgrep and QuickFix Lists
 nnoremap <M-f> :vimgrep // **/*.txt<left><left><left><left><left><left><left><left><left><left><C-f>i
@@ -99,6 +110,9 @@ nnoremap <M-p> :cprev<CR>
 nnoremap <M-l> :clast<CR>
 nnoremap <M-b> :copen<CR>
 
+" Format rest of the text with vim formatting, go back and center screen
+nnoremap <M-r> gqG<C-o>zz
+
 " Neovim FZF
 nnoremap <M-a> :FZF <cr>
 nnoremap <M-d> :FZF ../../..<cr>
@@ -108,6 +122,7 @@ nnoremap <M-o> :FZF /<cr>
 map <M-w> :NERDTree ~/<CR>
 nnoremap <M-e> :NERDTreeToggle %:p<CR>
 map <C-b> :NERDTreeToggle<CR>
+" Open Nerd Tree in home folder
 
 " Settings
 map <M-z> :noh<CR>
@@ -115,7 +130,6 @@ map <M-x> :call CompileRun()<CR>
 map <F4> <Esc>:set cursorline!<CR>
 map <F5> <Esc>:setlocal spell! spelllang=en_us<CR>
 map <F6> <Esc>:setlocal spell! spelllang=sv<CR>
-imap <C-v> <Esc>"+gP
 
 " Window management and movement
 nnoremap <Down> :resize +2<CR>
@@ -128,8 +142,8 @@ map <silent> <C-k> <Plug>WinMoveUp
 map <silent> <C-l> <Plug>WinMoveRight
 xnoremap K :move '<-2<CR>gv-gv
 xnoremap J :move '>+1<CR>gv-gv
-noremap <leader>j :join<CR>
-noremap <leader>J :join!<CR>
+xnoremap <leader>j :join<CR>
+xnoremap <leader>ju :join!<CR>
 nmap <leader>z <Plug>Zoom
 
 " Tab maps
@@ -140,6 +154,16 @@ nnoremap <M-Enter> :vsp<cr>
 nnoremap <M-<> :vsp<cr>
 
 " Go to tab by number
+" noremap <leader>1 1gt
+" noremap <leader>2 2gt
+" noremap <leader>3 3gt
+" noremap <leader>4 4gt
+" noremap <leader>5 5gt
+" noremap <leader>6 6gt
+" noremap <leader>7 7gt
+" noremap <leader>8 8gt
+" noremap <leader>9 9gt
+noremap <M-0> :tablast<cr>
 noremap <M-1> 1gt
 noremap <M-2> 2gt
 noremap <M-3> 3gt
@@ -151,11 +175,23 @@ noremap <M-8> 8gt
 noremap <M-9> 9gt
 noremap <M-0> :tablast<cr>
 
+" Open vim config in new tab
+noremap <M-m> :tabe ~/.config/nvim/init.vim<cr>
+" Open i3 config in new tab
+noremap <M-,> :tabe ~/.config/i3/config<cr>
+" Open zshrc in new tab
+noremap <M-.> :tabe ~/.zshrc<cr>
+
 " Go to last active tab
 au TabLeave * let g:lasttab = tabpagenr()
 nnoremap <silent> <leader>l :exe "tabn ".g:lasttab<cr>
 vnoremap <silent> <leader>l :exe "tabn ".g:lasttab<cr>
-nnoremap <leader>o <C-^>
+nnoremap <leder>o <C-^>
+
+" Copy everything from file into clipboard
+inoremap <C-a> <Esc>gg"*yG
+" Copy selection to clipboard
+noremap <C-c> y
 
 " Filetype shortcuts
 autocmd FileType html inoremap <i<Tab> <em></em> <Space><++><Esc>/<<Enter>GNi
@@ -182,31 +218,68 @@ autocmd FileType vtxt,text inoremap <date<Tab> <-- <C-R>=strftime("%Y-%m-%d %a")
 autocmd FileType c inoremap for<Tab> for(int i = 0; i < val; i++){<Enter><Enter>}<Esc>?val<Enter>ciw
 
 " Statusline
-set statusline=
-set laststatus=2
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-set statusline+=%#Difftext#
-set statusline+=\ %M "track if changes has been made to file
-set statusline+=\ %y "show filetype
-set statusline+=\ %r "ReadOnly flag
-set statusline+=\ %F "show full path to file
-set statusline+=%= "right side settings
-set statusline+=%#DiffChange#
-set statusline+=\ %c:%l/%L "display column and line pos
-set statusline+=\ %p%% "display percentage traversed of file
+"set statusline=
+"set laststatus=2
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
+"set statusline+=%#Difftext#
+"set statusline+=\ %M "track if changes has been made to file
+"set statusline+=\ %y "show filetype
+"set statusline+=\ %r "ReadOnly flag
+"set statusline+=\ %F "show full path to file
+"set statusline+=%= "right side settings
+"set statusline+=%#DiffChange#
+"set statusline+=\ %c:%l/%L "display column and line pos
+"set statusline+=\ %p%% "display percentage traversed of file
 
 " Syntastic
-let g:syntastic_always_populate_loc_list = 0
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+"let g:syntastic_always_populate_loc_list = 0
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
 
 " Better tabbing
 vnoremap < <gv
 vnoremap > >gv
+"imap <C-v> <C-r>+
+imap <C-v> <Esc>"+gP
+vnoremap  <leader>d "xd
+nnoremap  <leader>d "xd
 
+" Function for compiling code
+func! CompileRun()
+    exec "w"
+    if &filetype == 'c'
+        exec "!gcc % && ./a.out"
+    elseif &filetype == 'cpp'
+        exec "!g++ % -o %<"
+		exec "!%:r.exe"
+    elseif &filetype == 'java'
+        "exec "!java -cp %:p:h %:t:r"
+        exec "!java %"
+    elseif &filetype == 'sh'
+        exec "!time bash %"
+    elseif &filetype == 'python'
+        exec "!python3 %"
+    elseif &filetype == 'html'
+        exec "!firefox % &"
+    elseif &filetype == 'javascript'
+        exec "!node %"
+    elseif &filetype == 'jsx'
+        exec "!node %"
+    elseif &filetype == 'typescript'
+        exec "!node %"
+    elseif &filetype == 'go'
+        exec "!go build %<"
+        exec "!time go run %"
+    elseif &filetype == 'mkd'
+        exec "!~/.vim/markdown.pl % > %.html &"
+        exec "!firefox %.html &"
+    elseif &filetype == 'cs'
+        exec "!mcs % && mono ./%:t:r.exe"
+    endif
+endfunc
 
 " Syntax highlighting for vtxt
 "hi vtxtBlueRegion ctermfg=blue  guifg=#0000FF
@@ -250,14 +323,13 @@ map <S-Insert> <MiddleMouse>
 map! <S-Insert> <MiddleMouse>
 inoremap <S-Insert> <Esc><MiddleMouse>A
 
-" Coc config
+" Coc config deleted: \ 'coc-python', at: 21-07-02
 let g:coc_global_extensions = [
   \ 'coc-snippets',
   \ 'coc-pairs',
   \ 'coc-eslint',
   \ 'coc-prettier',
   \ 'coc-java',
-  \ 'coc-python',
   \ 'coc-tsserver',
   \ 'coc-json',
   \ 'coc-clangd',
@@ -265,99 +337,25 @@ let g:coc_global_extensions = [
 " Remap for rename current word
 nmap <F2> <Plug>(coc-rename)
 " Remap for format selected region
-xmap <leader>cf  <Plug>(coc-format-selected)
-nmap <leader>cf  <Plug>(coc-format-selected)
-xmap <leader>cg  mcggVG<Plug>(coc-format-selected)'c
-nmap <leader>cg  mcggVG<Plug>(coc-format-selected)'c
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+xmap <leader>fg  mcggVG<Plug>(coc-format-selected)'c
+nmap <leader>fg  mcggVG<Plug>(coc-format-selected)'c
 " Show all diagnostics using CocList
-nnoremap <silent> <leader>cd  :<C-u>CocList diagnostics<cr>
+nnoremap <silent> <leader>g  :<C-u>CocList diagnostics<cr>
 " Prettier command for coc
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
 " Show extra whitespace
-nmap <leader>s /\s\+$/<cr>
+nmap <leader>ws /\s\+$/<cr>
 " Remove extra whitespace
-nmap <leader>ws :%s/\s\+$<cr>
-" Format rest of the text with vim formatting, go back and center screen
-nmap <leader>r gqG<C-o>zz
-" Undo break points
-inoremap , ,<c-g>u
-inoremap . .<c-g>u
-inoremap ! !<c-g>u
-inoremap ? ?<c-g>u
+nmap <leader>fs :%s/\s\+$<cr>
 
 " Map Ctrl-Backspace to delete the previous word in insert mode.
 imap <C-BS> <C-W>a
 
-" If on laptop (set specific settings for my laptop which runs arch linux)
-if !empty(glob("~/isLaptop.txt"))
-	set tw=180
-	set clipboard=unnamedplus
-	"let g:python3_host_prog='/bin/python3'
-	"let g:coc_node_path = "/usr/bin/node"
-	" Open vim config in new tab
-	noremap <M-m> :tabe ~/.config/nvim/init.vim<cr>
-	" Open i3 config in new tab
-	noremap <M-,> :tabe ~/.config/i3/config<cr>
-	" Open zshrc in new tab
-	noremap <M-.> :tabe ~/.zshrc<cr>
-	" Copy everything from file into clipboard
-	inoremap <C-a> <Esc>gg"yG
-	" Copy selection to clipboard
-	noremap <C-c> y
-	colorscheme gruvbox
-	highlight Normal guibg=none
-	highlight NonText guibg=none
-	highlight LineNr cterm=NONE ctermfg=grey gui=NONE guifg=grey guibg=NONE term=bold
-	" Function for compiling code
-	func! CompileRun()
-		exec "w"
-		if &filetype == 'c'
-			exec "!gcc % && ./a.out"
-		elseif &filetype == 'cpp'
-			exec "!g++ % -o %<"
-			exec "!%:r.exe"
-		elseif &filetype == 'java'
-			"exec "!java -cp %:p:h %:t:r"
-			exec "!java %"
-		elseif &filetype == 'sh'
-			exec "!time bash %"
-		elseif &filetype == 'python'
-			exec "!python3 %"
-		elseif &filetype == 'html'
-			exec "!firefox % &"
-		elseif &filetype == 'javascript'
-			exec "!node %"
-		elseif &filetype == 'jsx'
-			exec "!node %"
-		elseif &filetype == 'typescript'
-			exec "!node %"
-		elseif &filetype == 'go'
-			exec "!go build %<"
-			exec "!time go run %"
-		elseif &filetype == 'mkd'
-			exec "!~/.vim/markdown.pl % > %.html &"
-			exec "!firefox %.html &"
-		elseif &filetype == 'cs'
-			exec "!mcs % && mono ./%:t:r.exe"
-		endif
-	endfunc
-else
-	let g:python3_host_prog='~\anaconda3\envs\pynvim\python.exe'
-	set guifont=Consolas:h10
-	:winpos -8 -1
-	set lines=48
-	set columns=210
-	set lines=999" cumns=999 "set fullscreen
-	set tw=235
-	imap <C-v> <C-r>+
-	noremap <M-m> :tabe $myvimrc<cr>
-	nnoremap <M-o> :FZF c:/<cr>
-	" Copy everything from file into clipboard
-	inoremap <C-a> <Esc>gg"*yG
-	" Copy selection to clipboard
-	noremap <C-c> "*y
-	"colorscheme hybrid
-	"colorscheme gruvbox
-	colorscheme dracula
-endif
+highlight Normal guibg=none
+highlight NonText guibg=none
+highlight LineNr cterm=NONE ctermfg=grey gui=NONE guifg=grey guibg=NONE term=bold
+
+set clipboard=unnamedplus

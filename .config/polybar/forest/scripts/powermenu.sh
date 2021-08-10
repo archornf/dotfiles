@@ -85,7 +85,8 @@ case $chosen in
 			elif [[ "$DESKTOP_SESSION" == "i3" ]]; then
 				i3-msg exit
 			else
-				pkill dwm
+				i3-msg exit
+				# pkill dwm
 			fi
 		elif [[ $ans == "no" || $ans == "NO" || $ans == "n" || $ans == "N" ]]; then
 			exit 0
