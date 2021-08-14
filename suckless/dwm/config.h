@@ -68,8 +68,8 @@ static int resizehints = 0;    /* 1 means respect size hints in tiled resizals *
 #include "vanitygaps.c"
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[@]",	spiral },		/* Fibonacci spiral */
-	{ "[]=",	tile },			/* Default: Master on left, slaves on right */
+	{ "[@]",	spiral },		/* Default: Fibonacci spiral */
+	{ "[]=",	tile },			/* Master on left, slaves on right */
 	{ "TTT",	bstack },		/* Master on top, slaves on bottom */
 
 	{ "[\\]",	dwindle },		/* Decreasing in size right and leftward */
@@ -94,7 +94,10 @@ static const Layout layouts[] = {
 #define STACKKEYS(MOD,ACTION) \
 	{ MOD,	XK_j,	ACTION##stack,	{.i = INC(+1) } }, \
 	{ MOD,	XK_k,	ACTION##stack,	{.i = INC(-1) } }, \
-	{ MOD,  XK_v,   ACTION##stack,  {.i = 0 } }, \
+	{ MOD,	XK_h,	ACTION##stack,	{.i = INC(+2) } }, \
+	{ MOD,	XK_l,	ACTION##stack,	{.i = INC(-2) } }, \
+
+	/* { MOD,  XK_v,   ACTION##stack,  {.i = 0 } }, \ */
 	/* { MOD, XK_grave, ACTION##stack, {.i = PREVSEL } }, \ */
 	/* { MOD, XK_a,     ACTION##stack, {.i = 1 } }, \ */
 	/* { MOD, XK_z,     ACTION##stack, {.i = 2 } }, \ */
@@ -176,17 +179,19 @@ static Key keys[] = {
 	{ MODKEY,			XK_e,		spawn,		SHCMD("~/.local/bin/my_scripts/ranger_wd.sh") },
 	{ MODKEY|ShiftMask,			XK_e,		spawn,		SHCMD("~/.local/bin/my_scripts/alert_exit.sh; exec ~/.config/polybar/forest/scripts/powermenu.sh") },
 	
-	{ MODKEY,			XK_r,		spawn,		SHCMD(TERMINAL " -e lf") },
+	{ MODKEY,			XK_r,		spawn,		SHCMD(TERMINAL "rofi -show run -theme ~/.config/polybar/forest/scripts/rofi/launcher.rasi") },
 	{ MODKEY|ShiftMask,		XK_r,		spawn,		SHCMD(TERMINAL " -e htop") },
 	{ MODKEY,			XK_t,		setlayout,	{.v = &layouts[0]} }, /* tile */
 	{ MODKEY|ShiftMask,		XK_t,		setlayout,	{.v = &layouts[1]} }, /* bstack */
-	{ MODKEY,			XK_y,		setlayout,	{.v = &layouts[2]} }, /* spiral */
 	{ MODKEY|ShiftMask,		XK_y,		setlayout,	{.v = &layouts[3]} }, /* dwindle */
-	{ MODKEY,			XK_u,		setlayout,	{.v = &layouts[4]} }, /* deck */
 	{ MODKEY|ShiftMask,		XK_u,		setlayout,	{.v = &layouts[5]} }, /* monocle */
 
-	{ MODKEY,			XK_o,		incnmaster,     {.i = +1 } },
+	{ MODKEY,			XK_y,		setmfact,	{.f = -0.05} },
+	/* J and K are automatically bound above in STACKEYS */
+	{ MODKEY,			XK_o,		setmfact,      	{.f = +0.05} },
+	{ MODKEY,			XK_u,		incnmaster,     {.i = +1 } },
 	{ MODKEY|ShiftMask,		XK_o,		incnmaster,     {.i = -1 } },
+	{ MODKEY,		XK_i,		incnmaster,     {.i = -1 } },
 	{ MODKEY,			XK_p,			spawn,		SHCMD("~/.config/polybar/launch.sh --forest") },
 	{ MODKEY|ShiftMask,		XK_p,			spawn,		SHCMD("mpc pause ; pauseallmpv") },
 	{ MODKEY,			XK_bracketleft,		spawn,		SHCMD("mpc seek -10") },
@@ -198,9 +203,11 @@ static Key keys[] = {
 
 	{ MODKEY,			XK_a,		togglegaps,	{0} },
 	{ MODKEY|ShiftMask,		XK_a,		defaultgaps,	{0} },
+	{ MODKEY,			XK_x,		togglegaps,	{0} },
+	{ MODKEY,			XK_z,		togglegaps,	{0} },
 	
 	{ MODKEY,			XK_s,		togglesticky,	{0} },
-	/* { MODKEY|ShiftMask,		XK_s,		spawn,		SHCMD("") }, */
+	{ MODKEY|ShiftMask,		XK_s,		spawn,		SHCMD("import png:- | xclip -selection clipboard -t image/png") },
 	{ MODKEY,			XK_d,		spawn,          SHCMD("dmenu_run -fn 'Linux Libertine Mono'") },
 	{ MODKEY|ShiftMask,		XK_d,		spawn,		SHCMD("passmenu") },
 	
@@ -212,9 +219,10 @@ static Key keys[] = {
 	{ MODKEY,			XK_g,		shiftview,	{ .i = -1 } },
 	{ MODKEY|ShiftMask,		XK_g,		shifttag,	{ .i = -1 } },
 	
-	{ MODKEY,			XK_h,		setmfact,	{.f = -0.05} },
+	/* { MODKEY,			XK_h,		setmfact,	{.f = -0.05} }, */
 	/* J and K are automatically bound above in STACKEYS */
-	{ MODKEY,			XK_l,		setmfact,      	{.f = +0.05} },
+	/* { MODKEY,			XK_l,		setmfact,      	{.f = +0.05} }, */
+
 	{ MODKEY,			XK_semicolon,	shiftview,	{ .i = 1 } },
 	{ MODKEY|ShiftMask,		XK_semicolon,	shifttag,	{ .i = 1 } },
 	{ MODKEY,			XK_apostrophe,	togglescratch,	{.ui = 1} },

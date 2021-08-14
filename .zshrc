@@ -132,7 +132,7 @@ alias tb='nc termbin.com 9999'
 alias doomsync='~/.emacs.d/bin/doom sync && systemctl restart emacs --user'
 alias vim='nvim'
 alias xup='xrdb ~/.Xresources'
-alias grep='grep -rin --color'
+# alias grep='grep -rin --color'
 
 # use the vi navigation keys in menu completion
 #bindkey -M menuselect 'h' vi-backward-char
