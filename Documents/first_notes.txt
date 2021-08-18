@@ -1,0 +1,105 @@
+archornf@g e12
+archornf twitch S55!
+Twitch
+
+pavucontrol for sound
+
+https://github.com/morhetz/gruvbox-contrib/blob/master/xresources/gruvbox-dark.xresources
+
+TODO:
+increase font command
+use tmux
+eclipse vim, vscode vim (import projs to eclipse?)
+
+ranger keybinds
+crontab
+power button mod+shift+e
+
+xrdb ~/.Xresources
+
+FOR BATTERY:
+less /sys/class/power_supply/BAT0/capacity
+
+spotify color icon
+fzf in ranger
+open raner show dotfiles
+
+fc-list | grep -i 'font awesome'
+
+find -L . \( -path '*/\.*' -o -fstype 'dev' -o -fstype 'proc' \) -print 2> | sed 1d | cut -b3- | fzf +m
+
+2watch:
+Futurama
+
+Theme: Adwaita [GTK2]
+
+htop I for reverse sort
+
+patch -p1 < file.diff
+make clean install
+
+sudo chown -R jonas:jonas /var/test
+sudo -Rns pkg
+sudo -S pkg will reinstall with checksum checks
+sudo -Scc will clean pacman cache also
+
+echo 10000 > /sys/class/backlight/intel_backlight/brightness
+echo 20000 > /sys/class/backlight/intel_backlight/brightness
+check max_brightness in max_brightness
+
+TAR:
+Untar a “tar.gz”: tar -zxvf file_name.tar.gz OR	tar -C /myfolder -zxvf file_name.tar.gz
+Untar a “tar” file: tar -xvf file_name.tar OR tar -C /myfolder -xvf file_name.tar
+
+ZIP:
+To compress a directory with zip do the following: zip -r archive_name.zip directory_to_compress
+Here’s how you extract a zip archive: unzip archive_name.zip
+
+token: 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
+git remote set-url origin https://scuzzlebuzzle:<MYTOKEN>@github.com/scuzzlebuzzle/ol3-1.git
+
+
+git remote set-url origin https://archornf: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@github.com/archornf/dotfiles.git
+
+Run the command "grep -w hub" against your target file and you will only see lines that contain the word "hub" as a complete word.
+
+$ grep -w cat program.c
+printf("Hello, cat\n");
+
+If you want your finds to include the line number, just add -n as in:
+$ grep -nw cats wish-list
+
+systemctl enable bluetooth
+systemctl start bluetooth
+
+Memory for folder: du -sh
+
+Links:
+https://www.bbc.com/future/article/20190919-the-maze-puzzle-hidden-within-an-early-video-game
+
+Quake:https://www.youtube.com/watch?v=p8u_k2LIZyo 
+
+get battery: cat /sys/class/power_supply/BAT0/capacity     #might need to change BAT0 / BAT1
+
+*****
+zsh on other pc
+vtxt >> wiki files
+
+/usr/sharei3lock-fancy/icons
+Fix bold text (wiki)
+
+see output from xrandr
+xrandr (display)
+xrandr --output eDP-1 --auto --output HDMI-1-0
+
+# Switch screen display to the second monitor through HDMI output (mode optimised for TV)
+bindsym $mod+Next exec xrandr && xrandr --output eDP-1 --off --output HDMI-1-0
+# Switch screen display back to the main monitor through HDMI output
+bindsym $mod+Prior exec xrandr && xrandr --output LVDS1 --auto --output HDMI-1-0 --off
+# Display on both monitors (mode optimised for TV)
+bindsym $mod+equal exec xrandr && xrandr --output LVDS1 --auto --output HDMI-1-0 --mode 1360x768
+
+i3 is updated, vimwiki, vimrc (laptop)
+
+In general you center align your bar by setting width = X% and offset-x = Y%, so that X + 2 * Y = 100.
+Looks like you are using i3, there you need to set override-redirect = true in the bar config and read this.
