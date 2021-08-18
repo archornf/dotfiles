@@ -71,15 +71,11 @@ static const Layout layouts[] = {
 	{ "[@]",	spiral },		/* Default: Fibonacci spiral */
 	{ "[]=",	tile },			/* Master on left, slaves on right */
 	{ "TTT",	bstack },		/* Master on top, slaves on bottom */
-
 	{ "[\\]",	dwindle },		/* Decreasing in size right and leftward */
-
 	{ "[D]",	deck },			/* Master on left, slaves in monocle-like mode on right */
 	{ "[M]",	monocle },		/* All windows on top of eachother */
-
 	{ "|M|",	centeredmaster },		/* Master in middle, slaves on sides */
 	{ ">M>",	centeredfloatingmaster },	/* Same but master floats */
-
 	{ "><>",	NULL },			/* no layout function means floating behavior */
 	{ NULL,		NULL },
 };
@@ -94,8 +90,8 @@ static const Layout layouts[] = {
 #define STACKKEYS(MOD,ACTION) \
 	{ MOD,	XK_j,	ACTION##stack,	{.i = INC(+1) } }, \
 	{ MOD,	XK_k,	ACTION##stack,	{.i = INC(-1) } }, \
-	{ MOD,	XK_h,	ACTION##stack,	{.i = INC(+2) } }, \
-	{ MOD,	XK_l,	ACTION##stack,	{.i = INC(-2) } }, \
+	{ MOD,	XK_h,	ACTION##stack,	{.i = INC(+1) } }, \
+	{ MOD,	XK_l,	ACTION##stack,	{.i = INC(-1) } }, \
 
 	/* { MOD,  XK_v,   ACTION##stack,  {.i = 0 } }, \ */
 	/* { MOD, XK_grave, ACTION##stack, {.i = PREVSEL } }, \ */
@@ -179,19 +175,15 @@ static Key keys[] = {
 	{ MODKEY,			XK_e,		spawn,		SHCMD("~/.local/bin/my_scripts/ranger_wd.sh") },
 	{ MODKEY|ShiftMask,			XK_e,		spawn,		SHCMD("~/.local/bin/my_scripts/alert_exit.sh; exec ~/.config/polybar/forest/scripts/powermenu.sh") },
 	
-	{ MODKEY,			XK_r,		spawn,		SHCMD(TERMINAL "rofi -show run -theme ~/.config/polybar/forest/scripts/rofi/launcher.rasi") },
-	{ MODKEY|ShiftMask,		XK_r,		spawn,		SHCMD(TERMINAL " -e htop") },
-	{ MODKEY,			XK_t,		setlayout,	{.v = &layouts[0]} }, /* tile */
-	{ MODKEY|ShiftMask,		XK_t,		setlayout,	{.v = &layouts[1]} }, /* bstack */
-	{ MODKEY|ShiftMask,		XK_y,		setlayout,	{.v = &layouts[3]} }, /* dwindle */
-	{ MODKEY|ShiftMask,		XK_u,		setlayout,	{.v = &layouts[5]} }, /* monocle */
+	{ MODKEY,			XK_r,		spawn,		SHCMD("rofi -show run -theme ~/.config/polybar/forest/scripts/rofi/launcher.rasi") },
+	{ MODKEY|ShiftMask,		XK_r,		spawn,		SHCMD(TERMINAL "-e htop") },
 
 	{ MODKEY,			XK_y,		setmfact,	{.f = -0.05} },
 	/* J and K are automatically bound above in STACKEYS */
+	/* { MODKEY,			XK_u,		incnmaster,     {.i = +1 } }, */
+	/* { MODKEY,		XK_i,		incnmaster,     {.i = -1 } }, */
 	{ MODKEY,			XK_o,		setmfact,      	{.f = +0.05} },
-	{ MODKEY,			XK_u,		incnmaster,     {.i = +1 } },
 	{ MODKEY|ShiftMask,		XK_o,		incnmaster,     {.i = -1 } },
-	{ MODKEY,		XK_i,		incnmaster,     {.i = -1 } },
 	{ MODKEY,			XK_p,			spawn,		SHCMD("~/.config/polybar/launch.sh --forest") },
 	{ MODKEY|ShiftMask,		XK_p,			spawn,		SHCMD("mpc pause ; pauseallmpv") },
 	{ MODKEY,			XK_bracketleft,		spawn,		SHCMD("mpc seek -10") },
@@ -201,21 +193,29 @@ static Key keys[] = {
 	{ MODKEY,			XK_backslash,		view,		{0} },
 	/* { MODKEY|ShiftMask,		XK_backslash,		spawn,		SHCMD("") }, */
 
-	{ MODKEY,			XK_a,		togglegaps,	{0} },
-	{ MODKEY|ShiftMask,		XK_a,		defaultgaps,	{0} },
+	/* { MODKEY,			XK_a,		togglegaps,	{0} }, */
+	/* { MODKEY|ShiftMask,		XK_a,		defaultgaps,	{0} }, */
+
 	{ MODKEY,			XK_x,		togglegaps,	{0} },
-	{ MODKEY,			XK_z,		togglegaps,	{0} },
+	{ MODKEY,			XK_z,		defaultgaps,	{0} },
 	
-	{ MODKEY,			XK_s,		togglesticky,	{0} },
 	{ MODKEY|ShiftMask,		XK_s,		spawn,		SHCMD("import png:- | xclip -selection clipboard -t image/png") },
 	{ MODKEY,			XK_d,		spawn,          SHCMD("dmenu_run -fn 'Linux Libertine Mono'") },
-	{ MODKEY|ShiftMask,		XK_d,		spawn,		SHCMD("passmenu") },
+	{ MODKEY|ShiftMask,		XK_d,		spawn,		SHCMD("rofi -show run -theme ~/.config/polybar/forest/scripts/rofi/launcher.rasi") },
+	{ MODKEY|ShiftMask,		XK_r,		spawn,		SHCMD("rofi -show run -theme ~/.config/polybar/forest/scripts/rofi/launcher.rasi") },
 	
-	{ MODKEY,			XK_less,		setlayout,	{.v = &layouts[6]} }, /* centeredmaster */
+	/* Layouts */
+	{ MODKEY|ShiftMask,			XK_less,		togglesticky,	{0} },
+	{ MODKEY,			XK_less,		setlayout,	{.v = &layouts[0]} }, /* Fibonacci spiral */
+	{ MODKEY,			XK_t,		setlayout,	{.v = &layouts[1]} }, /* tile */
+	{ MODKEY,		XK_s,		setlayout,	{.v = &layouts[2]} }, /* centeredmaster */
+	{ MODKEY|ShiftMask,		XK_t,		setlayout,	{.v = &layouts[3]} }, /* bstack */
+	{ MODKEY|ShiftMask,		XK_y,		setlayout,	{.v = &layouts[4]} }, /* dwindle */
+	{ MODKEY|ShiftMask,		XK_u,		setlayout,	{.v = &layouts[5]} }, /* deck*/
+	{ MODKEY|ShiftMask,		XK_i,		setlayout,	{.v = &layouts[6]} }, /* monocle */
 	{ MODKEY|ShiftMask,		XK_z,		setlayout,	{.v = &layouts[7]} }, /* centeredfloatingmaster */
-	{ MODKEY,			XK_f,		togglefullscr,	{0} },
 	{ MODKEY|ShiftMask,		XK_f,		setlayout,	{.v = &layouts[8]} },
-	
+	{ MODKEY,			XK_f,		togglefullscr,	{0} },
 	{ MODKEY,			XK_g,		shiftview,	{ .i = -1 } },
 	{ MODKEY|ShiftMask,		XK_g,		shifttag,	{ .i = -1 } },
 	
@@ -233,13 +233,15 @@ static Key keys[] = {
 	/* { MODKEY,			XK_c,		spawn,		SHCMD("") }, */
 	/* { MODKEY|ShiftMask,		XK_c,		spawn,		SHCMD("") }, */
 	{ MODKEY,			XK_c,		spawn,		SHCMD("gnome-calculator") },
+	{ MODKEY,			XK_b,		spawn,		SHCMD("urxvt -e htop") },
+	{ MODKEY|ShiftMask,			XK_b,		spawn,		 SHCMD("libreoffice") },
 	
 	/* V is automatically bound above in STACKKEYS */
-	/* { MODKEY,		XK_b,		spawn,		SHCMD("") }, */
-	{ MODKEY|ShiftMask,			XK_b,		togglebar,	{0} },
+	/* { MODKEY,		XK_p,		spawn,		SHCMD("") }, */
+	{ MODKEY|ShiftMask,			XK_p,		togglebar,	{0} },
 	/* { MODKEY,			XK_n,		spawn,		SHCMD(TERMINAL " -e nvim -c VimwikiIndex") }, */
 	{ MODKEY,			XK_n,		spawn,		SHCMD("~/.local/bin/my_scripts/nautilus_wd.sh") },
-	{ MODKEY|ShiftMask,		XK_n,		spawn,		SHCMD(TERMINAL "nautilus -w --no-desktop") },
+	{ MODKEY|ShiftMask,		XK_n,		spawn,		SHCMD("nautilus -w --no-desktop") },
 	
 	{ MODKEY,			XK_m,		spawn,		SHCMD(TERMINAL " -e ncmpcpp") },
 	{ MODKEY|ShiftMask,		XK_m,		spawn,		SHCMD("pamixer -t; kill -44 $(pidof dwmblocks)") },
