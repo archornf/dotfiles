@@ -99,7 +99,13 @@ bindsym $mod+Prior exec xrandr && xrandr --output LVDS1 --auto --output HDMI-1-0
 # Display on both monitors (mode optimised for TV)
 bindsym $mod+equal exec xrandr && xrandr --output LVDS1 --auto --output HDMI-1-0 --mode 1360x768
 
-i3 is updated, vimwiki, vimrc (laptop)
+Make hdmi1 right screen of main (eDP-1 for my laptop): xrandr --output HDMI-1-0 --auto --right-of eDP-1
+To stop sharing to HDMI1: xrandr --output HDMI-1-0 --off 
+
+Get connected outputs: xrandr -q | grep " connected" | cut -d ' ' -f1 
+For polybar on multiple monitors:https://forum.archlabslinux.com/t/polybar-on-dual-monitors/2545/2 
+Uncomment hdmi1 in launch script for polybar and configure bar/hdmi1 if needed (it uses inherit from bar/main in config.ini)
+
 
 In general you center align your bar by setting width = X% and offset-x = Y%, so that X + 2 * Y = 100.
 Looks like you are using i3, there you need to set override-redirect = true in the bar config and read this.
