@@ -8,7 +8,6 @@ Plug 'tpope/vim-surround'
 Plug 'justinmk/vim-sneak'
 Plug 'morhetz/gruvbox'
 Plug 'w0ng/vim-hybrid'
-Plug 'sainnhe/sonokai'
 Plug 'vim-syntastic/syntastic'
 Plug 'ap/vim-css-color'
 Plug 'tpope/vim-commentary'
@@ -20,7 +19,6 @@ Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
 "Plug 'neoclide/coc.nvim', {'branch': 'release'}
 "Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 "Plug 'nvim-treesitter/nvim-treesitter'
-" Plug 'dracula/vim'
 call plug#end() " Initialize plugin system
 
 set runtimepath+=~/.vim
@@ -222,7 +220,7 @@ function! ToggleHiddenAll()
         set showcmd
     endif
 endfunction
-nnoremap <leader>h :call ToggleHiddenAll()<CR>
+nnoremap <leader>b :call ToggleHiddenAll()<CR>
 
 " Use tab and s-tab to navigate the completion list
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
@@ -344,6 +342,7 @@ else
 	noremap <C-c> "*y
 	colorscheme hybrid
 	"colorscheme gruvbox
+
 	func! CompileRun()
 		exec "w"
 		if &filetype == 'c'
