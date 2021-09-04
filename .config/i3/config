@@ -277,6 +277,7 @@ exec_always exec diodon
 # Lock screen 
 bindsym $mod+Shift+x exec i3lock-fancy
 #Suspend 
+bindsym $mod+Shift+comma exec ~/.local/bin/my_scripts/alert_exit.sh; exec ~/.local/bin/my_scripts/suspend.sh
 bindsym $mod+Shift+period exec i3lock-fancy; exec ~/.local/bin/my_scripts/alert_exit.sh; exec systemctl suspend
 
 bindsym $mod+c exec gnome-calculator
@@ -290,3 +291,6 @@ exec --no-startup-id firefox
 focus_follows_mouse no
 gaps inner 15
 gaps outer 15
+
+# bindsym $mod+Shift+m exec urxvt -e flatpak run org.jamovi.jamovi
+bindsym $mod+Shift+m exec flatpak run org.jamovi.jamovi

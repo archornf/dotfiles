@@ -8,6 +8,7 @@ Plug 'tpope/vim-surround'
 Plug 'justinmk/vim-sneak'
 Plug 'morhetz/gruvbox'
 Plug 'w0ng/vim-hybrid'
+Plug 'arcticicestudio/nord-vim'
 Plug 'vim-syntastic/syntastic'
 Plug 'ap/vim-css-color'
 Plug 'tpope/vim-commentary'
@@ -88,7 +89,7 @@ noremap <leader>2 "1p
 " Vimgrep and QuickFix Lists
 nnoremap <M-f> :vimgrep // **/*.txt<left><left><left><left><left><left><left><left><left><left><C-f>i
 nnoremap <M-g> :vimgrep // **/*<Left><Left><Left><Left><Left><Left><C-f>i
-nnoremap <M-h> :cfdo s//x/gc<left><left><left><left><left><C-f>i
+nnoremap <M-v> :cfdo s//x/gc<left><left><left><left><left><C-f>i
 nnoremap <M-c> :cnext<CR>
 nnoremap <M-p> :cprev<CR>
 nnoremap <M-l> :clast<CR>
@@ -98,7 +99,7 @@ nnoremap <M-b> :copen<CR>
 nnoremap <M-a> :FZF <cr>
 " nnoremap <M-d> :FZF ../../..<cr> " Go up a few levels and FZF
 nnoremap <M-d> :FZF ~/<cr>
-nnoremap <M-o> :FZF /<cr>
+nnoremap <M-n> :FZF /<cr>
 
 " NERDTree
 map <M-w> :NERDTree ~/<CR>
@@ -111,17 +112,18 @@ map <M-x> :call CompileRun()<CR>
 map <F4> <Esc>:set cursorline!<CR>
 map <F5> <Esc>:setlocal spell! spelllang=en_us<CR>
 map <F6> <Esc>:setlocal spell! spelllang=sv<CR>
-imap <C-v> <Esc>"+gP
+imap <C-v> <Esc>"+gp
 
 " Window management and movement
-nnoremap <Down> :resize +2<CR>
-nnoremap <Up> :resize -2<CR>
-nnoremap <Right> :vertical resize +2<CR>
-nnoremap <Left> :vertical resize -2<CR>
-map <silent> <C-h> <Plug>WinMoveLeft
-map <silent> <C-j> <Plug>WinMoveDown
-map <silent> <C-k> <Plug>WinMoveUp
-map <silent> <C-l> <Plug>WinMoveRight
+nnoremap <M-u> :resize +2<CR>
+nnoremap <M-i> :resize -2<CR>
+nnoremap <M-o> :vertical resize +2<CR>
+nnoremap <M-y> :vertical resize -2<CR>
+
+map <silent> <M-h> <Plug>WinMoveLeft
+map <silent> <M-j> <Plug>WinMoveDown
+map <silent> <M-k> <Plug>WinMoveUp
+map <silent> <M-l> <Plug>WinMoveRight
 xnoremap K :move '<-2<CR>gv-gv
 xnoremap J :move '>+1<CR>gv-gv
 noremap <leader>j :join<CR>
@@ -173,7 +175,7 @@ autocmd FileType sql inoremap fun<Tab> delimiter //<Enter>create function x ()<E
 autocmd FileType sql inoremap pro<Tab> delimiter //<Enter>create procedure x ()<Enter>begin<Enter><Enter><Enter>end //<Enter>delimiter ;<Esc>/x<Enter>GN
 autocmd FileType sql inoremap vie<Tab> create view x as<Enter>select <Esc>/x<Enter>GN
 
-autocmd FileType vimwiki,wiki,text inoremap <line<Tab> --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------<Enter>
+autocmd FileType vimwiki,wiki,text inoremap <line<Tab> ----------------------------------------------------------------------------------<Enter>
 autocmd FileType vimwiki,wiki,text inoremap <date<Tab> <-- <C-R>=strftime("%Y-%m-%d %a")<CR><Esc>A -->
 autocmd FileType c inoremap for<Tab> for(int i = 0; i < val; i++){<Enter><Enter>}<Esc>?val<Enter>ciw
 
@@ -195,7 +197,7 @@ set statusline+=\ %c:%l/%L "display column and line pos
 
 " Syntastic
 let g:syntastic_always_populate_loc_list = 0
-let g:syntastic_auto_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
@@ -272,7 +274,8 @@ imap <C-BS> <C-W>a
 
 " If on laptop (set specific settings for my laptop which runs arch linux)
 if !empty(glob("~/isLinux"))
-	set tw=180
+	" set tw=180
+	set tw=175
 	set clipboard=unnamedplus
 	"let g:python3_host_prog='/bin/python3'
 	"let g:coc_node_path = "/usr/bin/node"
@@ -288,8 +291,8 @@ if !empty(glob("~/isLinux"))
 	noremap <C-c> y
 	colorscheme gruvbox
 	highlight Normal guibg=none
-	highlight NonText guibg=none
-	highlight LineNr cterm=NONE ctermfg=grey gui=NONE guifg=grey guibg=NONE term=bold
+	" highlight NonText guibg=none
+	" highlight LineNr cterm=NONE ctermfg=grey gui=NONE guifg=grey guibg=NONE term=bold
 	let NERDTreeShowHidden=1
 
 	" Function for compiling code
@@ -298,8 +301,8 @@ if !empty(glob("~/isLinux"))
 		if &filetype == 'c'
 			exec "!gcc % && ./a.out"
 		elseif &filetype == 'cpp'
-			exec "!g++ % -o %<"
-			exec "!%:r.exe"
+			exec "!g++ -pthread % -o %<"
+			exec "!./%:r"
 		elseif &filetype == 'java'
 			"exec "!java -cp %:p:h %:t:r"
 			exec "!java %"
@@ -335,7 +338,7 @@ else
 	set tw=235
 	imap <C-v> <C-r>+
 	noremap <M-m> :tabe $myvimrc<cr>
-	nnoremap <M-o> :FZF c:/<cr>
+	nnoremap <M-n> :FZF c:/<cr>
 	" Copy everything from file into clipboard
 	inoremap <C-a> <Esc>gg"*yG
 	" Copy selection to clipboard
