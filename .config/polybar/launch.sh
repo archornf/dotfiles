@@ -16,8 +16,10 @@ launch_bar() {
 		polybar -q bottom -c "$dir/$style/config.ini" &
 	elif [[ "$style" == "pwidgets" ]]; then
 		bash "$dir"/pwidgets/launch.sh --main
+		# bash "$dir"/pwidgets/launch.sh --hdmi1
 	else
 		polybar -q main -c "$dir/$style/config.ini" &	
+		# polybar -q hdmi1 -c "$dir/$style/config.ini" &	
 	fi
 }
 

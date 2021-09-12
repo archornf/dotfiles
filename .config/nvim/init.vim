@@ -24,8 +24,8 @@ call plug#end() " Initialize plugin system
 
 set runtimepath+=~/.vim
 set rtp+=~/.fzf
-" let mysyntaxfile = "~/.vim/syntax/wiki.vim" " Get syntax highlighting
-" au BufRead,BufNewFile *.wiki set filetype=wiki
+" let mysyntaxfile = "~/.vim/syntax/vtxt.vim" " Get syntax highlighting
+" au BufRead,BufNewFile *.vtxt set filetype=vtxt
 
 " General settings
 filetype plugin indent on
@@ -175,9 +175,12 @@ autocmd FileType sql inoremap fun<Tab> delimiter //<Enter>create function x ()<E
 autocmd FileType sql inoremap pro<Tab> delimiter //<Enter>create procedure x ()<Enter>begin<Enter><Enter><Enter>end //<Enter>delimiter ;<Esc>/x<Enter>GN
 autocmd FileType sql inoremap vie<Tab> create view x as<Enter>select <Esc>/x<Enter>GN
 
-autocmd FileType vimwiki,wiki,text inoremap <line<Tab> ----------------------------------------------------------------------------------<Enter>
-autocmd FileType vimwiki,wiki,text inoremap <date<Tab> <-- <C-R>=strftime("%Y-%m-%d %a")<CR><Esc>A -->
+autocmd FileType vtxt,vimwiki,wiki,text inoremap <line<Tab> ----------------------------------------------------------------------------------<Enter>
+autocmd FileType vtxt,vimwiki,wiki,text inoremap <date<Tab> <-- <C-R>=strftime("%Y-%m-%d %a")<CR><Esc>A -->
 autocmd FileType c inoremap for<Tab> for(int i = 0; i < val; i++){<Enter><Enter>}<Esc>?val<Enter>ciw
+
+" Disable tab key for vimwiki (enables autocomplete via tabbing) 
+let g:vimwiki_key_mappings = { 'table_mappings': 0 }
 
 " Statusline
 set statusline=
@@ -261,6 +264,8 @@ command! -nargs=0 Prettier :CocCommand prettier.formatFile
 nmap <leader>s /\s\+$/<cr>
 " Remove all extra whitespace
 nmap <leader>wa :%s/\s\+$<cr>
+" Remove all extra unicode char
+nmap <leader>wu :%s/\%u200b//g<cr>
 " Format rest of the text with vim formatting, go back and center screen
 nmap <leader>r gqG<C-o>zz
 " Undo break points

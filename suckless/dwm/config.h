@@ -176,15 +176,17 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,			XK_e,		spawn,		SHCMD("~/.local/bin/my_scripts/alert_exit.sh; exec ~/.config/polybar/forest/scripts/powermenu.sh") },
 	
 	{ MODKEY,			XK_r,		spawn,		SHCMD("rofi -show run -theme ~/.config/polybar/forest/scripts/rofi/launcher.rasi") },
-	{ MODKEY|ShiftMask,		XK_r,		spawn,		SHCMD(TERMINAL "-e htop") },
 
 	{ MODKEY,			XK_y,		setmfact,	{.f = -0.05} },
+	{ MODKEY,			XK_o,		setmfact,      	{.f = +0.05} },
 	/* J and K are automatically bound above in STACKEYS */
+
 	/* { MODKEY,			XK_u,		incnmaster,     {.i = +1 } }, */
 	/* { MODKEY,		XK_i,		incnmaster,     {.i = -1 } }, */
-	{ MODKEY,			XK_o,		setmfact,      	{.f = +0.05} },
-	{ MODKEY|ShiftMask,		XK_o,		incnmaster,     {.i = -1 } },
-	{ MODKEY,			XK_p,			spawn,		SHCMD("~/.config/polybar/launch.sh --forest") },
+	{ MODKEY|ShiftMask,		XK_u,		incnmaster,     {.i = +1 } },
+	{ MODKEY|ShiftMask,		XK_i,		incnmaster,     {.i = -1 } },
+
+	/* { MODKEY,			XK_p,			spawn,		SHCMD("~/.config/polybar/launch.sh --forest") }, */
 	{ MODKEY|ShiftMask,		XK_p,			spawn,		SHCMD("mpc pause ; pauseallmpv") },
 	{ MODKEY,			XK_bracketleft,		spawn,		SHCMD("mpc seek -10") },
 	{ MODKEY|ShiftMask,		XK_bracketleft,		spawn,		SHCMD("mpc seek -60") },
@@ -230,11 +232,11 @@ static Key keys[] = {
 	{ MODKEY,			XK_Return,	spawn,		{.v = termcmd } },
 	{ MODKEY|ShiftMask,		XK_Return,	togglescratch,	{.ui = 0} },
 
-	/* { MODKEY,			XK_c,		spawn,		SHCMD("") }, */
-	/* { MODKEY|ShiftMask,		XK_c,		spawn,		SHCMD("") }, */
 	{ MODKEY,			XK_c,		spawn,		SHCMD("gnome-calculator") },
 	{ MODKEY,			XK_b,		spawn,		SHCMD("urxvt -e htop") },
-	{ MODKEY|ShiftMask,			XK_b,		spawn,		 SHCMD("libreoffice") },
+	{ MODKEY|ShiftMask,			XK_b,		spawn,		 SHCMD("urxvt -e bashtop") },
+	/* { MODKEY|ShiftMask,			XK_b,		spawn,		 SHCMD("libreoffice") }, */
+	{ MODKEY|ShiftMask,			XK_m,		spawn,		 SHCMD("flatpak run org.jamovi.jamovi") },
 	
 	/* V is automatically bound above in STACKKEYS */
 	/* { MODKEY,		XK_p,		spawn,		SHCMD("") }, */
