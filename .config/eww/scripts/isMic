@@ -2,8 +2,8 @@
 
 silent="$(amixer get Capture | grep 'Front Left: Capture' | sed 's/.*%] //' | cut -d "]" -f1 | awk 'sub(/^.{1}/,"")')"
 if [[ $silent == "off" ]]; then
-echo "/home/rashad/.config/eww/icons/mic-off.png"
+echo "/home/jonas/.config/eww/icons/mic-off.png"
 
 else
-echo "/home/rashad/.config/eww/icons/mic-on.png"
+echo "/home/jonas/.config/eww/icons/mic-on.png"
 fi

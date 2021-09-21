@@ -2,8 +2,8 @@
 
 silent="$(dunstctl is-paused)"
 if [[ $silent == "true" ]]; then
-echo "/home/rashad/.config/eww/icons/bell-off.png"
+echo "/home/jonas/.config/eww/icons/bell-off.png"
 
 else
-echo "/home/rashad/.config/eww/icons/bell-on.png"
+echo "/home/jonas/.config/eww/icons/bell-on.png"
 fi

@@ -2,56 +2,56 @@
 ;;;;;;;;;;;;;;;;        LEFT BAR WIDGET       ;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defwidget barLeftWidget []
-        (box    :orientation "h"
-                :space-evenly false
-                :class "bar"
-                :spacing "40"
-                :halign "center"
-                :valign "center"
-        
-                (button :class "pink"
-                        :onclick "dolphin&" "")
-
-                (button :class "green"
-                        :onclick "vivaldi-stable&" "")
-                        
-                (button :class "yellow"
-                        :onclick "code&" "﬏")
-                
-                (button :class "blue"
-                        :onclick "gimp&" "")
-                                     
-                (button :class "violet"
-                        :onclick "discord&" "ﭮ")
-                        
-                (button :class "cyan"
-                        :onclick "telegram-desktop&" "")
-    )
-)
+;; (defwidget barLeftWidget []
+  ;;       (box    :orientation "h"
+    ;;             :space-evenly false
+      ;;           :class "bar"
+        ;;         :spacing "40"
+          ;;       :halign "center"
+            ;;     :valign "center"
+       ;;  
+         ;;        (button :class "pink"
+           ;;              :onclick "dolphin&" "")
+;; 
+  ;;               (button :class "green"
+    ;;                     :onclick "vivaldi-stable&" "")
+      ;;                   
+        ;;         (button :class "yellow"
+          ;;               :onclick "code&" "﬏")
+            ;;     
+              ;;   (button :class "blue"
+                ;;         :onclick "gimp&" "")
+                  ;;                    
+                ;;(button :class "violet"
+                        ;;:onclick "discord&" "ﭮ")
+                        ;;
+                ;;(button :class "cyan"
+                        ;;:onclick "telegram-desktop&" "")
+    ;;)
+;;)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;       RIGHT BAR WIDGET       ;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defwidget barRightWidget []
-        (box    :orientation "h"
-                :space-evenly false
-                :class "bar"
-                :spacing "40"
-                :halign "center"
-                :valign "center"
-        
-                (button :class "blue"
-                        :onclick "/home/rashad/.bin/rofi-drun" "")
-
-                (button :class "green"
-                        :onclick "timeout 10s /home/rashad/.bin/rofi-music" "")
-                        
-                (button :class "pink"
-                        :onclick "/home/rashad/.bin/rofi-file" "")
-        )
-)
+;;(defwidget barRightWidget []
+        ;;(box    :orientation "h"
+                ;;:space-evenly false
+                ;;:class "bar"
+                ;;:spacing "40"
+                ;;:halign "center"
+                ;;:valign "center"
+        ;;
+                ;;(button :class "blue"
+                        ;;:onclick "/home/jonas/.bin/rofi-drun" "")
+;;
+                ;;(button :class "green"
+                        ;;:onclick "timeout 10s /home/jonas/.bin/rofi-music" "")
+                        ;;
+                ;;(button :class "pink"
+                        ;;:onclick "/home/jonas/.bin/rofi-file" "")
+        ;;)
+;;)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;          USER WIDGET         ;;;;;;;;;;;;;;;;
@@ -70,7 +70,7 @@
                         :height "250")
                 
                 (label  :class "pink"
-                        :text "u/Rashad"
+                        :text "Welcome Jonas!"
                         :halign "center"
                         :valign "center")
                 )
@@ -88,9 +88,9 @@
                 (button :class "blue"
                         :onclick "reboot" "")
                 (button :class "violet"
-                        :onclick "/home/rashad/.bin/logout" "")
+                        :onclick "/home/jonas/.bin/logout" "")
                 (button :class "yellow"
-                        :onclick "/home/rashad/.bin/lock" "")
+                        :onclick "/home/jonas/.bin/lock" "")
     )
 )
 
@@ -141,13 +141,13 @@
                         :valign "center"
                         :spacing 65
                 
-                        (button :onclick "/home/rashad/.bin/volumControl toggle"
+                        (button :onclick "/home/jonas/.bin/volumControl toggle"
                                 (image  :path "${audio}"
                                 :width "100"
                                 :height "100"
                                 )    
                         )
-                        (button :onclick "/home/rashad/.bin/toggleDunst"
+                        (button :onclick "/home/jonas/.bin/toggleDunst"
                                 (image  :path "${notifications}"
                                 :width "100"
                                 :height "100"
@@ -163,12 +163,12 @@
                 
 
                         (button :onclick "systemsettings5&"
-                                (image  :path "/home/rashad/.config/eww/icons/settings.png"
+                                (image  :path "/home/jonas/.config/eww/icons/settings.png"
                                         :width "100"
                                         :height "100"
                                 )
                         )
-                        (button :onclick "/home/rashad/.bin/micNotify"
+                        (button :onclick "/home/jonas/.bin/micNotify"
                                 (image  :path "${mic}"
                                         :width "100"
                                         :height "100"
@@ -237,7 +237,7 @@
                         (scale  :min 0
                                 :max 101
                                 :value "${bright}"
-                                :onchange "timeout 15s /home/rashad/.bin/setBright {}")
+                                :onchange "timeout 15s /home/jonas/.bin/setBright {}")
                 )
 
                 (box    :orientation "h"
@@ -285,7 +285,7 @@
                 (box    
                         :halign "center"
                         :class "fetch"
-                        (label  :text "rashad @ RaShaD"
+                        (label  :text "jonas @ jonas"
                                 :class "blue")
                 )
 
@@ -323,7 +323,7 @@
                                         :text ": arch")
                                 (label :class "green" 
                                         :halign "start"
-                                        :text ": kde")
+                                        :text ": i3")
                                 (label  :class "yellow" 
                                         :halign "start"
                                         :text ": dem")
@@ -418,7 +418,7 @@
 
 (defwidget homeWidget []
     (button :class "cyan" 
-            :onclick "dolphin /home/rashad&" "")
+            :onclick "dolphin /home/jonas&" "")
 )
 
 (defwidget diskWidget []
@@ -473,8 +473,8 @@
 
 (defwindow user
         :monitor 0
-        :geometry (geometry     :x "622px"
-                                :y "459px"
+        :geometry (geometry     :x "180px"
+                                :y "50px"
                                 :width "400px"
                                 :height "400px"
                                 :anchor "top left")
@@ -485,8 +485,8 @@
 
 (defwindow power
         :monitor 0
-        :geometry (geometry     :x "64px"
-                                :y "59px"
+        :geometry (geometry     :x "60px"
+                                :y "50px"
                                 :width "100px"
                                 :height "400px"
                                 :anchor "top left")
@@ -497,8 +497,8 @@
 
 (defwindow date
         :monitor 0
-        :geometry (geometry     :x "1300px"
-                                :y "801px"
+        :geometry (geometry     :x "60px"
+                                :y "470px"
                                 :width "520px"
                                 :height "215px"
                                 :anchor "top left")
@@ -508,8 +508,8 @@
 
 (defwindow control
         :monitor 0
-        :geometry (geometry     :x "234px"
-                                :y "725px"
+        :geometry (geometry     :x "60px"
+                                :y "705px"
                                 :width "400px"
                                 :height "290px"
                                 :anchor "top left")
@@ -520,8 +520,8 @@
 
 (defwindow screenshot
         :monitor 0
-        :geometry (geometry     :x "1222px"
-                                :y "125px"
+        :geometry (geometry     :x "480px"
+                                :y "705px"
                                 :width "100px"
                                 :height "290px"
                                 :anchor "top left")
@@ -531,8 +531,8 @@
 
 (defwindow system
         :monitor 0
-        :geometry (geometry     :x "176px"
-                                :y "617px"
+        :geometry (geometry     :x "600px"
+                                :y "630px"
                                 :width "450px"
                                 :height "365px"
                                 :anchor "top left")
@@ -542,8 +542,8 @@
 
 (defwindow player
         :monitor 0
-        :geometry (geometry     :x "1500"
-                                :y "80px"
+        :geometry (geometry     :x "600"
+                                :y "50px"
                                 :width "450px"
                                 :height "560px"
                                 :anchor "top left")
@@ -553,8 +553,8 @@
 
 (defwindow fetch
         :monitor 0
-        :geometry (geometry     :x "223px"
-                                :y "110px"
+        :geometry (geometry     :x "1070px"
+                                :y "560px"
                                 :width "320px"
                                 :height "435px"
                                 :anchor "top left")
@@ -566,10 +566,10 @@
 
 (defwindow home
         :monitor 0
-        :geometry (geometry     :x "223px"
-                                :y "59px"
-                                :width "150px"
-                                :height "150px"
+        :geometry (geometry     :x "1070px"
+                                :y "50px"
+                                :width "100px"
+                                :height "100px"
                                 :anchor "top left")
         :windowtype "dock"
         :wm-ignore true
@@ -577,10 +577,10 @@
 
 (defwindow downloads
         :monitor 0
-        :geometry (geometry     :x "240px"
-                                :y "59px"
-                                :width "150px"
-                                :height "150px"
+        :geometry (geometry     :x "1180px"
+                                :y "50px"
+                                :width "100px"
+                                :height "100px"
                                 :anchor "top left")
         :windowtype "dock"
         :wm-ignore true
@@ -589,10 +589,10 @@
 
 (defwindow disk
         :monitor 0
-        :geometry (geometry     :x "223px"
-                                :y "76px"
-                                :width "150px"
-                                :height "150px"
+        :geometry (geometry     :x "1070px"
+                                :y "160px"
+                                :width "100px"
+                                :height "100px"
                                 :anchor "top left")
         :windowtype "dock"
         :wm-ignore true
@@ -601,10 +601,10 @@
 
 (defwindow pictures
         :monitor 0
-        :geometry (geometry     :x "240px"
-                                :y "76px"
-                                :width "150px"
-                                :height "150px"
+        :geometry (geometry     :x "1180px"
+                                :y "160px"
+                                :width "100px"
+                                :height "100px"
                                 :anchor "top left")
         :windowtype "dock"
         :wm-ignore true
@@ -612,10 +612,10 @@
 
 (defwindow documents
         :monitor 0
-        :geometry (geometry     :x "223px"
-                                :y "93px"
-                                :width "150px"
-                                :height "150px"
+        :geometry (geometry     :x "1450px"
+                                :y "260px"
+                                :width "100px"
+                                :height "100px"
                                 :anchor "top left")
         :windowtype "dock"
         :wm-ignore true
@@ -624,8 +624,8 @@
 
 (defwindow favourite
         :monitor 0
-        :geometry (geometry     :x "240px"
-                                :y "93px"
+        :geometry (geometry     :x "1440px"
+                                :y "293px"
                                 :width "150px"
                                 :height "150px"
                                 :anchor "top left")
@@ -637,7 +637,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;      variables      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defvar imgUser "/home/rashad/.config/eww/icons/user-avatar.png")
+(defvar imgUser "/home/jonas/.config/eww/icons/user-avatar.png")
 
 (defpoll hour :interval "1s" `date +%H`)
 (defpoll minute :interval "1s" `date +%M`)
@@ -655,7 +655,7 @@
 (defpoll uptime :interval "1s" "uptime -p | sed -e 's/up //;s/ hours,/h/;s/ minutes/m/'")
 (defpoll packages :interval "1s" "pacman -Q | wc -l")
 
-(defvar imgCover "/home/rashad/.ncmpcpp/fallback.png")
+(defvar imgCover "/home/jonas/.ncmpcpp/fallback.png")
 (defpoll playpause :interval "1s" "scripts/isPlaying")
 (defpoll song :interval "1s" "mpc --format '%title%' current || true")
 (defpoll artist :interval "1s" "mpc --format '%artist%' current || true")

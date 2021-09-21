@@ -299,10 +299,12 @@ for_window [class="Gnome-calculator"] floating enable, move position 900 px 480 
 
 # Alternating layout
 exec_always ~/.local/bin/my_scripts/i3-alternating-layout/alternating_layouts.py
-exec --no-startup-id compton
+# exec --no-startup-id compton
+exec --no-startup-id picom
 exec --no-startup-id xfce4-power-manager
 exec --no-startup-id firefox
 focus_follows_mouse no
 gaps inner 15
 gaps outer 15
 
+bindsym $mod+section exec ~/.local/bin/my_scripts/loadEww.sh

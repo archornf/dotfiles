@@ -43,13 +43,13 @@
                 :valign "center"
         
                 (button :class "blue"
-                        :onclick "/home/rashad/.bin/rofi-drun" "")
+                        :onclick "/home/jonas/.bin/rofi-drun" "")
 
                 (button :class "green"
-                        :onclick "timeout 10s /home/rashad/.bin/rofi-music" "")
+                        :onclick "timeout 10s /home/jonas/.bin/rofi-music" "")
                         
                 (button :class "pink"
-                        :onclick "/home/rashad/.bin/rofi-file" "")
+                        :onclick "/home/jonas/.bin/rofi-file" "")
         )
 )
 
@@ -70,7 +70,7 @@
                         :height "180")
                 
                 (label  :class "pink"
-                        :text "u/Rashad"
+                        :text "u/jonas"
                         :halign "center"
                         :valign "center")
                 )
@@ -88,7 +88,7 @@
                 (button :class "blue"
                         :onclick "reboot" "")
                 (button :class "violet"
-                        :onclick "/home/rashad/.bin/logout" "")
+                        :onclick "/home/jonas/.bin/logout" "")
     )
 )
 
@@ -139,13 +139,13 @@
                         :valign "center"
                         :spacing 35
                 
-                        (button :onclick "/home/rashad/.bin/volumControl toggle"
+                        (button :onclick "/home/jonas/.bin/volumControl toggle"
                                 (image  :path "${audio}"
                                 :width "95"
                                 :height "95"
                                 )    
                         )
-                        (button :onclick "/home/rashad/.bin/toggleDunst"
+                        (button :onclick "/home/jonas/.bin/toggleDunst"
                                 (image  :path "${notifications}"
                                 :width "95"
                                 :height "95"
@@ -161,12 +161,12 @@
                 
 
                         (button :onclick "systemsettings5&"
-                                (image  :path "/home/rashad/.config/eww/icons/settings.png"
+                                (image  :path "/home/jonas/.config/eww/icons/settings.png"
                                         :width "95"
                                         :height "95"
                                 )
                         )
-                        (button :onclick "/home/rashad/.bin/micNotify"
+                        (button :onclick "/home/jonas/.bin/micNotify"
                                 (image  :path "${mic}"
                                         :width "95"
                                         :height "95"
@@ -235,7 +235,7 @@
                         (scale  :min 0
                                 :max 101
                                 :value "${bright}"
-                                :onchange "timeout 15s /home/rashad/.bin/setBright {}")
+                                :onchange "timeout 15s /home/jonas/.bin/setBright {}")
                 )
 
                 (box    :orientation "h"
@@ -314,7 +314,7 @@
                                         :text ": arch")
                                 (label :class "green" 
                                         :halign "start"
-                                        :text ": kde")
+                                        :text ": i3")
                                 (label  :class "yellow" 
                                         :halign "start"
                                         :text ": dem")
@@ -409,7 +409,7 @@
 
 (defwidget homeWidget []
     (button :class "cyan" 
-            :onclick "dolphin /home/rashad&" "")
+            :onclick "dolphin /home/jonas&" "")
 )
 
 (defwidget diskWidget []
@@ -612,7 +612,7 @@
 (defpoll uptime :interval "1s" "uptime -p | sed -e 's/up //;s/ hours,/h/;s/ minutes/m/'")
 (defpoll packages :interval "1s" "pacman -Q | wc -l")
 
-(defvar imgCover "/home/rashad/.ncmpcpp/fallback.png")
+(defvar imgCover "/home/jonas/.ncmpcpp/fallback.png")
 (defpoll playpause :interval "1s" "scripts/isPlaying")
 (defpoll song :interval "1s" "mpc --format '%title%' current || true")
 (defpoll artist :interval "1s" "mpc --format '%artist%' current || true")

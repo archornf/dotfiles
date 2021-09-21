@@ -4,10 +4,10 @@ volume="$(amixer -D pulse get Master | grep '%' | head -n 1 | cut -d '[' -f 2 | 
 mute="$( amixer -D pulse get Master | tail -1 | awk '{print $6}' | sed 's/[^a-z]*//g')"
 
 if [[ $volume == 0 || "$mute" == "off" ]]; then
-echo "/home/rashad/.config/eww/icons/audio-off.png"
+echo "/home/jonas/.config/eww/icons/audio-off.png"
 
 else
-echo "/home/rashad/.config/eww/icons/audio-on.png"
+echo "/home/jonas/.config/eww/icons/audio-on.png"
 fi
 
 
