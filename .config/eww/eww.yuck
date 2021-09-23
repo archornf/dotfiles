@@ -76,6 +76,20 @@
                 )
 )
 
+(defwidget myPictureWidget []
+    (box        :class "myPicture"
+                :orientation "v"
+                :space-evenly false
+                :spacing "0"
+                :halign "center"
+                :valign "center"
+
+                (image  :path "${imgMyPicture}"
+                        :width "320"
+                        :height "240")
+			)
+)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;          POWER WIDGET        ;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -442,7 +456,7 @@
 )
 
 (defwidget favouriteWidget []
-    (button :class "yellow" 
+    (button :class "violet" 
             :onclick "dolphin /ArchDisk/Pictures&" "")
 )
 
@@ -473,7 +487,7 @@
 
 (defwindow user
         :monitor 0
-        :geometry (geometry     :x "180px"
+        :geometry (geometry     :x "60px"
                                 :y "50px"
                                 :width "400px"
                                 :height "400px"
@@ -485,7 +499,7 @@
 
 (defwindow power
         :monitor 0
-        :geometry (geometry     :x "60px"
+        :geometry (geometry     :x "480px"
                                 :y "50px"
                                 :width "100px"
                                 :height "400px"
@@ -567,7 +581,7 @@
 (defwindow home
         :monitor 0
         :geometry (geometry     :x "1070px"
-                                :y "50px"
+                                :y "340px"
                                 :width "100px"
                                 :height "100px"
                                 :anchor "top left")
@@ -578,7 +592,7 @@
 (defwindow downloads
         :monitor 0
         :geometry (geometry     :x "1180px"
-                                :y "50px"
+                                :y "340px"
                                 :width "100px"
                                 :height "100px"
                                 :anchor "top left")
@@ -590,7 +604,7 @@
 (defwindow disk
         :monitor 0
         :geometry (geometry     :x "1070px"
-                                :y "160px"
+                                :y "445px"
                                 :width "100px"
                                 :height "100px"
                                 :anchor "top left")
@@ -598,11 +612,10 @@
         :wm-ignore true
 (diskWidget))
 
-
 (defwindow pictures
         :monitor 0
         :geometry (geometry     :x "1180px"
-                                :y "160px"
+                                :y "445px"
                                 :width "100px"
                                 :height "100px"
                                 :anchor "top left")
@@ -612,8 +625,8 @@
 
 (defwindow documents
         :monitor 0
-        :geometry (geometry     :x "1450px"
-                                :y "260px"
+        :geometry (geometry     :x "1290px"
+                                :y "340"
                                 :width "100px"
                                 :height "100px"
                                 :anchor "top left")
@@ -624,20 +637,34 @@
 
 (defwindow favourite
         :monitor 0
-        :geometry (geometry     :x "1440px"
-                                :y "293px"
-                                :width "150px"
-                                :height "150px"
+        :geometry (geometry     :x "1290px"
+                                :y "445px"
+                                :width "100px"
+                                :height "100px"
                                 :anchor "top left")
         :windowtype "dock"
         :wm-ignore true
 (favouriteWidget))
+
+
+(defwindow myPicture
+        :monitor 0
+        :geometry (geometry     :x "1070px"
+                                :y "50px"
+                                :width "300px"
+                                :height "240px"
+                                :anchor "top left")
+        :windowtype "dock"
+        :wm-ignore true
+(myPictureWidget))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;      variables      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defvar imgUser "/home/jonas/.config/eww/icons/user-avatar.png")
+(defvar imgMyPicture "/home/jonas/.config/eww/icons/picture.JPG")
 
 (defpoll hour :interval "1s" `date +%H`)
 (defpoll minute :interval "1s" `date +%M`)
