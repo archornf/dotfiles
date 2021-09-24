@@ -20,6 +20,7 @@ dmenu
 dosfstools
 eclipse-java
 efibootmgr
+eww-git
 fakeroot
 feh
 firefox
@@ -74,7 +75,7 @@ os-prober
 paman
 patch
 pavucontrol
-picom
+picom-ibhagwan-git
 pkgconf
 playerctl
 pokemon-colorscripts-git
@@ -144,6 +145,7 @@ xclip
 xfce4-power-manager
 xorg-fonts-misc
 xorg-xbacklight
+xorg-xev
 xorg-xhost
 xorg-xinit
 xorg-xinput

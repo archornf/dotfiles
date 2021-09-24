@@ -251,10 +251,10 @@ let g:coc_global_extensions = [
 " Remap for rename current word
 nmap <F2> <Plug>(coc-rename)
 " Remap for format selected region
-xmap <leader>cf  <Plug>(coc-format-selected)
-nmap <leader>cf  <Plug>(coc-format-selected)
-xmap <leader>cg  mcggVG<Plug>(coc-format-selected)'c
-nmap <leader>cg  mcggVG<Plug>(coc-format-selected)'c
+xmap <leader>cf <Plug>(coc-format-selected)
+nmap <leader>cf <Plug>(coc-format-selected)
+xmap <leader>cg mcggVG<Plug>(coc-format-selected)'c
+nmap <leader>cg mcggVG<Plug>(coc-format-selected)'c
 " Show all diagnostics using CocList
 nnoremap <silent> <leader>cd  :<C-u>CocList diagnostics<cr>
 " Prettier command for coc
@@ -263,9 +263,11 @@ command! -nargs=0 Prettier :CocCommand prettier.formatFile
 " Show extra whitespace
 nmap <leader>s /\s\+$/<cr>
 " Remove all extra whitespace
-nmap <leader>wa :%s/\s\+$<cr>
+nmap <leader>ws :%s/\s\+$<cr>
 " Remove all extra unicode char
 nmap <leader>wu :%s/\%u200b//g<cr>
+" Remove all extra unicode char
+nmap <leader>wb :%s/[[:cntrl:]]//g<cr>
 " Format rest of the text with vim formatting, go back and center screen
 nmap <leader>r gqG<C-o>zz
 " Undo break points

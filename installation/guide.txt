@@ -7,5 +7,6 @@ pacman -Qe | awk '{print $1}' > package_list.txt
 ...or...
 
 pacman -S `cat package_list.txt`
+
 #This will also work, but Pacman will exit if you have a package
 #installed that is not in the repositories.
