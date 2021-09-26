@@ -266,8 +266,10 @@ nmap <leader>s /\s\+$/<cr>
 nmap <leader>ws :%s/\s\+$<cr>
 " Remove all extra unicode char
 nmap <leader>wu :%s/\%u200b//g<cr>
-" Remove all extra unicode char
+" Remove all hidden characters
 nmap <leader>wb :%s/[[:cntrl:]]//g<cr>
+" Capitalize first letter of each word on visually selected line
+vmap <leader>gu :s/\<./\u&/g<cr>
 " Format rest of the text with vim formatting, go back and center screen
 nmap <leader>r gqG<C-o>zz
 " Undo break points
