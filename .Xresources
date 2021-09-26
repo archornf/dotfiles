@@ -89,7 +89,7 @@ URxvt.depth: 24
 URxvt.iso14755: false
 URxvt.transparent: true
 URxvt.shading: 45
-!URxvt.shading: 20
+!URxvt.shading: 30
 
 !! Common Keybinds for Navigations
 URxvt.keysym.Shift-Up: command:\033]720;1\007

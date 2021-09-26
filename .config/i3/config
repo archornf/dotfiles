@@ -44,9 +44,9 @@ bindsym $mod+Shift+dead_acute exec --no-startup-id pactl set-sink-volume @DEFAUL
 floating_modifier $mod
 
 # start a terminal in wd
-bindsym $mod+Return exec ~/.local/bin/my_scripts/term_wd.sh
+bindsym $mod+Return exec --no-startup-id ~/.local/bin/my_scripts/term_wd.sh
 # start a terminal
-bindsym $mod+Shift+Return exec urxvt -cd ~/
+bindsym $mod+Shift+Return exec --no-startup-id urxvt -cd ~/
 
 # kill focused window
 bindsym $mod+q kill
