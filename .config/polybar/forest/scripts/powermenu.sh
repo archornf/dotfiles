@@ -20,7 +20,7 @@ logout=" Logout"
 
 # Confirmation
 confirm_exit() {
-	rofi -dmenu\
+	rofi -theme ~/.config/rofi/themes/gruvbox/gruvbox-dark.rasi -dmenu\
 		-i\
 		-no-fixed-num-lines\
 		-p "Are You Sure? : "\
