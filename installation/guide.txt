@@ -10,3 +10,33 @@ pacman -S `cat package_list.txt`
 
 #This will also work, but Pacman will exit if you have a package
 #installed that is not in the repositories.
+
+Also install AUR packages:
+diodon
+eclipse-java
+eww-git
+gcc6-libs
+glib
+gruvbox-material-gtk-theme-git
+gtk
+i3lock-fancy-git
+libglade
+libglademm
+libopenaptx
+libspotify
+libxft-bgra
+nerd-fonts-inconsolata
+onedrive-abraunegg
+paman
+picom-ibhagwan-git
+pokemon-colorscripts-git
+polybar
+python-nanomsg
+python-pyspotify
+r-rcpp
+r-rinside
+snapd
+timeshift
+urxvt-resize-font-git
+vtop
+yay-git

@@ -119,16 +119,19 @@ nnoremap <M-u> :resize +2<CR>
 nnoremap <M-i> :resize -2<CR>
 nnoremap <M-o> :vertical resize +2<CR>
 nnoremap <M-y> :vertical resize -2<CR>
-
 map <silent> <M-h> <Plug>WinMoveLeft
 map <silent> <M-j> <Plug>WinMoveDown
 map <silent> <M-k> <Plug>WinMoveUp
 map <silent> <M-l> <Plug>WinMoveRight
+
+" Moving text and indentation
 xnoremap K :move '<-2<CR>gv-gv
 xnoremap J :move '>+1<CR>gv-gv
 noremap <leader>j :join<CR>
 noremap <leader>J :join!<CR>
 nmap <leader>z <Plug>Zoom
+" Remove indent
+vnoremap <silent> <leader>< :le<cr>
 
 " Tab maps
 nnoremap <M-q> :q<cr>
