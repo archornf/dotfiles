@@ -265,7 +265,7 @@ bindsym $mod+Shift+m exec flatpak run org.jamovi.jamovi
 bindsym $mod+Shift+s --release exec import png:- | xclip -selection clipboard -t image/png
 bindsym shift+Print exec ~/.local/bin/my_scripts/screenshot.sh
 bindsym Print --release exec ~/.local/bin/my_scripts/screenshot_select.sh
-bindsym $mod+section exec ~/.local/bin/my_scripts/loadEww.sh
+bindsym $mod+section exec --no-startup-id ~/.local/bin/my_scripts/loadEww.sh
 # Lock screen 
 bindsym $mod+Shift+x exec i3lock-fancy
 #Suspend 

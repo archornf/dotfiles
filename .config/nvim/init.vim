@@ -230,6 +230,13 @@ function! ToggleHiddenAll()
 endfunction
 nnoremap <leader>b :call ToggleHiddenAll()<CR>
 
+" Start vim without statusbar
+let s:hidden_all = 1
+set noshowmode
+set noruler
+set laststatus=0
+set noshowcmd
+
 " Use tab and s-tab to navigate the completion list
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
