@@ -296,3 +296,8 @@ exec_always --no-startup-id diodon
 exec_always --no-startup-id ~/.local/bin/my_scripts/i3-alternating-layout/alternating_layouts.py
 #run polybar
 exec_always ~/.config/polybar/launch.sh --forest
+
+client.focused #458588 #458588 #000088 #458588
+client.focused_inactive #2C2C2C #2C2C2C #ffffff #2C2C2C
+client.unfocused #2C2C2C #2C2C2C #ffffff #2C2C2C
+client.urgent #00C1FF #00C1FF #000088 #00C1FF
