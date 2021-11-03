@@ -131,7 +131,7 @@ noremap <leader>j :join<CR>
 noremap <leader>J :join!<CR>
 nmap <leader>z <Plug>Zoom
 " Remove indent
-vnoremap <silent> <leader>< :le<cr>
+noremap <silent> <leader>< :le<cr>
 
 " Tab maps
 nnoremap <M-q> :q<cr>
@@ -157,6 +157,10 @@ au TabLeave * let g:lasttab = tabpagenr()
 nnoremap <silent> <leader>l :exe "tabn ".g:lasttab<cr>
 vnoremap <silent> <leader>l :exe "tabn ".g:lasttab<cr>
 nnoremap <leader>o <C-^>
+nnoremap <leader>m :mks! ~/.vim/sessions/s.vim<cr> 
+nnoremap <leader>, :mks! ~/.vim/sessions/s2.vim<cr> 
+nnoremap <leader>. :so ~/.vim/sessions/s.vim<cr> 
+nnoremap <leader>- :so ~/.vim/sessions/s2.vim<cr> 
 
 " Filetype shortcuts
 autocmd FileType html inoremap <i<Tab> <em></em> <Space><++><Esc>/<<Enter>GNi
@@ -178,28 +182,12 @@ autocmd FileType sql inoremap fun<Tab> delimiter //<Enter>create function x ()<E
 autocmd FileType sql inoremap pro<Tab> delimiter //<Enter>create procedure x ()<Enter>begin<Enter><Enter><Enter>end //<Enter>delimiter ;<Esc>/x<Enter>GN
 autocmd FileType sql inoremap vie<Tab> create view x as<Enter>select <Esc>/x<Enter>GN
 
-autocmd FileType vtxt,vimwiki,wiki,text inoremap <line<Tab> ----------------------------------------------------------------------------------<Enter>
-autocmd FileType vtxt,vimwiki,wiki,text inoremap <date<Tab> <-- <C-R>=strftime("%Y-%m-%d %a")<CR><Esc>A -->
+autocmd FileType vtxt,vimwiki,wiki,text inoremap line<Tab> ----------------------------------------------------------------------------------<Enter>
+autocmd FileType vtxt,vimwiki,wiki,text inoremap date<Tab> <-- <C-R>=strftime("%Y-%m-%d %a")<CR><Esc>A -->
 autocmd FileType c inoremap for<Tab> for(int i = 0; i < val; i++){<Enter><Enter>}<Esc>?val<Enter>ciw
 
 " Disable tab key for vimwiki (enables autocomplete via tabbing) 
 let g:vimwiki_key_mappings = { 'table_mappings': 0 }
-
-" Statusline
-set statusline=
-set laststatus=2
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-set statusline+=%#Difftext#
-set statusline+=\ %M "track if changes has been made to file
-set statusline+=\ %y "show filetype
-set statusline+=\ %r "ReadOnly flag
-set statusline+=\ %F "show full path to file
-set statusline+=%= "right side settings
-set statusline+=%#DiffChange#
-set statusline+=\ %c:%l/%L "display column and line pos
-" set statusline+=\ %p%% "display percentage traversed of file
 
 " Syntastic
 let g:syntastic_always_populate_loc_list = 0
@@ -207,35 +195,14 @@ let g:syntastic_always_populate_loc_list = 0
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
+" Status bar
+autocmd BufReadPost,BufRead,BufNewFile,BufWritePost *.* :call GetStatusLine()
+autocmd BufReadPost,BufRead,BufNewFile,BufWritePost *.wiki,*.txt :call GetStatusLineText()
+
 " Better tabbing
 vnoremap < <gv
 vnoremap > >gv
-
-" Function for toggling the bottom statusbar:
-let s:hidden_all = 1
-function! ToggleHiddenAll()
-    if s:hidden_all  == 0
-        let s:hidden_all = 1
-        set noshowmode
-        set noruler
-        set laststatus=0
-        set noshowcmd
-    else
-        let s:hidden_all = 0
-        set showmode
-        set ruler
-        set laststatus=2
-        set showcmd
-    endif
-endfunction
 nnoremap <leader>b :call ToggleHiddenAll()<CR>
-
-" Start vim without statusbar
-let s:hidden_all = 1
-set noshowmode
-set noruler
-set laststatus=0
-set noshowcmd
 
 " Use tab and s-tab to navigate the completion list
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
@@ -245,6 +212,26 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 map <S-Insert> <MiddleMouse>
 map! <S-Insert> <MiddleMouse>
 inoremap <S-Insert> <Esc><MiddleMouse>A
+
+" Show extra whitespace
+nmap <leader>s /\s\+$/<cr>
+" Remove all extra whitespace
+nmap <leader>ws :%s/\s\+$<cr>
+" Remove all extra unicode chars
+nmap <leader>wu :%s/\%u200b//g<cr>
+" Remove all hidden characters
+nmap <leader>wb :%s/[[:cntrl:]]//g<cr>
+" Capitalize first letter of each word on visually selected line
+vmap <leader>gu :s/\<./\u&/g<cr>
+" Format rest of the text with vim formatting, go back and center screen
+nmap <leader>r gqG<C-o>zz
+" Undo break points
+inoremap , ,<c-g>u
+inoremap . .<c-g>u
+inoremap ! !<c-g>u
+inoremap ? ?<c-g>u
+" Map Ctrl-Backspace to delete the previous word in insert mode.
+imap <C-BS> <C-W>a
 
 " Coc config
 let g:coc_global_extensions = [
@@ -270,26 +257,87 @@ nnoremap <silent> <leader>cd  :<C-u>CocList diagnostics<cr>
 " Prettier command for coc
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
-" Show extra whitespace
-nmap <leader>s /\s\+$/<cr>
-" Remove all extra whitespace
-nmap <leader>ws :%s/\s\+$<cr>
-" Remove all extra unicode char
-nmap <leader>wu :%s/\%u200b//g<cr>
-" Remove all hidden characters
-nmap <leader>wb :%s/[[:cntrl:]]//g<cr>
-" Capitalize first letter of each word on visually selected line
-vmap <leader>gu :s/\<./\u&/g<cr>
-" Format rest of the text with vim formatting, go back and center screen
-nmap <leader>r gqG<C-o>zz
-" Undo break points
-inoremap , ,<c-g>u
-inoremap . .<c-g>u
-inoremap ! !<c-g>u
-inoremap ? ?<c-g>u
+" Function for toggling the bottom statusbar:
+let s:hidden_all = 1
+function! ToggleHiddenAll()
+    if s:hidden_all == 0
+        let s:hidden_all = 1
+        set noshowmode
+        set noruler
+        set laststatus=0
+        set noshowcmd
+    else
+        let s:hidden_all = 0
+        set showmode
+        set ruler
+        set laststatus=2
+        set showcmd
+    endif
+endfunction
 
-" Map Ctrl-Backspace to delete the previous word in insert mode.
-imap <C-BS> <C-W>a
+set statusline=
+set statusline=
+set laststatus=2
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+set statusline+=%#Difftext#
+set statusline+=\ %M "track if changes has been made to file
+set statusline+=\ %y "show filetype
+set statusline+=\ %r "ReadOnly flag
+set statusline+=\ %F "show full path to file
+set statusline+=%= "right side settings
+set statusline+=%#DiffChange#
+set statusline+=\ %{wordcount().words}\ words\ \| "display wordcount
+set statusline+=\ %c:%l/%L\  "display column and line pos
+
+" Start vim without statusbar
+let s:hidden_all = 1
+set noshowmode
+set noruler
+set laststatus=0
+set noshowcmd
+
+" Function for showing status line for text documents
+function! GetStatusLineText()
+    if s:hidden_all == 0
+		set statusline=
+		set statusline=
+		set laststatus=2
+		set statusline+=%#warningmsg#
+		set statusline+=%{SyntasticStatuslineFlag()}
+		set statusline+=%*
+		set statusline+=%#Difftext#
+		set statusline+=\ %M "track if changes has been made to file
+		set statusline+=\ %y "show filetype
+		set statusline+=\ %r "ReadOnly flag
+		set statusline+=\ %F "show full path to file
+		set statusline+=%= "right side settings
+		set statusline+=%#DiffChange#
+		set statusline+=\ %{wordcount().words}\ words\ \| "display wordcount
+		set statusline+=\ %c:%l/%L\  "display column and line pos
+	endif
+endfunction
+
+" Function for showing status line for other files
+function! GetStatusLine()
+    if s:hidden_all == 0
+		set statusline=
+		set statusline=
+		set laststatus=2
+		set statusline+=%#warningmsg#
+		set statusline+=%{SyntasticStatuslineFlag()}
+		set statusline+=%*
+		set statusline+=%#Difftext#
+		set statusline+=\ %M "track if changes has been made to file
+		set statusline+=\ %y "show filetype
+		set statusline+=\ %r "ReadOnly flag
+		set statusline+=\ %F "show full path to file
+		set statusline+=%= "right side settings
+		set statusline+=%#DiffChange#
+		set statusline+=\ %c:%l/%L\  "display column and line pos
+	endif
+endfunction
 
 " If on laptop (set specific settings for my laptop which runs arch linux)
 if !empty(glob("~/isLinux"))
@@ -308,6 +356,7 @@ if !empty(glob("~/isLinux"))
 	inoremap <C-a> <Esc>gg"yG
 	" Copy selection to clipboard
 	noremap <C-c> y
+	" colorscheme hybrid
 	colorscheme gruvbox
 	highlight Normal guibg=none
 	" highlight NonText guibg=none

@@ -248,7 +248,18 @@ bindsym $mod+o resize grow width 10 px or 1 ppt
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-#bar {
+# bar {
+# 	colors {
+#         background #2f343f
+#         statusline #2f343f
+#         separator #4b5262
+
+        # colour of border, background, and text
+#        focused_workspace       #2f343f #bf616a #d8dee8
+#        active_workspace        #2f343f #2f343f #d8dee8
+#        inactive_workspace      #2f343f #2f343f #d8dee8
+#        urgent_workspacei       #2f343f #ebcb8b #2f343f
+#    }
 #        status_command i3status
 #}
 
@@ -287,17 +298,26 @@ gaps outer 15
 exec --no-startup-id picom
 exec --no-startup-id xfce4-power-manager
 exec --no-startup-id firefox
+exec_always --no-startup-id diodon
+
 #set wallpaper
 #exec_always feh --bg-scale ~/Pictures/Wallpapers/wallpaper.png
 exec_always --no-startup-id feh --bg-fill --randomize ~/Pictures/Wallpapers/* &
-#exec_always exec diodon
-exec_always --no-startup-id diodon
 # Alternating layout
 exec_always --no-startup-id ~/.local/bin/my_scripts/i3-alternating-layout/alternating_layouts.py
 #run polybar
 exec_always ~/.config/polybar/launch.sh --forest
 
-client.focused #458588 #458588 #000088 #458588
+# client.focused #458588 #458588 #000088 #458588
+client.focused #2C2C2C #2C2C2C #000088 #2C2C2C
 client.focused_inactive #2C2C2C #2C2C2C #ffffff #2C2C2C
 client.unfocused #2C2C2C #2C2C2C #ffffff #2C2C2C
 client.urgent #00C1FF #00C1FF #000088 #00C1FF
+
+bindsym $mod+odiaeresis floating enable, resize set 50 ppt 50 ppt, move position 10 px 10 px
+bindsym $mod+Shift+odiaeresis floating enable, resize set 50 ppt 50 ppt, move position 10 px 490 px
+bindsym $mod+Control+odiaeresis floating enable, resize set 43 ppt 32 ppt, move position 10 px 690 px
+
+bindsym $mod+adiaeresis floating enable, resize set 50 ppt 50 ppt, move position 950 px 10 px
+bindsym $mod+Shift+adiaeresis floating enable, resize set 50 ppt 50 ppt, move position 950 px 493 px
+bindsym $mod+Control+adiaeresis floating enable, resize set 30 ppt 30 ppt, move position 1330 px 720 px
