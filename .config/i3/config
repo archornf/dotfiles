@@ -316,8 +316,12 @@ client.urgent #00C1FF #00C1FF #000088 #00C1FF
 
 bindsym $mod+odiaeresis floating enable, resize set 50 ppt 50 ppt, move position 10 px 10 px
 bindsym $mod+Shift+odiaeresis floating enable, resize set 50 ppt 50 ppt, move position 10 px 490 px
-bindsym $mod+Control+odiaeresis floating enable, resize set 43 ppt 32 ppt, move position 10 px 690 px
+bindsym $mod+Control+odiaeresis floating enable, resize set 43 ppt 32 ppt, move position 10 px 700 px
 
 bindsym $mod+adiaeresis floating enable, resize set 50 ppt 50 ppt, move position 950 px 10 px
 bindsym $mod+Shift+adiaeresis floating enable, resize set 50 ppt 50 ppt, move position 950 px 493 px
-bindsym $mod+Control+adiaeresis floating enable, resize set 30 ppt 30 ppt, move position 1330 px 720 px
+bindsym $mod+Control+adiaeresis floating enable, resize set 43 ppt 32 ppt, move position 1090 px 700 px
+
+bindsym $mod+aring floating enable, resize set 50 ppt 95 ppt, move position 13 px 13 px
+bindsym $mod+Shift+aring floating enable, resize set 50 ppt 95 ppt, move position 950 px 13 px
+bindsym $mod+Control+aring floating enable, resize set 30 ppt 30 ppt, move position 1330 px 720 px

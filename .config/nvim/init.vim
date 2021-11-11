@@ -83,8 +83,11 @@ noremap Y y$
 vnoremap <leader>d "_d
 nnoremap <leader>d "_d
 " Paste from previous registers
-noremap <leader>1 "0p
-noremap <leader>2 "1p
+noremap <leader>1 "1p
+noremap <leader>2 "2p
+noremap <leader>3 "3p
+noremap <leader>4 "4p
+noremap <leader>5 "5p
 
 " Vimgrep and QuickFix Lists
 nnoremap <M-f> :vimgrep // **/*.txt<left><left><left><left><left><left><left><left><left><left><C-f>i
@@ -112,7 +115,7 @@ map <M-x> :call CompileRun()<CR>
 map <F4> <Esc>:set cursorline!<CR>
 map <F5> <Esc>:setlocal spell! spelllang=en_us<CR>
 map <F6> <Esc>:setlocal spell! spelllang=sv<CR>
-imap <C-v> <Esc>"+gp
+imap <C-v> <Esc>"+p
 
 " Window management and movement
 nnoremap <M-u> :resize +2<CR>
@@ -131,7 +134,8 @@ noremap <leader>j :join<CR>
 noremap <leader>J :join!<CR>
 nmap <leader>z <Plug>Zoom
 " Remove indent
-noremap <silent> <leader>< :le<cr>
+vnoremap <silent> <leader>< :le<cr>
+nmap <silent> <leader>< :le<cr>
 
 " Tab maps
 nnoremap <M-q> :q<cr>

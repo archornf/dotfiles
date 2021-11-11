@@ -44,7 +44,7 @@ minimum_size 0 0
 #
 # (From the next line down, #WhiteSpaceMatters) ...
 TEXT
-${voffset 0}${color EBDBB2}${font GE Inspira:pixelsize=110}${offset 15}${time %I:%M}${font}${voffset -70}${offset 0}${color 98971A}${font GE Inspira:pixelsize=28}${time %d} ${voffset 0}${color D79921}${font GE Inspira:pixelsize=28}${offset 0}${time  %B} ${offset 0}${time %Y}${color CC241D}${font}${voffset 10}${font GE Inspira:pixelsize=53}${offset -240}${time %A}${font}
+${voffset 0}${color EBDBB2}${font GE Inspira:pixelsize=125}${time %I:%M}${font}${voffset -84}${offset 10}${color 98971A}${font GE Inspira:pixelsize=28}${time %d} ${voffset 0}${color D79921}${font GE Inspira:pixelsize=28}${time  %B} ${time %Y}${color CC241D}${font}${voffset 24}${font GE Inspira:pixelsize=55}${offset -192}${time %A}${font}
 
 #white ${color EDBBB2}
 #green ${color 98971A}
@@ -77,13 +77,13 @@ ${voffset 0}${color EBDBB2}${font GE Inspira:pixelsize=110}${offset 15}${time %I
 #TEXT
 
 #conky sucks
-${voffset -50}
-${goto 40}${font Hack:pixelsize=16}${color D79921}CPU${offset 30}${color EDBBB2}${cpu cpu0}%${goto 335}${color D79921}HD${offset 30}${color EDBBB2}Avail / Total
-${font Hack:pixelsize=14}${goto 40}${color EDBBB2}01. ${color 98971A}${top name 1}${goto 180}${top cpu 1}% / ${top mem_res 1}${goto 335}${font Hack:pixelsize=14}${color EDBBB2}/home${goto 385}${color 98971A}${fs_free /home} ${goto 449}/ ${fs_size /home}
-${goto 40}${color EDBBB2}02. ${color D79921}${top name 2}${goto 180}${top cpu 2}% / ${top mem_res 2}${goto 335}${font Hack:pixelsize=14}${color EDBBB2}
-${goto 40}${color EDBBB2}03. ${color CC241D}${top name 3}${goto 180}${top cpu 3}% / ${top mem_res 3}
-${goto 40}${color EDBBB2}04. ${color 458588}${top name 4}${goto 180}${top cpu 4}% / ${top mem_res 4}
-${goto 40}${color EDBBB2}05. ${color B16286}${top name 5}${goto 180}${top cpu 5}% / ${top mem_res 5}
+${voffset -30}
+${goto 30}${font Hack:pixelsize=16}${color D79921}CPU${offset 9}${color EDBBB2}${cpu cpu0}%$mem / $memmax${goto 335}${color D79921}HD${offset 27}${color EDBBB2}Avail / Total
+${font Hack:pixelsize=14}${goto 30}${color EDBBB2}01. ${color 98971A}${top name 1}${goto 120}${top cpu 1}% / ${top mem_res 1}${goto 335}${font Hack:pixelsize=14}${color EDBBB2}/${goto 385}${color 98971A}${fs_free /} ${goto 449}/ ${fs_size /}
+${goto 30}${color EDBBB2}02. ${color D79921}${top name 2}${goto 120}${top cpu 2}% / ${top mem_res 2}${goto 335}${font Hack:pixelsize=14}${color EDBBB2}/boot${goto 385}${color D79921}${fs_free /boot}${goto 449}/ ${fs_size /boot}
+${goto 30}${color EDBBB2}03. ${color CC241D}${top name 3}${goto 120}${top cpu 3}% / ${top mem_res 3}${goto 335}${font Hack:pixelsize=14}${color EDBBB2}/home${goto 385}${color CC241D}${fs_free /home}${goto 449}/ ${fs_size /home}
+${goto 30}${color EDBBB2}04. ${color 458588}${top name 4}${goto 120}${top cpu 4}% / ${top mem_res 4}
+${goto 30}${color EDBBB2}05. ${color B16286}${top name 5}${goto 120}${top cpu 5}% / ${top mem_res 5}
 
 
 #green ${color 98971A}
