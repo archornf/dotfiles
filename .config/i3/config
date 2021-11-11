@@ -117,7 +117,7 @@ bindsym $mod+Shift+a focus parent
 bindsym $mod+Shift+d focus child
 
 # open tmux
-bindsym $mod+a exec i3-sensible-terminal -e tmux
+bindsym $mod+a exec i3-sensible-terminal -e bash -c "tmux attach || tmux"
 # Open nautilus in wd
 #bindsym $mod+w exec nautilus --no-desktop
 bindsym $mod+n exec ~/.local/bin/my_scripts/nautilus_wd.sh
@@ -282,6 +282,8 @@ bindsym $mod+Shift+x exec i3lock-fancy
 #Suspend 
 bindsym $mod+Shift+comma exec ~/.local/bin/my_scripts/alert_exit.sh; exec ~/.local/bin/my_scripts/suspend.sh
 bindsym $mod+Shift+period exec i3lock-fancy; exec ~/.local/bin/my_scripts/alert_exit.sh; exec systemctl suspend
+# Open FZF in neovim
+bindsym $mod+g exec urxvt -e bash -c 'nvim -c "FZF ~"'
 
 # Settings
 focus_follows_mouse no
