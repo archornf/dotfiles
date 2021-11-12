@@ -193,20 +193,21 @@ autocmd FileType c inoremap for<Tab> for(int i = 0; i < val; i++){<Enter><Enter>
 " Disable tab key for vimwiki (enables autocomplete via tabbing) 
 let g:vimwiki_key_mappings = { 'table_mappings': 0 }
 
+" StatusLine
+autocmd BufReadPost,BufRead,BufNewFile,BufWritePost *.* :call GetStatusLine()
+autocmd BufReadPost,BufRead,BufNewFile,BufWritePost *.wiki,*.txt :call GetStatusLineText()
+
 " Syntastic
 let g:syntastic_always_populate_loc_list = 0
 " let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-
-" Status bar
-autocmd BufReadPost,BufRead,BufNewFile,BufWritePost *.* :call GetStatusLine()
-autocmd BufReadPost,BufRead,BufNewFile,BufWritePost *.wiki,*.txt :call GetStatusLineText()
+" Toogle statusbar
+nnoremap <leader>b :call ToggleHiddenAll()<CR>
 
 " Better tabbing
 vnoremap < <gv
 vnoremap > >gv
-nnoremap <leader>b :call ToggleHiddenAll()<CR>
 
 " Use tab and s-tab to navigate the completion list
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
@@ -349,7 +350,7 @@ if !empty(glob("~/isLinux"))
 	set tw=175
 	set clipboard=unnamedplus
 	"let g:python3_host_prog='/bin/python3'
-	"let g:coc_node_path = "/usr/bin/node"
+	"let g:coc_node_path = '/usr/bin/node'
 	" Open vim config in new tab
 	noremap <M-m> :tabe ~/.config/nvim/init.vim<cr>
 	" Open i3 config in new tab
@@ -408,7 +409,7 @@ else
 	set columns=210
 	set lines=999" cumns=999 "set fullscreen
 	set tw=235
-	imap <C-v> <C-r>+
+	imap <C-v> <C-r>"+p
 	noremap <M-m> :tabe $myvimrc<cr>
 	nnoremap <M-n> :FZF c:/<cr>
 	" Copy everything from file into clipboard
@@ -425,7 +426,8 @@ else
 			exec "!%:r.exe"
 			"exec "!time ./%<"
 		elseif &filetype == 'cpp'
-			exec "!g++ % -o %< -lbgi -lgdi32 -lcomdlg32 -luuid -loleaut32 -lole32"
+			"exec "!g++ % -o %< -lbgi -lgdi32 -lcomdlg32 -luuid -loleaut32 -lole32"
+			exec "!g++ % -o %<"
 			exec "!%:r.exe"
 			"exec "!time ./%<"
 		elseif &filetype == 'java'
