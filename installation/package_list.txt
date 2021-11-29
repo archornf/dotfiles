@@ -8,10 +8,12 @@ binutils
 bison
 bluez-utils
 boost
+cava
 clamav
 clamtk
 clang
 cmake
+conky
 cronie
 dconf-editor
 dhcpcd
@@ -30,6 +32,7 @@ firewalld
 flatpak
 flex
 fzf
+gcalcli
 gcc
 git
 gnome-calculator
@@ -60,6 +63,7 @@ m4
 make
 mono
 mpd
+mpv
 mtools
 nautilus
 neofetch
@@ -67,6 +71,7 @@ neovim
 nerd-fonts-inconsolata
 netctl
 networkmanager
+nordic-theme
 noto-fonts
 noto-fonts-emoji
 npm
@@ -86,6 +91,7 @@ pokemon-colorscripts-git
 polybar
 powertop
 pulseaudio
+putty
 python-appdirs
 python-babel
 python-chardet
@@ -158,6 +164,7 @@ xsel
 xterm
 yad
 yay-git
+youtube-dl
 zathura
 zathura-pdf-poppler
 zip

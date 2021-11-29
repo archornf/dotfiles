@@ -105,7 +105,8 @@ nnoremap <M-d> :FZF ~/<cr>
 nnoremap <M-n> :FZF /<cr>
 
 " NERDTree
-map <M-w> :NERDTree ~/<CR>
+"map <M-w> :NERDTree ~/<CR>
+map <M-w> :NERDTreeToggle ~/<CR>
 nnoremap <M-e> :NERDTreeToggle %:p<CR>
 map <C-b> :NERDTreeToggle<CR>
 
@@ -363,6 +364,7 @@ if !empty(glob("~/isLinux"))
 	noremap <C-c> y
 	" colorscheme hybrid
 	colorscheme gruvbox
+	" colorscheme nord
 	highlight Normal guibg=none
 	" highlight NonText guibg=none
 	" highlight LineNr cterm=NONE ctermfg=grey gui=NONE guifg=grey guibg=NONE term=bold

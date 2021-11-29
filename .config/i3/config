@@ -96,7 +96,7 @@ bindsym $mod+Shift+less split h
 bindsym $mod+f fullscreen toggle
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+Shift+z layout stacked
-bindsym $mod+t layout tabbed
+bindsym $mod+Shift+t layout tabbed
 bindsym $mod+less layout toggle split
 bindsym $mod+z gaps inner current set 0; gaps outer current set 0
 bindsym $mod+x gaps inner current set 15; gaps outer current set 15
@@ -268,8 +268,8 @@ bindsym $mod+v exec ~/.local/bin/my_scripts/clip_history.sh
 bindsym $mod+Shift+v exec ~/.local/bin/my_scripts/qr_clip.sh
 bindsym $mod+period exec ~/.local/bin/my_scripts/emojipick/emojipick
 # Program shortcuts
-bindsym $mod+b exec urxvt -e htop
-bindsym $mod+Shift+b exec urxvt -e bashtop
+bindsym $mod+b exec urxvt -e sudo htop
+bindsym $mod+Shift+b exec urxvt -e sudo bashtop
 bindsym $mod+Shift+m exec flatpak run org.jamovi.jamovi
 
 # Print screen keybinds
@@ -279,6 +279,7 @@ bindsym Print --release exec ~/.local/bin/my_scripts/screenshot_select.sh
 bindsym $mod+section exec --no-startup-id ~/.local/bin/my_scripts/loadEww.sh
 # Lock screen 
 bindsym $mod+Shift+x exec i3lock-fancy
+bindsym $mod+Control+x exec i3lock -i ~/Downloads/lock-wallpaper.png 
 #Suspend 
 bindsym $mod+Shift+comma exec ~/.local/bin/my_scripts/alert_exit.sh; exec ~/.local/bin/my_scripts/suspend.sh
 bindsym $mod+Shift+period exec i3lock-fancy; exec ~/.local/bin/my_scripts/alert_exit.sh; exec systemctl suspend
