@@ -127,6 +127,7 @@ alias pics='cd ~/Pictures'
 #alias cat='bat'
 #alias emacs='emacsclient -nw'
 alias neofetch='neofetch --color_blocks off'
+alias grootfetch='neofetch --w3m /home/jonas/.config/neofetch/groot.jpg'
 alias diskspace='ncdu'
 alias cb='clipboard'
 alias tb='nc termbin.com 9999'
@@ -134,6 +135,8 @@ alias doomsync='~/.emacs.d/bin/doom sync && systemctl restart emacs --user'
 alias vim='nvim'
 alias xup='xrdb ~/.Xresources'
 # alias grep='grep -rin --color'
+alias vd='python -m visidata'
+alias scripts='cd ~/.local/bin/my_scripts; ls'
 
 # use the vi navigation keys in menu completion
 #bindkey -M menuselect 'h' vi-backward-char
@@ -189,3 +192,14 @@ export PROMPT_COMMAND="pwd > /tmp/whereami"
 ~/.local/bin/my_scripts/hello.sh
 export PATH="${PATH}:${HOME}/.local/bin/my_scripts"
 bindkey '^ ' autosuggest-accept
+
+fuzzyfind(){
+	# If in tmux
+	if [ -z "$TMUX" ]; then
+		fzf
+	else
+		fzf-tmux -p
+	fi
+}
+
+alias f='fuzzyfind'
