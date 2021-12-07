@@ -30,13 +30,15 @@
 
 static const Block blocks[] = {
 	/*Icon*/	/*Command*/		/*Update Interval*/	/*Update Signal*/
-	{" x ",	"~/.local/bin/my_scripts/spotify_dwmblocks.sh",	5,	3},
+	{"",	"~/.local/bin/my_scripts/spotify_dwmblocks.sh",	5,	3},
 	/* {"",	"~/.local/bin/statusbar/sb-forecast",	18000,	5}, */
-	/* {"",	"~/.local/bin/statusbar/sb-volume",	0,	10}, */
-	{"墳 婢 ",	"~/.local/bin/statusbar/sb-volumetwo.sh",	0,	10},
-	{"   ",	"~/.local/bin/statusbar/sb-battery",	5,	3},
+	/* {"",	"~/.local/bin/statusbar/sb-volumetwo.sh",	0,	10}, */
+	{"",	"~/.local/bin/statusbar/sb-volume",	0,	10},
+	{"",	"~/.local/bin/statusbar/sb-battery",	5,	3},
 	{" ",	"~/.local/bin/statusbar/sb-clock",	60,	1},
 };
+
+/*Icons:       婢墳  */
 
 
 //Sets delimiter between status commands. NULL character ('\0') means no delimiter.

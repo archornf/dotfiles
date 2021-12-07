@@ -43,7 +43,7 @@ for battery in /sys/class/power_supply/BAT?*; do
 	case "$(cat "$battery/status")" in
 		"Full") status="" ;;
 		"Discharging") status="" ;;
-		"Charging") status="" ;;
+		"Charging") status="" ;;
 		"Not charging") status="" ;;
 		"Unknown") status="" ;;
 	esac
@@ -51,5 +51,12 @@ for battery in /sys/class/power_supply/BAT?*; do
 	# Will make a warn variable if discharging and low
 	[ "$status" = "🔋" ] && [ "$capacity" -le 25 ] && warn="❗"
 	# Prints the info
-	printf "%s%s%d%%" "$status" "$warn" "$capacity"; unset warn
+	if (( $capacity > 60)); then
+		printf " %s%s%d%%" "$status" "$warn" "$capacity"; unset warn
+	elif (( $capacity > 25 )); then
+		printf " %s%s%d%%" "$status" "$warn" "$capacity"; unset warn
+	else
+		printf " %s%s%d%%" "$status" "$warn" "$capacity"; unset warn
+	fi
+
 done && exit 0
