@@ -27,7 +27,8 @@ static const char *fonts[]               = { "JetBrainsMono Nerd Font:size=12:st
 /* static char *fonts[]          = { "Linux Libertine Mono:size=12", "Mono:pixelsize=12:antialias=true:autohint=true", "FontAwesome:size=15","FontAwesome5Brands:size=13:antialias:true", "FontAwesome5Free:size=13:antialias:true", "FontAwesome5Free:style=Solid:size=13:antialias:true", "Inconsolata Nerd Font:size=16" }; */
 
 // theme
-#include "themes/tokyo.h"
+#include "themes/gruvbox.h"
+#include <X11/XF86keysym.h>
 
 static char *colors[][ColCount] = {
 	/*                       fg                bg                border                float */
@@ -70,7 +71,8 @@ static char *colors[][ColCount] = {
  * them. This works seamlessly with alternative tags and alttagsdecoration patches.
  */
 static char *tagicons[][NUMTAGS] = {
-	[DEFAULT_TAGS]        = { "一", "二", "三", "四", "五", "六", "七", "八", "九" },
+	[DEFAULT_TAGS] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" },
+	/* [DEFAULT_TAGS]        = { "一", "二", "三", "四", "五", "六", "七", "八", "九" }, */
 	[ALTERNATIVE_TAGS]    = { "A", "B", "C", "D", "E", "F", "G", "H", "I" },
 	[ALT_TAGS_DECORATION] = { "<1>", "<2>", "<3>", "<4>", "<5>", "<6>", "<7>", "<8>", "<9>" },
 };
@@ -149,15 +151,14 @@ static const int resizehints = 0;    /* 1 means respect size hints in tiled resi
 static const int decorhints  = 0;    /* 1 means respect decoration hints */
 
 
-
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",      tile },    /* first entry is default */
+	{ "[\\]=",      dwindle },    /* first entry is default */
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
 	{ "TTT",      bstack },
 	{ "|M|",      centeredmaster },
-	{ "[\\]",     dwindle },
+	{ "[]",     tile },
 	{ "HHH",      grid },
 	{ NULL,       NULL },
 };
@@ -178,7 +179,9 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-static const char *termcmd[] = { "st", NULL };
+/* static const char *termcmd[] = { "st", NULL }; */
+/* static const char *termcmd[] = { "urxvt", NULL }; */
+static const char *termcmd[] = { "kitty", NULL };
 static const char *eww_close[] = { "eww", "close-all", NULL };
 static const char *lock[] = {
 	"betterlockscreen", 
@@ -220,51 +223,54 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Return,     spawn,                  {.v = termcmd } },
 	{ MODKEY,                       XK_b,          togglebar,              {0} },
 	{ MODKEY,                       XK_j,          focusstack,             {.i = +1 } },
+	{ MODKEY,                       XK_h,          focusstack,             {.i = +1 } },
 	{ MODKEY,                       XK_k,          focusstack,             {.i = -1 } },
+	{ MODKEY,                       XK_l,          focusstack,             {.i = -1 } },
 	{ MODKEY,                       XK_s,          swapfocus,              {.i = -1 } },
 	{ MODKEY,                       XK_a,          incnmaster,             {.i = +1 } },
-	{ MODKEY,                       XK_z,          incnmaster,             {.i = -1 } },
+	/* { MODKEY,                       XK_z,          incnmaster,             {.i = -1 } }, */
 	{ MODKEY,                       XK_Left,       setmfact,               {.f = -0.05} },
 	{ MODKEY,                       XK_Right,      setmfact,               {.f = +0.05} },
 	{ MODKEY|ShiftMask,             XK_Up,         setcfact,               {.f = +0.25} },
 	{ MODKEY|ShiftMask,             XK_Down,       setcfact,               {.f = -0.25} },
+	{ MODKEY,						XK_y,			setmfact,				{.f = -0.05} },
+	{ MODKEY,						XK_o,			setmfact,				{.f = +0.05} },
 	{ MODKEY|ShiftMask,             XK_o,          setcfact,               {0} },
 	{ MODKEY|ShiftMask,             XK_j,          movestack,              {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_k,          movestack,              {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_Return,     zoom,                   {0} },
-	{ MODKEY|Mod1Mask,              XK_u,          incrgaps,               {.i = +1 } },
-	{ MODKEY|Mod1Mask|ShiftMask,    XK_u,          incrgaps,               {.i = -1 } },
-	{ MODKEY|Mod1Mask,              XK_i,          incrigaps,              {.i = +1 } },
-	{ MODKEY|Mod1Mask|ShiftMask,    XK_i,          incrigaps,              {.i = -1 } },
-	{ MODKEY|Mod1Mask,              XK_o,          incrogaps,              {.i = +1 } },
-	{ MODKEY|Mod1Mask|ShiftMask,    XK_o,          incrogaps,              {.i = -1 } },
-	{ MODKEY|Mod1Mask,              XK_6,          incrihgaps,             {.i = +1 } },
-	{ MODKEY|Mod1Mask|ShiftMask,    XK_6,          incrihgaps,             {.i = -1 } },
-	{ MODKEY|Mod1Mask,              XK_7,          incrivgaps,             {.i = +1 } },
-	{ MODKEY|Mod1Mask|ShiftMask,    XK_7,          incrivgaps,             {.i = -1 } },
+
+	{ MODKEY|Mod1Mask,              XK_0,          incrihgaps,             {.i = +1 } },
+	{ MODKEY|Mod1Mask|ShiftMask,    XK_0,          incrihgaps,             {.i = -1 } },
+	{ MODKEY|Mod1Mask,              XK_9,          incrivgaps,             {.i = +1 } },
+	{ MODKEY|Mod1Mask|ShiftMask,    XK_9,          incrivgaps,             {.i = -1 } },
 	{ MODKEY|Mod1Mask,              XK_8,          incrohgaps,             {.i = +1 } },
 	{ MODKEY|Mod1Mask|ShiftMask,    XK_8,          incrohgaps,             {.i = -1 } },
-	{ MODKEY|Mod1Mask,              XK_9,          incrovgaps,             {.i = +1 } },
-	{ MODKEY|Mod1Mask|ShiftMask,    XK_9,          incrovgaps,             {.i = -1 } },
-	{ MODKEY|Mod1Mask,              XK_0,          togglegaps,             {0} },
-	{ MODKEY|Mod1Mask|ShiftMask,    XK_0,          defaultgaps,            {0} },
+	{ MODKEY|Mod1Mask,              XK_7,          incrovgaps,             {.i = +1 } },
+	{ MODKEY|Mod1Mask|ShiftMask,    XK_7,          incrovgaps,             {.i = -1 } },
+	{ MODKEY,						XK_plus,		incrigaps,			{.i = +3 } },
+	{ MODKEY,						XK_minus,		incrigaps,			{.i = -3 } },
+	{ MODKEY|ShiftMask,             XK_plus,		incrogaps,           {.i = +3 } },
+	{ MODKEY|ShiftMask,				XK_minus,       incrogaps,              {.i = -3 } },
+	{ MODKEY|ControlMask,           XK_plus,        incrgaps,               {.i = +1 } },
+	{ MODKEY|ControlMask,			XK_minus,       incrgaps,               {.i = -1 } },
+	{ MODKEY,						XK_z,          togglegaps,             {0} },
+	{ MODKEY,						XK_x,          togglegaps,             {0} },
+	/* { MODKEY,					    XK_x,          defaultgaps,            {0} }, */
 	{ MODKEY,                       XK_Tab,        view,                   {0} },
-	{ MODKEY|ShiftMask,             XK_c,          killclient,             {0} },
+	{ MODKEY,		                XK_q,          killclient,             {0} },
 	{ MODKEY|ControlMask|ShiftMask, XK_q,          quit,                   {1} },
 	{ MODKEY,                       XK_t,          setlayout,              {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,          setlayout,              {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,          setlayout,              {.v = &layouts[2]} },
 	{ MODKEY|ShiftMask,             XK_space,      togglefloating,         {0} },
-	{ MODKEY,                       XK_y,          togglefullscreen,       {0} },
 	{ MODKEY|ShiftMask,             XK_f,          fullscreen,             {0} },
 	{ MODKEY,                       XK_0,          view,                   {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,          tag,                    {.ui = ~0 } },
 	{ MODKEY,                       XK_comma,      focusmon,               {.i = -1 } },
-	{ MODKEY,                       XK_period,     focusmon,               {.i = +1 } },
 	{ MODKEY|ControlMask,           XK_comma,      tagmon,                 {.i = -1 } },
 	{ MODKEY|ControlMask,           XK_period,     tagmon,                 {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,      cyclelayout,            {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_period,     cyclelayout,            {.i = +1 } },
 	TAGKEYS(                        XK_1,                                  0)
 	TAGKEYS(                        XK_2,                                  1)
 	TAGKEYS(                        XK_3,                                  2)
@@ -275,18 +281,39 @@ static Key keys[] = {
 	TAGKEYS(                        XK_8,                                  7)
 	TAGKEYS(                        XK_9,                                  8)
 
+	{ 0, XF86XK_AudioMute,		spawn,		SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle ; kill -44 $(pidof dwmblocks)") },
+	{ 0, XF86XK_AudioRaiseVolume,	spawn,		SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5%; kill -44 $(pidof dwmblocks)") },
+	{ 0, XF86XK_AudioLowerVolume,	spawn,		SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5%; kill -44 $(pidof dwmblocks)") },
+	{ 0, XF86XK_MonBrightnessUp,	spawn,		SHCMD("~/.local/bin/my_scripts/brightness.sh +10") },
+	{ 0, XF86XK_MonBrightnessDown,	spawn,		SHCMD("~/.local/bin/my_scripts/brightness.sh -10") },
+
 	/* Custom commands */
 
-	{ MODKEY, 						XK_e, 		   spawn,                  {.v = eww_panel } }, /* Launch eww panel */
-	{ MODKEY|ShiftMask, 			XK_e, 		   spawn,                  {.v = eww_close } }, /* Close every eww instance */
-	{ MODKEY,                       XK_d,          spawn,                  SHCMD("~/.config/rofi/launchers/launcher/launcher.sh")}, /* rofi launcher */
+	{ MODKEY,						XK_section,			spawn,				SHCMD("~/.local/bin/my_scripts/loadEww.sh") },
+	{ MODKEY,						XK_c,			spawn,				SHCMD("gnome-calculator") },
+	{ MODKEY,                       XK_period,     spawn,				SHCMD("~/.local/bin/my_scripts/emojipick/emojipick")},
+	{ MODKEY|ShiftMask,             XK_period,     spawn,               SHCMD("i3lock-fancy && ~/.local/bin/my_scripts/alert_exit.sh && systemctl suspend")},
+	{ MODKEY,						XK_n,		   spawn,		    		SHCMD("~/.local/bin/my_scripts/nautilus_wd.sh") },
+	{ MODKEY|ShiftMask,				XK_n,		   spawn,					SHCMD("nautilus -w --no-desktop") },
+	{ MODKEY,                       XK_g,          spawn,                  SHCMD("urxvt -e bash -c 'nvim -c 'FZF ~''")}, /* rofi launcher */
+	{ MODKEY|ShiftMask,             XK_b,          spawn,                  SHCMD("urxvt -e sudo htop")}, /* rofi powermenu */
+	{ MODKEY|ControlMask,           XK_b,          spawn,                  SHCMD("urxvt -e sudo bashtop")}, /* rofi powermenu */
+	{ MODKEY,                       XK_v,          spawn,                  SHCMD("~/.local/bin/my_scripts/clip_history.sh")}, /* rofi launcher */
+	{ MODKEY|ShiftMask,             XK_v,          spawn,                  SHCMD("~/.local/bin/my_scripts/qr_clip.sh")}, /* rofi clipboard */
+	{ MODKEY,						XK_e,			spawn,					SHCMD("~/.local/bin/my_scripts/ranger_wd.sh") },
+	{ MODKEY|ShiftMask,				XK_e,			spawn,							SHCMD("~/.local/bin/my_scripts/alert_exit.sh && ~/.config/polybar/forest/scripts/powermenu.sh") },
+	{ MODKEY,						XK_d,			spawn,					SHCMD("dmenu_run -fn 'Linux Libertine Mono'") },
+	{ MODKEY,						XK_r,			spawn,					SHCMD("rofi -show run -theme ~/.config/rofi/themes/gruvbox/gruvbox-dark.rasi") },
 	{ MODKEY|ShiftMask,             XK_a,          spawn,                  SHCMD("~/.config/rofi/launchers/greenclip/launcher.sh")}, /* rofi clipboard */
-	{ MODKEY|ShiftMask,             XK_q,          spawn,                  SHCMD("~/.config/rofi/powermenu/powermenu.sh")}, /* rofi powermenu */
 	{ MODKEY,                       XK_F1,         spawn,                  {.v = lock } }, /* rofi clipboard */
 	{ MODKEY,                       XK_x,          spawn,                  {.v = inhibitor_on } }, /* activate inhibitor */
-	{ MODKEY|ShiftMask,             XK_x,          spawn,                  {.v = inhibitor_off } }, /* deactivate inhibitor */	
-	{ 0,             		        PrintScr,      spawn,                  SHCMD("maim -s -u| xclip -selection clipboard -t image/png && notify-send \"Screenshot\" \"Copied to Clipboard\" -i screenie")}, /* maim screen copy */
-	{ MODKEY,             			PrintScr,      spawn,                  SHCMD("maim -s -u ~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png && notify-send \"Screenshot\" \"Saved to Pictures\" -i screenie")}, /* maim screen */
+	{ MODKEY|ShiftMask,             XK_x,          spawn,                  SHCMD("i3lock-fancy")}, /* rofi powermenu */
+	{ MODKEY|ControlMask,           XK_x,          spawn,                  SHCMD("i3lock -i ~/Downloads/lock-wallpaper.png")}, /* rofi powermenu */
+	{ MODKEY|ShiftMask,             XK_s,		   spawn,				   SHCMD("import png:- | xclip -selection clipboard -t image/png")},
+	{ 0,             		        PrintScr,      spawn,                  SHCMD("~/.local/bin/my_scripts/screenshot_select.sh")}, /* maim screen copy */
+	{ MODKEY,             			PrintScr,      spawn,                  SHCMD("~/.local/bin/my_scripts/screenshot.sh")}, /* maim screen */
+	{ MODKEY|ShiftMask,          	PrintScr,      spawn,                  SHCMD("")}, /* maim screen */
+	{ MODKEY|ControlMask,          	PrintScr,      spawn,                  SHCMD("")}, /* Open recently taken image in ranger*/
 	{ 0, 							XK_ISO_Next_Group, 		spawn, 		   SHCMD("pkill -RTMIN+10 dwmblocks")}, /* keyboard indicator */
 };
 
@@ -319,6 +346,3 @@ static Button buttons[] = {
 	{ ClkTagBar,            MODKEY,              Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,              Button3,        toggletag,      {0} },
 };
-
-
-
