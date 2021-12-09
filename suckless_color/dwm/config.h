@@ -18,12 +18,12 @@ static const int sidepad                 = 10;  /* horizontal padding of bar */
 /* Status is to be shown on: -1 (all monitors), 0 (a specific monitor by index), 'A' (active monitor) */
 static const int statusmon               = -1;
 static const unsigned int systrayspacing = 2;   /* systray spacing */
-static const int showsystray             = 1;   /* 0 means no systray */
+static const int showsystray             = 0;   /* 0 means no systray */
 /* Indicators: see patch/bar_indicators.h for options */
 static int tagindicatortype              = INDICATOR_BOTTOM_BAR_SLIM;
 static int tiledindicatortype            = INDICATOR_NONE;
 static int floatindicatortype            = INDICATOR_TOP_LEFT_SQUARE;
-static const char *fonts[]               = { "JetBrainsMono Nerd Font:size=12:style=bold:antialias=true:autohint=true, Inconsolata Nerd Font:size=15", "Nerd Font Complete Mono:size=13","FontAwesome:size=15","FontAwesome5Brands:size=12:antialias:true", "FontAwesome5Free:size=12:antialias:true", "FontAwesome5Free:style=Solid:size=12:antialias:true" };
+static const char *fonts[]               = { "JetBrainsMono Nerd Font:size=11:style=bold:antialias=true:autohint=true, Inconsolata Nerd Font:size=15", "Nerd Font Complete Mono:size=13","FontAwesome:size=15","FontAwesome5Brands:size=12:antialias:true", "FontAwesome5Free:size=12:antialias:true", "FontAwesome5Free:style=Solid:size=12:antialias:true" };
 /* static char *fonts[]          = { "Linux Libertine Mono:size=12", "Mono:pixelsize=12:antialias=true:autohint=true", "FontAwesome:size=15","FontAwesome5Brands:size=13:antialias:true", "FontAwesome5Free:size=13:antialias:true", "FontAwesome5Free:style=Solid:size=13:antialias:true", "Inconsolata Nerd Font:size=16" }; */
 
 // theme
@@ -71,7 +71,8 @@ static char *colors[][ColCount] = {
  * them. This works seamlessly with alternative tags and alttagsdecoration patches.
  */
 static char *tagicons[][NUMTAGS] = {
-	[DEFAULT_TAGS] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" },
+	/* [DEFAULT_TAGS] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" }, */
+	[DEFAULT_TAGS] = { "", "", "", "", "", "", "", "", "" },
 	/* [DEFAULT_TAGS]        = { "一", "二", "三", "四", "五", "六", "七", "八", "九" }, */
 	[ALTERNATIVE_TAGS]    = { "A", "B", "C", "D", "E", "F", "G", "H", "I" },
 	[ALT_TAGS_DECORATION] = { "<1>", "<2>", "<3>", "<4>", "<5>", "<6>", "<7>", "<8>", "<9>" },
@@ -182,39 +183,8 @@ static const Layout layouts[] = {
 /* static const char *termcmd[] = { "st", NULL }; */
 /* static const char *termcmd[] = { "urxvt", NULL }; */
 static const char *termcmd[] = { "kitty", NULL };
-static const char *eww_close[] = { "eww", "close-all", NULL };
-static const char *lock[] = {
-	"betterlockscreen", 
-	"-l", "blur", 
-	"--display", 
-	"1", 
-	NULL 
-};
 static const char *inhibitor_on[] = { "inhibit_activate", NULL };
 static const char *inhibitor_off[] = { "inhibit_deactivate", NULL };
-static const char *eww_panel[] = { 
-	"eww", 
-	"open-many", 
-	"blur",
-	"profile", 
-	"system", 
-	"clock", 
-	"uptime",
-	"music",
-	"github",
-	"reddit",
-	"lor",
-	"youtube",
-	"twitch",	
-	"weather",
-	"apps", 
-	"logout",
-	"sleep",
-	"reboot",
-	"poweroff",
-	"folders",
-	NULL
-};
 
 static Key keys[] = {
 
@@ -227,17 +197,19 @@ static Key keys[] = {
 	{ MODKEY,                       XK_k,          focusstack,             {.i = -1 } },
 	{ MODKEY,                       XK_l,          focusstack,             {.i = -1 } },
 	{ MODKEY,                       XK_s,          swapfocus,              {.i = -1 } },
-	{ MODKEY,                       XK_a,          incnmaster,             {.i = +1 } },
-	/* { MODKEY,                       XK_z,          incnmaster,             {.i = -1 } }, */
-	{ MODKEY,                       XK_Left,       setmfact,               {.f = -0.05} },
-	{ MODKEY,                       XK_Right,      setmfact,               {.f = +0.05} },
-	{ MODKEY|ShiftMask,             XK_Up,         setcfact,               {.f = +0.25} },
-	{ MODKEY|ShiftMask,             XK_Down,       setcfact,               {.f = -0.25} },
+	{ MODKEY|ShiftMask,                       XK_a,          incnmaster,             {.i = +1 } },
+	{ MODKEY|ShiftMask,                       XK_d,          incnmaster,             {.i = -1 } },
+	{ MODKEY,                       XK_Left,       setmfact,               {.f = -0.01} },
+	{ MODKEY,                       XK_Right,      setmfact,               {.f = +0.01} },
+	{ MODKEY|ShiftMask,             XK_Up,         setcfact,               {.f = +0.1} },
+	{ MODKEY|ShiftMask,             XK_Down,       setcfact,               {.f = -0.15} },
 	{ MODKEY,						XK_y,			setmfact,				{.f = -0.05} },
 	{ MODKEY,						XK_o,			setmfact,				{.f = +0.05} },
 	{ MODKEY|ShiftMask,             XK_o,          setcfact,               {0} },
 	{ MODKEY|ShiftMask,             XK_j,          movestack,              {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_k,          movestack,              {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_h,          movestack,              {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_l,          movestack,              {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_Return,     zoom,                   {0} },
 
 	{ MODKEY|Mod1Mask,              XK_0,          incrihgaps,             {.i = +1 } },
@@ -248,29 +220,30 @@ static Key keys[] = {
 	{ MODKEY|Mod1Mask|ShiftMask,    XK_8,          incrohgaps,             {.i = -1 } },
 	{ MODKEY|Mod1Mask,              XK_7,          incrovgaps,             {.i = +1 } },
 	{ MODKEY|Mod1Mask|ShiftMask,    XK_7,          incrovgaps,             {.i = -1 } },
-	{ MODKEY,						XK_plus,		incrigaps,			{.i = +3 } },
-	{ MODKEY,						XK_minus,		incrigaps,			{.i = -3 } },
-	{ MODKEY|ShiftMask,             XK_plus,		incrogaps,           {.i = +3 } },
-	{ MODKEY|ShiftMask,				XK_minus,       incrogaps,              {.i = -3 } },
-	{ MODKEY|ControlMask,           XK_plus,        incrgaps,               {.i = +1 } },
-	{ MODKEY|ControlMask,			XK_minus,       incrgaps,               {.i = -1 } },
+	{ MODKEY,						XK_plus,       incrgaps,               {.i = +3 } },
+	{ MODKEY,						XK_minus,      incrgaps,               {.i = -3 } },
+	{ MODKEY|ShiftMask,				XK_plus,	   incrigaps,			   {.i = +1 } },
+	{ MODKEY|ShiftMask,				XK_minus,	   incrigaps,			   {.i = -1 } },
+	{ MODKEY|ControlMask,           XK_plus,	   incrogaps,              {.i = +1 } },
+	{ MODKEY|ControlMask,			XK_minus,      incrogaps,              {.i = -1 } },
 	{ MODKEY,						XK_z,          togglegaps,             {0} },
 	{ MODKEY,						XK_x,          togglegaps,             {0} },
 	/* { MODKEY,					    XK_x,          defaultgaps,            {0} }, */
 	{ MODKEY,                       XK_Tab,        view,                   {0} },
 	{ MODKEY,		                XK_q,          killclient,             {0} },
 	{ MODKEY|ControlMask|ShiftMask, XK_q,          quit,                   {1} },
+	//TODO: change below to less
 	{ MODKEY,                       XK_t,          setlayout,              {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,          setlayout,              {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,          setlayout,              {.v = &layouts[2]} },
+	{ MODKEY|ShiftMask,             XK_f,          setlayout,              {.v = &layouts[1]} },
+	{ MODKEY|ShiftMask,             XK_m,          setlayout,              {.v = &layouts[2]} },
 	{ MODKEY|ShiftMask,             XK_space,      togglefloating,         {0} },
-	{ MODKEY|ShiftMask,             XK_f,          fullscreen,             {0} },
+	{ MODKEY,			            XK_f,          fullscreen,             {0} },
 	{ MODKEY,                       XK_0,          view,                   {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,          tag,                    {.ui = ~0 } },
 	{ MODKEY,                       XK_comma,      focusmon,               {.i = -1 } },
 	{ MODKEY|ControlMask,           XK_comma,      tagmon,                 {.i = -1 } },
 	{ MODKEY|ControlMask,           XK_period,     tagmon,                 {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_comma,      cyclelayout,            {.i = -1 } },
+	/* { MODKEY|ShiftMask,             XK_comma,      cyclelayout,            {.i = -1 } }, */
 	TAGKEYS(                        XK_1,                                  0)
 	TAGKEYS(                        XK_2,                                  1)
 	TAGKEYS(                        XK_3,                                  2)
@@ -281,6 +254,7 @@ static Key keys[] = {
 	TAGKEYS(                        XK_8,                                  7)
 	TAGKEYS(                        XK_9,                                  8)
 
+	/* XF86 keys */
 	{ 0, XF86XK_AudioMute,		spawn,		SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle ; kill -44 $(pidof dwmblocks)") },
 	{ 0, XF86XK_AudioRaiseVolume,	spawn,		SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5%; kill -44 $(pidof dwmblocks)") },
 	{ 0, XF86XK_AudioLowerVolume,	spawn,		SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5%; kill -44 $(pidof dwmblocks)") },
@@ -289,10 +263,16 @@ static Key keys[] = {
 
 	/* Custom commands */
 
+	{ MODKEY|ControlMask,             XK_a,          spawn,                  SHCMD("~/.config/rofi/launchers/greenclip/launcher.sh")}, /* rofi clipboard */
+	{ 0, 							XK_ISO_Next_Group, 		spawn, 		   SHCMD("pkill -RTMIN+10 dwmblocks")}, /* keyboard indicator */
+
+
+	{ MODKEY,						XK_a,			spawn,				SHCMD("kitty -e bash -c 'tmux attach | tmux'") },
 	{ MODKEY,						XK_section,			spawn,				SHCMD("~/.local/bin/my_scripts/loadEww.sh") },
 	{ MODKEY,						XK_c,			spawn,				SHCMD("gnome-calculator") },
 	{ MODKEY,                       XK_period,     spawn,				SHCMD("~/.local/bin/my_scripts/emojipick/emojipick")},
 	{ MODKEY|ShiftMask,             XK_period,     spawn,               SHCMD("i3lock-fancy && ~/.local/bin/my_scripts/alert_exit.sh && systemctl suspend")},
+	{ MODKEY|ShiftMask,             XK_comma,     spawn,               SHCMD("~/.local/bin/my_scripts/alert_exit.sh && ~/.local/bin/my_scripts/suspend.sh")},
 	{ MODKEY,						XK_n,		   spawn,		    		SHCMD("~/.local/bin/my_scripts/nautilus_wd.sh") },
 	{ MODKEY|ShiftMask,				XK_n,		   spawn,					SHCMD("nautilus -w --no-desktop") },
 	{ MODKEY,                       XK_g,          spawn,                  SHCMD("urxvt -e bash -c 'nvim -c 'FZF ~''")}, /* rofi launcher */
@@ -300,12 +280,13 @@ static Key keys[] = {
 	{ MODKEY|ControlMask,           XK_b,          spawn,                  SHCMD("urxvt -e sudo bashtop")}, /* rofi powermenu */
 	{ MODKEY,                       XK_v,          spawn,                  SHCMD("~/.local/bin/my_scripts/clip_history.sh")}, /* rofi launcher */
 	{ MODKEY|ShiftMask,             XK_v,          spawn,                  SHCMD("~/.local/bin/my_scripts/qr_clip.sh")}, /* rofi clipboard */
+	{ MODKEY,						XK_w,			spawn,					SHCMD("kitty -e ranger ~/") },
 	{ MODKEY,						XK_e,			spawn,					SHCMD("~/.local/bin/my_scripts/ranger_wd.sh") },
-	{ MODKEY|ShiftMask,				XK_e,			spawn,							SHCMD("~/.local/bin/my_scripts/alert_exit.sh && ~/.config/polybar/forest/scripts/powermenu.sh") },
-	{ MODKEY,						XK_d,			spawn,					SHCMD("dmenu_run -fn 'Linux Libertine Mono'") },
-	{ MODKEY,						XK_r,			spawn,					SHCMD("rofi -show run -theme ~/.config/rofi/themes/gruvbox/gruvbox-dark.rasi") },
-	{ MODKEY|ShiftMask,             XK_a,          spawn,                  SHCMD("~/.config/rofi/launchers/greenclip/launcher.sh")}, /* rofi clipboard */
-	{ MODKEY,                       XK_F1,         spawn,                  {.v = lock } }, /* rofi clipboard */
+	{ MODKEY|ShiftMask,				XK_e,			spawn,							SHCMD("~/.local/bin/my_scripts/alert_exit.sh && ~/.config/polybar/forest/scripts/powermenu_dwm.sh") },
+	{ MODKEY,						XK_r,			spawn,					SHCMD("dmenu_run -fn 'Linux Libertine Mono'") },
+	{ MODKEY,						XK_d,			spawn,					SHCMD("rofi -show run -theme ~/.config/rofi/themes/gruvbox/gruvbox-dark.rasi") },
+
+
 	{ MODKEY,                       XK_x,          spawn,                  {.v = inhibitor_on } }, /* activate inhibitor */
 	{ MODKEY|ShiftMask,             XK_x,          spawn,                  SHCMD("i3lock-fancy")}, /* rofi powermenu */
 	{ MODKEY|ControlMask,           XK_x,          spawn,                  SHCMD("i3lock -i ~/Downloads/lock-wallpaper.png")}, /* rofi powermenu */
@@ -314,7 +295,6 @@ static Key keys[] = {
 	{ MODKEY,             			PrintScr,      spawn,                  SHCMD("~/.local/bin/my_scripts/screenshot.sh")}, /* maim screen */
 	{ MODKEY|ShiftMask,          	PrintScr,      spawn,                  SHCMD("")}, /* maim screen */
 	{ MODKEY|ControlMask,          	PrintScr,      spawn,                  SHCMD("")}, /* Open recently taken image in ranger*/
-	{ 0, 							XK_ISO_Next_Group, 		spawn, 		   SHCMD("pkill -RTMIN+10 dwmblocks")}, /* keyboard indicator */
 };
 
 
