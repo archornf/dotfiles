@@ -181,8 +181,8 @@ static const Layout layouts[] = {
 
 /* commands */
 /* static const char *termcmd[] = { "st", NULL }; */
-/* static const char *termcmd[] = { "urxvt", NULL }; */
-static const char *termcmd[] = { "kitty", NULL };
+static const char *termcmd[] = { "urxvt", NULL };
+/* static const char *termcmd[] = { "kitty", NULL }; */
 static const char *inhibitor_on[] = { "inhibit_activate", NULL };
 static const char *inhibitor_off[] = { "inhibit_deactivate", NULL };
 
@@ -236,10 +236,11 @@ static Key keys[] = {
 	{ MODKEY,                       XK_t,          setlayout,              {.v = &layouts[0]} },
 	{ MODKEY|ShiftMask,             XK_f,          setlayout,              {.v = &layouts[1]} },
 	{ MODKEY|ShiftMask,             XK_m,          setlayout,              {.v = &layouts[2]} },
+	{ MODKEY,						XK_space,      togglefloating,         {0} },
 	{ MODKEY|ShiftMask,             XK_space,      togglefloating,         {0} },
 	{ MODKEY,			            XK_f,          fullscreen,             {0} },
-	{ MODKEY,                       XK_0,          view,                   {.ui = ~0 } },
-	{ MODKEY|ShiftMask,             XK_0,          tag,                    {.ui = ~0 } },
+	/* { MODKEY,                       XK_0,          view,                   {.ui = ~0 } }, */
+	/* { MODKEY|ShiftMask,             XK_0,          tag,                    {.ui = ~0 } }, */
 	{ MODKEY,                       XK_comma,      focusmon,               {.i = -1 } },
 	{ MODKEY|ControlMask,           XK_comma,      tagmon,                 {.i = -1 } },
 	{ MODKEY|ControlMask,           XK_period,     tagmon,                 {.i = +1 } },

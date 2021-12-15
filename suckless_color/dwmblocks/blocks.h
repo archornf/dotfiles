@@ -8,11 +8,12 @@ static const Block blocks[] = {
 	/* {"\x07 﨎 ",  "~/.local/bin/dwmblocks_test/xkb-switch", 	1, 					10}, */
 
 	{"<\x03 ", "~/.local/bin/my_scripts/spotify.sh", 	10, 				0},
-	{"\x04  ",  "~/.local/bin/dwmblocks_test/weather", 	 1800, 				 0},
+	{"\x04   ",  "~/.local/bin/dwmblocks_test/weather", 	 1800, 				 0},
 	{"\x01  ",  "~/.local/bin/dwmblocks_test/cputemp", 	1, 					0},
 	{"\x08 ",  "~/.local/bin/statusbar/sb-internet", 	10, 					0},
 	{"\x05 ",  "~/.local/bin/statusbar/sb-battery", 	10, 					0},
-	{"\x06 ",  "pamixer --get-volume-human", 1, 	0},
+	/* {"\x06  ",  "pamixer --get-volume-human", 1, 	0}, */
+	{"\x06"  ,  "~/.local/bin/statusbar/sb-volume2",		1,						0},
 	{"\x09 ",  "~/.local/bin/dwmblocks_test/clock", 		60, 					0},
 	/* {"\x09 ",  "~/.local/bin/statusbar/sb-clock", 		60, 					0}, */
 

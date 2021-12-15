@@ -1,10 +1,13 @@
 #!/bin/sh
 #curl -sf "wttr.in/Nizhniy_Novgorod?format=1" | sed -r 's/^.{4}//' | tee "$HOME/.local/share/weatherreport" || exit 1 ; #this exit will only work if tee (or before my changes, sed with output redirection) returns anything other than zero, if curl ends with an error this exit will not be called
 
-STR=$(curl -sf "wttr.in/Nizhniy_Novgorod?format=1" | sed -r 's/^.{4}//')
+#STR=$(curl -sf "wttr.in/Nizhniy_Novgorod?format=1" | sed -r 's/^.{4}//')
+STR=$(curl -sf "wttr.in/Stockholm" | grep -Eo -m 1 '(\+|\-)[0-9]+' | head -1)
 SUB='location'
 if [[ "$STR" == *"$SUB"* ]]; then
-  echo " -1"
+	#echo " -1"
+	sudo cat .local/share/weatherreport
 else
-	echo " $STR"
+	#echo " $STR"
+	curl -sf "wttr.in/Stockholm" | grep -Eo -m 1 '(\+|\-)[0-9]+' | head -1 | tee "$HOME/.local/share/weatherreport"
 fi
