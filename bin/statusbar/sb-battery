@@ -41,22 +41,30 @@ for battery in /sys/class/power_supply/BAT?*; do
 	[ -n "${capacity+x}" ] && printf " "
 	# Sets up the status and capacity
 	case "$(cat "$battery/status")" in
-		"Full") status="" ;;
+		"Full") status="" ;;
 		"Discharging") status="" ;;
-		"Charging") status="" ;;
+		"Charging") status="" ;;
+		#"Charging") status="ﮣ⚡ " ;;
 		"Not charging") status="" ;;
 		"Unknown") status="" ;;
 	esac
 	capacity=$(cat "$battery/capacity")
 	# Will make a warn variable if discharging and low
-	[ "$status" = "🔋" ] && [ "$capacity" -le 25 ] && warn="❗"
+	#[ "$status" = "🔋" ] && [ "$capacity" -le 25 ] && warn="❗"
+
 	# Prints the info
-	if (( $capacity > 60)); then
-		printf " %s%s%d%%" "$status" "$warn" "$capacity"; unset warn
-	elif (( $capacity > 25 )); then
-		printf " %s%s%d%%" "$status" "$warn" "$capacity"; unset warn
+	if [[ $status = "" ]]; then
+		printf "%s  %s%d%%" "$status" "$warn" "$capacity"; unset warn
+	elif [[ $status = "" ]]; then
+		printf "%s %s%d%%" "$status" "$warn" "$capacity"; unset warn
+	elif (( $capacity > 85)); then
+		printf "  %s%s%d%%" "$status" "$warn" "$capacity"; unset warn
+	elif (( $capacity > 60)); then
+		printf "  %s%s%d%%" "$status" "$warn" "$capacity"; unset warn
+	elif (( $capacity > 30 )); then
+		printf "  %s%s%d%%" "$status" "$warn" "$capacity"; unset warn
 	else
-		printf " %s%s%d%%" "$status" "$warn" "$capacity"; unset warn
+		printf "  %s%s%d%%" "$status" "$warn" "$capacity"; unset warn
 	fi
 
 done && exit 0
