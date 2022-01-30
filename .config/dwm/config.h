@@ -17,7 +17,7 @@ static unsigned int gappiv    = 10;       /* vert inner gap between windows */
 static unsigned int gappoh    = 10;       /* horiz outer gap between windows and screen edge */
 static unsigned int gappov    = 30;       /* vert outer gap between windows and screen edge */
 static int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
-static int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
+static int smartgaps          = 1;        /* 1 means no outer gap when there is only one window */
 static int showbar            = 1;        /* 0 means no bar */
 static int topbar             = 1;        /* 0 means bottom bar */
 /* static char *fonts[]          = { "Linux Libertine Mono:size=12", "Mono:pixelsize=12:antialias=true:autohint=true", "FontAwesome:size=15","FontAwesome5Brands:size=13:antialias:true", "FontAwesome5Free:size=13:antialias:true", "FontAwesome5Free:style=Solid:size=13:antialias:true","JetBrainsMono Nerd Font:size=12:style=bold:antialias=true:autohint=true", "Nerd Font Complete Mono:size=13", "JoyPixels:pixelsize=10:antialias=true:autohint=true", "Inconsolata Nerd Font:size=15", "Nerd Font Complete Mono:size=13" }; */
@@ -49,6 +49,7 @@ static Sp scratchpads[] = {
 
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+/* static const char *tags[] = { "", "", "", "", "", "", "", "", "" } */
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -115,9 +116,9 @@ ResourcePref resources[] = {
 		{ "color0",		STRING,	&normbordercolor },
 		{ "color8",		STRING,	&selbordercolor },
 		{ "color0",		STRING,	&normbgcolor },
-		{ "color4",		STRING,	&normfgcolor },
+		{ "foreground",		STRING,	&normfgcolor },
 		{ "color0",		STRING,	&selfgcolor },
-		{ "color4",		STRING,	&selbgcolor },
+		{ "foreground",		STRING,	&selbgcolor },
 		{ "borderpx",		INTEGER, &borderpx },
 		{ "snap",		INTEGER, &snap },
 		{ "showbar",		INTEGER, &showbar },
@@ -178,8 +179,6 @@ static Key keys[] = {
 	{ MODKEY,			XK_e,		spawn,		SHCMD("~/.local/bin/my_scripts/ranger_wd.sh") },
 	{ MODKEY|ShiftMask,			XK_e,		spawn,		SHCMD("~/.local/bin/my_scripts/alert_exit.sh; exec ~/.config/polybar/forest/scripts/powermenu.sh") },
 	
-	{ MODKEY,			XK_r,		spawn,		SHCMD("rofi -show run -theme ~/.config/polybar/forest/scripts/rofi/launcher.rasi") },
-
 	{ MODKEY,			XK_y,		setmfact,	{.f = -0.05} },
 	{ MODKEY,			XK_o,		setmfact,      	{.f = +0.05} },
 	/* J and K are automatically bound above in STACKEYS */
@@ -198,15 +197,15 @@ static Key keys[] = {
 	{ MODKEY,			XK_backslash,		view,		{0} },
 	/* { MODKEY|ShiftMask,		XK_backslash,		spawn,		SHCMD("") }, */
 
-	/* { MODKEY,			XK_a,		togglegaps,	{0} }, */
 	/* { MODKEY|ShiftMask,		XK_a,		defaultgaps,	{0} }, */
 
 	{ MODKEY,			XK_x,		togglegaps,	{0} },
 	{ MODKEY,			XK_z,		togglegaps,	{0} },
 	/* { MODKEY,			XK_z,		defaultgaps,	{0} }, */
-	
+
 	{ MODKEY|ShiftMask,		XK_s,		spawn,		SHCMD("import png:- | xclip -selection clipboard -t image/png") },
-	{ MODKEY,			XK_d,		spawn,          SHCMD("dmenu_run -fn 'Linux Libertine Mono'") },
+	{ MODKEY,				XK_d,		spawn,		SHCMD("rofi -show run -theme ~/.config/rofi/themes/gruvbox/gruvbox-dark.rasi") },
+	{ MODKEY,				XK_r,		spawn,		SHCMD("dmenu_run -fn 'Linux Libertine Mono'") },
 	{ MODKEY|ShiftMask,		XK_d,		spawn,		SHCMD("rofi -show run -theme ~/.config/polybar/forest/scripts/rofi/launcher.rasi") },
 	{ MODKEY|ShiftMask,		XK_r,		spawn,		SHCMD("rofi -show run -theme ~/.config/polybar/forest/scripts/rofi/launcher.rasi") },
 	
@@ -258,6 +257,9 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,		XK_v,	spawn,		SHCMD("~/.local/bin/my_scripts/qr_clip.sh") },
 	{ MODKEY,			XK_period,	spawn,		SHCMD("~/.local/bin/my_scripts/emojipick/emojipick") },
 	{ MODKEY|ShiftMask,		XK_period,	spawn,		SHCMD("mpc repeat") },
+
+	{ MODKEY,						XK_a,			spawn,				SHCMD("urxvt -e bash -c 'tmux attach || tmux'") },
+	{ MODKEY,						XK_section,			spawn,				SHCMD("~/.local/bin/my_scripts/loadEww.sh") },
 
 	{ MODKEY,			XK_Left,	focusmon,	{.i = -1 } },
 	{ MODKEY|ShiftMask,		XK_Left,	tagmon,		{.i = -1 } },
