@@ -173,6 +173,7 @@ static Key keys[] = {
 	{ MODKEY,			XK_q,		killclient,	{0} },
 	{ MODKEY|ShiftMask,             XK_q,      	quit,           {0} },
 	{ MODKEY|ShiftMask,			XK_x,		spawn,		SHCMD("i3lock-fancy") },
+	{ MODKEY|ControlMask,       XK_x,       spawn,      SHCMD("i3lock -i ~/Downloads/lock-wallpaper.png")},
 	
 	{ MODKEY,			XK_w,		spawn,		SHCMD("urxvt -e ranger ~/") },
 	{ MODKEY|ShiftMask,		XK_w,		spawn,		SHCMD(TERMINAL " -e sudo nmtui") },
@@ -199,9 +200,8 @@ static Key keys[] = {
 
 	/* { MODKEY|ShiftMask,		XK_a,		defaultgaps,	{0} }, */
 
-	{ MODKEY,			XK_x,		togglegaps,	{0} },
+	{ MODKEY,			XK_x,		defaultgaps,	{0} },
 	{ MODKEY,			XK_z,		togglegaps,	{0} },
-	/* { MODKEY,			XK_z,		defaultgaps,	{0} }, */
 
 	{ MODKEY|ShiftMask,		XK_s,		spawn,		SHCMD("import png:- | xclip -selection clipboard -t image/png") },
 	{ MODKEY,				XK_d,		spawn,		SHCMD("rofi -show run -theme ~/.config/rofi/themes/gruvbox/gruvbox-dark.rasi") },
@@ -221,8 +221,9 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,		XK_z,		setlayout,	{.v = &layouts[7]} }, /* centeredfloatingmaster */
 	{ MODKEY|ShiftMask,		XK_f,		setlayout,	{.v = &layouts[8]} },
 	{ MODKEY,			XK_f,		togglefullscr,	{0} },
-	{ MODKEY,			XK_g,		shiftview,	{ .i = -1 } },
-	{ MODKEY|ShiftMask,		XK_g,		shifttag,	{ .i = -1 } },
+	{ MODKEY,			XK_g,		spawn,	{ .i = -1 } },
+	/* { MODKEY,			XK_g,		shiftview,	{ .i = -1 } }, */
+	{ MODKEY,			XK_g,		spawn,		SHCMD("urxvt -e bash -c 'nvim -c ´FZF ~´'")},
 	
 	/* { MODKEY,			XK_h,		setmfact,	{.f = -0.05} }, */
 	/* J and K are automatically bound above in STACKEYS */
@@ -251,12 +252,11 @@ static Key keys[] = {
 	{ MODKEY,			XK_m,		spawn,		SHCMD(TERMINAL " -e ncmpcpp") },
 	{ MODKEY|ShiftMask,		XK_m,		spawn,		SHCMD("pamixer -t; kill -44 $(pidof dwmblocks)") },
 	{ MODKEY,			XK_comma,	spawn,		SHCMD("mpc prev") },
-	{ MODKEY|ShiftMask,		XK_comma,	spawn,		SHCMD("mpc seek 0%") },
-	
+	{ MODKEY|ShiftMask,             XK_period,     spawn,               SHCMD("i3lock-fancy && ~/.local/bin/my_scripts/alert_exit.sh && systemctl suspend")},
+	{ MODKEY|ShiftMask,             XK_comma,     spawn,               SHCMD("~/.local/bin/my_scripts/alert_exit.sh && ~/.local/bin/my_scripts/suspend.sh")},
 	{ MODKEY,			XK_v,	spawn,		SHCMD("~/.local/bin/my_scripts/clip_history.sh") },
 	{ MODKEY|ShiftMask,		XK_v,	spawn,		SHCMD("~/.local/bin/my_scripts/qr_clip.sh") },
 	{ MODKEY,			XK_period,	spawn,		SHCMD("~/.local/bin/my_scripts/emojipick/emojipick") },
-	{ MODKEY|ShiftMask,		XK_period,	spawn,		SHCMD("mpc repeat") },
 
 	{ MODKEY,						XK_a,			spawn,				SHCMD("urxvt -e bash -c 'tmux attach || tmux'") },
 	{ MODKEY,						XK_section,			spawn,				SHCMD("~/.local/bin/my_scripts/loadEww.sh") },
@@ -284,15 +284,17 @@ static Key keys[] = {
 	{ MODKEY,			XK_F10,		spawn,		SHCMD("dmenuumount") },
 	{ MODKEY,			XK_F11,		spawn,		SHCMD("mpv --no-cache --no-osc --no-input-default-bindings --profile=low-latency --input-conf=/dev/null --title=webcam $(ls /dev/video[0,2,4,6,8] | tail -n 1)") },
 	{ MODKEY,			XK_F12,		spawn,		SHCMD("remaps & notify-send \\\"⌨️ Keyboard remapping...\\\" \\\"Re-running keyboard defaults for any newly plugged-in keyboards.\\\"") },
-	
 	{ MODKEY,			XK_space,	zoom,		{0} },
 	{ MODKEY|ShiftMask,		XK_space,	togglefloating,	{0} },
-	{ 0,				XK_Print,	spawn,		SHCMD("maim pic-full-$(date '+%y%m%d-%H%M-%S').png") },
-	{ ShiftMask,			XK_Print,	spawn,		SHCMD("maimpick") },
-	{ MODKEY,			XK_Print,	spawn,		SHCMD("dmenurecord") },
-	{ MODKEY|ShiftMask,		XK_Print,	spawn,		SHCMD("dmenurecord kill") },
-	{ MODKEY,			XK_Delete,	spawn,		SHCMD("dmenurecord kill") },
-	{ MODKEY,			XK_Scroll_Lock,	spawn,		SHCMD("killall screenkey || screenkey &") },
+
+	/* { 0,				XK_Print,	spawn,		SHCMD("maim pic-full-$(date '+%y%m%d-%H%M-%S').png") }, */
+	{ 0,				XK_Print,	spawn,		SHCMD("~/.local/bin/my_scripts/screenshot_select.sh") },
+	{ ShiftMask,			XK_Print,	spawn,		SHCMD("~/.local/bin/my_scripts/screenshot.sh") },
+
+	/* { MODKEY,			XK_Print,	spawn,		SHCMD("dmenurecord") }, */
+	/* { MODKEY|ShiftMask,		XK_Print,	spawn,		SHCMD("dmenurecord kill") }, */
+	/* { MODKEY,			XK_Delete,	spawn,		SHCMD("dmenurecord kill") }, */
+	/* { MODKEY,			XK_Scroll_Lock,	spawn,		SHCMD("killall screenkey || screenkey &") }, */
 
 	{ 0, XF86XK_AudioMute,		spawn,		SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle ; kill -44 $(pidof dwmblocks)") },
 	{ 0, XF86XK_AudioRaiseVolume,	spawn,		SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5%; kill -44 $(pidof dwmblocks)") },
