@@ -61,7 +61,8 @@ static const Rule rules[] = {
 	{ TERMCLASS,  NULL,       NULL,       	    0,            0,           1,         0,        -1 },
 	{ NULL,       NULL,       "Event Tester",   0,            0,           0,         1,        -1 },
 	{ NULL,      "spterm",    NULL,       	    SPTAG(0),     1,           1,         0,        -1 },
-	{ NULL,      "spcalc",    NULL,       	    SPTAG(1),     1,           1,         0,        -1 },
+	{ NULL,      "gnome-calculator",    NULL,       0,     1,           0,         0,        -1 },
+	{ NULL,      "gnome-calendar",    NULL,       0,     1,           0,         0,        -1 },
 };
 
 /* layout(s) */
@@ -176,9 +177,9 @@ static Key keys[] = {
 	{ MODKEY|ControlMask,       XK_x,       spawn,      SHCMD("i3lock -i ~/Downloads/lock-wallpaper.png")},
 	
 	{ MODKEY,			XK_w,		spawn,		SHCMD("urxvt -e ranger ~/") },
-	{ MODKEY|ShiftMask,		XK_w,		spawn,		SHCMD(TERMINAL " -e sudo nmtui") },
+	/* { MODKEY|ShiftMask,		XK_w,		spawn,		SHCMD(TERMINAL " -e sudo nmtui") }, */
 	{ MODKEY,			XK_e,		spawn,		SHCMD("~/.local/bin/my_scripts/ranger_wd.sh") },
-	{ MODKEY|ShiftMask,			XK_e,		spawn,		SHCMD("~/.local/bin/my_scripts/alert_exit.sh; exec ~/.config/polybar/forest/scripts/powermenu.sh") },
+	{ MODKEY|ShiftMask,			XK_e,		spawn,		SHCMD("~/.local/bin/my_scripts/alert_exit.sh && ~/.config/polybar/forest/scripts/powermenu.sh") },
 	
 	{ MODKEY,			XK_y,		setmfact,	{.f = -0.05} },
 	{ MODKEY,			XK_o,		setmfact,      	{.f = +0.05} },
@@ -204,6 +205,7 @@ static Key keys[] = {
 	{ MODKEY,			XK_z,		togglegaps,	{0} },
 
 	{ MODKEY|ShiftMask,		XK_s,		spawn,		SHCMD("import png:- | xclip -selection clipboard -t image/png") },
+	{ MODKEY|ControlMask,		XK_s,		spawn,		SHCMD("~/.local/bin/my_scripts/tesseract_ocr.sh") },
 	{ MODKEY,				XK_d,		spawn,		SHCMD("rofi -show run -theme ~/.config/rofi/themes/gruvbox/gruvbox-dark.rasi") },
 	{ MODKEY,				XK_r,		spawn,		SHCMD("dmenu_run -fn 'Linux Libertine Mono'") },
 	{ MODKEY|ShiftMask,		XK_d,		spawn,		SHCMD("rofi -show run -theme ~/.config/polybar/forest/scripts/rofi/launcher.rasi") },
@@ -221,9 +223,10 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,		XK_z,		setlayout,	{.v = &layouts[7]} }, /* centeredfloatingmaster */
 	{ MODKEY|ShiftMask,		XK_f,		setlayout,	{.v = &layouts[8]} },
 	{ MODKEY,			XK_f,		togglefullscr,	{0} },
-	{ MODKEY,			XK_g,		spawn,	{ .i = -1 } },
+	/* { MODKEY,			XK_g,		spawn,	{ .i = -1 } }, */
 	/* { MODKEY,			XK_g,		shiftview,	{ .i = -1 } }, */
-	{ MODKEY,			XK_g,		spawn,		SHCMD("urxvt -e bash -c 'nvim -c ´FZF ~´'")},
+	/* { MODKEY,			XK_g,		spawn,		SHCMD("urxvt -e bash -c 'nvim -c ´FZF ~´'")}, */
+	{ MODKEY,			XK_g,		spawn,		SHCMD("~/.local/bin/my_scripts/fzf_open.sh")},
 	
 	/* { MODKEY,			XK_h,		setmfact,	{.f = -0.05} }, */
 	/* J and K are automatically bound above in STACKEYS */
@@ -237,6 +240,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,		XK_Return,	togglescratch,	{.ui = 0} },
 
 	{ MODKEY,			XK_c,		spawn,		SHCMD("gnome-calculator") },
+	{ MODKEY|ControlMask,		XK_c,		spawn,		SHCMD("gnome-calendar") },
 	{ MODKEY,			XK_b,		spawn,		SHCMD("urxvt -e htop") },
 	{ MODKEY|ShiftMask,			XK_b,		spawn,		 SHCMD("urxvt -e bashtop") },
 	/* { MODKEY|ShiftMask,			XK_b,		spawn,		 SHCMD("libreoffice") }, */
@@ -290,6 +294,7 @@ static Key keys[] = {
 	/* { 0,				XK_Print,	spawn,		SHCMD("maim pic-full-$(date '+%y%m%d-%H%M-%S').png") }, */
 	{ 0,				XK_Print,	spawn,		SHCMD("~/.local/bin/my_scripts/screenshot_select.sh") },
 	{ ShiftMask,			XK_Print,	spawn,		SHCMD("~/.local/bin/my_scripts/screenshot.sh") },
+	{ MODKEY,			XK_Print,	spawn,		SHCMD("~/.local/bin/my_scripts/screenshot_ocr.sh") },
 
 	/* { MODKEY,			XK_Print,	spawn,		SHCMD("dmenurecord") }, */
 	/* { MODKEY|ShiftMask,		XK_Print,	spawn,		SHCMD("dmenurecord kill") }, */
