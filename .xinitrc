@@ -37,6 +37,8 @@ fi
 # exec xterm -geometry 80x66+0+0 -name login &
 setxkbmap -option caps:escape
 xrdb ~/.Xresources
+#exec awesome
+exec i3
 exec dwm &
-#exec i3 &
+sh ~/.dwm/autostart.sh &
 picom

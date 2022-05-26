@@ -7,7 +7,8 @@ set $mod Mod4
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
 #font pango:monospace 10
-font pango:Linux Libertine Mono 10
+#font pango:Linux Libertine Mono 10
+font pango:JetBrains Mono Medium 10
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -18,11 +19,11 @@ font pango:Linux Libertine Mono 10
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+#exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
-exec --no-startup-id nm-applet
+#exec --no-startup-id nm-applet
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -96,7 +97,7 @@ bindsym $mod+Shift+less split h
 bindsym $mod+f fullscreen toggle
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+Shift+z layout stacked
-bindsym $mod+Shift+t layout tabbed
+bindsym $mod+Control+t layout tabbed
 bindsym $mod+less layout toggle split
 bindsym $mod+z gaps inner current set 0; gaps outer current set 0
 bindsym $mod+x gaps inner current set 15; gaps outer current set 15
@@ -191,6 +192,8 @@ for_window [class="Gnome-calculator"] floating enable, move position 100 px 500 
 bindsym $mod+Control+c exec gnome-calendar
 for_window [class="Gnome-calendar"] floating enable, move position 1105 px 430 px, exec xdotool search --class Gnome-calculator getwindowpid -- windowsize %@ 250 195
 
+bindsym $mod+t exec ~/.local/bin/my_scripts/script_copy.sh
+bindsym $mod+Shift+t exec ~/.local/bin/my_scripts/script_helper.sh 
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
@@ -209,6 +212,7 @@ mode "exit: [l]ogout, [r]eboot, [s]hutdown" {
 }
 #bindsym $mod+Shift+e mode "exit: [l]ogout, [r]eboot, [s]hutdown"; exec ~/.local/bin/my_scripts/alert_exit.sh
 bindsym $mod+Shift+e exec ~/.local/bin/my_scripts/alert_exit.sh; exec ~/.config/polybar/forest/scripts/powermenu.sh
+bindsym $mod+shift+p exec ~/.local/bin/my_scripts/toggle_polybar.sh
 
 #BRIGHTNESS KEYS
 bindsym XF86MonBrightnessUp exec --no-startup-id ~/.local/bin/my_scripts/brightness.sh +10
@@ -305,16 +309,18 @@ gaps outer 15
 # On i3 start
 exec --no-startup-id picom
 exec --no-startup-id xfce4-power-manager
-exec --no-startup-id firefox
+#exec --no-startup-id firefox
 exec_always --no-startup-id diodon
 
 #set wallpaper
 #exec_always feh --bg-scale ~/Pictures/Wallpapers/wallpaper.png
-exec_always --no-startup-id feh --bg-fill --randomize ~/Pictures/Wallpapers/* &
+#exec_always --no-startup-id feh --bg-fill --randomize ~/Pictures/Wallpapers/* &
+exec_always --no-startup-id ~/.local/bin/my_scripts/bg_pbar.sh
 # Alternating layout
 exec_always --no-startup-id ~/.local/bin/my_scripts/i3-alternating-layout/alternating_layouts.py
 #run polybar
-exec_always ~/.config/polybar/launch.sh --forest
+#exec_always ~/.config/polybar/launch.sh --forest
+exec_always ~/.config/polybar/launch.sh --colorblocks
 
 # client.focused #458588 #458588 #000088 #458588
 client.focused #2C2C2C #2C2C2C #000088 #2C2C2C

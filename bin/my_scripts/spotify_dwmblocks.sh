@@ -18,4 +18,13 @@ main() {
 echo " ${*:-%artist% - %title%}" | sed "s/%artist%/$artist/g;s/%title%/$title/g;s/%album%/$album/g"i | sed "s/\&/\&/g" | sed "s#\/#\/#g"
 }
 
+case $BLOCK_BUTTON in
+	1) rofi -theme "~/.config/rofi/themes/gruvbox/gruvbox-dark.rasi" -e "Spotify clicked" ;;
+	2) rofi -theme "~/.config/rofi/themes/gruvbox/gruvbox-dark.rasi" -e "Spotify clicked 2" ;;
+	3) pkill -RTMIN+12 dwmblocks ;;
+	4) rofi -theme "~/.config/rofi/themes/gruvbox/gruvbox-dark.rasi" -e "Spotify clicked 4" ;;
+	5) rofi -theme "~/.config/rofi/themes/gruvbox/gruvbox-dark.rasi" -e "Spotify clicked 5" ;;
+	6) "$TERMINAL" -e "$EDITOR" "$0" ;;
+esac
+
 main "$@"

@@ -101,6 +101,7 @@ struct Client {
 	char name[256];
 	float mina, maxa;
 	int x, y, w, h;
+	int sfx, sfy, sfw, sfh; /* stored float geometry, used on mode revert */
 	int oldx, oldy, oldw, oldh;
 	int basew, baseh, incw, inch, maxw, maxh, minw, minh;
 	int bw, oldbw;
@@ -1228,12 +1229,30 @@ manage(Window w, XWindowAttributes *wa)
 	updatewmhints(c);
 	c->x = c->mon->mx + (c->mon->mw - WIDTH(c)) / 2;
 	c->y = c->mon->my + (c->mon->mh - HEIGHT(c)) / 2;
+	// These 4 lines are for save floats patch: https://dwm.suckless.org/patches/save_floats/dwm-savefloats-20181212-b69c870.diff
+	/* c->sfx = c->x; */
+	/* c->sfy = c->y; */
+	/* c->sfw = c->w; */
+	/* c->sfh = c->h; */
+
+	c->sfx = 1200;
+	c->sfy = 730;
+	c->sfw = 700;
+	c->sfh = 350;
+	//
 	XSelectInput(dpy, w, EnterWindowMask|FocusChangeMask|PropertyChangeMask|StructureNotifyMask);
 	grabbuttons(c, 0);
 	if (!c->isfloating)
 		c->isfloating = c->oldstate = trans != None || c->isfixed;
-	if (c->isfloating)
+	if (c->isfloating){
 		XRaiseWindow(dpy, c->win);
+		// TODO (my own implementation of moving floats from rules)
+		c->x = 1280;
+		c->y = 33;
+		c->w = 500;
+		c->h = 350;
+		c->bw = 0;
+	}
 	attach(c);
 	attachstack(c);
 	XChangeProperty(dpy, root, netatom[NetClientList], XA_WINDOW, 32, PropModeAppend,
@@ -1477,6 +1496,15 @@ resizeclient(Client *c, int x, int y, int w, int h)
 	c->oldw = c->w; c->w = wc.width = w;
 	c->oldh = c->h; c->h = wc.height = h;
 	wc.border_width = c->bw;
+	if (((nexttiled(c->mon->clients) == c && !nexttiled(c->next))
+	    || &monocle == c->mon->lt[c->mon->sellt]->arrange)
+	    && !c->isfullscreen && !c->isfloating) {
+		c->w = wc.width += c->bw * 2;
+		c->h = wc.height += c->bw * 2;
+		wc.border_width = 0;
+	} else if (c->isfloating){
+		wc.border_width = 0;
+	}
 	XConfigureWindow(dpy, c->win, CWX|CWY|CWWidth|CWHeight|CWBorderWidth, &wc);
 	configure(c);
 	XSync(dpy, False);
@@ -2033,10 +2061,37 @@ togglefloating(const Arg *arg)
 		return;
 	selmon->sel->isfloating = !selmon->sel->isfloating || selmon->sel->isfixed;
 	if (selmon->sel->isfloating)
-		resize(selmon->sel, selmon->sel->x, selmon->sel->y,
-			selmon->sel->w, selmon->sel->h, 0);
+		/* resize(selmon->sel, selmon->sel->x, selmon->sel->y, */
+		/* 	selmon->sel->w, selmon->sel->h, 0); */
+
+		/* restore last known float dimensions */
+		resize(selmon->sel, selmon->sel->sfx, selmon->sel->sfy,
+		       selmon->sel->sfw, selmon->sel->sfh, False);
+	else {
+		/* save last known float dimensions */
+		selmon->sel->sfx = selmon->sel->x;
+		selmon->sel->sfy = selmon->sel->y;
+		selmon->sel->sfw = selmon->sel->w;
+		selmon->sel->sfh = selmon->sel->h;
+	}
 	arrange(selmon);
 }
+
+// Without save floats patch:
+/* void */
+/* togglefloating(const Arg *arg) */
+/* { */
+/* 	if (!selmon->sel) */
+/* 		return; */
+/* 	if (selmon->sel->isfullscreen) /1* no support for fullscreen windows *1/ */
+/* 		return; */
+/* 	selmon->sel->isfloating = !selmon->sel->isfloating || selmon->sel->isfixed; */
+/* 	if (selmon->sel->isfloating) */
+/* 		resize(selmon->sel, selmon->sel->x, selmon->sel->y, */
+/* 			selmon->sel->w, selmon->sel->h, 0); */
+/* 	arrange(selmon); */
+/* } */
+
 
 void
 togglefullscr(const Arg *arg)

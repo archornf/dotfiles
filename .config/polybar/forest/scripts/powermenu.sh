@@ -29,7 +29,7 @@ confirm_exit() {
 
 # Message
 msg() {
-	rofi -theme "$dir/message.rasi" -e "Available Options  -  yes / y / no / n"
+	rofi -theme "~/.config/rofi/themes/gruvbox/gruvbox-dark.rasi" -e "Available Options  -  yes / y / no / n"
 }
 
 # Variable passed to rofi
@@ -43,8 +43,6 @@ case $chosen in
 			systemctl poweroff
 		elif [[ $ans == "no" || $ans == "NO" || $ans == "n" || $ans == "N" ]]; then
 			exit 0
-        else
-			msg
         fi
         ;;
     $reboot)
@@ -53,8 +51,6 @@ case $chosen in
 			systemctl reboot
 		elif [[ $ans == "no" || $ans == "NO" || $ans == "n" || $ans == "N" ]]; then
 			exit 0
-        else
-			msg
         fi
         ;;
     $lock)
@@ -72,8 +68,6 @@ case $chosen in
 			systemctl suspend
 		elif [[ $ans == "no" || $ans == "NO" || $ans == "n" || $ans == "N" ]]; then
 			exit 0
-        else
-			msg
         fi
         ;;
     $logout)
@@ -91,8 +85,6 @@ case $chosen in
 			fi
 		elif [[ $ans == "no" || $ans == "NO" || $ans == "n" || $ans == "N" ]]; then
 			exit 0
-        else
-			msg
         fi
         ;;
 esac
