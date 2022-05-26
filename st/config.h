@@ -5,8 +5,7 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-/* static char *font = "mono:pixelsize=12:antialias=true:autohint=true"; */
-static char *font = "Linux Libertine Mono:size=12:antialias=true:autohint=true";
+static char *font = "JetBrainsMono Nerd Font:size=11:style=bold:antialias=true:autohint=true";
 static char *font2[] = { "JoyPixels:pixelsize=10:antialias=true:autohint=true" };
 static int borderpx = 2;
 
@@ -108,7 +107,7 @@ char *termname = "st-256color";
 unsigned int tabspaces = 8;
 
 /* bg opacity */
-float alpha = 0.5;
+float alpha = 1.0;
 float alphaOffset = 0.0;
 float alphaUnfocus;
 
@@ -136,7 +135,6 @@ static const char *colorname[] = {
 	"#555555", /* 257 -> rev cursor*/
 	"#282828", /* 258 -> bg */
 	"#ebdbb2", /* 259 -> fg */
-	[260] = "#000000",
 };
 
 
@@ -145,12 +143,10 @@ static const char *colorname[] = {
  * foreground, background, cursor, reverse cursor
  */
 unsigned int defaultfg = 259;
-/* unsigned int defaultbg = 258; */
-unsigned int defaultbg = 260;
+unsigned int defaultbg = 258;
 unsigned int defaultcs = 256;
 unsigned int defaultrcs = 257;
-/* unsigned int background = 258; */
-unsigned int background = 260;
+unsigned int background = 258;
 
 /*
  * Default shape of cursor
