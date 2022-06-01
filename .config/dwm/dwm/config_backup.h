@@ -3,9 +3,11 @@
 /* Constants */
 /* #define TERMINAL "st" */
 #define TERMINAL "urxvt"
+/* #define TERMINAL "kitty" */
 
 /* #define TERMCLASS "St" */
 #define TERMCLASS "Urxvt"
+/* #define TERMCLASS "kitty" */
 
 /* appearance */
 static unsigned int borderpx  = 3;        /* border pixel of windows */
@@ -98,7 +100,7 @@ static const Layout layouts[] = {
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 #define STACKKEYS(MOD,ACTION) \
 	{ MOD,	XK_j,	ACTION##stack,	{.i = INC(+2) } }, \
-	{ MOD,	XK_k,	ACTION##stack,	{.i = INC(-2) } }, \
+	{ MOD,	XK_k,	ACTION##stack,	{.i = INC(-3) } }, \
 	{ MOD,	XK_h,	ACTION##stack,	{.i = INC(+1) } }, \
 	{ MOD,	XK_l,	ACTION##stack,	{.i = INC(-1) } }, \
 
@@ -173,9 +175,8 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,			XK_x,		spawn,		SHCMD("i3lock-fancy") },
 	{ MODKEY|ControlMask,       XK_x,       spawn,      SHCMD("i3lock -i ~/Downloads/lock-wallpaper.png")},
 	
-	{ MODKEY,			XK_w,		spawn,		SHCMD(TERMINAL " -e ranger ~/") },
-	/* { MODKEY,			XK_e,		spawn,		SHCMD("~/.local/bin/my_scripts/ranger_wd.sh") }, */
-	{ MODKEY,			XK_e,		spawn,		SHCMD("~/.local/bin/my_scripts/ranger_wd.sh " TERMINAL) },
+	{ MODKEY,			XK_w,		spawn,		SHCMD("urxvt -e ranger ~/") },
+	{ MODKEY,			XK_e,		spawn,		SHCMD("~/.local/bin/my_scripts/ranger_wd.sh") },
 	{ MODKEY|ShiftMask,			XK_e,		spawn,		SHCMD("~/.local/bin/my_scripts/alert_exit.sh && ~/.config/polybar/forest/scripts/powermenu.sh") },
 	
 	{ MODKEY,			XK_y,		setmfact,	{.f = -0.05} },
@@ -215,7 +216,7 @@ static Key keys[] = {
 	{ MODKEY|ControlMask,		XK_p,		setlayout,	{.v = &layouts[7]} }, /* centeredfloatingmaster */
 	{ MODKEY|ControlMask,		XK_aring,		setlayout,	{.v = &layouts[8]} },
 	{ MODKEY,					XK_f,		togglefullscr,	{0} },
-	{ MODKEY,					XK_g,		spawn,		SHCMD("~/.local/bin/my_scripts/fzf_open.sh " TERMINAL)},
+	{ MODKEY,					XK_g,		spawn,		SHCMD("~/.local/bin/my_scripts/fzf_open.sh")},
 
 	/* { MODKEY,			XK_semicolon,	shiftview,	{ .i = 1 } }, */
 	/* { MODKEY|ShiftMask,		XK_semicolon,	shifttag,	{ .i = 1 } }, */
@@ -223,14 +224,14 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,		XK_apostrophe,	togglescratch,	{.ui = 1} },
 	{ MODKEY,			XK_BackSpace,	spawn,		SHCMD("sysact") },
 	{ MODKEY|ShiftMask,		XK_BackSpace,	spawn,		SHCMD("sysact") },
-	{ MODKEY,			XK_Return,	spawn,		SHCMD("~/.local/bin/my_scripts/term_wd.sh " TERMINAL) },
+	{ MODKEY,			XK_Return,	spawn,		SHCMD("~/.local/bin/my_scripts/term_wd.sh") },
 	{ MODKEY|ShiftMask,			XK_Return,	spawn,		{.v = termcmd } },
 
 	{ MODKEY,			XK_c,		spawn,		SHCMD("GTK_THEME=Adwaita:dark gnome-calculator") },
 	{ MODKEY|ControlMask,		XK_c,		spawn,		SHCMD("GTK_THEME=Adwaita:dark gnome-calendar") },
-	{ MODKEY,			XK_b,		spawn,		SHCMD(TERMINAL " -e htop") },
-	{ MODKEY|ShiftMask,			XK_b,		spawn,		 SHCMD(TERMINAL " -e bashtop") },
-	{ MODKEY|ControlMask,			XK_b,		spawn,		 SHCMD(TERMINAL " -e ytop") },
+	{ MODKEY,			XK_b,		spawn,		SHCMD("urxvt -e htop") },
+	{ MODKEY|ShiftMask,			XK_b,		spawn,		 SHCMD("urxvt -e bashtop") },
+	{ MODKEY|ControlMask,			XK_b,		spawn,		 SHCMD("urxvt -e ytop") },
 	
 	/* { MODKEY,		XK_p,		spawn,		SHCMD("") }, */
 	{ MODKEY|ShiftMask,			XK_p,		togglebar,	{0} },
@@ -245,9 +246,7 @@ static Key keys[] = {
 	{ MODKEY,			XK_v,	spawn,		SHCMD("~/.local/bin/my_scripts/clip_history.sh") },
 	{ MODKEY|ShiftMask,		XK_v,	spawn,		SHCMD("~/.local/bin/my_scripts/qr_clip.sh") },
 	{ MODKEY,			XK_period,	spawn,		SHCMD("~/.local/bin/my_scripts/emojipick/emojipick") },
-	{ MODKEY,						XK_a,			spawn,				SHCMD(TERMINAL " -e bash -c 'tmux attach || tmux'") },
-	{ MODKEY|ShiftMask,             XK_a,     spawn,               SHCMD("picom-trans -c +5")},
-	{ MODKEY|ControlMask,             XK_a,     spawn,               SHCMD("picom-trans -c -5")},
+	{ MODKEY,						XK_a,			spawn,				SHCMD("urxvt -e bash -c 'tmux attach || tmux'") },
 	{ MODKEY,						XK_section,			spawn,				SHCMD("~/.local/bin/my_scripts/loadEww.sh") },
 	{ MODKEY|ShiftMask,			XK_section,		toggleviewontag,	{0} },
 	
@@ -261,7 +260,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,		XK_Page_Down,	shifttag,	{ .i = +1 } },
 
 	/* { MODKEY,			XK_F1,		spawn,		SHCMD("groff -mom /usr/local/share/dwm/larbs.mom -Tpdf | zathura -") }, */
-	{ MODKEY,			XK_F1,		spawn,		SHCMD(TERMINAL " -e nvim") },
+	{ MODKEY,			XK_F1,		spawn,		SHCMD("urxvt -e nvim") },
 	{ MODKEY,			XK_F2,		spawn,		SHCMD("tutorialvids") },
 	{ MODKEY,			XK_F3,		spawn,		SHCMD("displayselect") },
 	{ MODKEY,			XK_F4,		spawn,		SHCMD(TERMINAL " -e pulsemixer; kill -44 $(pidof dwmblocks)") },

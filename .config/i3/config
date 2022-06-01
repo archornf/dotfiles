@@ -45,7 +45,7 @@ bindsym $mod+Shift+dead_acute exec --no-startup-id pactl set-sink-volume @DEFAUL
 floating_modifier $mod
 
 # start a terminal in wd
-bindsym $mod+Return exec --no-startup-id ~/.local/bin/my_scripts/term_wd.sh
+bindsym $mod+Return exec --no-startup-id ~/.local/bin/my_scripts/term_wd.sh urxvt
 # start a terminal
 bindsym $mod+Shift+Return exec --no-startup-id urxvt -cd ~/
 
@@ -112,10 +112,10 @@ bindsym $mod+space floating toggle
 # change focus between tiling / floating windows
 bindsym $mod+Shift+space focus mode_toggle
 
-# focus the parent container
-bindsym $mod+Shift+a focus parent
 # focus the child container
 bindsym $mod+Shift+d focus child
+# focus the parent container
+bindsym $mod+Control+d focus parent
 
 # open tmux
 bindsym $mod+a exec i3-sensible-terminal -e bash -c "tmux attach || tmux"
@@ -128,7 +128,7 @@ bindsym $mod+Shift+n exec nautilus -w --no-desktop
 # open ranger
 bindsym $mod+w exec urxvt -e ranger ~/
 # open ranger from wd
-bindsym $mod+e exec ~/.local/bin/my_scripts/ranger_wd.sh
+bindsym $mod+e exec ~/.local/bin/my_scripts/ranger_wd.sh urxvt
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
@@ -338,3 +338,5 @@ bindsym $mod+Shift+aring floating enable, resize set 50 ppt 95 ppt, move positio
 bindsym $mod+Control+aring floating enable, resize set 30 ppt 30 ppt, move position 1330 px 746 px
 
 bindsym $mod+apostrophe exec --no-startup-id ~/.local/bin/my_scripts/i3_scratchpad.sh
+bindsym $mod+Shift+a exec --no-startup-id picom-trans -c -5
+bindsym $mod+Control+a exec --no-startup-id picom-trans -c +5

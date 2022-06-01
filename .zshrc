@@ -6,6 +6,7 @@ export ZSH="/home/jonas/.oh-my-zsh"
 export VISUAL=nvim
 export EDITOR=nvim
 export ALPHAVANTAGE_API_KEY=X5JHFXWJ4OTINV2B
+export BROWSER=firefox
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -190,7 +191,7 @@ export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 precmd() { eval "$PROMPT_COMMAND" }
 export PROMPT_COMMAND="pwd > /tmp/whereami"
 
-~/.local/bin/my_scripts/hello.sh
+# ~/.local/bin/my_scripts/hello.sh
 export PATH="${PATH}:${HOME}/.local/bin/my_scripts"
 bindkey '^ ' autosuggest-accept
 
