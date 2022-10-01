@@ -257,6 +257,22 @@ globalkeys = my_table.join(
     awful.util.spawn("rofi -show run -theme ~/.config/rofi/themes/gruvbox/gruvbox-dark.rasi")   end,
               {description = "run rofi", group = "launcher"}),
 
+    awful.key({ modkey },            "c",     function ()
+    awful.util.spawn("gnome-calculator")   end,
+              {description = "run rofi", group = "launcher"}),
+
+    awful.key({ modkey, "Shift" },            "c",     function ()
+    awful.util.spawn("/home/jonas/.local/bin/my_scripts/code_helper.sh new")   end,
+              {description = "run rofi", group = "launcher"}),
+
+    awful.key({ modkey, "Control" },            "c",     function ()
+    awful.util.spawn("gnome-calendar")   end,
+              {description = "run rofi", group = "launcher"}),
+
+    awful.key({ modkey, "Shift" },            "d",     function ()
+    awful.util.spawn("/home/jonas/.local/bin/my_scripts/code_helper.sh old")   end,
+              {description = "run rofi", group = "launcher"}),
+
     awful.key({ modkey },            "r",     function ()
     awful.util.spawn("dmenu_run -fn 'Linux Libertine Mono'")    end,
               {description = "run rofi", group = "launcher"}),
@@ -270,7 +286,7 @@ globalkeys = my_table.join(
               {description = "run ranger in wd", group = "launcher"}),
 
     awful.key({ modkey, "Shift"     },            "e",        function ()
-    awful.util.spawn("~/.config/polybar/forest/scripts/powermenu.sh")  end,
+    awful.util.spawn("sh /home/jonas/.local/bin/my_scripts/sysmenu_awsm.sh")  end,
               {description = "Run powermenu", group = "launcher"}),
 
     awful.key({ modkey, "Shift"     },            "s",        function ()
@@ -291,11 +307,11 @@ globalkeys = my_table.join(
               {description = "i3lock pic", group = "launcher"}),
 	-- Suspend 
     awful.key({ modkey, "Shift"    },            "comma",     function ()
-    awful.spawn.with_shell("/home/jonas/.local/bin/my_scripts/alert_exit.sh; /home/jonas/.local/bin/my_scripts/suspend.sh")   end,
+    awful.spawn("/home/jonas/.local/bin/my_scripts/suspend_awsm.sh")   end,
               {description = "Suspend", group = "launcher"}),
 
     awful.key({ modkey, "Shift"    },            "period",     function ()
-    awful.spawn.with_shell("i3lock-fancy; /home/jonas/.local/bin/my_scripts/alert_exit.sh; systemctl suspend")    end,
+    awful.spawn("/home/jonas/.local/bin/my_scripts/suspend_awsm_lock.sh")    end,
               {description = "Suspend", group = "launcher"}),
 
 	-- Nice things
@@ -458,8 +474,8 @@ globalkeys = my_table.join(
         {description = "move tag to the left", group = "tag"}),
     awful.key({ modkey, "Shift" }, "Right", function () lain.util.move_tag(1) end,
         {description = "move tag to the right", group = "tag"}),
-    awful.key({ modkey, "Shift" }, "d", function () lain.util.delete_tag() end,
-        {description = "delete tag", group = "tag"}),
+    -- awful.key({ modkey, "Shift" }, "d", function () lain.util.delete_tag() end,
+    --     {description = "delete tag", group = "tag"}),
 
     -- awful.key({ modkey, "Shift" }, "l", function () awful.tag.incmwfact( 0.05) end,
     --     {description = "increase master width factor", group = "layout"}),
