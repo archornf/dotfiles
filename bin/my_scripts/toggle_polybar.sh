@@ -1,5 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
+export DISPLAY=:0
 BAR_ID=$(pgrep -x polybar)
 
 if [ -n "${BAR_ID}" ] ; then
@@ -10,7 +11,7 @@ else
     pkill -ALRM sxhkd
     # Launch bar1 and bar2
 	#~/.config/polybar/launch.sh --forest
-	~/.config/polybar/launch.sh --colorblocks
+	/home/jonas/.config/polybar/colorblocks/launch.sh
     #polybar left_screen &
     #polybar right_screen
     echo "Bars launched..."

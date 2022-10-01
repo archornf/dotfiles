@@ -18,7 +18,6 @@ x = response.json()
 #print(x)
 
 if x["cod"] != "404":
- 
     # store the value of "main"
     # key in variable y
     y = x["main"]
@@ -53,7 +52,5 @@ if x["cod"] != "404":
         print(temp)
     else:
         print('+'+str(temp))
-
- 
 else:
     print(" City Not Found ")

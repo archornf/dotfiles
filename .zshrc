@@ -5,8 +5,7 @@
 export ZSH="/home/jonas/.oh-my-zsh"
 export VISUAL=nvim
 export EDITOR=nvim
-export ALPHAVANTAGE_API_KEY=X5JHFXWJ4OTINV2B
-export BROWSER=firefox
+export TESSDATA_PREFIX=/usr/local/share/tessdata
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -91,8 +90,6 @@ source $ZSH/oh-my-zsh.sh
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -139,6 +136,13 @@ alias xup='xrdb ~/.Xresources'
 # alias grep='grep -rin --color'
 alias vd='python -m visidata'
 alias scripts='cd ~/.local/bin/my_scripts; ls'
+alias .cnf='cd ~/.config; ls'
+alias .cnfa='cd ~/.config/awesome; ls'
+alias .cnfd='cd ~/.config/dwm; ls'
+alias .cnfdb='cd ~/.config/dwmblocks; ls'
+alias .cnfp='cd ~/.config/polybar; ls'
+alias .doc='cd ~/Documents; ls'
+alias .dwn='cd ~/Downloads; ls'
 
 # use the vi navigation keys in menu completion
 #bindkey -M menuselect 'h' vi-backward-char
@@ -183,7 +187,7 @@ npx() {
 
 export LANG=en_US.UTF-8
 export LANGUAGE=en
-export LC_ALL=en_US.UTF-8
+export LC_ALL=en_US.UTF-8 
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
@@ -191,7 +195,7 @@ export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 precmd() { eval "$PROMPT_COMMAND" }
 export PROMPT_COMMAND="pwd > /tmp/whereami"
 
-# ~/.local/bin/my_scripts/hello.sh
+~/.local/bin/my_scripts/hello.sh
 export PATH="${PATH}:${HOME}/.local/bin/my_scripts"
 bindkey '^ ' autosuggest-accept
 
@@ -205,3 +209,4 @@ fuzzyfind(){
 }
 
 alias f='fuzzyfind'
+LS_COLORS+=':ow=01;33'

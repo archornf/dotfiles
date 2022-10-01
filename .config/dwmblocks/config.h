@@ -30,15 +30,24 @@
 
 static const Block blocks[] = {
 	/*Icon*/	/*Command*/		/*Update Interval*/	/*Update Signal*/
-	{"",	"~/.local/bin/my_scripts/spotify_dwmblocks.sh",	5,	12},
+	/* {"^c1^",	"~/.local/bin/my_scripts/spotify_dwmblocks.sh",	5,	12}, */
+	{"", "~/.local/bin/my_scripts/spotify_dwmblocks.sh",	5,	12},
 	/* {"",	"~/.local/bin/statusbar/sb-internet",	5,	6}, */
 	/* {"",	"~/.local/bin/statusbar/sb-forecast",	18000,	20}, */
 	/* {"",	"~/.local/bin/statusbar/sb-volumetwo.sh",	0,	11}, */
-	{"   ",  "~/.local/bin/dwmblocks/weather", 	 1800, 				 5},
-	{"  ",  "~/.local/bin/dwmblocks/cputemp", 	5, 					4},
-	{" ",	"~/.local/bin/statusbar/sb-volume",	0,	10},
-	{" ",	"~/.local/bin/statusbar/sb-battery",	5,	3},
-	{"  ",	"~/.local/bin/statusbar/sb-clock",	60,	1},
+
+	{"^2^ ",  "~/.local/bin/dwmblocks/weather", 	 1800, 				 5},
+	/* {"   ",  "~/.local/bin/dwmblocks/weather", 	 1800, 				 5}, */
+	{"^3^  ",  "~/.local/bin/dwmblocks/cputemp_col", 	5, 					4},
+	/* {"  ",  "~/.local/bin/dwmblocks/cputemp", 	5, 					4}, */
+	/* {"^4^ ",	"~/.local/bin/statusbar/sb-volume",	0,	10}, */
+	{"^4^ ",	"~/.local/bin/statusbar/sb-volume_col",	0,	10},
+	/* {" ",	"~/.local/bin/statusbar/sb-volume",	0,	10}, */
+	/* {"^5^ ",	"~/.local/bin/statusbar/sb-internet",	5,	3}, */
+	{"^5^ ",	"~/.local/bin/statusbar/sb-battery_col",	5,	3},
+	/* {" ",	"~/.local/bin/statusbar/sb-battery",	5,	3}, */
+	{"^6^  ",	"~/.local/bin/statusbar/sb-clock",	60,	1},
+	/* {"  ",	"~/.local/bin/statusbar/sb-clock",	60,	1}, */
 };
 
 /*Icons:       婢墳  */

@@ -51,4 +51,4 @@ esac
 
 #date "+%Y %b %d (%a) $icon%I:%M%p"
 #date "+%b %d (%a) $icon%I:%M%p "
-date "+%b %d (%a) %I:%M%p "
+date "+%a %d %b %I:%M%p (%V)"

@@ -110,7 +110,7 @@ void getcmd(const Block *block, char *output)
 	remove_all(output, '\n');
 	i = strlen(output);
     if ((i > 0 && block != &blocks[LENGTH(blocks) - 1])){
-        strcat(output, delim);
+		strcat(output, delim);
     }
     i+=strlen(delim);
 	output[i++] = '\0';
