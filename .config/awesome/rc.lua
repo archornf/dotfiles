@@ -232,8 +232,8 @@ globalkeys = my_table.join(
         {description = "Show help", group="awesome"}),
     awful.key({ modkey, "Shift" }, "w", function () awful.spawn( browser ) end,
               {description = "Launch firefox", group = "awesome"}),
-    awful.key({ modkey, ctrlkey }, "w", function () awful.util.mymainmenu:show() end,
-        {description = "Show main menu", group = "awesome"}),
+    -- awful.key({ modkey, ctrlkey }, "w", function () awful.util.mymainmenu:show() end,
+    --     {description = "Show main menu", group = "awesome"}),
     awful.key({ modkey, "Shift" }, "p", function ()
             for s in screen do
                 s.mywibox.visible = not s.mywibox.visible
@@ -251,31 +251,31 @@ globalkeys = my_table.join(
 
     awful.key({ modkey },            "g",     function ()
     awful.spawn("/home/jonas/.local/bin/my_scripts/nvim_fzf.sh")   end,
-              {description = "Nvim_fzf", group = "launcher"}),
+              {description = "nvim_fzf", group = "launcher"}),
 
     awful.key({ modkey },            "d",     function ()
     awful.util.spawn("rofi -show run -theme ~/.config/rofi/themes/gruvbox/gruvbox-dark.rasi")   end,
               {description = "run rofi", group = "launcher"}),
 
     awful.key({ modkey },            "c",     function ()
-    awful.util.spawn("gnome-calculator")   end,
-              {description = "run rofi", group = "launcher"}),
+    awful.util.spawn("GTK_THEME=Adwaita:dark gnome-calculator")   end,
+              {description = "calculator", group = "launcher"}),
 
     awful.key({ modkey, "Shift" },            "c",     function ()
     awful.util.spawn("/home/jonas/.local/bin/my_scripts/code_helper.sh new")   end,
-              {description = "run rofi", group = "launcher"}),
+              {description = "code launcher", group = "launcher"}),
 
     awful.key({ modkey, "Control" },            "c",     function ()
-    awful.util.spawn("gnome-calendar")   end,
-              {description = "run rofi", group = "launcher"}),
+    awful.util.spawn("GTK_THEME=Adwaita:dark gnome-calendar")   end,
+              {description = "calendar", group = "launcher"}),
 
     awful.key({ modkey, "Shift" },            "d",     function ()
     awful.util.spawn("/home/jonas/.local/bin/my_scripts/code_helper.sh old")   end,
-              {description = "run rofi", group = "launcher"}),
+              {description = "code launcher", group = "launcher"}),
 
     awful.key({ modkey },            "r",     function ()
     awful.util.spawn("dmenu_run -fn 'Linux Libertine Mono'")    end,
-              {description = "run rofi", group = "launcher"}),
+              {description = "run dmenu", group = "launcher"}),
 
     awful.key({ modkey },            "w",     function ()
     awful.util.spawn(terminal.. " -e sh ranger")    end,
@@ -287,10 +287,10 @@ globalkeys = my_table.join(
 
     awful.key({ modkey, "Shift"     },            "e",        function ()
     awful.util.spawn("sh /home/jonas/.local/bin/my_scripts/sysmenu_awsm.sh")  end,
-              {description = "Run powermenu", group = "launcher"}),
+              {description = "Run sysmenu", group = "launcher"}),
 
     awful.key({ modkey, "Shift"     },            "s",        function ()
-    awful.spawn("import png:- | xclip -selection clipboard -t image/png")    end,
+    awful.spawn("/home/jonas/.local/bin/my_scripts/win_screenshot_awsm.sh")    end,
               {description = "Screenshot to cb", group = "launcher"}),
 
     awful.key({ modkey, "Control"     },            "s",        function ()
@@ -368,18 +368,17 @@ globalkeys = my_table.join(
               {description = 'toggle dashboard', group = 'awesome'}),
 
 	-- Print
-    awful.key({ },            "print",     function ()
-    awful.util.spawn("sh /home/jonas/.local/bin/my_scripts/screenshot_select.sh")   end,
+    awful.key({ },  "Print",     function ()
+    awful.spawn("/home/jonas/.local/bin/my_scripts/screenshot_select.sh")   end,
               {description = "Screenshot", group = "launcher"}),
 
-    awful.key({ modkey   },            "print",     function ()
-    awful.util.spawn("/home/jonas/.local/bin/my_scripts/screenshot_ocr.sh")  end,
+    awful.key({ "Shift"  },  "Print",     function ()
+    awful.spawn("sh /home/jonas/.local/bin/my_scripts/screenshot.sh")  end,
               {description = "Screenshot", group = "launcher"}),
 
-    awful.key({ modkey, "Shift"    },            "print",     function ()
-    awful.util.spawn("/home/jonas/.local/bin/my_scripts/screenshot.sh")  end,
+    awful.key({ "Control" },  "Print",     function ()
+    awful.spawn("/home/jonas/.local/bin/my_scripts/screenshot_ocr.sh")  end,
               {description = "Screenshot", group = "launcher"}),
-
 
     -- Tag browsing with modkey
     awful.key({ modkey,         }, "Left",   awful.tag.viewprev,
