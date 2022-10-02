@@ -190,10 +190,10 @@ assign [class="Code"] $ws3
 assign [class="Vlc"] $ws4
 assign [class="Spotify"] $ws5
 for_window [class="Spotify"] move to workspace $ws5
-bindsym $mod+c exec --no-startup-id gnome-calculator
-for_window [class="Gnome-calculator"] floating enable, move position 100 px 500 px, exec --no-startup-id xdotool search --class Gnome-calculator getwindowpid -- windowsize %@ 250 195
-bindsym $mod+Control+c exec --no-startup-id gnome-calendar
-for_window [class="Gnome-calendar"] floating enable, move position 1105 px 430 px, exec --no-startup-id xdotool search --class Gnome-calculator getwindowpid -- windowsize %@ 250 195
+bindsym $mod+c exec --no-startup-id GTK_THEME=Adwaita:dark gnome-calculator
+for_window [class="gnome-calculator"] floating enable, move position 1520 px 60 px, exec --no-startup-id xdotool search --class Gnome-calculator getwindowpid -- windowsize %@ 250 195
+bindsym $mod+Control+c exec --no-startup-id GTK_THEME=Adwaita:dark gnome-calendar
+for_window [class="gnome-calendar"] floating enable, move position 1125 px 60 px, exec --no-startup-id xdotool search --class Gnome-calculator getwindowpid -- windowsize %@ 250 195
 
 bindsym $mod+t exec ~/.local/bin/my_scripts/script_copy.sh
 bindsym $mod+Shift+t exec ~/.local/bin/my_scripts/script_helper.sh 

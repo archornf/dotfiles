@@ -885,6 +885,7 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- awful.spawn.with_shell(soundplayer .. startupSound)
 -- awful.spawn.with_shell("lxsession")
 awful.spawn.with_shell("picom")
+awful.spawn.with_shell("diodon")
 -- awful.spawn.with_shell("nm-applet")
 -- awful.spawn.with_shell("volumeicon")
 -- awful.spawn.with_shell("sleep 2 && conky -c $HOME/.config/conky/awesome/" .. "doom-one" .. "-01.conkyrc")
