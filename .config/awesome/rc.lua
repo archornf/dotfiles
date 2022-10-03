@@ -367,6 +367,10 @@ globalkeys = my_table.join(
     awful.key({modkey, "Shift" }, 'section', function() _G.dashboard_show() end,
               {description = 'toggle dashboard', group = 'awesome'}),
 
+    awful.key({ "Shift" },            "F1",     function ()
+    awful.util.spawn("/home/jonas/.local/bin/my_scripts/show_keys.sh vim")   end,
+              {description = "vim keybinds", group = "launcher"}),
+
 	-- Print
     awful.key({ },  "Print",     function ()
     awful.spawn("/home/jonas/.local/bin/my_scripts/screenshot_select.sh")   end,
@@ -563,12 +567,12 @@ globalkeys = my_table.join(
 clientkeys = my_table.join(
     awful.key({ altkey, "Shift" }, "m",      lain.util.magnify_client,
               {description = "magnify client", group = "client"}),
-    awful.key({ modkey,         }, "f",
+    awful.key({ modkey,           }, "f",
         function (c)
             c.fullscreen = not c.fullscreen
             c:raise()
         end,
-    {description = "toggle fullscreen", group = "client"}),
+        {description = "toggle fullscreen", group = "client"}),
     awful.key({ modkey }, "q", function (c) c:kill() end,
       {description = "close", group = "hotkeys"}),
     awful.key({ modkey,         }, "space", awful.client.floating.toggle,

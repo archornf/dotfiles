@@ -2,6 +2,7 @@
 ### WM
 ######################################################################################################################
 F1 exec --no-startup-id ~/.local/bin/my_scripts/show_keys.sh i3
+Shift+F1 exec --no-startup-id ~/.local/bin/my_scripts/show_keys.sh vim
 mod+Control+r reload
 mod+Shift+r restart
 mod+shift+p exec --no-startup-id ~/.local/bin/my_scripts/toggle_polybar.sh

@@ -2,7 +2,8 @@
 ### WM
 ######################################################################################################################
 { 0,				    XK_F1,				spawn,			SHCMD("~/.local/bin/my_scripts/show_keys.sh dwm") },
-{ MODKEY|ShiftMask,			XK_p,			togglebar,		{0} },
+{ ShiftMask,			XK_F1,				spawn,			SHCMD("~/.local/bin/my_scripts/show_keys.sh vim") },
+{ MODKEY|ShiftMask,		XK_p,			togglebar,		{0} },
 
 ######################################################################################################################
 ### Client

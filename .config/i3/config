@@ -200,6 +200,7 @@ bindsym $mod+Shift+t exec ~/.local/bin/my_scripts/script_helper.sh
 bindsym $mod+Shift+c exec ~/.local/bin/my_scripts/code_helper.sh new 
 bindsym $mod+Shift+d exec ~/.local/bin/my_scripts/code_helper.sh old 
 bindsym F1 exec --no-startup-id ~/.local/bin/my_scripts/show_keys.sh i3
+bindsym Shift+F1 exec --no-startup-id ~/.local/bin/my_scripts/show_keys.sh vim
 # reload the configuration file
 bindsym $mod+Control+r reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)

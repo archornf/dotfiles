@@ -1,2 +1,42 @@
-Time travel:
+Add new line after entries:
+%s,^},}\r,g
 
+In visual mode, to run norm command: 
+:norm Ithis comes to the left --- 
+
+global command, do something at every line that starts with @:
+# For example move to line 50
+:g/^@/m50
+# Move to end of document
+:g/^@/m$
+# Reverse document (move every line to beginning of document, effectively reverses document):
+:g/^/m0
+# Copy lines that have "import" to end of file
+:g/import/t$
+# Delete lines that DOESN'T INCLUDE IMPORT
+:g!/import/d
+# Put new line on every line
+:g/^/pu = \"\n\"
+# Get rid of empty lines:
+:g/^\s*$/d
+
+:earlier 1m
+:earlier 10s
+:earlier 1h
+:later 10m
+
+:r file.txt
+:r !date
+# Print date on line 13 (after 12)
+:12r !date
+:#r !date
+
+# From this line and rest of file
+:.,$ command...
+:.,.+5 command...
+
+You can repeat the last command entered with : by typing @: and the subsequent repeats can be done with @@
+You can use <c-x><c-l> for line completion.
+Use // to run your last search
+
+gC-a for incrementing several lines when visual block...

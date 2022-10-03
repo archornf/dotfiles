@@ -98,3 +98,6 @@ Gets 11 lines from .bashrc
 
 Use awk for the same purpose:
 awk 'NR < 13' .bashrc
+
+# Get current network SSID:
+sudo wpa_cli status | sed -n -e 's/^ssid=//p'
