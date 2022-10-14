@@ -40,3 +40,6 @@ You can use <c-x><c-l> for line completion.
 Use // to run your last search
 
 gC-a for incrementing several lines when visual block...
+
+The Vim fzf plug-in has a native feature to open the selected item in a new tab. 
+If you type Ctrl + T inside the fzf selection window,
