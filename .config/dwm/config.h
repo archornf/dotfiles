@@ -77,6 +77,7 @@ static const Rule rules[] = {
 	{ NULL,      "spcalc",              NULL,       	    SPTAG(1),       1,           1,         0,        -1 },
 	{ NULL,      "gnome-calculator",    NULL,               0,              1,           0,         0,        -1 },
 	{ NULL,      "gnome-calendar",      NULL,               0,              1,           0,         0,        -1 },
+	{ NULL,      "yad",                 NULL,               0,              1,           0,         0,        -1 },
 };
 
 /* layout(s) */
@@ -231,7 +232,8 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,			XK_d,			spawn,		SHCMD("~/.local/bin/my_scripts/code_helper.sh old") },
 	{ MODKEY,					XK_g,			spawn,		SHCMD("~/.local/bin/my_scripts/fzf_open.sh " TERMINAL)},
 	{ MODKEY,					XK_c,			spawn,		SHCMD("GTK_THEME=Adwaita:dark gnome-calculator") },
-	{ MODKEY|ControlMask,		XK_c,			spawn,		SHCMD("GTK_THEME=Adwaita:dark gnome-calendar") },
+	/* { MODKEY|ControlMask,		XK_c,			spawn,		SHCMD("GTK_THEME=Adwaita:dark gnome-calendar") }, */
+	{ MODKEY|ControlMask,		XK_c,			spawn,		SHCMD("yad --calendar") },
 	{ MODKEY,					XK_b,			spawn,		SHCMD(TERMINAL " -e htop") },
 	{ MODKEY|ShiftMask,			XK_b,			spawn,		SHCMD(TERMINAL " -e bashtop") },
 	{ MODKEY|ControlMask,		XK_b,			spawn,		SHCMD(TERMINAL " -e ytop") },
