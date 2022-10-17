@@ -54,13 +54,13 @@ for battery in /sys/class/power_supply/BAT?*; do
 	elif [[ $status = "" ]]; then
 		printf "%s %s%d%%" "$status" "$warn" "$capacity"; unset warn
 	elif (( $capacity > 85)); then
-		printf " %s%s%d%%" "$status" "$warn" "$capacity"; unset warn
+		printf "  %s%s%d%%" "$status" "$warn" "$capacity"; unset warn
 	elif (( $capacity > 60)); then
-		printf " %s%s%d%%" "$status" "$warn" "$capacity"; unset warn
+		printf "  %s%s%d%%" "$status" "$warn" "$capacity"; unset warn
 	elif (( $capacity > 30 )); then
-		printf " %s%s%d%%" "$status" "$warn" "$capacity"; unset warn
+		printf "  %s%s%d%%" "$status" "$warn" "$capacity"; unset warn
 	else
-		printf " %s%s%d%%" "$status" "$warn" "$capacity"; unset warn
+		printf "  %s%s%d%%" "$status" "$warn" "$capacity"; unset warn
 	fi
 
 done && exit 0

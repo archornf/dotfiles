@@ -79,8 +79,8 @@ local soundplayer = "ffplay -nodisp -autoexit " -- The program that will play sy
 
 -- awesome variables
 awful.util.terminal = terminal
--- awful.util.tagnames = { "1", "2", "3", "4", "5", "6", "7", "8", "9" }
-awful.util.tagnames = { "", "", "", "", "", "", "", "", "" }
+awful.util.tagnames = { "1", "2", "3", "4", "5", "6", "7", "8", "9" }
+-- awful.util.tagnames = { " ", " ", " ", " ", " ", " ", " ", " ", " " }
 awful.layout.suit.tile.left.mirror = true
 awful.layout.layouts = {
     awful.layout.suit.tile,

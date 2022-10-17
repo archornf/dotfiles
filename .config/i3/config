@@ -194,6 +194,8 @@ bindsym $mod+c exec --no-startup-id GTK_THEME=Adwaita:dark gnome-calculator
 for_window [class="gnome-calculator"] floating enable, move position 1520 px 60 px, exec --no-startup-id xdotool search --class Gnome-calculator getwindowpid -- windowsize %@ 250 195
 bindsym $mod+Control+c exec --no-startup-id GTK_THEME=Adwaita:dark gnome-calendar
 for_window [class="gnome-calendar"] floating enable, move position 1125 px 60 px, exec --no-startup-id xdotool search --class Gnome-calculator getwindowpid -- windowsize %@ 250 195
+#for_window [class="Yad"] floating enable, move position center, exec --no-startup-id xdotool search --class yad getwindowpid -- windowsize %@ 250 195
+for_window [class="Yad"] floating enable, move position center
 
 bindsym $mod+t exec ~/.local/bin/my_scripts/script_copy.sh
 bindsym $mod+Shift+t exec ~/.local/bin/my_scripts/script_helper.sh 
@@ -294,6 +296,7 @@ bindsym $mod+section exec --no-startup-id ~/.local/bin/my_scripts/loadEww.sh
 # Lock screen 
 bindsym $mod+Shift+x exec --no-startup-id i3lock-fancy
 bindsym $mod+Control+x exec --no-startup-id i3lock -t -i ~/Downloads/lock-wallpaper.png 
+bindsym $mod+Control+Shift+x exec --no-startup-id i3lock -t -i ~/Downloads/lock-wallpaper-win.png
 #Suspend 
 bindsym $mod+Shift+comma exec --no-startup-id ~/.local/bin/my_scripts/alert_exit.sh; exec --no-startup-id ~/.local/bin/my_scripts/suspend.sh
 bindsym $mod+Shift+period exec --no-startup-id i3lock-fancy; exec --no-startup-id ~/.local/bin/my_scripts/alert_exit.sh; exec --no-startup-id systemctl suspend

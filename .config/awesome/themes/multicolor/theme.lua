@@ -143,7 +143,7 @@ theme.weather = lain.widget.weather({
         descr = weather_now["weather"][1]["description"]:lower()
         units = math.floor(weather_now["main"]["temp"])
         -- widget:set_markup(markup.fontfg(theme.font, "#eca4c4", descr .. " @ " .. units .. "°C "))
-        widget:set_markup(markup.fontfg(theme.font, colpink, "  " .. units .. "°C "))
+        widget:set_markup(markup.fontfg(theme.font, colpink, "   " .. units .. "°C "))
     end
 })
 
@@ -205,7 +205,7 @@ local bat = lain.widget.bat({
         --     perc = perc .. " plug"
         -- end
 
-        widget:set_markup(markup.fontfg(theme.font, theme.fg_normal, "  " .. perc .. " "))
+        widget:set_markup(markup.fontfg(theme.font, theme.fg_normal, "   " .. perc .. " "))
     end
 })
 
@@ -329,6 +329,7 @@ function theme.at_screen_connect(s)
         buttons = taglist_buttons
     }
 
+    local distro_box = wibox.widget.imagebox("/home/jonas/Downloads/arch.png")
     -- Create a tasklist widget
     s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, awful.util.tasklist_buttons)
 
@@ -341,7 +342,8 @@ function theme.at_screen_connect(s)
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
-            --s.mylayoutbox,
+            -- s.mylayoutbox,
+            distro_box,
             s.mytaglist,
             s.mypromptbox,
         },
