@@ -143,6 +143,7 @@ require('lualine').setup {
   options = {
     icons_enabled = true,
     theme = 'gruvbox',
+    -- theme = 'catppuccin',
     refresh = {
       statusline = 1000,
       tabline = 1000,
@@ -186,6 +187,7 @@ end
 -- local ok, _ = pcall(vim.cmd, 'colorscheme base16-gruvbox-dark-medium')
 -- vim.g.gruvbox_contrast_dark = 'hard'
 vim.cmd("colorscheme gruvbox")
+-- vim.cmd("colorscheme catppuccin")
 
 -- Keybinds
 local function map(m, k, v)
@@ -397,7 +399,10 @@ map('v', '<leader>/', '"3y/<C-R>3<CR>') -- Search for highlighted text
   })
 
   -- Setup lspconfig.
-  local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+  -- local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+  local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+  -- cmp_nvim_lsp.default_capabilities()
+
   -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
   -- require('lspconfig')['<YOUR_LSP_SERVER>'].setup {
     -- capabilities = capabilities
@@ -520,6 +525,17 @@ return require('packer').startup(function()
 
   -- Colorschemes
   use("gruvbox-community/gruvbox")
+  use {
+      "catppuccin/nvim",
+      as = "catppuccin",
+      config = function()
+          require("catppuccin").setup {
+              --flavour = "macchiato" -- mocha, macchiato, frappe, latte
+              flavour = "mocha"
+          }
+          -- vim.api.nvim_command "colorscheme catppuccin"
+      end
+  }
   -- use 'RRethy/nvim-base16'
 
   -- Other stuff
