@@ -127,6 +127,7 @@ alias pics='cd ~/Pictures'
 #alias emacs='emacsclient -nw'
 alias neofetch='neofetch --color_blocks off'
 alias grootfetch='neofetch --w3m /home/jonas/.config/neofetch/groot.jpg'
+alias tuxfetch='neofetch --ascii_distro tux'
 alias diskspace='ncdu'
 alias cb='clipboard'
 alias tb='nc termbin.com 9999'
@@ -143,6 +144,7 @@ alias .cnfdb='cd ~/.config/dwmblocks; ls'
 alias .cnfp='cd ~/.config/polybar; ls'
 alias .doc='cd ~/Documents; ls'
 alias .dwn='cd ~/Downloads; ls'
+alias .ioq3='/home/jonas/Downloads/ioq3/build/release-linux-x86_64/ioquake3.x86_64 +set sv_pure 0 +set vm_game 0 +set vm_cgame 0 +set vm_ui 0'
 
 # use the vi navigation keys in menu completion
 #bindkey -M menuselect 'h' vi-backward-char
@@ -188,6 +190,7 @@ npx() {
 export LANG=en_US.UTF-8
 export LANGUAGE=en
 export LC_ALL=en_US.UTF-8 
+export ALPHAVANTAGE_API_KEY=X5JHFXWJ4OTINV2B
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'

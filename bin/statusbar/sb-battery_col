@@ -37,7 +37,7 @@ for battery in /sys/class/power_supply/BAT?*; do
 	[ -n "${capacity+x}" ] && printf " "
 	# Sets up the status and capacity
 	case "$(cat "$battery/status")" in
-		"Full") status="" ;;
+		"Full") status=" " ;;
 		"Discharging") status="" ;;
 		"Charging") status="" ;;
 		#"Charging") status="ﮣ⚡ " ;;
@@ -49,7 +49,7 @@ for battery in /sys/class/power_supply/BAT?*; do
 	#[ "$status" = "🔋" ] && [ "$capacity" -le 25 ] && warn="❗"
 
 	# Prints the info
-	if [[ $status = "" ]]; then
+	if [[ $status = " " ]]; then
 		printf "%s %s%d%%" "$status" "$warn" "$capacity"; unset warn
 	elif [[ $status = "" ]]; then
 		printf "%s %s%d%%" "$status" "$warn" "$capacity"; unset warn

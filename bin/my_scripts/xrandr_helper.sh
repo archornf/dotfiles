@@ -7,7 +7,7 @@ xrandr1="xrandr --output DP-3 --primary --mode 1920x1080 --rate 90.00"
 xrandr2="xrandr --output DP-3 --primary --mode 1920x1080 --rate 60.00"
 xrandr3="xrandr --output HDMI-1-0 --auto --right-of eDP-1"
 xrandr4="xrandr --output HDMI-1-0 --off "
-xrandr5="xrandr --output <projector> --same-as <desktop>"
+xrandr5="xrandr --output HDMI-1-0 --same-as eDP-1"
 xrandr6="xrandr --output DP-3 --primary --mode 1920x1080 --rate 240.00 --output DP-1 --mode 1920x1080 --rate 144.00 --right-of DP-3"
 
 # Variable passed to rofi
