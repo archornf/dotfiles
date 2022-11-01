@@ -1,3 +1,5 @@
+vim ~/Documents/vimtutor.txt
+----------------------------------------------------------------------------------
 Add new line after entries:
 %s,^},}\r,g
 
@@ -47,3 +49,67 @@ If you type Ctrl + T inside the fzf selection window,
 Ctrl + K then p*, f*, -> <- etc...
 
 KEYBINDS:
+
+map('n', '<leader>p', 'viw"_dP') -- Replace from void
+map('n', '<leader>d', '"_d') -- Delete to void
+
+map('n', '<M-d>', ':FZF<CR>')
+map('n', '<M-a>', ':FZF ~/<CR>')
+map('n', '<M-A>', ':FZF /<CR>')
+
+-- Vimgrep and QuickFix Lists
+map('n', '<M-f>', ':vimgrep // **/*.txt<left><left><left><left><left><left><left><left><left><left><C-f>i')
+map('n', '<M-g>', ':vimgrep // **/*<Left><Left><Left><Left><Left><Left><C-f>i')
+map('n', '<M-v>', ':cfdo s//x/gc<left><left><left><left><left><C-f>i')
+map('n', '<M-c>', ':cnext<CR>')
+map('n', '<M-p>', ':cprev<CR>')
+map('n', '<M-l>', ':clast<CR>')
+map('n', '<M-b>', ':copen<CR>')
+
+-- Window management and movement
+map('n', '<M-u>', ':resize +2<CR>')
+map('n', '<M-i>', ':resize -2<CR>')
+map('n', '<M-o>', ':vertical resize +2<CR>')
+map('n', '<M-y>', ':vertical resize -2<CR>')
+map('n', '<M-h>', '<Plug>WinMoveLeft')
+map('n', '<M-j>', '<Plug>WinMoveDown')
+map('n', '<M-k>', '<Plug>WinMoveUp')
+map('n', '<M-l>', '<Plug>WinMoveRight')
+
+-- Moving text and indentation
+map('x', 'K', ":move '<-2<CR>gv-gv")
+map('x', 'J', ":move '>+1<CR>gv-gv")
+map('n', '<leader>j', ':join<CR>')
+map('n', '<leader>J', ':join!<CR>')
+map('n', '<leader>z', '<Plug>Zoom')
+
+-- Indentation
+map('v', '<leader><', ':le<CR>')
+map('n', '<leader><', ':le<CR>')
+map('v', '<', '<gv')
+map('v', '>', '>gv')
+
+-- Tab keybinds
+map('n', '<M-t>', ':tabe<CR>')
+map('n', '<M-s>', ':split<CR>')
+map('n', '<M-Enter>', ':vsp<CR>')
+map('n', '<M-<>', ':vsp<CR>')
+
+-- Session management
+map('n', '<leader>o', '<C-^>')
+map('n', '<leader>m', ':mks! ~/.vim/sessions/s.vim<CR>')
+map('n', '<leader>,', ':mks! ~/.vim/sessions/s2.vim<CR>')
+map('n', '<leader>.', ':so ~/.vim/sessions/s.vim<CR>')
+map('n', '<leader>-', ':so ~/.vim/sessions/s2.vim<CR>')
+
+map('n', '<leader>s', "/\\s\\+$/<CR>") -- Show extra whitespace
+map('n', '<leader>ws', ':%s/\\s\\+$<CR>') -- Remove all extra whitespace
+map('n', '<leader>wu', ':%s/\\%u200b//g<CR>') -- Remove all extra unicode chars
+map('n', '<leader>wb', ':%s/[[:cntrl:]]//g<CR>') -- Remove all hidden characters
+map('n', '<leader>r', 'gqG<C-o>zz') -- Format rest of the text with vim formatting, go back and center screen
+map('v', '<leader>gu', ':s/\\<./\\u&/g<CR>:noh<CR>') -- Capitalize first letter of each word on visually selected line
+map('v', '<leader>/', '"3y/<C-R>3<CR>') -- Search for highlighted text
+map('v', '<leader>%', '/\\%V') -- Search in highlighted text
+
+----------------------------------------------------------------------------------
+vim ~/Documents/vimtutor.txt
