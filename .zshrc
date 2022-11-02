@@ -144,7 +144,7 @@ alias .cnfdb='cd ~/.config/dwmblocks; ls'
 alias .cnfp='cd ~/.config/polybar; ls'
 alias .doc='cd ~/Documents; ls'
 alias .dwn='cd ~/Downloads; ls'
-alias .ioq3='/home/jonas/Downloads/ioq3/build/release-linux-x86_64/ioquake3.x86_64 +set sv_pure 0 +set vm_game 0 +set vm_cgame 0 +set vm_ui 0'
+alias .ioq3='/home/jonas/Code/C/ioq3/build/release-linux-x86_64/ioquake3.x86_64 +set sv_pure 0 +set vm_game 0 +set vm_cgame 0 +set vm_ui 0'
 
 # use the vi navigation keys in menu completion
 #bindkey -M menuselect 'h' vi-backward-char
