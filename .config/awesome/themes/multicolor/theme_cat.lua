@@ -97,6 +97,7 @@ theme.titlebar_maximized_button_focus_active    = theme.confdir .. "/icons/title
 
 local markup = lain.util.markup
 
+-- catpuccin color scheme
 local colblue = "#89B4FA"
 local colblue2 = "#89B4FA"
 local colred =  "#F38BA8"
