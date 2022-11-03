@@ -111,7 +111,7 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 #dotfiles
-alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+#alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
 #Config aliases
 alias zshconf='nvim ~/.zshrc'
@@ -119,10 +119,7 @@ alias i3conf='nvim ~/.config/i3/config'
 
 #General Aliases
 alias jnb='jupyter notebook ~/Dev/Notebooks'
-alias down='cd ~/Downloads'
 alias dev='cd ~/Dev'
-alias docs='cd ~/Documents'
-alias pics='cd ~/Pictures'
 #alias cat='bat'
 #alias emacs='emacsclient -nw'
 alias neofetch='neofetch --color_blocks off'
@@ -142,8 +139,10 @@ alias .cnfa='cd ~/.config/awesome; ls'
 alias .cnfd='cd ~/.config/dwm; ls'
 alias .cnfdb='cd ~/.config/dwmblocks; ls'
 alias .cnfp='cd ~/.config/polybar; ls'
-alias .doc='cd ~/Documents; ls'
-alias .dwn='cd ~/Downloads; ls'
+alias .pics='cd ~/Pictures; ls'
+alias .docs='cd ~/Documents; ls'
+alias .down='cd ~/Downloads; ls'
+alias .dots='cd ~/Downloads/dotfiles; ls'
 alias .ioq3='/home/jonas/Code/C/ioq3/build/release-linux-x86_64/ioquake3.x86_64 +set sv_pure 0 +set vm_game 0 +set vm_cgame 0 +set vm_ui 0'
 
 # use the vi navigation keys in menu completion

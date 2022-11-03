@@ -10,7 +10,7 @@ local opt = vim.opt
 local A   = vim.api
 
 -- cmd('syntax on')
--- vim.api.nvim_command('filetype usein indent on')
+-- vim.api.nvim_command('filetype plugin indent on')
 
 o.termguicolors = true
 -- o.background = 'dark'
@@ -72,11 +72,10 @@ o.splitbelow = true
 o.splitright = true
 
 -- Preserve view while jumping
--- BUG This option causes an error!
 -- o.jumpoptions = 'view'
 
--- BUG: this won't update the search count after pressing `n` or `N`
 -- When running macros and regexes on a large file, lazy redraw tells neovim/vim not to draw the screen
+-- You can enable this inside vim with :set lazyredraw
 -- o.lazyredraw = true
 
 -- Better folds (don't fold by default)
@@ -247,13 +246,14 @@ map('n', '<M-a>', ':FZF ~/<CR>')
 map('n', '<M-A>', ':FZF /<CR>')
 
 -- Vimgrep and QuickFix Lists
-map('n', '<M-f>', ':vimgrep // **/*.txt<C-f><Esc>10hi')
-map('n', '<M-g>', ':vimgrep // **/*<C-f><Esc>6hi')
+map('n', '<M-f>', ':vimgrep //g **/*.txt<C-f><Esc>11hi')
+map('n', '<M-g>', ':vimgrep //g **/*.*<C-f><Esc>9hi') -- Search all
+map('n', '<M-G>', ':vimgrep //g **/.*<C-f><Esc>8hi') -- Search dotfiles
 map('n', '<M-v>', ':cdo s///gc | update<C-f><Esc>13hi')
 -- map('n', '<M-v>', ':cfdo s//x/gc<left><left><left><left><left><C-f>i')
 map('n', '<M-c>', ':cnext<CR>')
 map('n', '<M-p>', ':cprev<CR>')
-map('n', '<M-l>', ':clast<CR>')
+map('n', '<M-P>', ':clast<CR>')
 map('n', '<M-b>', ':copen<CR>')
 
 -- Window management and movement
@@ -402,10 +402,9 @@ map('v', '<leader>%', '/\\%V') -- Search in highlighted text
     })
   })
 
-  -- Setup lspconfig.
+  -- Setup lspconfig (line below deprecated)
   -- local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
   local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
-  -- cmp_nvim_lsp.default_capabilities()
 
   -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
   -- require('lspconfig')['<YOUR_LSP_SERVER>'].setup {
