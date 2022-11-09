@@ -36,7 +36,7 @@ static const Block blocks[] = {
 	/* {"",	"~/.local/bin/statusbar/sb-forecast",	18000,	20}, */
 	/* {"",	"~/.local/bin/statusbar/sb-volumetwo.sh",	0,	11}, */
 
-	{"^2^ ",  "~/.local/bin/dwmblocks/weather", 	 1800, 				 5},
+	{"^2^  ",  "~/.local/bin/dwmblocks/weather", 	 1800, 				 5},
 	/* {"   ",  "~/.local/bin/dwmblocks/weather", 	 1800, 				 5}, */
 	{"^3^  ",  "~/.local/bin/dwmblocks/cputemp_col", 	5, 					4},
 	/* {"  ",  "~/.local/bin/dwmblocks/cputemp", 	5, 					4}, */

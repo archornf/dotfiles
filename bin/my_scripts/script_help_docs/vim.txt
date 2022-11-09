@@ -58,12 +58,14 @@ map('n', '<M-a>', ':FZF ~/<CR>')
 map('n', '<M-A>', ':FZF /<CR>')
 
 -- Vimgrep and QuickFix Lists
-map('n', '<M-f>', ':vimgrep // **/*.txt<left><left><left><left><left><left><left><left><left><left><C-f>i')
-map('n', '<M-g>', ':vimgrep // **/*<Left><Left><Left><Left><Left><Left><C-f>i')
-map('n', '<M-v>', ':cfdo s//x/gc<left><left><left><left><left><C-f>i')
+map('n', '<M-f>', ':vimgrep //g **/*.txt<C-f><Esc>11hi')
+map('n', '<M-g>', ':vimgrep //g **/*.*<C-f><Esc>9hi') -- Search all
+map('n', '<M-G>', ':vimgrep //g **/.*<C-f><Esc>8hi') -- Search dotfiles
+map('n', '<M-v>', ':cdo s///gc | update<C-f><Esc>13hi')
+-- map('n', '<M-v>', ':cfdo s//x/gc<left><left><left><left><left><C-f>i')
 map('n', '<M-c>', ':cnext<CR>')
 map('n', '<M-p>', ':cprev<CR>')
-map('n', '<M-l>', ':clast<CR>')
+map('n', '<M-P>', ':clast<CR>')
 map('n', '<M-b>', ':copen<CR>')
 
 -- Window management and movement

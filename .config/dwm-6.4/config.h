@@ -1,30 +1,24 @@
 /* See LICENSE file for copyright and license details. */
 
 /* Constants */
-/* #define TERMINAL "st" */
-#define TERMINAL "urxvt"
-
-/* #define TERMCLASS "St" */
-#define TERMCLASS "Urxvt"
+/* #define TERMINAL "urxvt" */
+/* #define TERMCLASS "Urxvt" */
+#define TERMINAL "st"
+#define TERMCLASS "St"
 
 /* appearance */
 static unsigned int borderpx  = 3;        /* border pixel of windows */
 static const unsigned int gappx     = 10;       /* default gap between windows in pixels */
 static unsigned int snap      = 32;       /* snap pixel */
-/* static unsigned int gappih    = 20;       /1* horiz inner gap between windows *1/ */
-/* static unsigned int gappiv    = 10;       /1* vert inner gap between windows *1/ */
-/* static unsigned int gappoh    = 10;       /1* horiz outer gap between windows and screen edge *1/ */
-/* static unsigned int gappov    = 30;       /1* vert outer gap between windows and screen edge *1/ */
 static unsigned int gappih    = 20;       /* horiz inner gap between windows */
 static unsigned int gappiv    = 20;       /* vert inner gap between windows */
 static unsigned int gappoh    = 20;       /* horiz outer gap between windows and screen edge */
 static unsigned int gappov    = 20;       /* vert outer gap between windows and screen edge */
 static int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
-static int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static int browsergaps        = 0;        /* 0 means no outer gap when there is only one window and it is firefox */
 static int showbar            = 1;        /* 0 means no bar */
 static int topbar             = 1;        /* 0 means bottom bar */
-/* static char *fonts[]          = { "Linux Libertine Mono:size=12", "Mono:pixelsize=12:antialias=true:autohint=true", "FontAwesome:size=15","FontAwesome5Brands:size=13:antialias:true", "FontAwesome5Free:size=13:antialias:true", "FontAwesome5Free:style=Solid:size=13:antialias:true","JetBrainsMono Nerd Font:size=12:style=bold:antialias=true:autohint=true", "Nerd Font Complete Mono:size=13", "JoyPixels:pixelsize=10:antialias=true:autohint=true", "Inconsolata Nerd Font:size=15", "Nerd Font Complete Mono:size=13" }; */
+static const int focusonwheel       = 0; /* Switch focus only by mouse click and not sloppy */
 static const char *fonts[]               = { "JetBrainsMono Nerd Font:size=11:style=bold:antialias=true:autohint=true", "JoyPixels:pixelsize=13:antialias=true:autohint=true" };
 static char normbgcolor[]           = "#222222";
 static char normbordercolor[]       = "#444444";
@@ -86,6 +80,8 @@ static int nmaster     = 1;    /* number of clients in master area */
 static int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 #define FORCE_VSPLIT 1  /* nrowgrid layout: force two clients to always split vertically */
 #include "vanitygaps.c"
+/* #include "shiftview.c" */
+
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "[@]",	spiral },		/* Default: Fibonacci spiral */
@@ -145,11 +141,9 @@ ResourcePref resources[] = {
 		{ "gappoh",		INTEGER, &gappoh },
 		{ "gappov",		INTEGER, &gappov },
 		{ "swallowfloating",	INTEGER, &swallowfloating },
-		{ "smartgaps",		INTEGER, &smartgaps },
 };
 
 #include <X11/XF86keysym.h>
-#include "shiftview.c"
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -233,7 +227,7 @@ static const Key keys[] = {
 	{ MODKEY,					XK_g,			spawn,		SHCMD("~/.local/bin/my_scripts/fzf_open.sh " TERMINAL)},
 	{ MODKEY,					XK_c,			spawn,		SHCMD("GTK_THEME=Adwaita:dark gnome-calculator") },
 	/* { MODKEY|ControlMask,		XK_c,			spawn,		SHCMD("GTK_THEME=Adwaita:dark gnome-calendar") }, */
-	{ MODKEY|ControlMask,		XK_c,			spawn,		SHCMD("yad --calendar") },
+	{ MODKEY|ControlMask,		XK_c,			spawn,		SHCMD("yad --calendar --no-buttons") },
 	{ MODKEY,					XK_b,			spawn,		SHCMD(TERMINAL " -e htop") },
 	{ MODKEY|ShiftMask,			XK_b,			spawn,		SHCMD(TERMINAL " -e bashtop") },
 	{ MODKEY|ControlMask,		XK_b,			spawn,		SHCMD(TERMINAL " -e ytop") },
@@ -320,7 +314,7 @@ static const Key keys[] = {
 };
 
 /* button definitions */
-/* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
+/* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkClientWin, or ClkRootWin */
 static const Button buttons[] = {
 	/* click                event mask      button          function        argument */
 #ifndef __OpenBSD__
