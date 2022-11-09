@@ -294,8 +294,8 @@ static pid_t winpid(Window w);
 
 /* variables */
 static const char broken[] = "broken";
-/* static char stext[256]; */
-static char stext[1024];
+static char stext[256];
+/* static char stext[1024]; */
 static char rawstext[256];
 static int dwmblockssig;
 pid_t dwmblockspid = 0;

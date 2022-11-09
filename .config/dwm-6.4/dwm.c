@@ -292,8 +292,6 @@ static pid_t winpid(Window w);
 /* variables */
 static const char broken[] = "broken";
 static char stext[256];
-/* static char stext[1024]; */
-static char rawstext[256];
 static int dwmblockssig;
 pid_t dwmblockspid = 0;
 static int statusw;
@@ -841,8 +839,8 @@ void
 drawbar(Monitor *m)
 {
 	int x, w, tw = 0;
-	int boxs = drw->fonts->h / 9;
-	int boxw = drw->fonts->h / 6 + 2;
+	/* int boxs = drw->fonts->h / 9; */
+	/* int boxw = drw->fonts->h / 6 + 2; */
 	unsigned int i, occ = 0, urg = 0;
 	Client *c;
 
