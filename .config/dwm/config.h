@@ -2,19 +2,14 @@
 
 /* Constants */
 /* #define TERMINAL "st" */
-#define TERMINAL "urxvt"
-
 /* #define TERMCLASS "St" */
+#define TERMINAL "urxvt"
 #define TERMCLASS "Urxvt"
 
 /* appearance */
 static unsigned int borderpx  = 3;        /* border pixel of windows */
-static const unsigned int gappx     = 10;       /* default gap between windows in pixels */
+static const unsigned int gappx = 10;     /* default gap between windows in pixels */
 static unsigned int snap      = 32;       /* snap pixel */
-/* static unsigned int gappih    = 20;       /1* horiz inner gap between windows *1/ */
-/* static unsigned int gappiv    = 10;       /1* vert inner gap between windows *1/ */
-/* static unsigned int gappoh    = 10;       /1* horiz outer gap between windows and screen edge *1/ */
-/* static unsigned int gappov    = 30;       /1* vert outer gap between windows and screen edge *1/ */
 static unsigned int gappih    = 20;       /* horiz inner gap between windows */
 static unsigned int gappiv    = 20;       /* vert inner gap between windows */
 static unsigned int gappoh    = 20;       /* horiz outer gap between windows and screen edge */
@@ -320,7 +315,7 @@ static const Key keys[] = {
 };
 
 /* button definitions */
-/* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
+/* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkClientWin, or ClkRootWin */
 static const Button buttons[] = {
 	/* click                event mask      button          function        argument */
 #ifndef __OpenBSD__
