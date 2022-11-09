@@ -1,14 +1,14 @@
 /* See LICENSE file for copyright and license details. */
 
 /* Constants */
-/* #define TERMINAL "urxvt" */
-/* #define TERMCLASS "Urxvt" */
 #define TERMINAL "st"
 #define TERMCLASS "St"
+/* #define TERMINAL "urxvt" */
+/* #define TERMCLASS "Urxvt" */
 
 /* appearance */
 static unsigned int borderpx  = 3;        /* border pixel of windows */
-static const unsigned int gappx     = 10;       /* default gap between windows in pixels */
+static const unsigned int gappx = 10;     /* default gap between windows in pixels */
 static unsigned int snap      = 32;       /* snap pixel */
 static unsigned int gappih    = 20;       /* horiz inner gap between windows */
 static unsigned int gappiv    = 20;       /* vert inner gap between windows */
@@ -18,8 +18,8 @@ static int swallowfloating    = 0;        /* 1 means swallow floating windows by
 static int browsergaps        = 0;        /* 0 means no outer gap when there is only one window and it is firefox */
 static int showbar            = 1;        /* 0 means no bar */
 static int topbar             = 1;        /* 0 means bottom bar */
-static const int focusonwheel       = 0; /* Switch focus only by mouse click and not sloppy */
-static const char *fonts[]               = { "JetBrainsMono Nerd Font:size=11:style=bold:antialias=true:autohint=true", "JoyPixels:pixelsize=13:antialias=true:autohint=true" };
+static const int focusonwheel = 0;        /* Switch focus only by mouse click and not sloppy */
+static const char *fonts[] = { "JetBrainsMono Nerd Font:size=11:style=bold:antialias=true:autohint=true", "JoyPixels:pixelsize=13:antialias=true:autohint=true" };
 static char normbgcolor[]           = "#222222";
 static char normbordercolor[]       = "#444444";
 static char normfgcolor[]           = "#bbbbbb";
