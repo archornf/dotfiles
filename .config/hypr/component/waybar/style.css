@@ -258,7 +258,7 @@ label:focus {
 
 #pulseaudio {
     background-color:  	#fab387;
-    color: #bf7d54;
+    /* color: #bf7d54; */
     font-weight: bolder;
 }
 

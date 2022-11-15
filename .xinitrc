@@ -31,10 +31,11 @@ fi
 setxkbmap -option caps:escape
 #xrandr --output DP-3 --primary --mode 1920x1080 --rate 240.00 --output DP-1 --mode 1920x1080 --rate 144.00 --right-of DP-3
 
-xrdb ~/.Xresources
+#xrdb ~/.Xresources
 xhost si:localuser:root
+
 #exec awesome
-exec i3
+#exec i3
 exec dwm &
 sh ~/.dwm/autostart.sh &
 picom

@@ -1,2 +1,2 @@
 #! /usr/bin/bash
-grim Pictures/$(date +'%s.png')
+grim ~/Pictures/Screenshots/$(date +'%s.png')
