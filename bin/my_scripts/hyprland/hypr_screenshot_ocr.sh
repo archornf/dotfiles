@@ -5,4 +5,5 @@ sed -i 's/^M//g'  ocr.txt
 sed -i 's/[[:space:]]*$//' ocr.txt
 sed -i 's/\n//' ocr.txt
 #sed -i '/^[[:space:]]*$/d' ocr.txt
-xclip -sel c < ocr.txt
+#xclip -sel c < ocr.txt
+cat ocr.txt | wl-copy

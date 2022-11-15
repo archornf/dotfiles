@@ -185,7 +185,8 @@
             //"default": ["", "", "墳"]
             "default": ["", "", "墳"]
         },
-        "on-click": "pavucontrol"
+        //"on-click": "pavucontrol"
+        "on-click": "~/.config/hypr/scripts/volume --toggle"
     },
     "custom/media": {
         "format": "{icon} {}",
