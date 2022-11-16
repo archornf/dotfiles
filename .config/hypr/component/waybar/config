@@ -151,9 +151,9 @@
         //"format-charging": "",
         //"format-plugged": "",
 
-        "format": "<span font='14'>{icon}</span>",
-        "format-charging": "<span font='14'></span>",
-        "format-plugged": "<span font='14'></span>",
+        "format": "<span font='15'>{icon}</span>",
+        "format-charging": "<span font='15'></span>",
+        "format-plugged": "<span font='15'></span>",
         // "format-good": "", // An empty format will hide the module
         // "format-full": "",
         "format-icons": ["", "", "", "", ""]
