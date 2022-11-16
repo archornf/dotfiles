@@ -35,6 +35,8 @@ window#waybar {
     padding-bottom: 3px;
     background: rgb(235, 219, 178);
     background: linear-gradient(45deg, rgba(235,219,178,1) 0%, rgba(131,165,152,1) 43%, rgba(184,187,38,1) 80%, rgba(69,133,136,1) 100%); 
+    /* background: rgb(202,158,230); */
+    /* background: linear-gradient(45deg, rgba(202,158,230,1) 0%, rgba(245,194,231,1) 43%, rgba(180,190,254,1) 80%, rgba(137,180,250,1) 100%); */ 
     background-size: 300% 300%;
     animation: gradient 10s ease infinite;
     color: #282828;
@@ -159,7 +161,7 @@ window#waybar {
     background: linear-gradient(45deg, rgba(245,194,231,1) 0%, rgba(203,166,247,1) 64%, rgba(202,158,230,1) 100%); 
     margin-right: 25px;
     /* color: #ebdbb2 ; */
-    color: #fff ;
+    /* color: #fff ; */
     background-size: 300% 300%;
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.377);
     animation: gradient 20s ease infinite;

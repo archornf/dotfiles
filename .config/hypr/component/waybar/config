@@ -22,6 +22,7 @@
         "return-type": "json",
         // "format":"{}",
         "exec": "~/.config/hypr/scripts/tools/start_dyn",
+        "exec-if": "pgrep spotify",
         "escape":true
     },
     "custom/ss":{
