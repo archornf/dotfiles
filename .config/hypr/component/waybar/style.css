@@ -1,7 +1,7 @@
 * {
     /* font-family: CartographCF JetbrainsMono Nerd Font,FontAwesome, Roboto, Helvetica, Arial, sans-serif; */
     font-family: JetbrainsMono Nerd Font,FontAwesome;
-    font-size: 15px;
+    font-size: 16px;
 }
 
 window#waybar {
@@ -116,12 +116,12 @@ window#waybar {
     /* background: rgb(249,226,175); */
     /* background: linear-gradient(45deg, rgba(249,226,175,1) 0%, rgba(245,194,231,1) 20%, rgba(180,190,254,1) 100%); */ 
     background: rgb(166,209,137);
-    background: linear-gradient(45deg, rgba(166,289,137,1) 0%, rgba(166,227,161,1) 20%, rgba(129,200,190,1) 100%); 
+    background: linear-gradient(45deg, rgba(166,289,137,1) 0%, rgba(129,200,190,1) 20%, rgba(166,227,161,1) 100%); 
     background-size: 300% 300%;
     animation: gradient 15s ease infinite;
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.377);
     font-weight: 900;
-    color: #fff ;
+    /* color: #fff ; */
 }
 #custom-dynamic_pill.paused{
     /* background: #fff ; */
