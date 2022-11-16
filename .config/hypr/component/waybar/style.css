@@ -113,8 +113,10 @@ window#waybar {
 
 
 #custom-dynamic_pill.playing{
-    background: rgb(249,226,175);
-    background: linear-gradient(45deg, rgba(249,226,175,1) 0%, rgba(245,194,231,1) 20%, rgba(180,190,254,1) 100%); 
+    /* background: rgb(249,226,175); */
+    /* background: linear-gradient(45deg, rgba(249,226,175,1) 0%, rgba(245,194,231,1) 20%, rgba(180,190,254,1) 100%); */ 
+    background: rgb(166,209,137);
+    background: linear-gradient(45deg, rgba(166,289,137,1) 0%, rgba(166,227,161,1) 20%, rgba(129,200,190,1) 100%); 
     background-size: 300% 300%;
     animation: gradient 15s ease infinite;
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.377);
@@ -122,7 +124,8 @@ window#waybar {
     color: #fff ;
 }
 #custom-dynamic_pill.paused{
-    background: #fff ;
+    /* background: #fff ; */
+    background: #282828 ;
     font-weight: bolder;
     color: #b4befe;
 }
@@ -173,13 +176,13 @@ window#waybar {
 }
 
 #battery.charging, #battery.plugged {
-    background-color: #94e2d5 ;
+    /* background-color: #94e2d5 ; */
     background-color: #ebdbb2;
 }
 
 #battery {
     background-color: #ebdbb2;
-    color:#8ec07c;
+    /* color:#8ec07c; */
     font-weight: bolder;
     font-size: 35px;
     padding-left: 15px;
