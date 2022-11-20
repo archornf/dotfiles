@@ -455,7 +455,7 @@ map <F6> <Esc>:setlocal spell! spelllang=sv<CR>
 func! CompileRun()
     exec "w"
     if &filetype == 'c'
-        exec "!gcc % && ./a.out"
+        exec "!gcc % && time ./a.out"
     elseif &filetype == 'cpp'
         "exec "!g++ % -o %< -lbgi -lgdi32 -lcomdlg32 -luuid -loleaut32 -lole32"
         exec "!g++ -pthread % -o %<"
@@ -480,6 +480,11 @@ func! CompileRun()
     elseif &filetype == 'go'
         exec "!go build %<"
         exec "!time go run %"
+    elseif &filetype == 'rust'
+        exec "!rustc %"
+        exec "!time ./%:r"
+    elseif &filetype == 'lua'
+        exec "!time lua %"
     elseif &filetype == 'mkd'
         exec "!~/.vim/markdown.pl % > %.html &"
         exec "!firefox %.html &"
