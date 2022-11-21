@@ -11,6 +11,7 @@ esac
 csharpOpt="c#"
 cplplOpt="c++"
 cOpt="c"
+goOpt="go"
 javaOpt="java"
 jsOpt="js"
 latexOpt="latex"
@@ -18,10 +19,10 @@ luaOpt="lua"
 sqlOpt="sql"
 pythonOpt="python"
 rOpt="r"
-randomOpt="random"
+rustOpt="rust"
 
 # Variable passed to rofi
-options="$csharpOpt\n$cplplOpt\n$cOpt\n$javaOpt\n$jsOpt\n$latexOpt\n$luaOpt\n$sqlOpt\n$pythonOpt\n$rOpt\n$randomOpt"
+options="$csharpOpt\n$cplplOpt\n$cOpt\n$goOpt\n$javaOpt\n$jsOpt\n$latexOpt\n$luaOpt\n$sqlOpt\n$pythonOpt\n$rOpt\n$rustOpt"
 
 chosen="$(echo -e "$options" | $rofi_command -p "Choose a command" -dmenu -selected-row 0)"
 case $chosen in
@@ -33,6 +34,9 @@ case $chosen in
         ;;
     $cOpt)
 		urxvt -e bash -c 'cd ~/'"$codeDir"'/C;ls --color=auto; zsh'
+        ;;
+    $goOpt)
+		urxvt -e bash -c 'cd ~/'"$codeDir"'/Go;ls --color=auto; zsh'
         ;;
     $javaOpt)
 		urxvt -e bash -c 'cd ~/'"$codeDir"'/Java;ls --color=auto; zsh'
@@ -55,7 +59,7 @@ case $chosen in
     $rOpt)
 		urxvt -e bash -c 'cd ~/'"$codeDir"'/R;ls --color=auto; zsh'
         ;;
-    $randomOpt)
-		urxvt -e bash -c 'cd ~/'"$codeDir"'/Random;ls --color=auto; zsh'
+    $rustOpt)
+		urxvt -e bash -c 'cd ~/'"$codeDir"'/Rust;ls --color=auto; zsh'
         ;;
 esac
