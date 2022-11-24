@@ -9,14 +9,14 @@ dunst &
 
 # waybar
 $scripts/launch_waybar &
-$scripts/tools/dynamic &
+#$scripts/tools/dynamic &
 
 # wallpaper
 #$scripts/wall $config/wallpapers/cloud.png &
 $scripts/wall $config/wallpapers/gruv4.png &
 
 # effects
-$scripts/rgb &
+#$scripts/rgb &
 
 # other
 #/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
