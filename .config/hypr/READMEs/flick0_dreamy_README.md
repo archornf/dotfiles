@@ -68,12 +68,14 @@ cargo build --release
 cp ./target/release/swww ~/.config/hypr/scripts/tools/
 ```
 
+# THIS IS NOT NEEDED...
 `rgb-borders` | rgb borders for grouped windows
 ```bash
 git clone https://github.com/flick0/rgb-rs
 cd rgb-rs
 cargo build --release
 cp ./target/release/rgb ~/.config/hypr/scripts/
+
 ```
 
 
