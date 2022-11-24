@@ -9,7 +9,7 @@ dunst &
 
 # waybar
 $scripts/launch_waybar &
-#$scripts/tools/dynamic &
+$scripts/tools/dynamic &
 
 # wallpaper
 #$scripts/wall $config/wallpapers/cloud.png &
