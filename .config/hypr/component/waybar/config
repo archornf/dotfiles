@@ -20,8 +20,9 @@
     // custom modules ////////////////
     "custom/dynamic_pill": {
         "return-type": "json",
-        // "format":"{}",
+        //"format":"{}",
         "exec": "~/.config/hypr/scripts/tools/start_dyn",
+        //"exec": "~/.local/bin/my_scripts/spotify_dwmblocks.sh",
         "exec-if": "pgrep spotify",
         "escape":true
     },

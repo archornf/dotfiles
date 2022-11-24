@@ -151,7 +151,7 @@ bind=SUPER,T,exec, ~/.local/bin/my_scripts/script_copy.sh
 bind=SUPERSHIFT,T,exec, ~/.local/bin/my_scripts/script_helper.sh
 bind=SUPERSHIFT,E,exec, ~/.local/bin/my_scripts/sysmenu_awsm.sh
 
-bind=SUPER,section,exec, ~/.local/bin/my_scripts/loadEww.sh
+#bind=SUPER,section,exec, ~/.local/bin/my_scripts/loadEww.sh
 bind=SUPER,P,exec, ~/.local/bin/my_scripts/xrandr_helper.sh
 bind=SUPERSHIFT,P,exec, ~/.config/hypr/scripts/toggle_waybar
 bind=SUPERCTRL,P,exec,$colorpicker
