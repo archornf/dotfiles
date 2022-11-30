@@ -49,8 +49,8 @@ if x["cod"] != "404":
 
     temp = int(kelvinToCelsius(current_temperature))
     if '-' in str(temp):
-        print(temp)
+        print(str(temp) + '°')
     else:
-        print('+'+str(temp))
+        print('+'+str(temp) + '°')
 else:
     print(" City Not Found ")

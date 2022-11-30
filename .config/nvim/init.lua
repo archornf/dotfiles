@@ -32,11 +32,11 @@ o.relativenumber = true
 -- o.signcolumn = 'yes'
 o.cursorline = true
 
-o.expandtab = true
+-- o.expandtab = true
 o.smarttab = true
 -- o.cindent = true
-o.smartindent = true
 o.autoindent = true
+o.smartindent = true
 o.wrap = true
 -- o.textwidth = 300
 o.tabstop = 4
@@ -486,8 +486,8 @@ func! CompileRun()
     elseif &filetype == 'lua'
         exec "!time lua %"
     elseif &filetype == 'mkd'
-        exec "!~/.vim/markdown.pl % > %.html &"
-        exec "!firefox %.html &"
+        "exec "!~/.vim/markdown.pl % > %.html &"
+        exec "!firefox % &"
     elseif &filetype == 'cs'
         "exec "!csc %"
         "exec "!%:r.exe"

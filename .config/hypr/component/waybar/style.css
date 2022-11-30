@@ -255,7 +255,7 @@ label:focus {
 #network.disconnected{
     background: rgb(243,139,168);
     background: linear-gradient(45deg, rgba(243,139,168,1) 0%, rgba(250,179,135,1) 100%); 
-    color: #fff;
+    /* color: #fff; */
     font-weight: bolder;
     padding-top: 3px;
     padding-right: 11px;

@@ -302,8 +302,8 @@ static pid_t winpid(Window w);
 
 /* variables */
 static const char broken[] = "broken";
-/* static char stext[256]; */
-static char stext[1024];
+static char stext[256];
+/* static char stext[1024]; */
 static char rawstext[256];
 static int dwmblockssig;
 pid_t dwmblockspid = 0;
@@ -964,7 +964,7 @@ drawstatusbar(Monitor *m, int bh, char* stext) {
 						ch = fgetc(ptr);
 						// Check if contains + and 2 (= hot)
 						if (hotbool){
-							if (ch == '2' || ch == '3'){
+							if ((ch == '2' || ch == '3') && fgetc(ptr) <= '9'){
 								drw_clr_create(drw, &drw->scheme[ColFg], col21);
 								break;
 							}else{
@@ -1017,7 +1017,6 @@ void
 drawbar(Monitor *m)
 {
 	if (!m->showbar) return;
-
 	int x, w, tw = 0;
 	int boxs = drw->fonts->h / 9;
 	int boxw = drw->fonts->h / 6 + 2;
@@ -1390,7 +1389,6 @@ manage(Window w, XWindowAttributes *wa)
 	XSetWindowBorder(dpy, w, scheme[SchemeNorm][ColBorder].pixel);
 	configure(c); /* propagates border_width, if size doesn't change */
 	updatewindowtype(c);
-	updatesizehints(c);
 	updatewmhints(c);
 	c->x = c->mon->mx + (c->mon->mw - WIDTH(c)) / 2;
 	c->y = c->mon->my + (c->mon->mh - HEIGHT(c)) / 2;
@@ -1406,8 +1404,10 @@ manage(Window w, XWindowAttributes *wa)
 		c->isfloating = c->oldstate = t || c->isfixed;
 	if (c->isfloating){
 		XRaiseWindow(dpy, c->win);
-		c->x = 1500;
-		c->y = 33;
+		/* c->x = 1500; */
+		/* c->y = 33; */
+		c->x = 1495;
+		c->y = 40;
 		c->w = 405;
 		c->h = 280;
 		if (strcmp(c->name, "Calendar") == 0) {
@@ -1425,10 +1425,10 @@ manage(Window w, XWindowAttributes *wa)
 	if (c->mon == selmon)
 		unfocus(selmon->sel, 0);
 	c->mon->sel = c;
-	arrange(c->mon);
 	XMapWindow(dpy, c->win);
 	if (term)
 		swallow(term, c);
+	arrange(c->mon);
 	focus(NULL);
 }
 
@@ -2282,8 +2282,6 @@ togglefloating(const Arg *arg)
 		return;
 	selmon->sel->isfloating = !selmon->sel->isfloating || selmon->sel->isfixed;
 	if (selmon->sel->isfloating)
-		/* resize(selmon->sel, selmon->sel->x, selmon->sel->y, */
-		/* 	selmon->sel->w, selmon->sel->h, 0); */
 		/* restore last known float dimensions */
 		resize(selmon->sel, selmon->sel->sfx, selmon->sel->sfy,
 		       selmon->sel->sfw, selmon->sel->sfh, False);
@@ -2411,7 +2409,7 @@ unmanage(Client *c, int destroyed)
 		free(s->swallowing);
 		s->swallowing = NULL;
 		arrange(m);
-        focus(NULL);
+		focus(NULL);
 		return;
 	}
 

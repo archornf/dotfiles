@@ -2,14 +2,13 @@
 
 /* Constants */
 /* #define TERMINAL "st" */
-#define TERMINAL "urxvt"
-
 /* #define TERMCLASS "St" */
+#define TERMINAL "urxvt"
 #define TERMCLASS "Urxvt"
 
 /* appearance */
 static unsigned int borderpx  = 3;        /* border pixel of windows */
-static const unsigned int gappx     = 10;       /* default gap between windows in pixels */
+static const unsigned int gappx = 10;     /* default gap between windows in pixels */
 static unsigned int snap      = 32;       /* snap pixel */
 static unsigned int gappih    = 20;       /* horiz inner gap between windows */
 static unsigned int gappiv    = 20;       /* vert inner gap between windows */
@@ -65,14 +64,15 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	*/
-	/* class    instance      title       	 tags mask    isfloating   isterminal  noswallow  monitor */
-	{ "Gimp",     NULL,       NULL,       	    1 << 8,       0,           0,         0,        -1 },
-	{ TERMCLASS,  NULL,       NULL,       	    0,            0,           1,         0,        -1 },
-	{ NULL,       NULL,       "Event Tester",   0,            0,           0,         1,        -1 },
-	{ NULL,      "spterm",    NULL,       	    SPTAG(0),     1,           1,         1,        -1 },
-	{ NULL,      "spcalc",    NULL,       	    SPTAG(1),     1,           1,         0,        -1 },
-	{ NULL,      "gnome-calculator",    NULL,       0,     1,           0,         0,        -1 },
-	{ NULL,      "gnome-calendar",    NULL,       0,     1,           0,         0,        -1 },
+	/* class    instance                title       	    tags mask    isfloating   isterminal  noswallow  monitor */
+	{ "Gimp",     NULL,                 NULL,       	    1 << 8,         0,           0,         0,        -1 },
+	{ TERMCLASS,  NULL,                 NULL,       	    0,              0,           1,         0,        -1 },
+	{ NULL,       NULL,                 "Event Tester",     0,              0,           0,         1,        -1 },
+	{ NULL,      "spterm",              NULL,       	    SPTAG(0),       1,           1,         1,        -1 },
+	{ NULL,      "spcalc",              NULL,       	    SPTAG(1),       1,           1,         0,        -1 },
+	{ NULL,      "gnome-calculator",    NULL,               0,              1,           0,         0,        -1 },
+	{ NULL,      "gnome-calendar",      NULL,               0,              1,           0,         0,        -1 },
+	{ NULL,      "yad",                 NULL,               0,              1,           0,         0,        -1 },
 };
 
 /* layout(s) */
@@ -228,7 +228,8 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,			XK_d,			spawn,		SHCMD("~/.local/bin/my_scripts/code_helper.sh old") },
 	{ MODKEY,					XK_g,			spawn,		SHCMD("~/.local/bin/my_scripts/fzf_open.sh " TERMINAL)},
 	{ MODKEY,					XK_c,			spawn,		SHCMD("GTK_THEME=Adwaita:dark gnome-calculator") },
-	{ MODKEY|ControlMask,		XK_c,			spawn,		SHCMD("GTK_THEME=Adwaita:dark gnome-calendar") },
+	/* { MODKEY|ControlMask,		XK_c,			spawn,		SHCMD("GTK_THEME=Adwaita:dark gnome-calendar") }, */
+	{ MODKEY|ControlMask,		XK_c,			spawn,		SHCMD("yad --calendar --no-buttons") },
 	{ MODKEY,					XK_b,			spawn,		SHCMD(TERMINAL " -e htop") },
 	{ MODKEY|ShiftMask,			XK_b,			spawn,		SHCMD(TERMINAL " -e bashtop") },
 	{ MODKEY|ControlMask,		XK_b,			spawn,		SHCMD(TERMINAL " -e ytop") },
@@ -263,10 +264,9 @@ static const Key keys[] = {
 	/* { MODKEY,				XK_Page_Down,		shiftview,	{ .i = +1 } }, */
 	/* { MODKEY|ShiftMask,		XK_Page_Down,		shifttag,	{ .i = +1 } }, */
 	/* { MODKEY,				XK_backslash,		view,		{0} }, */
-
-	/* { MODKEY,			XK_F1,				spawn,			SHCMD("groff -mom /usr/local/share/dwm/larbs.mom -Tpdf | zathura -") }, */
-	{ 0,				    XK_F1,				spawn,			SHCMD("~/.local/bin/my_scripts/show_keys.sh dwm") },
-	{ ShiftMask,			XK_F1,				spawn,			SHCMD("~/.local/bin/my_scripts/show_keys.sh vim") },
+	/* { MODKEY,					XK_F1,				spawn,			SHCMD("groff -mom /usr/local/share/dwm/larbs.mom -Tpdf | zathura -") }, */
+	{ 0,						XK_F1,				spawn,			SHCMD("~/.local/bin/my_scripts/show_keys.sh dwm") },
+	{ ShiftMask,				XK_F1,				spawn,			SHCMD("~/.local/bin/my_scripts/show_keys.sh vim") },
 	/* { MODKEY,				XK_F1,				spawn,			SHCMD(TERMINAL " -e nvim") }, */
 	/* { MODKEY,				XK_F2,				spawn,			SHCMD("tutorialvids") }, */
 	/* { MODKEY,				XK_F3,				spawn,			SHCMD("displayselect") }, */
@@ -316,7 +316,7 @@ static const Key keys[] = {
 };
 
 /* button definitions */
-/* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
+/* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkClientWin, or ClkRootWin */
 static const Button buttons[] = {
 	/* click                event mask      button          function        argument */
 #ifndef __OpenBSD__

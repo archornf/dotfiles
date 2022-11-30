@@ -939,7 +939,7 @@ drawstatusbar(Monitor *m, int bh, char* stext) {
 						ch = fgetc(ptr);
 						// Check if contains + and 2 (= hot)
 						if (hotbool){
-							if (ch == '2' || ch == '3'){
+							if ((ch == '2' || ch == '3') && fgetc(ptr) <= '9'){
 								drw_clr_create(drw, &drw->scheme[ColFg], col21);
 								break;
 							}else{

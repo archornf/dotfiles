@@ -263,9 +263,9 @@ static const Key keys[] = {
 	/* { MODKEY,				XK_Page_Down,		shiftview,	{ .i = +1 } }, */
 	/* { MODKEY|ShiftMask,		XK_Page_Down,		shifttag,	{ .i = +1 } }, */
 	/* { MODKEY,				XK_backslash,		view,		{0} }, */
-	/* { MODKEY,			XK_F1,				spawn,			SHCMD("groff -mom /usr/local/share/dwm/larbs.mom -Tpdf | zathura -") }, */
-	{ 0,				    XK_F1,				spawn,			SHCMD("~/.local/bin/my_scripts/show_keys.sh dwm") },
-	{ ShiftMask,			XK_F1,				spawn,			SHCMD("~/.local/bin/my_scripts/show_keys.sh vim") },
+	/* { MODKEY,					XK_F1,				spawn,			SHCMD("groff -mom /usr/local/share/dwm/larbs.mom -Tpdf | zathura -") }, */
+	{ 0,						XK_F1,				spawn,			SHCMD("~/.local/bin/my_scripts/show_keys.sh dwm") },
+	{ ShiftMask,				XK_F1,				spawn,			SHCMD("~/.local/bin/my_scripts/show_keys.sh vim") },
 	/* { MODKEY,				XK_F1,				spawn,			SHCMD(TERMINAL " -e nvim") }, */
 	/* { MODKEY,				XK_F2,				spawn,			SHCMD("tutorialvids") }, */
 	/* { MODKEY,				XK_F3,				spawn,			SHCMD("displayselect") }, */
