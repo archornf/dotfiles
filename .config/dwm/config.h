@@ -245,7 +245,7 @@ static const Key keys[] = {
 	{ MODKEY,					XK_v,			spawn,		SHCMD("~/.local/bin/my_scripts/clip_history.sh") },
 	{ MODKEY|ShiftMask,			XK_v,			spawn,		SHCMD("~/.local/bin/my_scripts/qr_clip.sh") },
 	{ MODKEY,					XK_period,		spawn,		SHCMD("~/.local/bin/my_scripts/emojipick/emojipick") },
-	{ MODKEY,					XK_a,			spawn,		SHCMD(TERMINAL " -e bash -c 'tmux attach || tmux'") },
+	{ MODKEY,					XK_a,			spawn,		SHCMD("~/.local/bin/my_scripts/tmux_attach.sh " TERMINAL) },
 	{ MODKEY|ShiftMask,         XK_a,			spawn,      SHCMD("picom-trans -c -5")},
 	{ MODKEY|ControlMask,       XK_a,			spawn,      SHCMD("picom-trans -c +5")},
 	{ MODKEY,					XK_section,		spawn,		SHCMD("~/.local/bin/my_scripts/loadEww.sh") },

@@ -246,7 +246,7 @@ globalkeys = my_table.join(
 
     -- Run launcher
     awful.key({ modkey },            "a",     function ()
-    awful.util.spawn("/home/jonas/.local/bin/my_scripts/tmux_attach.sh")  end,
+    awful.util.spawn("/home/jonas/.local/bin/my_scripts/tmux_attach.sh urxvt")  end,
               {description = "run tmux", group = "launcher"}),
 
     awful.key({ modkey },            "g",     function ()
@@ -359,6 +359,14 @@ globalkeys = my_table.join(
     awful.key({ modkey, "Control"    },            "m",     function ()
     awful.util.spawn("/home/jonas/.local/bin/my_scripts/open_notes.sh 2")   end,
               {description = "Ytop", group = "launcher"}),
+
+    awful.key({modkey},            "t",     function ()
+    awful.util.spawn("/home/jonas/.local/bin/my_scripts/script_copy.sh")  end,
+              {description = "Script_copy", group = "launcher"}),
+
+    awful.key({ modkey, "Shift"    },           "t",     function ()
+    awful.util.spawn("/home/jonas/.local/bin/my_scripts/script_helper.sh")      end,
+              {description = "Script_helper", group = "launcher"}),
 
     awful.key({modkey },            "section",     function ()
     awful.util.spawn("sh /home/jonas/.local/bin/my_scripts/loadEww.sh")  end,
@@ -579,8 +587,8 @@ clientkeys = my_table.join(
       {description = "toggle floating", group = "client"}),
     -- awful.key({ modkey, ctrlkey }, "Return", function (c) c:swap(awful.client.getmaster()) end,
     --   {description = "move to master", group = "client"}),
-    awful.key({ modkey, "Shift" }, "t", function (c) c.ontop = not c.ontop end,
-      {description = "toggle keep on top", group = "client"}),
+    -- awful.key({ modkey, "Shift" }, "t", function (c) c.ontop = not c.ontop end,
+    --   {description = "toggle keep on top", group = "client"}),
     awful.key({ modkey, "Shift"}, "l",
         function ()
             local c = client.focus
