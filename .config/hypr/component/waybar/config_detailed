@@ -20,13 +20,13 @@
     // custom modules ////////////////
     "custom/dynamic_pill": {
         // Old;
-        "return-type": "json",
-        "exec": "~/.config/hypr/scripts/tools/start_dyn",
+        //"return-type": "json",
+        //"exec": "~/.config/hypr/scripts/tools/start_dyn",
 
-        //"format":"{}",
-        //"exec": "~/.local/bin/my_scripts/spotify_dwmblocks.sh",
-        //"exec-if": "pgrep spotify",
-        //"interval": 1,
+        "format":"{}",
+        "exec": "~/.local/bin/my_scripts/spotify_dwmblocks.sh",
+        "exec-if": "pgrep spotify",
+        "interval": 1,
         "escape":true
     },
     "custom/ss":{
@@ -155,9 +155,15 @@
         //"format-charging": " {capacity}%",
         //"format-plugged": " {capacity}%",
 
-        "format": "<span font='13'>{icon}</span> {capacity}%",
-        "format-charging": "<span font='13'></span> {capacity}%",
-        "format-plugged": "<span font='13'></span> {capacity}%",
+		// 2022-12-01 font bug...
+        //"format": "<span font='13'>{icon}</span> {capacity}%",
+        //"format-charging": "<span font='13'></span> {capacity}%",
+        //"format-plugged": "<span font='13'></span> {capacity}%",
+
+        "format": "{icon} {capacity}%",
+        "format-charging": " {capacity}%",
+        "format-plugged": " {capacity}%",
+
         // "format-good": "", // An empty format will hide the module
         // "format-full": "",
         "format-icons": ["", "", "", "", ""]
@@ -177,9 +183,10 @@
     "pulseaudio": {
         // "scroll-step": 1, // %, can be a float
         //"format": "<span font='16'>墳</span> {volume}%",
-        "format": "墳 {volume}%",
         //"format": "<span font='25'>{icon}</span> {volume}%",
         //"format": "{icon} {volume}%",
+
+        "format": "墳 {volume}%",
         "format-muted": "婢 {volume}%",
 
         //"format": "<span font='25'>{icon}</span>",
@@ -194,7 +201,8 @@
             //"default": ["", "", "墳"]
             "default": ["", "", "墳"]
         },
-        "on-click": "pavucontrol"
+        "on-click": "pavucontrol",
+        "on-click": "~/.config/hypr/scripts/volume --toggle"
     },
     "custom/media": {
         "format": "{icon} {}",

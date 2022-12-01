@@ -143,7 +143,7 @@ window#waybar {
     color: rgba(203,166,247,1);
     font-family: "FontAwesome", "Font Awesome 5 Pro Solid", "Font Awesome 5 Brands";
     font-weight:  normal;
-    font-size: 40px;
+    /* font-size: 40px; */
     padding: 5px;
     padding-left: 20px;
     padding-right: 20px;
@@ -177,7 +177,7 @@ window#waybar {
     /* text-shadow: 0 0 5px rgba(0, 0, 0, 0.377); */
     animation: gradient 20s ease infinite;
     font-size: 15px;
-    /* padding-top: 5px; */
+    padding-top: 2px;
     padding-right: 21px;
     font-weight: bolder;
     padding-left: 20px
@@ -192,7 +192,7 @@ window#waybar {
     background-color: #ebdbb2;
     /* color:#8ec07c; */
     font-weight: bolder;
-    font-size: 35px;
+    /* font-size: 35px; */
     /* padding-left: 15px; */
     /* padding-right: 15px; */
 }
@@ -227,7 +227,7 @@ label:focus {
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.377);
     /* background-color: #b4befe; */
     /* color: 	#ebdbb2; */
-    color: 	#fff;
+    /* color: 	#fff; */
 }
 
 #memory {
