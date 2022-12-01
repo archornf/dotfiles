@@ -1,12 +1,20 @@
+find /home/www \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i 's/subdomainA\.example\.com/subdomainB.example.com/g'
+Example:
+find . \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i 's/x/y/g'
+
+-print0 tells find to print each of the results separated by a null character, rather than a new line. In the unlikely event that your directory has files with newlines in the names, this still lets xargs work on the correct filenames.
+\( -type d -name .git -prune \) is an expression which completely skips over all directories named .git. You could easily expand it, if you use SVN or have other folders you want to preserve -- just match against more names. It's roughly equivalent to -not -path .git, but more efficient, because rather than checking every file in the directory, it skips it entirely. The -o after it is required because of how -prune actually works.
+
 sed -i 's/ORIGINAL_VALLUE/NEW_VALUE/g' myfile1 myfile2 OR perl -p -i -e 's/ORIGINAL/NEW_VALUE/' myfile1 myfile2
 
 # Replace string in several files (differs on mac os):
+# Doesn't work recursively, I think...
 sed -i 's/foo/bar/g' *
 
 # Replace string in several files:
-find ./ -type f -exec sed -i 's/old_string/new_string/g' {} \;
+find ./ -type f -exec sed -i 's/testx/testy/g' {} +
 # For global case insensitive:
-find ./ -type f -exec sed -i 's/old_string/new_string/gI' {} \;
+find ./ -type f -exec sed -i 's/testx/testy/gI' {} +
 
 # Colorize the output of ps, colorizes output of ps to show services: red, session leaders: green:
 ps ajxf | awk '{ if($2 == $4) { if ($1 == 1) { print "\033[35m" $0"\033[0m"}  else print "\033[1;32m" $0"\033[0m" } else print $0 }'
@@ -99,6 +107,10 @@ find . -type d -empty -delete
 journalctl --no-pager --since today \
 --grep 'fail|error|fatal' --output json|jq '._EXE' | \
 sort | uniq -c | sort --numeric --reverse --key 1
+
+# To get all errors for running services using journalctl. -p 3 means priority err,
+# -x provides extra message info, and -b means since last boot:
+journalctl -p 3 -xb
 
 # Before clearing systemd journal log files. See amount of space these log files actually take on your system, by using the following command:
 journalctl --disk-usage
