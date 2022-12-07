@@ -237,7 +237,7 @@ static const Key keys[] = {
 	{ MODKEY,					XK_n,			spawn,		SHCMD("~/.local/bin/my_scripts/nautilus_wd.sh") },
 	{ MODKEY|ShiftMask,			XK_n,			spawn,		SHCMD("nautilus -w --no-desktop") },
 	{ MODKEY|ControlMask,		XK_n,			spawn,		SHCMD("~/.local/bin/my_scripts/open_notes.sh 1") },
-	{ MODKEY,			        XK_m,			spawn,		SHCMD("~/.local/bin/my_scripts/tstock.sh") },
+	{ MODKEY,			        XK_m,			spawn,		SHCMD("nm-connection-editor") },
 	{ MODKEY|ShiftMask,			XK_m,			spawn,		SHCMD("spotify") },
 	{ MODKEY|ControlMask,		XK_m,			spawn,		SHCMD("~/.local/bin/my_scripts/open_notes.sh 2") },
 	{ MODKEY|ShiftMask,         XK_comma,   	spawn,      SHCMD("~/.local/bin/my_scripts/alert_exit.sh && ~/.local/bin/my_scripts/suspend.sh")},
