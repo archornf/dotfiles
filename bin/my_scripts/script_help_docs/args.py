@@ -7,7 +7,7 @@ import pyperclip
 chosen_command = int(sys.argv[1])
 
 if chosen_command == 100:
-    chosen_command = 11
+    chosen_command = 19
 
 if chosen_command == 101:
     pyperclip.copy('for i in */.git; do cd $(dirname $i); git pull; cd ..; done')
