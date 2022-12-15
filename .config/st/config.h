@@ -7,7 +7,8 @@
  */
 static char *font = "JetBrainsMono Nerd Font:size=11:style=regular:antialias=true:autohint=true";
 /* static char *font = "mono:pixelsize=12:antialias=true:autohint=true"; */
-static char *font2[] = { "JoyPixels:pixelsize=10:antialias=true:autohint=true" };
+/* static char *font2[] = { "JoyPixels:pixelsize=10:antialias=true:autohint=true" }; */
+static char *font2[] = {"JetBrainsMono Nerd Font:size=11:style=regular:antialias=true:autohint=true"};
 static int borderpx = 16;
 
 /*
@@ -271,23 +272,21 @@ static Shortcut shortcuts[] = {
 	{ ShiftMask,            XK_Page_Down,   kscrolldown,    {.i = -1} },
 	{ MODKEY,               XK_Page_Up,     kscrollup,      {.i = -1} },
 	{ MODKEY,               XK_Page_Down,   kscrolldown,    {.i = -1} },
-	{ MODKEY,               XK_k,           kscrollup,      {.i =  1} },
-	{ MODKEY,               XK_j,           kscrolldown,    {.i =  1} },
 	{ MODKEY,               XK_Up,          kscrollup,      {.i =  1} },
 	{ MODKEY,               XK_Down,        kscrolldown,    {.i =  1} },
-	{ MODKEY,               XK_u,           kscrollup,      {.i = -1} },
-	{ MODKEY,               XK_d,           kscrolldown,    {.i = -1} },
-	{ MODKEY,		XK_s,		changealpha,	{.f = -0.05} },
-	{ MODKEY,		XK_a,		changealpha,	{.f = +0.05} },
+	{ MODKEY,				XK_k,           kscrollup,      {.i =  1} },
+	{ MODKEY,				XK_j,           kscrolldown,    {.i =  1} },
+	{ MODKEY,				XK_s,			changealpha,	{.f = -0.05} },
+	{ MODKEY,				XK_a,			changealpha,	{.f = +0.05} },
 	{ TERMMOD,              XK_Up,          zoom,           {.f = +1} },
 	{ TERMMOD,              XK_Down,        zoom,           {.f = -1} },
-	{ TERMMOD,              XK_K,           zoom,           {.f = +1} },
-	{ TERMMOD,              XK_J,           zoom,           {.f = -1} },
-	{ TERMMOD,              XK_U,           zoom,           {.f = +2} },
-	{ TERMMOD,              XK_D,           zoom,           {.f = -2} },
-	{ MODKEY,               XK_l,           externalpipe,   {.v = openurlcmd } },
-	{ MODKEY,               XK_y,           externalpipe,   {.v = copyurlcmd } },
-	{ MODKEY,               XK_o,           externalpipe,   {.v = copyoutput } },
+	{ ControlMask,			XK_plus,        zoom,           {.f = +1} },
+	{ ControlMask,			XK_minus,       zoom,           {.f = -1} },
+	{ MODKEY,				XK_plus,        zoom,           {.f = +2} },
+	{ MODKEY,				XK_minus,       zoom,           {.f = -2} },
+	{ TERMMOD,              XK_L,           externalpipe,   {.v = openurlcmd } },
+	{ TERMMOD,              XK_Y,           externalpipe,   {.v = copyurlcmd } },
+	{ TERMMOD,              XK_O,           externalpipe,   {.v = copyoutput } },
 };
 
 /*

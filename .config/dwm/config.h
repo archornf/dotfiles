@@ -223,8 +223,8 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,			XK_r,			spawn,		SHCMD("rofi -show run -theme ~/.config/polybar/forest/scripts/rofi/launcher.rasi") },
 	{ MODKEY,					XK_t,			spawn,		SHCMD("~/.local/bin/my_scripts/script_copy.sh") },
 	{ MODKEY|ShiftMask,			XK_t,			spawn,		SHCMD("~/.local/bin/my_scripts/script_helper.sh") },
-	{ MODKEY|ShiftMask,			XK_c,			spawn,		SHCMD("~/.local/bin/my_scripts/code_helper.sh new") },
-	{ MODKEY|ShiftMask,			XK_d,			spawn,		SHCMD("~/.local/bin/my_scripts/code_helper.sh old") },
+	{ MODKEY|ShiftMask,			XK_c,			spawn,		SHCMD("~/.local/bin/my_scripts/code_helper.sh new " TERMINAL) },
+	{ MODKEY|ShiftMask,			XK_d,			spawn,		SHCMD("~/.local/bin/my_scripts/code_helper.sh old " TERMINAL) },
 	{ MODKEY,					XK_g,			spawn,		SHCMD("~/.local/bin/my_scripts/fzf_open.sh " TERMINAL)},
 	{ MODKEY,					XK_c,			spawn,		SHCMD("~/.local/bin/my_scripts/term_calc.sh " TERMINAL) },
 	/* { MODKEY,					XK_c,			spawn,		SHCMD("GTK_THEME=Adwaita:dark gnome-calculator") }, */
