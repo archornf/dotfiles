@@ -1014,6 +1014,7 @@ xloadfont(Font *f, FcPattern *pattern)
 	    XftResultMatch)) {
 		if ((XftPatternGetInteger(f->match->pattern, "weight", 0,
 		    &haveattr) != XftResultMatch) || haveattr != wantattr) {
+			// Uncomment the following line for debian / if colors are off in terminal
 			f->badweight = 1;
 			fputs("font weight does not match\n", stderr);
 		}

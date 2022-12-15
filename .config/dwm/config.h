@@ -1,10 +1,10 @@
 /* See LICENSE file for copyright and license details. */
 
 /* Constants */
-/* #define TERMINAL "st" */
-/* #define TERMCLASS "St" */
-#define TERMINAL "urxvt"
-#define TERMCLASS "Urxvt"
+#define TERMINAL "st"
+#define TERMCLASS "St"
+/* #define TERMINAL "urxvt" */
+/* #define TERMCLASS "Urxvt" */
 
 /* appearance */
 static unsigned int borderpx  = 3;        /* border pixel of windows */
@@ -222,7 +222,7 @@ static const Key keys[] = {
 	{ MODKEY,					XK_r,			spawn,		SHCMD("dmenu_run -fn 'Linux Libertine Mono'") },
 	{ MODKEY|ShiftMask,			XK_r,			spawn,		SHCMD("rofi -show run -theme ~/.config/polybar/forest/scripts/rofi/launcher.rasi") },
 	{ MODKEY,					XK_t,			spawn,		SHCMD("~/.local/bin/my_scripts/script_copy.sh") },
-	{ MODKEY|ShiftMask,			XK_t,			spawn,		SHCMD("~/.local/bin/my_scripts/script_helper.sh") },
+	{ MODKEY|ShiftMask,			XK_t,			spawn,		SHCMD("~/.local/bin/my_scripts/script_helper.sh " TERMINAL) },
 	{ MODKEY|ShiftMask,			XK_c,			spawn,		SHCMD("~/.local/bin/my_scripts/code_helper.sh new " TERMINAL) },
 	{ MODKEY|ShiftMask,			XK_d,			spawn,		SHCMD("~/.local/bin/my_scripts/code_helper.sh old " TERMINAL) },
 	{ MODKEY,					XK_g,			spawn,		SHCMD("~/.local/bin/my_scripts/fzf_open.sh " TERMINAL)},
@@ -236,10 +236,10 @@ static const Key keys[] = {
 	{ MODKEY,				    XK_p,			spawn,		SHCMD("~/.local/bin/my_scripts/xrandr_helper.sh") },
 	{ MODKEY,					XK_n,			spawn,		SHCMD("~/.local/bin/my_scripts/nautilus_wd.sh") },
 	{ MODKEY|ShiftMask,			XK_n,			spawn,		SHCMD("nautilus -w --no-desktop") },
-	{ MODKEY|ControlMask,		XK_n,			spawn,		SHCMD("~/.local/bin/my_scripts/open_notes.sh 1") },
+	{ MODKEY|ControlMask,		XK_n,			spawn,		SHCMD("~/.local/bin/my_scripts/open_notes.sh 1 " TERMINAL) },
 	{ MODKEY,			        XK_m,			spawn,		SHCMD("nm-connection-editor") },
 	{ MODKEY|ShiftMask,			XK_m,			spawn,		SHCMD("spotify") },
-	{ MODKEY|ControlMask,		XK_m,			spawn,		SHCMD("~/.local/bin/my_scripts/open_notes.sh 2") },
+	{ MODKEY|ControlMask,		XK_m,			spawn,		SHCMD("~/.local/bin/my_scripts/open_notes.sh 2 " TERMINAL) },
 	{ MODKEY|ShiftMask,         XK_comma,   	spawn,      SHCMD("~/.local/bin/my_scripts/alert_exit.sh && ~/.local/bin/my_scripts/suspend.sh")},
 	{ MODKEY|ShiftMask,         XK_period,  	spawn,      SHCMD("i3lock-fancy && ~/.local/bin/my_scripts/alert_exit.sh && systemctl suspend")},
 	{ MODKEY,					XK_v,			spawn,		SHCMD("~/.local/bin/my_scripts/clip_history.sh") },

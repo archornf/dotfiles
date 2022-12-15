@@ -362,10 +362,11 @@ sudo ninja -C build install
 
 Start picom with picom --animations
 
-pamix alsa-utils xinput qrencode diodon
+pamix alsa-utils xinput qrencode diodon silversearcher-ag
 
 ST term works better for neovim theming it seems... Needs:
 sudo apt install libharfbuzz-dev
+And uncomment the line f->badweight = 1; in x.c
 
 sudo apt install lua
 git clone https://github.com/neovim/neovim
@@ -379,6 +380,7 @@ pip3 install setuptools
 git clone https://github.com/WhiteBlackGoose/ueberzug-latest && cd ueberzug-latest
 sudo pip install -e .
 
+For dwm, fix battery, volume and cputemp scripts (remove unnecessary whitespace, add /usr/bin/bash instead of /bin/sh, and use sb-volume_deb. Also update keybinds for volume in dwm conf.
 ----------------------------------- 
 No package:
 alsa-utils pamixer ueberzug the_silver_searcher

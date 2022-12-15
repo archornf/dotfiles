@@ -1,28 +1,27 @@
 bind=SUPER,RETURN,exec,~/.local/bin/my_scripts/term_wd.sh $term
-bind=SUPERSHIFT,RETURN,exec,$term -cd ~/
+bind=SUPERSHIFT,RETURN,exec,$term
 bind=SUPERCTRL,RETURN,exec,st
 bind=SUPER,Q,killactive,
 bind=SUPERSHIFTCTRL,Q,exit,
-
 bind=SUPER,N,exec, ~/.local/bin/my_scripts/nautilus_wd.sh
 bind=SUPERSHIFT,N,exec, $files
-bind=SUPERCTRL,N,exec, ~/.local/bin/my_scripts/open_notes.sh 1
-bind=SUPERCTRL,M,exec, ~/.local/bin/my_scripts/open_notes.sh 2
+bind=SUPERCTRL,N,exec, ~/.local/bin/my_scripts/open_notes.sh 1 $term
+bind=SUPERCTRL,M,exec, ~/.local/bin/my_scripts/open_notes.sh 2 $term
 bind=SUPER,W,exec, $term -e ranger
 bind=SUPER,E,exec, ~/.local/bin/my_scripts/ranger_wd.sh $term
-
 bind=SUPER,space,togglefloating
 bind=SUPER,F,fullscreen
 bind=SUPER,R,exec,wofi --show drun
 #bind=SUPER,R,exec,dmenu_run -fn 'Linux Libertine Mono'
 bind=SUPER,D,exec,rofi -show run -theme ~/.config/rofi/themes/gruvbox/gruvbox-dark.rasi
-bind=SUPERSHIFT,C,exec, ~/.local/bin/my_scripts/code_helper.sh new
-bind=SUPERSHIFT,D,exec, ~/.local/bin/my_scripts/code_helper.sh old
+bind=SUPERSHIFT,C,exec, ~/.local/bin/my_scripts/code_helper.sh new $term
+bind=SUPERSHIFT,D,exec, ~/.local/bin/my_scripts/code_helper.sh old $term
 bind=SUPER,A,exec, ~/.local/bin/my_scripts/tmux_attach.sh $term
+
 bind=SUPER,C,exec, ~/.local/bin/my_scripts/term_calc.sh $term
 bind=SUPERCTRL,C,exec, yad --calendar --no-buttons
 bind=SUPER,T,exec, ~/.local/bin/my_scripts/hyprland/hypr_script_copy.sh
-bind=SUPERSHIFT,T,exec, ~/.local/bin/my_scripts/script_helper.sh
+bind=SUPERSHIFT,T,exec, ~/.local/bin/my_scripts/script_helper.sh $term
 bind=SUPERSHIFT,E,exec, ~/.local/bin/my_scripts/sysmenu_awsm.sh
 
 #bind=SUPER,section,exec, ~/.local/bin/my_scripts/loadEww.sh
