@@ -1,14 +1,15 @@
-# Luke's build of st - the simple (suckless) terminal
-I have also added: https://st.suckless.org/patches/workingdir/
+# My modification of Luke's build of st - the simple (suckless) terminal
+I have added: https://st.suckless.org/patches/workingdir/
+and some changes to transparency and keybinds.
 
 The [suckless terminal (st)](https://st.suckless.org/) with some additional
 features that make it literally the best terminal emulator ever:
 
 ## Unique features (using dmenu)
 
-+ **follow urls** by pressing `alt-l`
-+ **copy urls** in the same way with `alt-y`
-+ **copy the output of commands** with `alt-o`
++ **follow urls** by pressing `alt-L`
++ **copy urls** in the same way with `alt-Y`
++ **copy the output of commands** with `alt-O`
 
 ## Bindings for
 

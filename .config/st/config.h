@@ -5,10 +5,12 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "JetBrainsMono Nerd Font:size=11:style=regular:antialias=true:autohint=true";
 /* static char *font = "mono:pixelsize=12:antialias=true:autohint=true"; */
+/* static char *font2[] = { "NotoColorEmoji:pixelsize=10:antialias=true:autohint=true" }; */
+static char *font = "JetBrainsMono Nerd Font:size=11:style=regular:antialias=true:autohint=true";
 /* static char *font2[] = { "JoyPixels:pixelsize=10:antialias=true:autohint=true" }; */
-static char *font2[] = {"JetBrainsMono Nerd Font:size=11:style=regular:antialias=true:autohint=true"};
+static char *font2[] = { "JetBrainsMono Nerd Font:size=11:style=regular:antialias=true:autohint=true" };
+/* static int borderpx = 16; */
 static int borderpx = 18;
 
 /*
@@ -250,7 +252,6 @@ static MouseShortcut mshortcuts[] = {
 static char *openurlcmd[] = { "/bin/sh", "-c", "st-urlhandler -o", "externalpipe", NULL };
 static char *copyurlcmd[] = { "/bin/sh", "-c", "st-urlhandler -c", "externalpipe", NULL };
 static char *copyoutput[] = { "/bin/sh", "-c", "st-copyout", "externalpipe", NULL };
-
 
 static Shortcut shortcuts[] = {
 	/* mask                 keysym          function        argument */
@@ -558,3 +559,4 @@ static char ascii_printable[] =
 	" !\"#$%&'()*+,-./0123456789:;<=>?"
 	"@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_"
 	"`abcdefghijklmnopqrstuvwxyz{|}~";
+
