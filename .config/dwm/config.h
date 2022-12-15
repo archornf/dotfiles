@@ -253,7 +253,7 @@ static const Key keys[] = {
 	/* { MODKEY|ShiftMask,			XK_BackSpace,	spawn,		SHCMD("sysact") }, */
 	{ MODKEY,					XK_Return,		spawn,		SHCMD("~/.local/bin/my_scripts/term_wd.sh " TERMINAL) },
 	{ MODKEY|ShiftMask,			XK_Return,		spawn,		{.v = termcmd } },
-	{ MODKEY|ControlMask,		XK_Return,		spawn,		SHCMD("~/.local/bin/my_scripts/term_wd.sh st") },
+	{ MODKEY|ControlMask,		XK_Return,		spawn,		SHCMD("~/.local/bin/my_scripts/term_wd.sh urxvt") },
 
 	/* { MODKEY,				XK_bracketleft,		spawn,		SHCMD("mpc seek -10") }, */
 	/* { MODKEY|ShiftMask,		XK_bracketleft,		spawn,		SHCMD("mpc seek -60") }, */
@@ -327,7 +327,7 @@ static const Button buttons[] = {
 	{ ClkStatusText,        0,              Button5,        sigdwmblocks,   {.i = 5} },
 	{ ClkStatusText,        ShiftMask,      Button1,        sigdwmblocks,   {.i = 6} },
 #endif
-	{ ClkStatusText,        ShiftMask,      Button3,        spawn,          SHCMD(TERMINAL " -e nvim ~/dwm/dwm/dwmblocks/config.h") },
+	{ ClkStatusText,        ShiftMask,      Button3,        spawn,          SHCMD(TERMINAL " -e nvim ~/.config/dwmblocks/config.h") },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        defaultgaps,	{0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
