@@ -13,7 +13,6 @@ static char *font2[] = { "JetBrainsMono Nerd Font:size=11:style=regular:antialia
 /* static int borderpx = 16; */
 static int borderpx = 18;
 
-
 /*
  * What program is execed by st depends of these precedence rules:
  * 1: program passed with -e
