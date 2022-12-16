@@ -178,7 +178,7 @@ pip install pynvim
 pip install i3ipc
 pip install pytesseract
 pip install pyperclip
-sudo pacman -S tesseract (needs to install eng trined data also. Look for towardsdatascience python read text from image)... Also set tesseract variable...
+sudo pacman -S tesseract (need to install eng trained data also. Look for towardsdatascience python read text from image)... Also set tesseract variable...
 
 Picom enable vsync (if needed)...
 
@@ -362,7 +362,7 @@ sudo ninja -C build install
 
 Start picom with picom --animations
 
-pamix alsa-utils xinput qrencode diodon silversearcher-ag
+pamix alsa-utils xinput qrencode diodon silversearcher-ag maim imagemagick tesseract-ocr
 
 ST term works better for neovim theming it seems... Needs:
 sudo apt install libharfbuzz-dev
@@ -380,7 +380,22 @@ pip3 install setuptools
 git clone https://github.com/WhiteBlackGoose/ueberzug-latest && cd ueberzug-latest
 sudo pip install -e .
 
-For dwm, fix battery, volume and cputemp scripts (remove unnecessary whitespace, add /usr/bin/bash instead of /bin/sh, and use sb-volume_deb. Also update keybinds for volume in dwm conf.
+For dwm, fix battery, volume and cputemp scripts (remove unnecessary whitespace, add /usr/bin/bash instead of /bin/sh, and use sb-volume_deb. Also need to add correct click/scroll for dwmblocks to sb-battery... Also update keybinds for volume in dwm conf.
+
+pip3 install bs4 requests ocrspace pytesseract
+pip3 install pynvim
+pip3 install i3ipc
+pip3 install pytesseract
+pip3 install pyperclip
+
+(need to install eng trained data for tesseract-ocr also. Look for towardsdatascience python read text from image)... Also set tesseract variable...
+Download:
+https://github.com/tesseract-ocr/tessdata/blob/main/eng.traineddata
+And place in /home/jonas/.local/share/tessdata
+
+Might need to change TESSDATA_PREFIX in tesseract_ocr to /home/jonas/.local/share/tessdata
+And change scripts to /usr/bin/bash and /usr/bin/python3...
+
 ----------------------------------- 
 No package:
 alsa-utils pamixer ueberzug the_silver_searcher
