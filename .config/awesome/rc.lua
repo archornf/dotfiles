@@ -70,7 +70,8 @@ beautiful.init(theme_path)
 local modkey      = "Mod4"
 local altkey      = "Mod1"
 local ctrlkey     = "Control"
-local terminal    = "urxvt"
+-- local terminal    = "urxvt"
+local terminal    = "st"
 local browser     = "firefox"
 local editor      = os.getenv("EDITOR") or "vim"
 local emacs       = "emacsclient -c -a 'emacs' "
@@ -218,11 +219,11 @@ globalkeys = my_table.join(
     -- {{{ Personal keybindings
 
     -- Awesome keybindings
-    awful.key({ modkey,         }, "Return", function () awful.spawn.with_shell( "~/.local/bin/my_scripts/term_wd.sh urxvt" ) end,
+    awful.key({ modkey,         }, "Return", function () awful.spawn.with_shell( "~/.local/bin/my_scripts/term_wd.sh "..terminal ) end,
               {description = "Launch terminal wd", group = "awesome"}),
     awful.key({ modkey, "Shift" }, "Return", function () awful.spawn( terminal ) end,
               {description = "Launch terminal", group = "awesome"}),
-    awful.key({ modkey, ctrlkey }, "Return", function () awful.spawn.with_shell( "~/.local/bin/my_scripts/term_wd.sh st" ) end,
+    awful.key({ modkey, ctrlkey }, "Return", function () awful.spawn.with_shell( "~/.local/bin/my_scripts/term_wd.sh urxvt" ) end,
               {description = "Launch terminal", group = "awesome"}),
     awful.key({ modkey, "Shift" }, "r", awesome.restart,
               {description = "Reload awesome", group = "awesome"}),
@@ -246,11 +247,11 @@ globalkeys = my_table.join(
 
     -- Run launcher
     awful.key({ modkey },            "a",     function ()
-    awful.util.spawn("/home/jonas/.local/bin/my_scripts/tmux_attach.sh urxvt")  end,
+    awful.util.spawn("/home/jonas/.local/bin/my_scripts/tmux_attach.sh "..terminal)  end,
               {description = "run tmux", group = "launcher"}),
 
     awful.key({ modkey },            "g",     function ()
-    awful.spawn("/home/jonas/.local/bin/my_scripts/nvim_fzf.sh")   end,
+    awful.spawn("/home/jonas/.local/bin/my_scripts/nvim_fzf.sh "..terminal)   end,
               {description = "nvim_fzf", group = "launcher"}),
 
     awful.key({ modkey },            "d",     function ()
@@ -258,11 +259,11 @@ globalkeys = my_table.join(
               {description = "run rofi", group = "launcher"}),
 
     awful.key({ modkey },            "c",     function ()
-    awful.util.spawn("GTK_THEME=Adwaita:dark gnome-calculator")   end,
+    awful.util.spawn("/home/jonas/.local/bin/my_scripts/term_calc.sh "..terminal)   end,
               {description = "calculator", group = "launcher"}),
 
     awful.key({ modkey, "Shift" },            "c",     function ()
-    awful.util.spawn("/home/jonas/.local/bin/my_scripts/code_helper.sh new")   end,
+    awful.util.spawn("/home/jonas/.local/bin/my_scripts/code_helper.sh new "..terminal)   end,
               {description = "code launcher", group = "launcher"}),
 
     awful.key({ modkey, "Control" },            "c",     function ()
@@ -270,7 +271,7 @@ globalkeys = my_table.join(
               {description = "calendar", group = "launcher"}),
 
     awful.key({ modkey, "Shift" },            "d",     function ()
-    awful.util.spawn("/home/jonas/.local/bin/my_scripts/code_helper.sh old")   end,
+    awful.util.spawn("/home/jonas/.local/bin/my_scripts/code_helper.sh old "..terminal)   end,
               {description = "code launcher", group = "launcher"}),
 
     awful.key({ modkey },            "r",     function ()
@@ -282,7 +283,7 @@ globalkeys = my_table.join(
               {description = "run ranger", group = "launcher"}),
 
     awful.key({ modkey },            "e",        function ()
-    awful.util.spawn("/home/jonas/.local/bin/my_scripts/ranger_wd.sh urxvt" )   end,
+    awful.util.spawn("/home/jonas/.local/bin/my_scripts/ranger_wd.sh "..terminal )   end,
               {description = "run ranger in wd", group = "launcher"}),
 
     awful.key({ modkey, "Shift"     },            "e",        function ()
@@ -345,27 +346,31 @@ globalkeys = my_table.join(
               {description = "run nautilus", group = "launcher"}),
 
     awful.key({ modkey, "Control"    },            "n",     function ()
-    awful.util.spawn("/home/jonas/.local/bin/my_scripts/open_notes.sh 1")    end,
+    awful.util.spawn("/home/jonas/.local/bin/my_scripts/open_notes.sh 1 "..terminal)    end,
               {description = "Ytop", group = "launcher"}),
 
     awful.key({modkey},            "m",     function ()
-    awful.util.spawn("/home/jonas/.local/bin/my_scripts/tstock.sh")  end,
-              {description = "Tstock launch", group = "launcher"}),
+    awful.util.spawn("nm-connection-editor")  end,
+              {description = "Network connections", group = "launcher"}),
 
     awful.key({ modkey, "Shift"    },            "m",     function ()
     awful.util.spawn("spotify")      end,
               {description = "Spotify", group = "launcher"}),
 
     awful.key({ modkey, "Control"    },            "m",     function ()
-    awful.util.spawn("/home/jonas/.local/bin/my_scripts/open_notes.sh 2")   end,
+    awful.util.spawn("/home/jonas/.local/bin/my_scripts/open_notes.sh 2 "..terminal)   end,
               {description = "Ytop", group = "launcher"}),
+
+    awful.key({modkey},            "p",     function ()
+    awful.util.spawn("/home/jonas/.local/bin/my_scripts/xrandr_helper.sh")  end,
+              {description = "Xrandr", group = "launcher"}),
 
     awful.key({modkey},            "t",     function ()
     awful.util.spawn("/home/jonas/.local/bin/my_scripts/script_copy.sh")  end,
               {description = "Script_copy", group = "launcher"}),
 
     awful.key({ modkey, "Shift"    },           "t",     function ()
-    awful.util.spawn("/home/jonas/.local/bin/my_scripts/script_helper.sh")      end,
+    awful.util.spawn("/home/jonas/.local/bin/my_scripts/script_helper.sh "..terminal)      end,
               {description = "Script_helper", group = "launcher"}),
 
     awful.key({modkey },            "section",     function ()
@@ -376,7 +381,7 @@ globalkeys = my_table.join(
               {description = 'toggle dashboard', group = 'awesome'}),
 
     awful.key({ "Shift" },            "F1",     function ()
-    awful.util.spawn("/home/jonas/.local/bin/my_scripts/show_keys.sh vim")   end,
+    awful.util.spawn("/home/jonas/.local/bin/my_scripts/show_keys.sh vim "..terminal)   end,
               {description = "vim keybinds", group = "launcher"}),
 
 	-- Print
@@ -477,14 +482,14 @@ globalkeys = my_table.join(
         {description = "decrease master width factor", group = "layout"}),
 
     -- Dynamic tagging
-    awful.key({ modkey, "Shift" }, "n", function () lain.util.add_tag() end,
-        {description = "add new tag", group = "tag"}),
-    awful.key({ modkey, ctrlkey }, "r", function () lain.util.rename_tag() end,
-        {description = "rename tag", group = "tag"}),
-    awful.key({ modkey, "Shift" }, "Left", function () lain.util.move_tag(-1) end,
-        {description = "move tag to the left", group = "tag"}),
-    awful.key({ modkey, "Shift" }, "Right", function () lain.util.move_tag(1) end,
-        {description = "move tag to the right", group = "tag"}),
+    -- awful.key({ modkey, "Shift" }, "n", function () lain.util.add_tag() end,
+    --     {description = "add new tag", group = "tag"}),
+    -- awful.key({ modkey, ctrlkey }, "r", function () lain.util.rename_tag() end,
+    --     {description = "rename tag", group = "tag"}),
+    -- awful.key({ modkey, "Shift" }, "Left", function () lain.util.move_tag(-1) end,
+    --     {description = "move tag to the left", group = "tag"}),
+    -- awful.key({ modkey, "Shift" }, "Right", function () lain.util.move_tag(1) end,
+    --     {description = "move tag to the right", group = "tag"}),
     -- awful.key({ modkey, "Shift" }, "d", function () lain.util.delete_tag() end,
     --     {description = "delete tag", group = "tag"}),
 
