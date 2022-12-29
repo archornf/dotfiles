@@ -95,7 +95,7 @@ awful.layout.layouts = {
     --awful.layout.suit.spiral.dwindle,
     awful.layout.suit.max,
     --awful.layout.suit.max.fullscreen,
-    awful.layout.suit.magnifier,
+    -- awful.layout.suit.magnifier,
     --awful.layout.suit.corner.nw,
     --awful.layout.suit.corner.ne,
     --awful.layout.suit.corner.sw,
@@ -339,11 +339,11 @@ globalkeys = my_table.join(
 
     awful.key({ modkey },            "n",     function ()
     awful.util.spawn("sh /home/jonas/.local/bin/my_scripts/nautilus_wd.sh")     end,
-              {description = "run nautilus in wd", group = "launcher"}),
+              {description = "run file manager in wd", group = "launcher"}),
 
     awful.key({ modkey, "Shift"    },            "n",     function ()
-    awful.util.spawn("nautilus -w --no-desktop")  end,
-              {description = "run nautilus", group = "launcher"}),
+    awful.util.spawn("thunar")  end,
+              {description = "run thunar", group = "launcher"}),
 
     awful.key({ modkey, "Control"    },            "n",     function ()
     awful.util.spawn("/home/jonas/.local/bin/my_scripts/open_notes.sh 1 "..terminal)    end,
@@ -510,16 +510,16 @@ globalkeys = my_table.join(
     -- awful.key({ modkey, "Shift" }, "Tab", function () awful.layout.inc(-1) end,
     --     {description = "select previous", group = "layout"}),
 
-    awful.key({ modkey, ctrlkey }, "n",
-              function ()
-                  local c = awful.client.restore()
-                  -- Focus restored client
-                  if c then
-                      client.focus = c
-                      c:raise()
-                  end
-              end,
-              {description = "restore minimized", group = "client"}),
+    -- awful.key({ modkey, ctrlkey }, "n",
+    --           function ()
+    --               local c = awful.client.restore()
+    --               -- Focus restored client
+    --               if c then
+    --                   client.focus = c
+    --                   c:raise()
+    --               end
+    --           end,
+    --           {description = "restore minimized", group = "client"}),
 
     -- Dropdown application
     awful.key({ modkey, }, "F12", function () awful.screen.focused().quake:toggle() end,
@@ -578,8 +578,8 @@ globalkeys = my_table.join(
 )
 
 clientkeys = my_table.join(
-    awful.key({ altkey, "Shift" }, "m",      lain.util.magnify_client,
-              {description = "magnify client", group = "client"}),
+    -- awful.key({ altkey, "Shift" }, "m",      lain.util.magnify_client,
+    --           {description = "magnify client", group = "client"}),
     awful.key({ modkey,           }, "f",
         function (c)
             c.fullscreen = not c.fullscreen
@@ -757,27 +757,26 @@ awful.rules.rules = {
     -- Set applications to be maximized at startup.
     -- find class or role via xprop command
 
-    { rule = { class = "Gimp*", role = "gimp-image-window" },
-          properties = { maximized = true } },
+    -- { rule = { class = "Gimp*", role = "gimp-image-window" },
+    --       properties = { maximized = true } },
 
-    { rule = { class = "inkscape" },
-          properties = { maximized = true } },
+    -- { rule = { class = "inkscape" },
+    --       properties = { maximized = true } },
 
-    { rule = { class = mediaplayer },
-          properties = { maximized = true } },
+    -- { rule = { class = mediaplayer },
+    --       properties = { maximized = true } },
 
-    { rule = { class = "Vlc" },
-          properties = { maximized = true } },
+    -- { rule = { class = "Vlc" },
+    --       properties = { maximized = true } },
 
-    { rule = { class = "VirtualBox Manager" },
-          properties = { maximized = true } },
+    -- { rule = { class = "VirtualBox Manager" },
+    --       properties = { maximized = true } },
 
-    { rule = { class = "VirtualBox Machine" },
-          properties = { maximized = true } },
+    -- { rule = { class = "VirtualBox Machine" },
+    --       properties = { maximized = true } },
 
-    { rule = { class = "Xfce4-settings-manager" },
-          properties = { floating = false } },
-
+    -- { rule = { class = "Xfce4-settings-manager" },
+    --       properties = { floating = false } },
 
 
     -- Floating clients.
