@@ -15,3 +15,5 @@ for value in ${arr[@]}; do
     exec "$value" &
   fi
 done
+
+# Wake dwmblocks

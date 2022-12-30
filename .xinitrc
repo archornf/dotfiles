@@ -36,7 +36,7 @@ setxkbmap -option caps:escape
 
 #xrdb ~/.Xresources
 xhost si:localuser:root
-systemctl --user import-environment DISPLAY
+#systemctl --user import-environment DISPLAY
 
 #exec awesome
 #exec i3
