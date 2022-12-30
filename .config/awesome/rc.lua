@@ -318,7 +318,7 @@ globalkeys = my_table.join(
 	-- Nice things
     awful.key({modkey},            "v",        function ()
     awful.util.spawn("/home/jonas/.local/bin/my_scripts/clip_history.sh")   end,
-              {description = "diodon", group = "launcher"}),
+              {description = "clip_history", group = "launcher"}),
 
     awful.key({modkey},            "period",     function ()
     awful.util.spawn("/home/jonas/.local/bin/my_scripts/emojipick/emojipick")   end,
