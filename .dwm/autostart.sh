@@ -8,7 +8,6 @@ feh --bg-fill --randomize ~/Pictures/Wallpapers/* &
 #arr=("xfce4-power-man" "copyq" "fcitx5" "dunst" "clipmenud" "qv2ray" "redshift-gtk" "mpd" "picom" "qbittorrent" "nutstore" "solaar")
 # arr=("xfce4-power-manager" "diodon" "dwmblocks", "firefox")
 arr=("diodon")
-#arr=("greenclip daemon")
 
 for value in ${arr[@]}; do
   if [[ ! $(pgrep ${value}) ]]; then
@@ -17,3 +16,5 @@ for value in ${arr[@]}; do
 done
 
 # Wake dwmblocks
+sleep 0.5
+kill -44 $(pidof dwmblocks)
