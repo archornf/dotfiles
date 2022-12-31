@@ -839,6 +839,9 @@ setup(void)
 					break;
 		if (centered) {
 			mw = MIN(MAX(max_textw() + promptw, min_width), info[i].width);
+			// Custom width
+			if (mw > 1000)
+				mw = 800;
 			x = info[i].x_org + ((info[i].width  - mw) / 2);
 			y = info[i].y_org + ((info[i].height - mh) / 2);
 		} else {
@@ -933,7 +936,7 @@ read_Xresources(void) {
 			colors[SchemeNorm][ColBg] = strdup(xval.addr);
 		if (XrmGetResource(xdb, "dmenu.foreground", "*", &type, &xval) == True)  /* normal foreground color */
 			colors[SchemeNorm][ColFg] = strdup(xval.addr);
-		if (XrmGetResource(xdb, "dmenu.color4", "*", &type, &xval) == True)  /* selected background color */
+		if (XrmGetResource(xdb, "dmenu.foreground", "*", &type, &xval) == True)  /* selected background color */
 			colors[SchemeSel][ColBg] = strdup(xval.addr);
 		if (XrmGetResource(xdb, "dmenu.color0", "*", &type, &xval) == True)  /* selected foreground color */
 			colors[SchemeSel][ColFg] = strdup(xval.addr);
