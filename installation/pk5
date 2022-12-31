@@ -6,6 +6,7 @@ wlroots
 wofi
 xawtv
 xdg-utils
+xdotool
 xf86-input-synaptics
 xf86-video-vesa
 xfce4-power-manager
@@ -57,6 +58,7 @@ xorg-xwayland
 xorg-xwd
 xorg-xwininfo
 xorg-xwud
+xsel
 yad
 zathura
 zathura-pdf-poppler
