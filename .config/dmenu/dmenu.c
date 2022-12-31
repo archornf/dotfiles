@@ -877,9 +877,14 @@ setup(void)
 	swa.colormap = cmap;
 	swa.event_mask = ExposureMask | KeyPressMask | VisibilityChangeMask |
 		ButtonPressMask;
-	win = XCreateWindow(dpy, parentwin, x, y, mw, mh, 0,
+	/* win = XCreateWindow(dpy, parentwin, x, y, mw, mh, 0, */
+	/*                     depth, InputOutput, visual, */
+	/*                     CWOverrideRedirect | CWBackPixel | CWColormap |  CWEventMask | CWBorderPixel, &swa); */
+	// Border
+	win = XCreateWindow(dpy, parentwin, x, y, mw, mh, border_width,
 	                    depth, InputOutput, visual,
 	                    CWOverrideRedirect | CWBackPixel | CWColormap |  CWEventMask | CWBorderPixel, &swa);
+	XSetWindowBorder(dpy, win, scheme[SchemeSel][ColBg].pixel);
 	XSetClassHint(dpy, win, &ch);
 
 
@@ -926,7 +931,7 @@ read_Xresources(void) {
 			fonts[0] = strdup(xval.addr);
 		if (XrmGetResource(xdb, "dmenu.color0", "*", &type, &xval) == True)  /* normal background color */
 			colors[SchemeNorm][ColBg] = strdup(xval.addr);
-		if (XrmGetResource(xdb, "dmenu.color4", "*", &type, &xval) == True)  /* normal foreground color */
+		if (XrmGetResource(xdb, "dmenu.foreground", "*", &type, &xval) == True)  /* normal foreground color */
 			colors[SchemeNorm][ColFg] = strdup(xval.addr);
 		if (XrmGetResource(xdb, "dmenu.color4", "*", &type, &xval) == True)  /* selected background color */
 			colors[SchemeSel][ColBg] = strdup(xval.addr);
