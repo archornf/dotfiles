@@ -839,9 +839,9 @@ setup(void)
 					break;
 		if (centered) {
 			mw = MIN(MAX(max_textw() + promptw, min_width), info[i].width);
-			// Custom width
-			if (mw > 1000)
-				mw = 800;
+			// Custom max width
+			if (mw > 900)
+				mw = 900;
 			x = info[i].x_org + ((info[i].width  - mw) / 2);
 			y = info[i].y_org + ((info[i].height - mh) / 2);
 		} else {
