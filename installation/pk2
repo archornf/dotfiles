@@ -1,11 +1,12 @@
 gcc
 gdb
 git
+gtest
 glm
 grim
 gruvbox-dark-gtk
 htop
-i3-gaps
+i3-wm
 i3blocks
 i3lock
 i3status

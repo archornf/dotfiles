@@ -41,9 +41,10 @@ gnuplot
 grim
 grub
 gruvbox-dark-gtk
+gtest
 htop
 hyprland-git
-i3-gaps
+i3-wm
 i3blocks
 i3lock
 i3status
