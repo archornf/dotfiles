@@ -1,4 +1,9 @@
-# Luke's dmenu
+# Modified version of Luke's dmenu
+
+Besides the features below, I have also added:
+https://tools.suckless.org/dmenu/patches/center/
+https://tools.suckless.org/dmenu/patches/border/
+And also a max width in the code, as well as some changes to the coloring.
 
 Extra stuff added to vanilla dmenu:
 

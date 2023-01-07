@@ -202,6 +202,7 @@ precmd() { eval "$PROMPT_COMMAND" }
 export PROMPT_COMMAND="pwd > /tmp/whereami"
 
 ~/.local/bin/my_scripts/hello.sh
+export PATH="${PATH}:${HOME}/.local/bin/"
 export PATH="${PATH}:${HOME}/.local/bin/my_scripts"
 bindkey '^ ' autosuggest-accept
 
