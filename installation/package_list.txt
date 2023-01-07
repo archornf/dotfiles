@@ -10,6 +10,7 @@ bluez
 bluez-utils
 cava
 cglm
+chromium
 clang
 cmake
 conky
@@ -194,6 +195,7 @@ xorg-xwininfo
 xorg-xwud
 xsel
 yad
+yarn
 yay-git
 zathura
 zathura-pdf-poppler
