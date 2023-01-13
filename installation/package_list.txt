@@ -118,6 +118,7 @@ swaylockd
 tesseract
 the_silver_searcher
 thunar
+tk
 tlp
 tmux
 tstock
