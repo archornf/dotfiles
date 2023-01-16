@@ -48,6 +48,10 @@ If you type Ctrl + T inside the fzf selection window,
 
 Ctrl + K then p*, f*, -> <- etc...
 
+# Window splitting:
+:bot term ++rows=8 (vim)
+:bot 8sp | term (neovim)
+
 KEYBINDS:
 
 map('n', '<leader>p', 'viw"_dP') -- Replace from void

@@ -244,6 +244,7 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,         XK_period,  	spawn,      SHCMD("i3lock-fancy && ~/.local/bin/my_scripts/alert_exit.sh && systemctl suspend")},
 	{ MODKEY,					XK_v,			spawn,		SHCMD("~/.local/bin/my_scripts/clip_history.sh greenclip") },
 	{ MODKEY|ShiftMask,			XK_v,			spawn,		SHCMD("~/.local/bin/my_scripts/qr_clip.sh") },
+	{ MODKEY,					XK_comma,		spawn,		SHCMD("~/.local/bin/my_scripts/progrm_helper.sh " TERMINAL) },
 	{ MODKEY,					XK_period,		spawn,		SHCMD("~/.local/bin/my_scripts/emojipick/emojipick") },
 	{ MODKEY,					XK_a,			spawn,		SHCMD("~/.local/bin/my_scripts/tmux_attach.sh " TERMINAL) },
 	{ MODKEY|ShiftMask,         XK_a,			spawn,      SHCMD("picom-trans -c -5")},
