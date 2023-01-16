@@ -7,9 +7,10 @@ rofi_command="rofi -theme ~/.config/rofi/themes/gruvbox/gruvbox-dark.rasi"
 compOpt="complexities"
 dpOpt="design patterns"
 dsOpt="data structures"
+genOpt="general"
 
 # Variable passed to rofi
-options="$compOpt\n$dpOpt\n$dsOpt"
+options="$compOpt\n$dpOpt\n$dsOpt\n$genOpt"
 
 chosen="$(echo -e "$options" | $rofi_command -p "Choose a command" -dmenu -selected-row 0)"
 case $chosen in
@@ -21,5 +22,8 @@ case $chosen in
         ;;
     $dsOpt)
 		$1 -e bash -c 'nvim ~/Documents/progrm_help_docs/ds.txt; zsh'
+        ;;
+    $genOpt)
+		$1 -e bash -c 'nvim ~/Documents/progrm_help_docs/general.txt; zsh'
         ;;
 esac
