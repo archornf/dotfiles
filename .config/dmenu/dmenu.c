@@ -675,7 +675,7 @@ setup(void)
 
 		if (centered) {
 			//mw = MIN(MAX(max_textw() + promptw, min_width), info[i].width);
-			// Custom max width
+			//// Custom max width
 			//if (mw > max_width)
 			//	mw = 900;
 			mw = 900;
