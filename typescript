@@ -1,28 +1,0 @@
-Script started on 2023-01-01 14:38:23+01:00 [TERM="st-256color" TTY="/dev/pts/1" COLUMNS="99" LINES="48"]
-[1m[7m%[27m[1m[0m                                                                                                   ]2;jonas@ornf:~/Downloads/dotfiles]1;..oads/dotfiles[0m[27m[24m[J[37m[1mjonas[0m[00m:[34m[1mdotfiles/[0m[00m [01;34m([22;33m[1mmaster[01;31m✗[0m[01;34m)[00m $ [K[60C[14:38:23][70D[?1h=[?2004hscript[32ms[32mc[32mr[32mi[32mp[32mt[39m[32mt[32ms[39m[?1l>[?2004l
-]2;cd ~/.local/bin/my_scripts; ls --color=tty]1;scripts[0m[00;32malert_exit.sh[0m            [01;34memojipick[0m              [00;32mpytess.py[0m             [00;32msuspend.sh[0m
-[00;32march_helper.sh[0m           [00;32mfzf_open.sh[0m            [00;32mqr_clip.sh[0m            [00;32mswitch_theme.sh[0m
-[00;32mbg_pbar_mon.sh[0m           [00;32mhello.sh[0m               [00;32mranger_wd.sh[0m          [00;32msysmenu_awsm.sh[0m
-[00;32mbg_pbar.sh[0m               [01;34mhyprland[0m               [00;32mscreenshot_delay.sh[0m   [00;32mterm_calc.sh[0m
-[00;32mbluetooth.sh[0m             [01;34mi3-alternating-layout[0m  [00;32mscreenshot_ocr.sh[0m     [00;32mterm_wd.sh[0m
-[00;32mbrightness.sh[0m            [00;32mi3lock_img.sh[0m          [00;32mscreenshot_select.sh[0m  [00;32mtesseract_ocr.sh[0m
-[00;32mcale.sh[0m                  [00;32mincbrightness.sh[0m       [00;32mscreenshot.sh[0m         [00;32mtmux_attach.sh[0m
-[00;32mchange_eww_-5.sh[0m         [00;32mloadEww.sh[0m             [00;32mscript_copy_old.sh[0m    [00;32mtoggle_polybar.sh[0m
-[00;32mchange_eww.sh[0m            [00;32mmediaplayer.sh[0m         [00;32mscript_copy.sh[0m        [00;32mtstock.sh[0m
-[00;32mchange-wallpaper.sh[0m      [00;32mmousepad.sh[0m            [01;34mscript_help_docs[0m      [00mtypescript[0m
-[00mchange-wallpaper.sh.err[0m  [00;32mmy_cal.sh[0m              [00;32mscript_helper2.sh[0m     [00;32mudots.sh[0m
-[00;32mclip_history.sh[0m          [00;32mnamnsdag.py[0m            [00;32mscript_helper.sh[0m      [00;32mvisidata[0m
-[00;32mcode_helper.sh[0m           [00;32mnautilus_wd.sh[0m         [00;32mscs.sh[0m                [00;32mwin_screenshot_awsm.sh[0m
-[00;32mcolors.sh[0m                [00;32mnvim_fzf.sh[0m            [00;32mshow_keys.sh[0m          [00;32mxrandr_helper.sh[0m
-[00mcompare.py[0m               [00mocr.txt[0m                [00;32mspotify_dwmblocks.sh[0m  [00mx.txt[0m
-[00;32mdecbrightness.sh[0m         [00;32mopen_notes.sh[0m          [00;32mspotify.sh[0m
-[00;32mdmenuunicode.sh[0m          [00;32mprint_ocr.py[0m           [00;32msuspend_awsm_lock.sh[0m
-[00;32mdwm_keybinds.sh[0m          [00;32mprog_helper.sh[0m         [00;32msuspend_awsm.sh[0m
-[1m[7m%[27m[1m[0m                                                                                                   ]2;jonas@ornf:~/.local/bin/my_scripts]1;..in/my_scripts[0m[27m[24m[J[37m[1mjonas[0m[00m:[34m[1mmy_scripts/[0m[00m $ [K[68C[14:38:24][78D[?1h=[?2004hl[32ml[39m[32ml[39m[90ms[39m[32ml[32ms[39m[?1l>[?2004l
-]2;ls --color=tty]1;ls[0m[00;32malert_exit.sh[0m            [01;34memojipick[0m              [00;32mpytess.py[0m             [00;32msuspend.sh[0m
-[00;32march_helper.sh[0m           [00;32mfzf_open.sh[0m            [00;32mqr_clip.sh[0m            [00;32mswitch_theme.sh[0m
-[00;32mbg_pbar_mon.sh[0m           [00;32mhello.sh[0m               [00;32mranger_wd.sh[0m          [00;32msysmenu_awsm.sh[0m
-[00;32mbg_pbar.sh[0m               [01;34mhyprland[0m               [00;32mscreenshot_delay.sh[0m   [00;32mterm_calc.sh[0m
-[00;32mbluetooth.sh[0m             [01;34mi3-alternating-layout[0m  [00;32mscreenshot_ocr.sh[0m     [00;32mterm_wd.sh[0m
-[00;32mbrightness.sh[0m            [00;32mi3lock_img.sh[0m          [00;32mscreenshot_select.sh[0m  [00;32mtesseract_ocr.sh[0m
-[00;32mcale.sh[0m   

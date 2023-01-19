@@ -8,9 +8,10 @@ compOpt="complexities"
 dpOpt="design patterns"
 dsOpt="data structures"
 genOpt="general"
+praOpt="practical"
 
 # Variable passed to rofi
-options="$compOpt\n$dpOpt\n$dsOpt\n$genOpt"
+options="$compOpt\n$dpOpt\n$dsOpt\n$genOpt\n$praOpt"
 
 chosen="$(echo -e "$options" | $rofi_command -p "Choose a command" -dmenu -selected-row 0)"
 case $chosen in
@@ -25,5 +26,8 @@ case $chosen in
         ;;
     $genOpt)
 		$1 -e bash -c 'nvim ~/Documents/progrm_help_docs/general.txt; zsh'
+        ;;
+    $praOpt)
+		$1 -e bash -c 'nvim ~/Documents/progrm_help_docs/practical.txt; zsh'
         ;;
 esac
