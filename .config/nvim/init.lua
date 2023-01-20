@@ -14,6 +14,7 @@ local A   = vim.api
 
 o.termguicolors = true
 -- o.background = 'dark'
+require'colorizer'.setup()
 
 -- Do not save when switching buffers
 -- o.hidden = true
@@ -533,7 +534,7 @@ return require('packer').startup(function()
 
   -- Syntax Highlighting and Colors --
   use 'vim-python/python-syntax'
-  use 'ap/vim-css-color'
+  use 'norcalli/nvim-colorizer.lua'
   -- use 'vim-syntastic/syntastic'
   use 'neovim/nvim-lspconfig' -- Configurations for Nvim LSP
   use 'hrsh7th/cmp-nvim-lsp'
@@ -547,17 +548,17 @@ return require('packer').startup(function()
 
   -- Colorschemes
   use("gruvbox-community/gruvbox")
-  use {
-      "catppuccin/nvim",
-      as = "catppuccin",
-      config = function()
-          require("catppuccin").setup {
-              --flavour = "macchiato" -- mocha, macchiato, frappe, latte
-              flavour = "mocha"
-          }
-          -- vim.api.nvim_command "colorscheme catppuccin"
-      end
-  }
+  -- use {
+  --     "catppuccin/nvim",
+  --     as = "catppuccin",
+  --     config = function()
+  --         require("catppuccin").setup {
+  --             --flavour = "macchiato" -- mocha, macchiato, frappe, latte
+  --             flavour = "mocha"
+  --         }
+  --         -- vim.api.nvim_command "colorscheme catppuccin"
+  --     end
+  -- }
   -- use 'RRethy/nvim-base16'
 
   -- Other stuff
