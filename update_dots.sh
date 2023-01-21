@@ -1,35 +1,38 @@
 #! /bin/sh
 
-rm -rf .config/awesome
-rm -rf .config/cava
-rm -rf .config/conky
-rm -rf .config/dmenu
-rm -rf .config/dwm
-rm -rf .config/dwmblocks
-rm -rf .config/dwm_mul_mon
-rm -rf .config/eww
-rm -rf .config/hypr
-rm -rf .config/i3
-rm -rf .config/kitty
-rm -rf .config/neofetch
-rm -rf .config/nvim
-rm -rf .config/picom
-rm -rf .config/polybar
-rm -rf .config/ranger
-rm -rf .config/rofi
-rm -rf .config/st
-rm -rf .config/zathura
+#rm -rf .config/awesome
+#rm -rf .config/cava
+#rm -rf .config/conky
+#rm -rf .config/dmenu
+#rm -rf .config/dwm
+#rm -rf .config/dwmblocks
+#rm -rf .config/dwm_mul_mon
+#rm -rf .config/eww
+#rm -rf .config/hypr
+#rm -rf .config/i3
+#rm -rf .config/kitty
+#rm -rf .config/neofetch
+#rm -rf .config/nvim
+#rm -rf .config/picom
+#rm -rf .config/polybar
+#rm -rf .config/ranger
+#rm -rf .config/rofi
+#rm -rf .config/st
+#rm -rf .config/zathura
+#
+#rm -rf .dwm
+#rm -rf bin
+#rm -rf installation
+#
+#rm .bashrc
+#rm .tmux.conf
+#rm .xinitrc
+#rm .Xresources
+#rm .Xresources_cat
+#rm .zshrc
 
-rm -rf .dwm
-rm -rf bin
-rm -rf installation
-
-rm .bashrc
-rm .tmux.conf
-rm .xinitrc
-rm .Xresources
-rm .Xresources_cat
-rm .zshrc
+printf "Removed files..."
+sleep 0.5
 
 cp -r ~/.config/awesome .config/awesome/
 cp -r ~/.config/cava .config/cava/
@@ -62,8 +65,10 @@ cp -r ~/.Xresources .Xresources
 cp -r ~/.Xresources_cat .Xresources_cat
 cp -r ~/.zshrc .zshrc
 
-git add -A
-git commit -m $1
+printf "Copied new files..."
+
+#git add -A
+#git commit -m $1
 #git push ...
-git push https://"{$2}"@github.com/archornf/dotfiles.git
+#git push https://"{$2}"@github.com/archornf/dotfiles.git
 
