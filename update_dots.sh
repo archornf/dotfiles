@@ -62,6 +62,8 @@ cp -r ~/.Xresources .Xresources
 cp -r ~/.Xresources_cat .Xresources_cat
 cp -r ~/.zshrc .zshrc
 
-#git add -A
-#git commit -m $1
+git add -A
+git commit -m $1
 #git push ...
+git push https://"{$2}"@github.com/archornf/dotfiles.git
+
