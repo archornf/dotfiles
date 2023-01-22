@@ -11,6 +11,7 @@ rm -rf .config/eww
 rm -rf .config/hypr
 rm -rf .config/i3
 rm -rf .config/kitty
+rm -rf .config/lf
 rm -rf .config/neofetch
 rm -rf .config/nvim
 rm -rf .config/picom
@@ -45,6 +46,7 @@ cp -r ~/.config/eww .config/eww/
 cp -r ~/.config/hypr .config/hypr/
 cp -r ~/.config/i3 .config/i3/
 cp -r ~/.config/kitty .config/kitty/
+cp -r ~/.config/lf .config/lf/
 cp -r ~/.config/neofetch .config/neofetch/
 cp -r ~/.config/nvim .config/nvim/
 cp -r ~/.config/picom .config/picom/
