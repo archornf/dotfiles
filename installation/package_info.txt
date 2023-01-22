@@ -5,6 +5,5 @@ diff package_list.txt package_list_.txt
 # Then use command below (you probably need to change it a bit, add sudo)
 for x in $(cat package_list.txt); do pacman -S $x; done
 
-
 # List packages not install from main repos:
 pacman -Qm > other.txt

@@ -16,6 +16,7 @@ jdtls
 jq
 jre-openjdk
 kitty
+lf
 light
 lxappearance
 m4
@@ -29,7 +30,7 @@ mtools
 nautilus
 neofetch
 neovim
-nerd-fonts-jetbrains-mono
+ttf-jetbrains-mono-nerd
 netctl
 networkmanager
 ninja

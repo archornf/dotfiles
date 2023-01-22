@@ -22,9 +22,11 @@ dosfstools
 dotnet-sdk
 dunst
 efibootmgr
+epub-thumbnailer-git
 eww
 fakeroot
 feh
+ffmpegthumbnailer
 firefox
 fish
 flatpak
@@ -55,6 +57,7 @@ jdtls
 jq
 jre-openjdk
 kitty
+lf
 light
 linux
 linux-firmware
@@ -70,7 +73,6 @@ mtools
 nautilus
 neofetch
 neovim
-nerd-fonts-jetbrains-mono
 netctl
 networkmanager
 ninja
@@ -106,7 +108,7 @@ scrot
 slurp
 sndio
 speedtest-cli
-spotify
+spotify-launcher
 starship
 steam
 subversion
@@ -125,6 +127,7 @@ tstock
 ttf-font-awesome
 ttf-icomoon-feather
 ttf-iosevka-nerd
+ttf-jetbrains-mono-nerd
 ttf-joypixels
 tty-clock-git
 ueberzug
