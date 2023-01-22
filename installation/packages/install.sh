@@ -3,8 +3,8 @@
 # replace picom-pijulius-git with regular picom if you wish...
 
 # Other optional packages:
-# lf, bat, 
-# Not usre if required for lf previews: ffmpegthumbnailer, epub-thumbnailer-git, chafa
+# lf, bat
+# Not sure if these are required for lf previews: ffmpegthumbnailer, epub-thumbnailer-git, chafa
 
 # Other picom animation repos:
 # https://github.com/dccsillag/picom
@@ -12,4 +12,3 @@
 
 #for x in $(cat packages.txt); do yay -S --noconfirm $x; done
 for x in $(cat pk1); do yay -S --noconfirm $x; done
-
