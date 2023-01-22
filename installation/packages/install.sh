@@ -3,7 +3,8 @@
 # replace picom-pijulius-git with regular picom if you wish...
 
 # Other optional packages:
-# lf, ffmpegthumbnailer, epub-thumbnailer-git, chafa, wkhtmltopdf
+# lf, bat, 
+# Not usre if required for lf previews: ffmpegthumbnailer, epub-thumbnailer-git, chafa
 
 # Other picom animation repos:
 # https://github.com/dccsillag/picom
