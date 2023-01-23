@@ -137,6 +137,9 @@ cmd set_bg ${{
 	feh --bg-fill $fx
 }}
 
+#cmd setbg "$1"
+#cmd bulkrename $vidir
+
 # Default mappings:
 # https://pkg.go.dev/github.com/gokcehan/lf#section-readme
 #map e $$EDITOR "$f"
@@ -156,9 +159,6 @@ cmd set_bg ${{
 #map se :set sortby ext; set info
 #map gh cd ~
 #map <space> :toggle; down
-
-cmd setbg "$1"
-cmd bulkrename $vidir
 
 # Bindings
 map <c-f> $lf -remote "send $id select \"$(fzf)\""
@@ -182,9 +182,11 @@ map o &mimeopen "$f"
 map O $mimeopen --ask "$f"
 
 map A rename # at the very end
-map c push A<c-u> # new rename
+#map c push A<c-u> # new rename
+map c
+map cw push A<c-u> # new rename
 #map W bulkrename
-map W bulk-rename
+map cW bulk-rename
 map I push A<c-a> # at the very beginning
 map i push A<a-b><a-b><a-f> # before extension
 map a push A<a-b> # after extension
