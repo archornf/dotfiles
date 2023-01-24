@@ -17,9 +17,10 @@ visidataOpt="visidata"
 # Variable passed to rofi
 options="$awkOpt\n$bashOpt\n$grepOpt\n$perlOpt\n$prgrmOpt\n$sedOpt\n$otherOpt\n$vimOpt\n$visidataOpt"
 
-chosen="$(echo -e "$options" | $rofi_command -p "Choose a command" -dmenu -selected-row 0)"
 # Dmenu
 #chosen="$(echo -e "$options" | dmenu -i -p "Choose a command" -l 10)"
+# Rofi
+chosen="$(echo -e "$options" | $rofi_command -p "Choose a command" -dmenu -selected-row 0)"
 case $chosen in
     $awkOpt)
 		$1 -e bash -c 'nvim ~/.local/bin/my_scripts/script_help_docs/awk.txt; zsh'

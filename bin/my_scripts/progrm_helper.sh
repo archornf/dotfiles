@@ -9,13 +9,18 @@ dpOpt="design patterns"
 dsOpt="data structures"
 genOpt="general"
 praOpt="practical"
+priOpt="principles"
 
 # Variable passed to rofi
-options="$compOpt\n$dpOpt\n$dsOpt\n$genOpt\n$praOpt"
+options="$compOpt\n$dpOpt\n$dsOpt\n$genOpt\n$praOpt\n$priOpt"
 
+# Dmenu
+#chosen="$(echo -e "$options" | dmenu -i -p "Choose a command" -l 10)"
+# Rofi
 chosen="$(echo -e "$options" | $rofi_command -p "Choose a command" -dmenu -selected-row 0)"
 case $chosen in
     $compOpt)
+		# ; zsh keeps the terminal alive after closing document
 		$1 -e bash -c 'nvim ~/Documents/progrm_help_docs/complexities.txt; zsh'
         ;;
     $dpOpt)
@@ -29,5 +34,8 @@ case $chosen in
         ;;
     $praOpt)
 		$1 -e bash -c 'nvim ~/Documents/progrm_help_docs/practical.txt; zsh'
+        ;;
+    $priOpt)
+		$1 -e bash -c 'nvim ~/Documents/progrm_help_docs/principles.txt; zsh'
         ;;
 esac
