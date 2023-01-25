@@ -56,3 +56,22 @@ bind=SUPERSHIFT,comma,exec, ~/.local/bin/my_scripts/suspend_awsm.sh
 bind=SUPERSHIFT,period,exec, ~/.local/bin/my_scripts/suspend_awsm_lock.sh
 #bind=SUPERSHIFT,X,exec, i3lock -i /home/jonas/Downloads/lock-wallpaper.png
 bind=SUPERCTRL,X,exec,~/.config/hypr/scripts/lock
+
+
+###
+Things to test
+###
+Open nautilus and htop and a terminal
+Move those around
+
+Ranger pdf
+
+Test ST with echo ... follow, copy url.
+
+Script copy test 3 different ones
+
+Open script_helper thing
+
+Ocr screenshot
+
+etc...
