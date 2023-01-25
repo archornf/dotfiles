@@ -16,6 +16,8 @@ options="$compOpt\n$dpOpt\n$dsOpt\n$genOpt\n$praOpt\n$priOpt"
 
 # Dmenu
 #chosen="$(echo -e "$options" | dmenu -i -p "Choose a command" -l 10)"
+# Cleaner Dmenu
+#chosen="$(echo -e "$options" | dmenu -i -l 10)"
 # Rofi
 chosen="$(echo -e "$options" | $rofi_command -p "Choose a command" -dmenu -selected-row 0)"
 case $chosen in
