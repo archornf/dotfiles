@@ -74,4 +74,12 @@ Open script_helper thing
 
 Ocr screenshot
 
-etc...
+Try floating, fullscreen, resize windows
+bind=SUPERCTRL,C,exec, yad --calendar --no-buttons
+bind=SUPER,T,exec, ~/.local/bin/my_scripts/hyprland/hypr_script_copy.sh
+bind=SUPERSHIFT,T,exec, ~/.local/bin/my_scripts/script_helper.sh $term
+bind=SUPER,V,exec, ~/.local/bin/my_scripts/clip_history.sh greenclip
+bind=SUPERSHIFT,V,exec, ~/.local/bin/my_scripts/qr_clip.sh
+bind=SUPER,G,exec, fzf_open.sh $term
+bind=SUPERCTRL,S,exec, ~/.local/bin/my_scripts/hyprland/hypr_tesseract_ocr.sh
+bind=SUPERCTRL,X,exec,~/.config/hypr/scripts/lock
