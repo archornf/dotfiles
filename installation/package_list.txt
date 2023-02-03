@@ -1,3 +1,4 @@
+ace
 adwaita-dark
 alsa-utils
 autoconf
@@ -5,11 +6,15 @@ automake
 awesome
 base
 bashtop
+bat
+bazel
 bison
 bluez
 bluez-utils
+boost
 cava
 cglm
+chafa
 chromium
 clang
 cmake
@@ -66,6 +71,7 @@ m4
 maim
 make
 mako
+mariadb
 meson
 mono
 mpv
@@ -117,6 +123,7 @@ swaybg
 swayidle
 swaylock-effects-git
 swaylockd
+tbb
 tesseract
 the_silver_searcher
 thunar
