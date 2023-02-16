@@ -204,7 +204,9 @@ export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 
 precmd() { eval "$PROMPT_COMMAND" }
 export PROMPT_COMMAND="pwd > /tmp/whereami"
-
+export PATH=$PATH:/usr/local/go/bin
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
 export PATH="${PATH}:${HOME}/.local/bin/"
 export PATH="${PATH}:${HOME}/.local/bin/my_scripts"
 export LANG=en_US.UTF-8
