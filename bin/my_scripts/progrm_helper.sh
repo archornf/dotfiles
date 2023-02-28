@@ -12,9 +12,10 @@ dtOpt="data types"
 genOpt="general"
 praOpt="practical"
 priOpt="principles"
+sortOpt="sorting"
 
 # Variable passed to rofi
-options="$compOpt\n$csdOpt\n$dpOpt\n$dsOpt\n$dtOpt\n$genOpt\n$praOpt\n$priOpt"
+options="$compOpt\n$csdOpt\n$dpOpt\n$dsOpt\n$dtOpt\n$genOpt\n$praOpt\n$priOpt\n$sortOpt"
 
 # Dmenu
 #chosen="$(echo -e "$options" | dmenu -i -p "Choose a command" -l 10)"
@@ -48,5 +49,8 @@ case $chosen in
         ;;
     $priOpt)
 		$1 -e bash -c 'nvim ~/Documents/progrm_help_docs/principles.txt'
+        ;;
+    $sortOpt)
+		$1 -e bash -c 'nvim ~/Documents/progrm_help_docs/sorting.txt'
         ;;
 esac
