@@ -9,13 +9,14 @@ csdOpt="csd"
 dpOpt="design patterns"
 dsOpt="data structures"
 dtOpt="data types"
+g2kOpt="good 2 know"
 genOpt="general"
 praOpt="practical"
 priOpt="principles"
 sortOpt="sorting"
 
 # Variable passed to rofi
-options="$compOpt\n$csdOpt\n$dpOpt\n$dsOpt\n$dtOpt\n$genOpt\n$praOpt\n$priOpt\n$sortOpt"
+options="$compOpt\n$csdOpt\n$dpOpt\n$dsOpt\n$dtOpt\n$g2kOpt\n$genOpt\n$praOpt\n$priOpt\n$sortOpt"
 
 # Dmenu
 #chosen="$(echo -e "$options" | dmenu -i -p "Choose a command" -l 10)"
@@ -40,6 +41,9 @@ case $chosen in
         ;;
     $dtOpt)
 		$1 -e bash -c 'nvim ~/Documents/progrm_help_docs/dt.txt'
+        ;;
+    $g2kOpt)
+		$1 -e bash -c 'nvim ~/Documents/progrm_help_docs/g2k.txt'
         ;;
     $genOpt)
 		$1 -e bash -c 'nvim ~/Documents/progrm_help_docs/general.txt'

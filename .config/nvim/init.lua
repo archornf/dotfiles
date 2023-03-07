@@ -318,7 +318,7 @@ map('n', '<leader>ws', ':%s/\\s\\+$<CR>') -- Remove all extra whitespace
 map('n', '<leader>wu', ':%s/\\%u200b//g<CR>') -- Remove all extra unicode chars
 map('n', '<leader>wb', ':%s/[[:cntrl:]]//g<CR>') -- Remove all hidden characters
 map('n', '<leader>wf', 'gqG<C-o>zz') -- Format rest of the text with vim formatting, go back and center screen
-map('v', '<leader>gu', ':s/\\<./\\u&/g<CR>:noh<CR>') -- Capitalize first letter of each word on visually selected line
+map('v', '<leader>gu', ':s/\\<./\\u&/g<CR>:noh<CR>:noh<CR>') -- Capitalize first letter of each word on visually selected line
 map('v', '<leader>/', '"3y/<C-R>3<CR>') -- Search for highlighted text
 map('v', '<leader>%', '/\\%V') -- Search in highlighted text
 map("n", "Q", "<nop>") -- Remove Ex Mode
