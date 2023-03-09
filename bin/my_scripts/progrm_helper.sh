@@ -6,6 +6,7 @@ rofi_command="rofi -theme ~/.config/rofi/themes/gruvbox/gruvbox-dark.rasi"
 # Options
 agiOpt="agile"
 aiOpt="ai"
+bdOpt="bd"
 compOpt="complexities"
 csdOpt="csd"
 dpOpt="design patterns"
@@ -18,7 +19,7 @@ priOpt="principles"
 sortOpt="sorting"
 
 # Variable passed to rofi
-options="$agiOpt\n$aiOpt\n$compOpt\n$csdOpt\n$dpOpt\n$dsOpt\n$dtOpt\n$g2kOpt\n$genOpt\n$praOpt\n$priOpt\n$sortOpt"
+options="$agiOpt\n$aiOpt\n$bdOpt\n$compOpt\n$csdOpt\n$dpOpt\n$dsOpt\n$dtOpt\n$g2kOpt\n$genOpt\n$praOpt\n$priOpt\n$sortOpt"
 
 # Dmenu
 #chosen="$(echo -e "$options" | dmenu -i -p "Choose a command" -l 10)"
@@ -32,6 +33,9 @@ case $chosen in
         ;;
     $agiOpt)
 		$1 -e bash -c 'nvim ~/Documents/progrm_help_docs/agile.txt'
+        ;;
+    $bdOpt)
+		$1 -e bash -c 'nvim ~/Documents/progrm_help_docs/bd.txt'
         ;;
     $compOpt)
 		# ; zsh keeps the terminal alive after closing document
