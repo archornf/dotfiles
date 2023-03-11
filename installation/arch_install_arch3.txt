@@ -8,7 +8,7 @@ station wlan0 get-networks
 station wlan0 connect OWNIT-B1C0
 enter password...
 --------------------------------------------------
-FIRST: curl https://raw.githubusercontent.com/ornfelt/dotfiles/installation/arch-install.txt -O
+FIRST: curl https://raw.githubusercontent.com/ornfelt/dotfiles/installation/arch-install_arch3.txt -O
 --------------------------------------------------
 
 # Load the right keys
@@ -332,9 +332,21 @@ sudo apt install rofi neofetch pulseaudio fzf xdg-utils nodejs python3-pip (pyth
 sudo localectl set-x11-keymap se (then sudo reboot)
 git clone polybar themes and run the starting script
 then copy files from dotfiles to .config
-https://github.com/adi1090x/polybar-themes#installation
+git clone --depth=1 https://github.com/adi1090x/polybar-themes.git
+cd polybar-themes
+chmod +x setup.sh
+./setup.sh
 
+DO THIS:
+https://www.nerdfonts.com/font-downloads
+Download Jetbrains from above and copy the files to ~/.local/share/fonts/ -> restart or fc-cache -fv.
+---
+OLD:
 Search for nerd fonts jetbrainsmono -> download -> mkdir JetBrains and unzip in new dir -> copy all files to ~/.local/share/fonts -> restart or fc-cache -fv.
+Or:
+https://github.com/JetBrains/JetBrainsMono
+mv JetBrainsMono-*.ttf ~/.local/share/fonts/
+---
 
 install oh-my-zsh:
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
@@ -344,7 +356,9 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-m
 
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
-Copy bashrc and zshrc and reboot...
+Copy bashrc and zshrc!
+
+https://github.com/erebe/greenclip
 
 sudo apt install virtualbox-guest-utils virtualbox-guest-X11
 Virtualbox guest utils doesn't work it seems... See:
@@ -362,13 +376,14 @@ sudo ninja -C build install
 
 Start picom with picom --animations
 
-pamix alsa-utils xinput qrencode diodon silversearcher-ag maim imagemagick tesseract-ocr
+pamix alsa-utils xinput qrencode silversearcher-ag maim imagemagick tesseract-ocr
 
 ST term works better for neovim theming it seems... Needs:
 sudo apt install libharfbuzz-dev
 And uncomment the line f->badweight = 1; in x.c
 
-sudo apt install lua
+sudo apt install lua / lua5.3
+sudo apt remove neovim, then:
 git clone https://github.com/neovim/neovim
 cd neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo
 sudo make install
@@ -396,8 +411,10 @@ And place in /home/jonas/.local/share/tessdata
 Might need to change TESSDATA_PREFIX in tesseract_ocr to /home/jonas/.local/share/tessdata
 And change scripts to /usr/bin/bash and /usr/bin/python3...
 
+Azerothcore:
+sudo apt-get update && sudo apt-get install git cmake make gcc g++ clang default-libmysqlclient-dev libssl-dev libbz2-dev libreadline-dev libncurses-dev mariadb-server libboost-all-dev -y
+
 ----------------------------------- 
-No package:
-alsa-utils pamixer ueberzug the_silver_searcher
+Haven't tried:
 bluez bluez-utils?
 sudo systemctl enable bluetooth.service
