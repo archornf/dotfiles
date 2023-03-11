@@ -8,7 +8,7 @@ station wlan0 get-networks
 station wlan0 connect OWNIT-B1C0
 enter password...
 --------------------------------------------------
-FIRST: curl https://raw.githubusercontent.com/ornfelt/dotfiles/installation/arch-install_arch3.txt -O
+FIRST: curl https://raw.githubusercontent.com/archornf/dotfiles/master/installation/arch_install_arch3.txt -O
 --------------------------------------------------
 
 # Load the right keys
