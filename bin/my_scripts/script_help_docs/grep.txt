@@ -115,3 +115,4 @@ grep -ERHn "\bX\W+(\w+\W+){1,10}Y\b" *
 # Practical examples:
 grep -ERHn "\bLog\W+(\w+\W+){1,10}casting\b" * 
 grep -rin -C 1 "log" | grep -in -E -C 1 "casting"
+grep -rin -C 2 "mount" | grep -in -E -C 2 "shapeshift"

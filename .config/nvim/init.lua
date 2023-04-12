@@ -471,8 +471,8 @@ func! CompileRun()
     elseif &filetype == 'sh'
         exec "!time bash %"
     elseif &filetype == 'python'
-        exec "!python3 %"
-        "exec "!time python3 %"
+        "exec "!python3 %"
+        exec "!time python3 %"
     elseif &filetype == 'html'
         exec "!firefox % &"
     elseif &filetype == 'javascript'
