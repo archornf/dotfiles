@@ -127,6 +127,7 @@ let g:jedi#popup_on_dot = 1
 let g:syntastic_always_populate_loc_list = 0
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+let g:NERDTreeQuitOnOpen=1
 let NERDTreeShowHidden=1
 
 " Disable tab key for vimwiki (enables autocomplete via tabbing)
