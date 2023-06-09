@@ -18,18 +18,18 @@
 
 vol="$(pamixer --get-volume)"
 
-icon=" "
+icon="󰕾 "
+#
 
 #if [ "$vol" -gt "70" ]; then
-#	# icon="🔊"
-#	#icon="墳 "
-#	icon=" "
+#    # icon="🔊"
+#    icon="墳 "
 #elif [ "$vol" -lt "30" ]; then
-#	# icon="🔈"
-#	icon="墳 "
+#    # icon="🔈"
+#    icon="墳 "
 #else
-#	# icon="🔉"
-#	#icon="墳 "
+#    # icon="🔉"
+#    icon="墳 "
 #fi
 
 echo "$icon$vol%"

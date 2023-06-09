@@ -39,7 +39,7 @@ for battery in /sys/class/power_supply/BAT?*; do
 	case "$(cat "$battery/status")" in
 		"Full") status=" " ;;
 		"Discharging") status="" ;;
-		"Charging") status="" ;;
+		"Charging") status="󰂄" ;;
 		#"Charging") status="ﮣ⚡ " ;;
 		"Not charging") status="" ;;
 		"Unknown") status="" ;;
@@ -55,7 +55,7 @@ for battery in /sys/class/power_supply/BAT?*; do
 	# For debian change env to /usr/bin/bash and remove whitespaces from prints...
 	if [[ $status = " " ]]; then
 		printf "%s %s%d%%" "$status" "$warn" "$capacity"; unset warn
-	elif [[ $status = "" ]]; then
+	elif [[ $status = "󰂄" ]]; then
 		printf "%s %s%d%%" "$status" "$warn" "$capacity"; unset warn
 	elif (( $capacity > 85)); then
 		printf "  %s%s%d%%" "$status" "$warn" "$capacity"; unset warn
