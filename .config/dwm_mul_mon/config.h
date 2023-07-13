@@ -38,9 +38,9 @@ static const char col4[]        = "#83a598";
 static const char col5[]        = "#d3869b";
 static const char col6[]        = "#8ec07c";
 static char *colors[][3]        = {
-    /*               fg           bg           border   */
-    [SchemeNorm] =     { normfgcolor, normbgcolor,  normbordercolor },
-    [SchemeSel]  =     { selfgcolor, selbgcolor,   selbordercolor },
+    /*               fg              bg              border   */
+    [SchemeNorm] = { normfgcolor,   normbgcolor,    normbordercolor },
+    [SchemeSel]  = { selfgcolor,    selbgcolor,     selbordercolor },
 };
 
 typedef struct {

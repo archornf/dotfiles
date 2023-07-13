@@ -509,7 +509,6 @@ static void tile(Monitor *m)
     int mrest, srest;
     Client *c;
 
-
     int oh, ov, ih, iv;
     getgaps(m, &oh, &ov, &ih, &iv, &n);
 

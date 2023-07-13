@@ -251,8 +251,8 @@ static void sighup(int unused);
 static void sigterm(int unused);
 static void spawn(const Arg *arg);
 static int stackpos(const Arg *arg);
+static void tagview(const Arg *arg);
 static void tag(const Arg *arg);
-static void noviewontag(const Arg *arg);
 static void tagmon(const Arg *arg);
 static void tagmonview(const Arg *arg);
 static void togglebar(const Arg *arg);
@@ -1317,7 +1317,7 @@ void manage(Window w, XWindowAttributes *wa)
             c->y = 42;
             c->w = 405;
             c->h = 280;
-        } 
+        }
     }
     attach(c);
     attachstack(c);
@@ -1661,7 +1661,8 @@ void run(void)
             handler[ev.type](&ev); /* call handler */
 }
 
-void runAutostart(void) {
+void runAutostart(void)
+{
     system("killall -q dwmblocks; dwmblocks &");
 }
 
@@ -1933,7 +1934,6 @@ void setup(void)
     focus(NULL);
 }
 
-
 void seturgent(Client *c, int urg)
 {
     XWMHints *wmh;
@@ -2015,7 +2015,7 @@ void spawn(const Arg *arg)
     }
 }
 
-void tag(const Arg *arg)
+void tagview(const Arg *arg)
 {
     if (selmon->sel && arg->ui & TAGMASK) {
         selmon->sel->tags = arg->ui & TAGMASK;
@@ -2025,7 +2025,7 @@ void tag(const Arg *arg)
     }
 }
 
-void noviewontag(const Arg *arg)
+void tag(const Arg *arg)
 {
     if (selmon->sel && arg->ui & TAGMASK) {
         selmon->sel->tags = arg->ui & TAGMASK;

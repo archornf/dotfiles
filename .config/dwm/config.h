@@ -103,17 +103,17 @@ static const Layout layouts[] = {
 #define MODKEY1 Mod1Mask
 #define TAGKEYS(KEY,TAG) \
 { MODKEY,                       KEY,      view,         {.ui = 1 << TAG} }, \
-{ MODKEY|ControlMask,           KEY,      noviewontag,  {.ui = 1 << TAG} }, \
-{ MODKEY|ShiftMask,             KEY,      tag,          {.ui = 1 << TAG} }, \
+{ MODKEY|ControlMask,           KEY,      tag,          {.ui = 1 << TAG} }, \
+{ MODKEY|ShiftMask,             KEY,      tagview,      {.ui = 1 << TAG} }, \
 { MODKEY|ControlMask|ShiftMask, KEY,      toggleview,   {.ui = 1 << TAG} },
 /* { MODKEY|ControlMask|ShiftMask, KEY,      toggletag,    {.ui = 1 << TAG} }, */
 #define STACKKEYS(MOD,ACTION) \
-{ MOD,                  XK_j,   ACTION##stack,      {.i = INC(+1) } }, \
-{ MOD,                  XK_k,   ACTION##stack,      {.i = INC(-1) } }, \
-{ MOD|ControlMask,      XK_j,   ACTION##stack,      {.i = -1 } }, \
-{ MOD|ControlMask,      XK_k,   ACTION##stack,      {.i = 0 } }, \
-/* { MOD,                  XK_h,   ACTION##stack,      {.i = INC(+1) } }, \ */
-/* { MOD,                  XK_l,   ACTION##stack,      {.i = INC(-1) } }, \ */
+{ MOD,                  XK_j,    ACTION##stack,    {.i = INC(+1) } }, \
+{ MOD,                  XK_k,    ACTION##stack,    {.i = INC(-1) } }, \
+{ MOD|ControlMask,      XK_j,    ACTION##stack,    {.i = -1 } }, \
+{ MOD|ControlMask,      XK_k,    ACTION##stack,    {.i = 0 } }, \
+/* { MOD,                  XK_h,    ACTION##stack,    {.i = INC(+1) } }, \ */
+/* { MOD,                  XK_l,    ACTION##stack,    {.i = INC(-1) } }, \ */
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
