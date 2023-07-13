@@ -21,7 +21,7 @@ static int showbar            = 1;        /* 0 means no bar */
 static int topbar             = 1;        /* 0 means bottom bar */
 /* static char *fonts[]          = { "Linux Libertine Mono:size=12", "Mono:pixelsize=12:antialias=true:autohint=true", "FontAwesome:size=15","FontAwesome5Brands:size=13:antialias:true", "FontAwesome5Free:size=13:antialias:true", "FontAwesome5Free:style=Solid:size=13:antialias:true","JetBrainsMono Nerd Font:size=12:style=bold:antialias=true:autohint=true", "Nerd Font Complete Mono:size=13", "JoyPixels:pixelsize=10:antialias=true:autohint=true", "Inconsolata Nerd Font:size=15", "Nerd Font Complete Mono:size=13" }; */
 /* static const char *fonts[]               = { "JetBrainsMono Nerd Font:size=11:style=bold:antialias=true:autohint=true", "JoyPixels:pixelsize=13:antialias=true:autohint=true" }; */
-static const char *fonts[]               = { "JetBrainsMono Nerd Font:size=11:style=bold:antialias=true:autohint=true" };
+static const char *fonts[]               = { "JetBrainsMono Nerd Font:size=11:style=bold" };
 static char normbgcolor[]           = "#222222";
 static char normbordercolor[]       = "#444444";
 static char normfgcolor[]           = "#bbbbbb";
@@ -101,18 +101,18 @@ static const Layout layouts[] = {
 #define MODKEY Mod4Mask
 #define MODKEY1 Mod1Mask
 #define TAGKEYS(KEY,TAG) \
-	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
-	{ MODKEY|ControlMask,           KEY,      noviewontag,     {.ui = 1 << TAG} }, \
-	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
-	{ MODKEY|ControlMask|ShiftMask, KEY,      toggleview,      {.ui = 1 << TAG} },
-	/* { MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} }, */
+    { MODKEY,                       KEY,      view,         {.ui = 1 << TAG} }, \
+    { MODKEY|ControlMask,           KEY,      noviewontag,  {.ui = 1 << TAG} }, \
+    { MODKEY|ShiftMask,             KEY,      tag,          {.ui = 1 << TAG} }, \
+    { MODKEY|ControlMask|ShiftMask, KEY,      toggleview,   {.ui = 1 << TAG} },
+    /* { MODKEY|ControlMask|ShiftMask, KEY,      toggletag,    {.ui = 1 << TAG} }, */
 #define STACKKEYS(MOD,ACTION) \
-	{ MOD,	XK_j,	ACTION##stack,	{.i = INC(+1) } }, \
-	{ MOD,	XK_k,	ACTION##stack,	{.i = INC(-1) } }, \
-	{ MOD|ControlMask,	XK_j,	ACTION##stack,	{.i = -1 } }, \
-	{ MOD|ControlMask,	XK_k,	ACTION##stack,	{.i = 0 } }, \
-	/* { MOD,	XK_h,	ACTION##stack,	{.i = INC(+1) } }, \ */
-	/* { MOD,	XK_l,	ACTION##stack,	{.i = INC(-1) } }, \ */
+    { MOD,  XK_j,   ACTION##stack,      {.i = INC(+1) } }, \
+    { MOD,  XK_k,   ACTION##stack,      {.i = INC(-1) } }, \
+    { MOD|ControlMask,  XK_j,           ACTION##stack,	{.i = -1 } }, \
+    { MOD|ControlMask,  XK_k,           ACTION##stack,	{.i = 0 } }, \
+    /* { MOD,  XK_h,   ACTION##stack,      {.i = INC(+1) } }, \ */
+    /* { MOD,  XK_l,   ACTION##stack,      {.i = INC(-1) } }, \ */
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
@@ -126,6 +126,7 @@ static const char *termcmd[]  = { TERMINAL, NULL };
 ResourcePref resources[] = {
 		{ "color0",		STRING,	&normbordercolor },
 		{ "foreground",		STRING,	&selbordercolor },
+		/* { "color8",		STRING,	&selbordercolor }, */
 		{ "color0",		STRING,	&normbgcolor },
 		{ "foreground",		STRING,	&normfgcolor },
 		{ "color0",		STRING,	&selfgcolor },
@@ -283,9 +284,9 @@ static const Key keys[] = {
     { 0,						XK_F10,				spawn,			SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle ; kill -44 $(pidof dwmblocks)") },
     { 0,						XK_F11,				spawn,			SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5%; kill -44 $(pidof dwmblocks)") },
     { 0,						XK_F12,				spawn,			SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5%; kill -44 $(pidof dwmblocks)") },
-	{ 0,					XK_Print,			spawn,			SHCMD("~/.local/bin/my_scripts/screenshot_select.sh") },
-	{ ShiftMask,			XK_Print,			spawn,			SHCMD("~/.local/bin/my_scripts/screenshot.sh") },
-	{ ControlMask,			XK_Print,			spawn,			SHCMD("~/.local/bin/my_scripts/screenshot_ocr.sh") },
+	{ 0,					    XK_Print,			spawn,			SHCMD("~/.local/bin/my_scripts/screenshot_select.sh") },
+	{ ShiftMask,			    XK_Print,			spawn,			SHCMD("~/.local/bin/my_scripts/screenshot.sh") },
+	{ ControlMask,			    XK_Print,			spawn,			SHCMD("~/.local/bin/my_scripts/screenshot_ocr.sh") },
 
 	/* { MODKEY, XK_Insert,						spawn,			SHCMD("xdotool type $(grep -v '^#' ~/.local/share/larbs/snippets | dmenu -i -l 50 | cut -d' ' -f1)") }, */
 	{ 0, XF86XK_AudioMute,						spawn,			SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle ; kill -44 $(pidof dwmblocks)") },
@@ -324,25 +325,25 @@ static const Key keys[] = {
 static const Button buttons[] = {
 	/* click                event mask      button          function        argument */
 #ifndef __OpenBSD__
-	{ ClkStatusText,        0,              Button1,        sigdwmblocks,   {.i = 1} },
-	{ ClkStatusText,        0,              Button2,        sigdwmblocks,   {.i = 2} },
-	{ ClkStatusText,        0,              Button3,        sigdwmblocks,   {.i = 3} },
-	{ ClkStatusText,        0,              Button4,        sigdwmblocks,   {.i = 4} },
-	{ ClkStatusText,        0,              Button5,        sigdwmblocks,   {.i = 5} },
-	{ ClkStatusText,        ShiftMask,      Button1,        sigdwmblocks,   {.i = 6} },
+    { ClkStatusText,        0,              Button1,        sigdwmblocks,   {.i = 1} },
+    { ClkStatusText,        0,              Button2,        sigdwmblocks,   {.i = 2} },
+    { ClkStatusText,        0,              Button3,        sigdwmblocks,   {.i = 3} },
+    { ClkStatusText,        0,              Button4,        sigdwmblocks,   {.i = 4} },
+    { ClkStatusText,        0,              Button5,        sigdwmblocks,   {.i = 5} },
+    { ClkStatusText,        ShiftMask,      Button1,        sigdwmblocks,   {.i = 6} },
 #endif
-	{ ClkStatusText,        ShiftMask,      Button3,        spawn,          SHCMD(TERMINAL " -e nvim ~/.config/dwmblocks/config.h") },
-	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
-	{ ClkClientWin,         MODKEY,         Button2,        defaultgaps,	{0} },
-	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
-	{ ClkClientWin,		MODKEY,		Button4,	incrgaps,	{.i = +1} },
-	{ ClkClientWin,		MODKEY,		Button5,	incrgaps,	{.i = -1} },
-	{ ClkTagBar,            0,              Button1,        view,           {0} },
-	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
-	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
-	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
-	{ ClkTagBar,		0,		Button4,	shiftview,	{.i = -1} },
-	{ ClkTagBar,		0,		Button5,	shiftview,	{.i = 1} },
-	{ ClkRootWin,		0,		Button2,	togglebar,	{0} },
+    { ClkStatusText,        ShiftMask,      Button3,        spawn,          SHCMD(TERMINAL " -e nvim ~/.config/dwmblocks/config.h") },
+    { ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
+    { ClkClientWin,         MODKEY,         Button2,        defaultgaps,    {0} },
+    { ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
+    { ClkClientWin,         MODKEY,         Button4,        incrgaps,       {.i = +1} },
+    { ClkClientWin,         MODKEY,         Button5,        incrgaps,       {.i = -1} },
+    { ClkTagBar,            0,              Button1,        view,           {0} },
+    { ClkTagBar,            0,              Button3,        toggleview,     {0} },
+    { ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
+    { ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
+    { ClkTagBar,            0,              Button4,        shiftview,      {.i = -1} },
+    { ClkTagBar,            0,              Button5,        shiftview,      {.i = 1} },
+    { ClkRootWin,           0,              Button2,        togglebar,      {0} },
 };
 
