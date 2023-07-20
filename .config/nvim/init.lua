@@ -306,12 +306,12 @@ map('n', '<leader>,', ':mks! ~/.vim/sessions/s2.vim<CR>')
 map('n', '<leader>.', ':so ~/.vim/sessions/s.vim<CR>')
 map('n', '<leader>-', ':so ~/.vim/sessions/s2.vim<CR>')
 
--- Open vim config in new tab
+-- Open new tabs
 map('n', '<M-n>', ':tabe ~/Documents/vimtutor.txt<CR>')
 map('n', '<M-m>', ':tabe ~/.config/nvim/init.lua<CR>')
 map('n', '<M-,>', ':tabe ~/.config/i3/config<CR>')
 map('n', '<M-.>', ':tabe ~/.zshrc<CR>')
-map('n', '<C-c>', 'y')
+-- map('n', '<C-c>', 'y')
 map('v', '<C-c>', 'y')
 
 map('n', '<leader>s', "/\\s\\+$/<CR>") -- Show extra whitespace
