@@ -146,6 +146,7 @@ require('lualine').setup {
     icons_enabled = true,
     theme = 'gruvbox',
     -- theme = 'catppuccin',
+    -- globalstatus = true,
     refresh = {
       statusline = 1000,
       tabline = 1000,
