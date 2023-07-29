@@ -19,7 +19,9 @@ chromium
 clang
 cmake
 conky
+cpprestsdk
 cronie
+crow
 dhcpcd
 diodon
 dmenu
@@ -34,7 +36,6 @@ feh
 ffmpegthumbnailer
 firefox
 fish
-flatpak
 flex
 foot
 fuse2
@@ -51,7 +52,7 @@ grub
 gruvbox-dark-gtk
 gtest
 htop
-hyprland-git
+hyprland
 i3-wm
 i3blocks
 i3lock
@@ -86,13 +87,14 @@ nm-connection-editor
 nodejs
 npm
 ntfs-3g
-nwg-look
 obs-studio
+onetbb
 openal
 os-prober
 packer
 pamixer
 patch
+php
 picom-pijulius-git
 pkgconf
 polybar
@@ -111,6 +113,9 @@ rtw89-dkms-git
 rustup
 rxvt-unicode
 scrot
+sdl2_image
+sdl2_mixer
+sdl2_ttf
 slurp
 sndio
 speedtest-cli
@@ -123,7 +128,6 @@ swaybg
 swayidle
 swaylock-effects-git
 swaylockd
-tbb
 tesseract
 the_silver_searcher
 thunar
@@ -136,8 +140,7 @@ ttf-icomoon-feather
 ttf-iosevka-nerd
 ttf-jetbrains-mono-nerd
 ttf-joypixels
-tty-clock-git
-ueberzug
+ueberzugpp
 ufw
 unzip
 urxvt-resize-font-git

@@ -160,7 +160,7 @@
         //"format-charging": "<span font='13'></span> {capacity}%",
         //"format-plugged": "<span font='13'></span> {capacity}%",
 
-        "format": "{icon} {capacity}%",
+        "format": "<span font='13'>{icon}</span> {capacity}%",
         //"format-charging": " {capacity}%",
         //"format-plugged": " {capacity}%",
 
