@@ -149,8 +149,9 @@ alias .ioq32='/home/jonas/Code/C/ioq3/build/release-linux-x86_64_golden/ioquake3
 alias .stk3='/home/jonas/Code/C/supertuxkart/stk-code/cmake_build_50/bin/supertuxkart'
 alias lf='/home/jonas/.local/bin/lfub'
 
-alias .acore='cd ~/acore_relwithdebinfo/bin; pwd; ls'
-alias .tcore='cd ~/tcore_relwithdebinfo/bin; pwd; ls'
+alias .acore='cd ~/acore/bin; pwd; ls'
+alias .tcore='cd ~/tcore/bin; pwd; ls'
+alias .wow='wine ~/Downloads/wow/Wow.exe'
 
 playermap ()
 {
