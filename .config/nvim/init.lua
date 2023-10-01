@@ -433,19 +433,19 @@ autocmd FileType java inoremap fore<Tab> for (String s : obj){<Enter><Enter>}<Es
 autocmd FileType java inoremap for<Tab> for(int i = 0; i < val; i++){<Enter><Enter>}<Esc>?val<Enter>ciw
 autocmd FileType java inoremap sout<Tab> System.out.println("");<Esc>?""<Enter>li
 autocmd FileType java inoremap psvm<Tab> public static void main(String[] args){<Enter><Enter>}<Esc>?{<Enter>o
-autocmd FileType java inoremap hellow<Tab> <Esc>:r ~/Code/Java/hellow.java<Enter><Esc>/hellow<Enter>ciw
+autocmd FileType java inoremap hellow<Tab> <Esc>:r ~/hellow/hellow.java<Enter><Esc>/hellow<Enter>ciw
 
 autocmd FileType c inoremap for<Tab> for(int i = 0; i < val; i++){<Enter><Enter>}<Esc>?val<Enter>ciw
-autocmd FileType c inoremap hellow<Tab> <Esc>:r ~/Code/C/hellow.c<Enter>
+autocmd FileType c inoremap hellow<Tab> <Esc>:r ~/hellow/hellow.c<Enter>
 autocmd FileType cpp inoremap for<Tab> for(int i = 0; i < val; i++){<Enter><Enter>}<Esc>?val<Enter>ciw
-autocmd FileType cpp inoremap hellow<Tab> <Esc>:r ~/Code/C++/hellow.cpp<Enter>
+autocmd FileType cpp inoremap hellow<Tab> <Esc>:r ~/hellow/hellow.cpp<Enter>
 
 autocmd FileType cs inoremap sout<Tab> Console.WriteLine("");<Esc>?""<Enter>li
 autocmd FileType cs inoremap fore<Tab> for each (object o : obj){<Enter><Enter>}<Esc>?obj<Enter>ciw
 autocmd FileType cs inoremap for<Tab> for(int i = 0; i < val; i++){<Enter><Enter>}<Esc>?val<Enter>ciw
-autocmd FileType cs inoremap hellow<Tab> <Esc>:r ~/Code/C\#/hellow.cs<Enter><Esc>/Hellow<Enter>ciw
+autocmd FileType cs inoremap hellow<Tab> <Esc>:r ~/hellow/hellow.cs<Enter><Esc>/Hellow<Enter>ciw
 
-autocmd FileType py,python inoremap hellow<Tab> <Esc>:r ~/Code/Python/hellow.py<Enter>
+autocmd FileType py,python inoremap hellow<Tab> <Esc>:r ~/hellow/hellow.py<Enter>
 
 autocmd FileType sql inoremap fun<Tab> delimiter //<Enter>create function x ()<Enter>returns int<Enter>no sql<Enter>begin<Enter><Enter><Enter>end //<Enter>delimiter ;<Esc>/x<Enter>GN
 autocmd FileType sql inoremap pro<Tab> delimiter //<Enter>create procedure x ()<Enter>begin<Enter><Enter><Enter>end //<Enter>delimiter ;<Esc>/x<Enter>GN
@@ -454,11 +454,11 @@ autocmd FileType sql inoremap vie<Tab> create view x as<Enter>select <Esc>/x<Ent
 autocmd FileType vtxt,vimwiki,wiki,text inoremap line<Tab> ----------------------------------------------------------------------------------<Enter>
 autocmd FileType vtxt,vimwiki,wiki,text inoremap date<Tab> <-- <C-R>=strftime("%Y-%m-%d %a")<CR><Esc>A -->
 
-autocmd FileType go inoremap hellow<Tab> <Esc>:r ~/Code/Go/hellow.go<Enter><Esc>/Hellow<Enter>ciw
-autocmd FileType perl inoremap hellow<Tab> <Esc>:r ~/Code/Perl/hellow.pl<Enter><Esc>/Hellow<Enter>ciw
-autocmd FileType kotlin inoremap hellow<Tab> <Esc>:r ~/Code/Kotlin/hellow.kt<Enter><Esc>/Hellow<Enter>ciw
-autocmd FileType rust inoremap hellow<Tab> <Esc>:r ~/Code/Rust/hellow.rs<Enter><Esc>/Hellow<Enter>ciw
-autocmd FileType scala inoremap hellow<Tab> <Esc>:r ~/Code/Scala/hellow.scala<Enter><Esc>/Hellow<Enter>ciw
+autocmd FileType go inoremap hellow<Tab> <Esc>:r ~/hellow/hellow.go<Enter><Esc>/Hellow<Enter>ciw
+autocmd FileType perl inoremap hellow<Tab> <Esc>:r ~/hellow/hellow.pl<Enter><Esc>/Hellow<Enter>ciw
+autocmd FileType kotlin inoremap hellow<Tab> <Esc>:r ~/hellow/hellow.kt<Enter><Esc>/Hellow<Enter>ciw
+autocmd FileType rust inoremap hellow<Tab> <Esc>:r ~/hellow/hellow.rs<Enter><Esc>/Hellow<Enter>ciw
+autocmd FileType scala inoremap hellow<Tab> <Esc>:r ~/hellow/hellow.scala<Enter><Esc>/Hellow<Enter>ciw
 
 map <F4> <Esc>:set cursorline!<CR>
 map <F5> <Esc>:setlocal spell! spelllang=en_us<CR>
