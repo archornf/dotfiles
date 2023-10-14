@@ -239,3 +239,5 @@ alias f='fuzzyfind'
 bindkey '^ ' autosuggest-accept
 LS_COLORS+=':ow=01;33'
 ~/.local/bin/my_scripts/hello.sh
+
+source ~/.bash_profile
