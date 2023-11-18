@@ -19,6 +19,7 @@ chromium
 clang
 cmake
 conky
+cppcodec
 cpprestsdk
 cronie
 crow
@@ -27,7 +28,9 @@ diodon
 dmenu
 dosfstools
 dotnet-sdk
+doxygen
 dunst
+eclipse-java
 efibootmgr
 epub-thumbnailer-git
 eww
@@ -61,9 +64,10 @@ imagemagick
 jdk-openjdk
 jdtls
 jq
-jre-openjdk
+jupyter-notebook
 kitty
 lf
+lib32-libpulse
 light
 linux
 linux-firmware
@@ -102,6 +106,7 @@ powertop
 pulseaudio
 python-gobject
 python-pip
+python-pipx
 python-pyaudio
 qrencode
 qt5-webengine
@@ -128,6 +133,7 @@ swaybg
 swayidle
 swaylock-effects-git
 swaylockd
+sxiv
 tesseract
 the_silver_searcher
 thunar
@@ -148,6 +154,9 @@ visidata
 waybar-hyprland-git
 waybar-mpris-git
 wget
+wine
+wine-gecko
+wine-mono
 wl-clipboard
 wlogout
 wlroots

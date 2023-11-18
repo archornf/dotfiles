@@ -36,7 +36,6 @@ feh
 ffmpegthumbnailer
 firefox
 fish
-flatpak
 flex
 foot
 fuse2
@@ -53,7 +52,7 @@ grub
 gruvbox-dark-gtk
 gtest
 htop
-hyprland-git
+hyprland
 i3-wm
 i3blocks
 i3lock
@@ -88,7 +87,6 @@ nm-connection-editor
 nodejs
 npm
 ntfs-3g
-nwg-look
 obs-studio
 onetbb
 openal
@@ -142,7 +140,6 @@ ttf-icomoon-feather
 ttf-iosevka-nerd
 ttf-jetbrains-mono-nerd
 ttf-joypixels
-tty-clock-git
 ueberzugpp
 ufw
 unzip

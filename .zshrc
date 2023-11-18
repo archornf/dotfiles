@@ -157,10 +157,10 @@ playermap ()
 {
     if [ -n "$1" ]; then
         echo "Launching tcore playermap: php -S 127.0.0.1:8000" &
-        cd ~/Code2/Javascript/tcore_map/playermap && php -S 127.0.0.1:8000;
+        cd ~/Code2/Python/wander_nodes_util/tcore_map/playermap && php -S 127.0.0.1:8000;
     else
         echo "Launching acore playermap: php -S 127.0.0.1:8000" &
-        cd ~/Code2/Javascript/acore_map/playermap && php -S 127.0.0.1:8000;
+        cd ~/Code2/Python/wander_nodes_util/acore_map/playermap && php -S 127.0.0.1:8000;
     fi
 }
 alias .playermap='playermap'
