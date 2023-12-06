@@ -1,6 +1,8 @@
 ace
+advancecomp
 adwaita-dark
 alsa-utils
+android-studio
 autoconf
 automake
 awesome
@@ -50,6 +52,7 @@ glm
 gnome-calculator
 gnome-calendar
 gnuplot
+gradle
 grim
 grub
 gruvbox-dark-gtk
@@ -94,6 +97,7 @@ ntfs-3g
 obs-studio
 onetbb
 openal
+optipng
 os-prober
 packer
 pamixer
@@ -101,6 +105,7 @@ patch
 php
 picom-pijulius-git
 pkgconf
+pngquant
 polybar
 powertop
 pulseaudio
@@ -146,12 +151,12 @@ ttf-icomoon-feather
 ttf-iosevka-nerd
 ttf-jetbrains-mono-nerd
 ttf-joypixels
-ueberzugpp
 ufw
 unzip
 urxvt-resize-font-git
 visidata
-waybar-hyprland-git
+vorbis-tools
+waybar-hyprland
 waybar-mpris-git
 wget
 wine

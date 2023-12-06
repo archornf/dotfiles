@@ -8,7 +8,7 @@ esac
 
 rofi_command="rofi -theme ~/.config/rofi/themes/gruvbox/gruvbox-dark.rasi"
 
-# Get the directory names codeDir
+# Get the directory names from codeDir
 directories=$(find "$codeDir" -maxdepth 1 -mindepth 1 -type d -printf "%f\n")
 
 # Show the directory names as options through Rofi
