@@ -1,7 +1,7 @@
 #!/bin/bash
 
 theme="/home/jonas/.config/rofi/themes/gruvbox/gruvbox-dark2.rasi"
-input_file="/home/jonas/Documents/my_notes/linux/raw_oneliners.txt"
+input_file="/home/jonas/Documents/my_notes/linux/oneliners_raw.txt"
 
 # Get user selection via Rofi from the input file
 chosen=$(cut -d ';' -f1 "$input_file" | rofi -theme "$theme" -p "Choose a command to copy" -dmenu -i -l 30 | sed "s/\r//")
