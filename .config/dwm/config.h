@@ -224,7 +224,7 @@ static const Key keys[] = {
         { MODKEY|ShiftMask,         XK_s,               spawn,              SHCMD("import png:- | xclip -selection clipboard -t image/png") },
         { MODKEY|ControlMask,       XK_s,               spawn,              SHCMD("~/.local/bin/my_scripts/tesseract_ocr.sh") },
         { MODKEY,                   XK_d,               spawn,              SHCMD("rofi -show run -theme ~/.config/rofi/themes/gruvbox/gruvbox-dark.rasi") },
-        { MODKEY,                   XK_r,               spawn,              SHCMD("dmenu_run -fn 'Linux Libertine Mono'") },
+        { MODKEY,                   XK_r,               spawn,              SHCMD("dmenu_run -i -l 20") },
         { MODKEY|ShiftMask,         XK_r,               spawn,              SHCMD("rofi -show run -theme ~/.config/polybar/forest/scripts/rofi/launcher.rasi") },
         { MODKEY,                   XK_t,               spawn,              SHCMD("~/.local/bin/my_scripts/script_copy.sh") },
         { MODKEY|ShiftMask,         XK_t,               spawn,              SHCMD("~/.local/bin/my_scripts/script_helper.sh " TERMINAL) },
