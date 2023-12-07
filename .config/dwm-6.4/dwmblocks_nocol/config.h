@@ -4,8 +4,8 @@ static const Block blocks[] = {
 	/*Icon*/	/*Command*/		/*Update Interval*/	/*Update Signal*/
 	{"", "~/.local/bin/my_scripts/spotify_dwmblocks.sh",	5,	12},
 	/* {"",	"~/.local/bin/statusbar/sb-internet",	5,	6}, */
-	{"  ",  "~/.local/bin/dwmblocks/weather", 	 1800, 				 5},
-	{"  ",  "~/.local/bin/dwmblocks/cputemp", 	5, 					4},
+	{"  ",  "~/.local/bin/statusbar/weather", 	 1800, 				 5},
+	{"  ",  "~/.local/bin/statusbar/cputemp", 	5, 					4},
 	{" ",	"~/.local/bin/statusbar/sb-volume_no_col",	0,	10},
 	/* {"^5^ ",	"~/.local/bin/statusbar/sb-internet",	5,	3}, */
 	{" ",	"~/.local/bin/statusbar/sb-battery",	5,	3},
