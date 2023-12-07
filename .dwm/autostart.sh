@@ -16,9 +16,4 @@ for value in ${arr[@]}; do
   fi
 done
 
-# Wake dwmblocks
-sleep 0.5
-kill -44 $(pidof dwmblocks)
 greenclip daemon
-sleep 1
-kill -44 $(pidof dwmblocks)

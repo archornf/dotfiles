@@ -1,4 +1,7 @@
 #!/bin/sh
+#sensors | awk '/Tctl/ {sub(/^\+/, "", $2);print $2}'
+#sensors | awk '/Package/ {sub(/^\+/, "", $2);print $4}'
+#sensors | awk '/Package/ {sub(/^\+/, "", $2);print $4}' | sed 's/\+//'
 
 case $BLOCK_BUTTON in
 	1) urxvt -e sh -c "curl -sf 'wttr.in/Uppsala'; zsh" ;;
