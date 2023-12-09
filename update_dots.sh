@@ -4,7 +4,9 @@ rm -rf .config/awesome
 rm -rf .config/cava
 rm -rf .config/conky
 rm -rf .config/dmenu
+rm -rf .config/dmenu_git
 rm -rf .config/dwm
+rm -rf .config/dwm_git
 rm -rf .config/dwmblocks
 rm -rf .config/dwm_mul_mon
 rm -rf .config/eww
@@ -19,6 +21,7 @@ rm -rf .config/polybar
 rm -rf .config/ranger
 rm -rf .config/rofi
 rm -rf .config/st
+rm -rf .config/st_git
 rm -rf .config/zathura
 
 rm -rf .dwm
@@ -39,7 +42,9 @@ cp -r ~/.config/awesome .config/awesome/
 cp -r ~/.config/cava .config/cava/
 cp -r ~/.config/conky .config/conky/
 cp -r ~/.config/dmenu .config/dmenu/
+cp -r ~/.config/dmenu_git .config/dmenu_git/
 cp -r ~/.config/dwm .config/dwm/
+cp -r ~/.config/dwm_git .config/dwm_git/
 cp -r ~/.config/dwmblocks .config/dwmblocks/
 cp -r ~/.config/dwm_mul_mon .config/dwm_mul_mon/
 cp -r ~/.config/eww .config/eww/
@@ -54,6 +59,7 @@ cp -r ~/.config/polybar .config/polybar/
 cp -r ~/.config/ranger .config/ranger/
 cp -r ~/.config/rofi .config/rofi/
 cp -r ~/.config/st .config/st/
+cp -r ~/.config/st_git .config/st_git/
 cp -r ~/.config/zathura .config/zathura/
 
 cp -r ~/.dwm .dwm/
