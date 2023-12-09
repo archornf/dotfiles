@@ -17,7 +17,7 @@ https://dwm.suckless.org/patches/scratchpads/dwm-scratchpads-20200414-728d397b.d
 https://dwm.suckless.org/patches/focusonclick/dwm-focusonclick-20200110-61bb8b2.diff
 https://dwm.suckless.org/patches/save_floats/
 
-* (not included on this specific dwm) Colored status bar (modified from status2d color patch)...
+https://dwm.suckless.org/patches/status2d/dwm-status2d-20200508-60bb3df.diff (modified)
 
 dwm - dynamic window manager
 ============================
