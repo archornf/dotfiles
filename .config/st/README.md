@@ -2,14 +2,18 @@
 I have added: https://st.suckless.org/patches/workingdir/
 and some changes to transparency and keybinds.
 
+I've added the patches to patches dir (although im not 100% sure that those are the exact patches used, they are mostly based on the description below)
+
+I also continously add fixes from suckless git log.
+
 The [suckless terminal (st)](https://st.suckless.org/) with some additional
 features that make it literally the best terminal emulator ever:
 
 ## Unique features (using dmenu)
 
-+ **follow urls** by pressing `alt-L`
-+ **copy urls** in the same way with `alt-Y`
-+ **copy the output of commands** with `alt-O`
++ **follow urls** by pressing `alt-l`
++ **copy urls** in the same way with `alt-y`
++ **copy the output of commands** with `alt-o`
 
 ## Bindings for
 
@@ -35,7 +39,6 @@ features that make it literally the best terminal emulator ever:
 + Ligatures
 + font2
 + updated to latest version 0.8.5
-+ https://st.suckless.org/patches/workingdir/
 
 ## Installation for newbs
 
