@@ -14,6 +14,7 @@ bison
 bluez
 bluez-utils
 boost
+bullet-dp
 cava
 cglm
 chafa
@@ -48,6 +49,7 @@ fzf
 gcc
 gdb
 git
+glfw-x11
 glm
 gnome-calculator
 gnome-calendar
@@ -84,7 +86,7 @@ meson
 mono
 mpv
 mtools
-nautilus
+mygui
 neofetch
 neovim
 netctl
@@ -97,6 +99,7 @@ ntfs-3g
 obs-studio
 onetbb
 openal
+openscenegraph
 optipng
 os-prober
 packer
@@ -152,6 +155,7 @@ ttf-iosevka-nerd
 ttf-jetbrains-mono-nerd
 ttf-joypixels
 ufw
+unshield
 unzip
 urxvt-resize-font-git
 visidata
@@ -223,6 +227,7 @@ xorg-xwininfo
 xorg-xwud
 xsel
 yad
+yaml-cpp
 yarn
 yay-git
 zathura

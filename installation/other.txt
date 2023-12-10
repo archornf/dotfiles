@@ -5,7 +5,7 @@ android-studio 2022.3.1.22-1
 catch2-git 3.2.1.r30.gadf43494-1
 cava 0.9.1-1
 cglm 0.9.1-1
-cpprestsdk 2.10.18-3
+cpprestsdk 2.10.19-1
 crow 1.0+5-2
 diodon 1.13.0-2
 eclipse-java 2:4.29-1
