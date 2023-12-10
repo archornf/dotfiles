@@ -20,12 +20,14 @@ static void drawboxlines(int, int, int, int, XftColor *, ushort);
 
 /* public API */
 
-void boxdraw_xinit(Display *dpy, Colormap cmap, XftDraw *draw, Visual *vis)
+void
+boxdraw_xinit(Display *dpy, Colormap cmap, XftDraw *draw, Visual *vis)
 {
     xdpy = dpy; xcmap = cmap; xd = draw, xvis = vis;
 }
 
-int isboxdraw(Rune u)
+int
+isboxdraw(Rune u)
 {
     Rune block = u & ~0xff;
     return (boxdraw && block == 0x2500 && boxdata[(uint8_t)u]) ||
@@ -33,7 +35,8 @@ int isboxdraw(Rune u)
 }
 
 /* the "index" is actually the entire shape data encoded as ushort */
-ushort boxdrawindex(const Glyph *g)
+ushort
+boxdrawindex(const Glyph *g)
 {
     if (boxdraw_braille && (g->u & ~0xff) == 0x2800)
         return BRL | (uint8_t)g->u;
@@ -42,7 +45,8 @@ ushort boxdrawindex(const Glyph *g)
     return boxdata[(uint8_t)g->u];
 }
 
-void drawboxes(int x, int y, int cw, int ch, XftColor *fg, XftColor *bg,
+void
+drawboxes(int x, int y, int cw, int ch, XftColor *fg, XftColor *bg,
         const XftGlyphFontSpec *specs, int len)
 {
     for ( ; len-- > 0; x += cw, specs++)
@@ -51,7 +55,8 @@ void drawboxes(int x, int y, int cw, int ch, XftColor *fg, XftColor *bg,
 
 /* implementation */
 
-void drawbox(int x, int y, int w, int h, XftColor *fg, XftColor *bg, ushort bd)
+void
+drawbox(int x, int y, int w, int h, XftColor *fg, XftColor *bg, ushort bd)
 {
     ushort cat = bd & ~(BDB | 0xff);  /* mask out bold and data */
     if (bd & (BDL | BDA)) {
@@ -118,7 +123,8 @@ void drawbox(int x, int y, int w, int h, XftColor *fg, XftColor *bg, ushort bd)
     }
 }
 
-void drawboxlines(int x, int y, int w, int h, XftColor *fg, ushort bd)
+void
+drawboxlines(int x, int y, int w, int h, XftColor *fg, ushort bd)
 {
     /* s: stem thickness. width/8 roughly matches underscore thickness. */
     /* We draw bold as 1.5 * normal-stem and at least 1px thicker.      */
