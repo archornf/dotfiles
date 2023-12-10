@@ -389,7 +389,8 @@ evrow(XEvent *e)
     return y / win.ch;
 }
 
-float clamp(float value, float lower, float upper) {
+float clamp(float value, float lower, float upper)
+{
     if(value < lower)
         return lower;
     if(value > upper)
@@ -874,7 +875,7 @@ xloadcols(void)
 int
 xgetcolor(int x, unsigned char *r, unsigned char *g, unsigned char *b)
 {
-    if (!BETWEEN(x, 0, dc.collen))
+    if (!BETWEEN(x, 0, dc.collen - 1))
         return 1;
 
     *r = dc.col[x].color.red >> 8;
@@ -889,7 +890,7 @@ xsetcolorname(int x, const char *name)
 {
     Color ncolor;
 
-    if (!BETWEEN(x, 0, dc.collen))
+    if (!BETWEEN(x, 0, dc.collen - 1))
         return 1;
 
     if (!xloadcolor(x, name, &ncolor))
