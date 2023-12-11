@@ -53,13 +53,13 @@ func processFile(filename string) int {
     for i < len(lines) {
         if i < len(lines)-3 && checkFirstLine(lines[i]) && checkForContent(lines[i+1]) && checkForEndParen(lines[i+2]) && checkForFuncStart(lines[i+3]) {
             newLines = append(newLines, lines[i])
-            newLines = append(newLines, lines[i+1]+lines[i+2])
+            newLines = append(newLines, lines[i+1] + " " + lines[i+2])
             newLines = append(newLines, lines[i+3])
             i += 4
             changeCounter++
         } else if i < len(lines)-4 && checkFirstLine(lines[i]) && checkForContent(lines[i+1]) && checkForParen(lines[i+2]) && checkForEndParen(lines[i+3]) && checkForFuncStart(lines[i+4]) {
             newLines = append(newLines, lines[i])
-            newLines = append(newLines, lines[i+1]+lines[i+2])
+            newLines = append(newLines, lines[i+1] + " " + lines[i+2])
             newLines = append(newLines, lines[i+3])
             newLines = append(newLines, lines[i+4])
             i += 5

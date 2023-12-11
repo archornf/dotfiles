@@ -2,32 +2,39 @@
 
 checkFirstLine() {
     local line="$1"
-    [[ -z "$line" || "$line" == /* || "$line" == \** ]] && [[ "$line" != \#* ]]
+    # Trim leading and trailing whitespace
+    local temp_line=$(echo "$line" | sed 's/^[ \t]*//;s/[ \t]*$//')
+    [[ -z "$temp_line" ]] || [[ $temp_line == /* ]] || [[ $temp_line == \** ]] && ! [[ $temp_line == \#* ]]
 }
 
 checkForComment() {
     local line="$1"
-    [[ "$line" == /* || "$line" == \** ]]
+    local temp_line=$(echo "$line" | sed 's/^[ \t]*//;s/[ \t]*$//')
+    [[ "$temp_line" == /* || "$temp_line" == '*' ]]
 }
 
 checkForContent() {
     local line="$1"
-    [[ -n "$line" && ! $(checkForComment "$line") && "$line" != \#* ]]
+    local temp_line=$(echo "$line" | sed 's/^[ \t]*//;s/[ \t]*$//')
+    [[ -n "$temp_line" && ! $(checkForComment "$temp_line") && "$temp_line" != \#* ]]
 }
 
 checkForParen() {
     local line="$1"
-    [[ "$line" == *'('* ]]
+    local temp_line=$(echo "$line" | sed 's/^[ \t]*//;s/[ \t]*$//')
+    [[ "$temp_line" == *'('* ]]
 }
 
 checkForEndParen() {
     local line="$1"
-    [[ "$line" == *')' ]]
+    local temp_line=$(echo "$line" | sed 's/^[ \t]*//;s/[ \t]*$//')
+    [[ "$temp_line" == *')' ]]
 }
 
 checkForFuncStart() {
     local line="$1"
-    [[ "$line" == '{'* ]]
+    local temp_line=$(echo "$line" | sed 's/^[ \t]*//;s/[ \t]*$//')
+    [[ "$temp_line" == '{'* ]]
 }
 
 processFile() {
