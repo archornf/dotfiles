@@ -13,7 +13,9 @@ epub-thumbnailer-git 1:r75.debba5f-1
 eww 0.4.0-1
 gruvbox-dark-gtk 1.0.2-1
 jdtls 1.30.0-1
+libcurl-openssl-1.0 7.79.1-1
 libvterm01 0.1.4-2
+openssl-1.0 1.0.2.u-6
 picom-pijulius-git 1691_Next.129.g982bb43_2021.10.23-1
 rofi-greenclip 4.2-2
 rtl8852be-dkms-git r28.28daf8c-1

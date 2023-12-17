@@ -15,6 +15,7 @@ bluez
 bluez-utils
 boost
 bullet-dp
+cabal-install
 cava
 cglm
 chafa
@@ -48,6 +49,7 @@ fuse2
 fzf
 gcc
 gdb
+ghc
 git
 glfw-x11
 glm
@@ -73,6 +75,7 @@ jupyter-notebook
 kitty
 lf
 lib32-libpulse
+libcurl-openssl-1.0
 light
 linux
 linux-firmware
