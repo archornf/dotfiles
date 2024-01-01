@@ -470,11 +470,8 @@ func! CompileRun()
         exec "!gcc % && time ./a.out"
     elseif &filetype == 'cpp'
         "exec "!g++ % -o %< -lbgi -lgdi32 -lcomdlg32 -luuid -loleaut32 -lole32"
-        "exec "!g++ -pthread % -o %<"
-        "exec "!g++ -pthread % -o %< -std=c++11 -lcpprest -lcrypto -lssl"
-        "exec "!g++ -pthread % -o %< -std=c++17 -lcpprest -lcrypto -lssl"
-        "exec "!g++ -O2 -Wall % -o %< -std=c++17"
-        exec "!g++ -O2 -Wall % -o %< -std=c++17 -lcpprest -lcrypto -lssl"
+        "exec "!g++ -pthread % -o %< -std=c++11 -lcurl -lcpprest -lcrypto -lssl"
+        exec "!g++ -O2 -Wall % -o %< -std=c++17 -lcurl -lcpprest -lcrypto -lssl"
         exec "!time ./%:r"
     elseif &filetype == 'java'
         "exec "!javac %"
@@ -487,6 +484,8 @@ func! CompileRun()
         exec "!time python3 %"
     elseif &filetype == 'html'
         exec "!firefox % &"
+    elseif &filetype == 'php'
+        exec "!php %"
     elseif &filetype == 'javascript'
         exec "!time node %"
     elseif &filetype == 'jsx'
@@ -497,8 +496,9 @@ func! CompileRun()
         exec "!go build %<"
         exec "!time go run %"
     elseif &filetype == 'rust'
-        exec "!rustc %"
-        exec "!time ./%:r"
+        "exec "!rustc %"
+        "exec "!time ./%:r"
+        exec "!cargo build && cargo run"
     elseif &filetype == 'lua'
         exec "!time lua %"
     elseif &filetype == 'mkd'
@@ -507,7 +507,16 @@ func! CompileRun()
     elseif &filetype == 'cs'
         "exec "!csc %"
         "exec "!time %:r.exe"
-        exec "!mcs % && time mono ./%:t:r.exe"
+        "exec "!mcs % && time mono ./%:t:r.exe"
+        exec "!dotnet build && dotnet run"
+    elseif &filetype == 'fs'
+        exec "!dotnet build && dotnet run"
+    elseif &filetype == 'fsx'
+        exec "!dotnet build && dotnet run"
+    elseif &filetype == 'fsharp'
+        exec "!dotnet build && dotnet run"
+    elseif &filetype == 'vb'
+        exec "!dotnet build && dotnet run"
     endif
 endfunc
 map <M-x> :call CompileRun()<CR>
