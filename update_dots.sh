@@ -65,6 +65,7 @@ cp -r ~/.config/zathura .config/zathura/
 cp -r ~/.dwm .dwm/
 cp -r ~/.local/bin bin/
 cp -r ~/Documents/installation installation/
+cp ~/Documents/help.txt installation/
 
 cp -r ~/.bashrc .bashrc
 cp -r ~/.tmux.conf .tmux.conf

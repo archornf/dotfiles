@@ -79,6 +79,7 @@ libcurl-openssl-1.0
 light
 linux
 linux-firmware
+luarocks
 lxappearance
 m4
 maim
@@ -114,6 +115,7 @@ pkgconf
 pngquant
 polybar
 powertop
+premake
 pulseaudio
 python-gobject
 python-pip
