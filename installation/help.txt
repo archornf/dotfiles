@@ -601,4 +601,72 @@ For architecture:
 uname -m
 
 ----------------------------------------------------------------------------------
+PS AUX:
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
 
+pgrep node
+killall node
+pkill node
+ps aux | grep node
+
+node &
+vmrss xxxx
+
+----------------------------------------------------------------------------------
+Building BLPConverter:
+Add this to top of CMakeLists.txt (at line 3 after project and cmake_minimum... for example):
+set (CMAKE_CXX_STANDARD 11)
+mkdir build && cd build
+cmake -DWITH_LIBRARY=YES ..
+make
+
+Downgrading npm:
+npm install -g npm@6.0.1
+
+sudo pacman -Rsc -n nodejs
+sudo pacman -Sy nodejs
+sudo pacman -Sy npm
+
+You might need this before reinstalling if something's messed up:
+sudo rm -rf /usr/lib/node_modules
+
+sudo pacman -S c-ares node-gyp nodejs-nopt npm semver yarn nodejs
+
+You can clean the cached packages by running sudo pacman -Sc command. 
+
+node -v
+npm -v
+sudo npm install -g n
+Switching sudo node version examples:
+sudo n 10.6.0
+sudo n 12
+or:
+sudo n stable / sudo n latest
+
+rm package-lock.json
+sudo npm cache clear --force
+sudo npm install --verbose
+
+******************************************
+RealmServerPort = 3724
+WorldServerPort = 8085
+
+192.168.1.223
+
+UPDATE `realmlist` SET `port`=8086 WHERE `id`=1;
+UPDATE `realmlist` SET `port`=8085 WHERE `id`=1;
+
+Login via:
+127.0.0.1
+3725
+
+******************************************
+Do:
+npm run proxy 8086 127.0.0.1:8085
+npm run proxy 3725 127.0.0.1:3724
+
+npm run gulp
+npm run serve
+npm run web-dev
+
+----------------------------------------------------------------------------------

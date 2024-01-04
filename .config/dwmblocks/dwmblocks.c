@@ -6,8 +6,6 @@
 #include <signal.h>
 #include <errno.h>
 #include <X11/Xlib.h>
-#include <sys/signalfd.h>
-#include <poll.h>
 #define LENGTH(X) (sizeof(X) / sizeof (X[0]))
 #define CMDLENGTH		50
 
@@ -17,13 +15,16 @@ typedef struct {
 	unsigned int interval;
 	unsigned int signal;
 } Block;
-void sighandler();
-void buttonhandler(int ssi_int);
+void sighandler(int num);
+void buttonhandler(int sig, siginfo_t *si, void *ucontext);
 void replace(char *str, char old, char new);
 void remove_all(char *str, char to_remove);
 void getcmds(int time);
+#ifndef __OpenBSD__
 void getsigcmds(int signal);
 void setupsignals();
+void sighandler(int signum);
+#endif
 int getstatus(char *str, char *last);
 void setroot();
 void statusloop();
@@ -38,8 +39,6 @@ static Window root;
 static char statusbar[LENGTH(blocks)][CMDLENGTH] = {0};
 static char statusstr[2][256];
 static int statusContinue = 1;
-static int signalFD;
-static int timerInterval = -1;
 static void (*writestatus) () = setroot;
 
 void replace(char *str, char old, char new)
@@ -129,6 +128,7 @@ void getcmds(int time)
 	}
 }
 
+#ifndef __OpenBSD__
 void getsigcmds(int signal)
 {
 	const Block *current;
@@ -143,27 +143,30 @@ void getsigcmds(int signal)
 
 void setupsignals()
 {
-	sigset_t signals;
-	sigemptyset(&signals);
-	sigaddset(&signals, SIGALRM); // Timer events
-	sigaddset(&signals, SIGUSR1); // Button events
-	// All signals assigned to blocks
-	for (size_t i = 0; i < LENGTH(blocks); i++)
-		if (blocks[i].signal > 0)
-			sigaddset(&signals, SIGRTMIN + blocks[i].signal);
-	// Create signal file descriptor for pooling
-	signalFD = signalfd(-1, &signals, 0);
-	// Block all real-time signals
-	for (int i = SIGRTMIN; i <= SIGRTMAX; i++) sigaddset(&signals, i);
-	sigprocmask(SIG_BLOCK, &signals, NULL);
-	// Do not transform children into zombies
-	struct sigaction sigchld_action = {
-  		.sa_handler = SIG_DFL,
-  		.sa_flags = SA_NOCLDWAIT
-	};
-	sigaction(SIGCHLD, &sigchld_action, NULL);
+    struct sigaction sa;
+
+    for(int i = SIGRTMIN; i <= SIGRTMAX; i++)
+        signal(i, SIG_IGN);
+
+    for(int i = 0; i < LENGTH(blocks); i++)
+    {
+        if (blocks[i].signal > 0)
+        {
+            signal(SIGRTMIN+blocks[i].signal, sighandler);
+            sigaddset(&sa.sa_mask, SIGRTMIN+blocks[i].signal);
+        }
+    }
+    sa.sa_sigaction = buttonhandler;
+    sa.sa_flags = SA_SIGINFO;
+    sigaction(SIGUSR1, &sa, NULL);
+    struct sigaction sigchld_action = {
+        .sa_handler = SIG_DFL,
+        .sa_flags = SA_NOCLDWAIT
+    };
+    sigaction(SIGCHLD, &sigchld_action, NULL);
 
 }
+#endif
 
 int getstatus(char *str, char *last)
 {
@@ -203,80 +206,76 @@ void pstdout()
 
 void statusloop()
 {
-	setupsignals();
+#ifndef __OpenBSD__
+    setupsignals();
+#endif
     // first figure out the default wait interval by finding the
     // greatest common denominator of the intervals
+    unsigned int interval = -1;
     for(int i = 0; i < LENGTH(blocks); i++){
         if(blocks[i].interval){
-            timerInterval = gcd(blocks[i].interval, timerInterval);
+            interval = gcd(blocks[i].interval, interval);
         }
     }
-    getcmds(-1);     // Fist time run all commands
-    raise(SIGALRM);  // Schedule first timer event
-    int ret;
-    struct pollfd pfd[] = {{.fd = signalFD, .events = POLLIN}};
-    while (statusContinue) {
-        // Wait for new signal
-        ret = poll(pfd, sizeof(pfd) / sizeof(pfd[0]), -1);
-        if (ret < 0 || !(pfd[0].revents & POLLIN)) break;
-        sighandler(); // Handle signal
+    unsigned int i = 0;
+    int interrupted = 0;
+    const struct timespec sleeptime = {interval, 0};
+    struct timespec tosleep = sleeptime;
+    getcmds(-1);
+    while(statusContinue)
+    {
+        // sleep for tosleep (should be a sleeptime of interval seconds) and put what was left if interrupted back into tosleep
+        interrupted = nanosleep(&tosleep, &tosleep);
+        // if interrupted then just go sleep again for the remaining time
+        if(interrupted == -1){
+            continue;
+        }
+        // if not interrupted then do the calling and writing
+        getcmds(i);
+        writestatus();
+        // then increment since its actually been a second (plus the time it took the commands to run)
+        i += interval;
+        // set the time to sleep back to the sleeptime of 1s
+        tosleep = sleeptime;
     }
 }
 
-void sighandler()
+#ifndef __OpenBSD__
+void sighandler(int signum)
 {
-	static int time = 0;
-	struct signalfd_siginfo si;
-	int ret = read(signalFD, &si, sizeof(si));
-	if (ret < 0) return;
-	int signal = si.ssi_signo;
-	switch (signal) {
-		case SIGALRM:
-			// Execute blocks and schedule the next timer event
-			getcmds(time);
-			alarm(timerInterval);
-			time += timerInterval;
-			break;
-		case SIGUSR1:
-			// Handle buttons
-			buttonhandler(si.ssi_int);
-			return;
-		default:
-			// Execute the block that has the given signal
-			getsigcmds(signal - SIGRTMIN);
-			break;
-	}
+    getsigcmds(signum-SIGRTMIN);
 	writestatus();
 }
 
-void buttonhandler(int ssi_int)
+void buttonhandler(int sig, siginfo_t *si, void *ucontext)
 {
-	char button[2] = {'0' + ssi_int & 0xff, '\0'};
-	pid_t process_id = getpid();
-	int sig = ssi_int >> 8;
-	if (fork() == 0)
-	{
-		const Block *current;
-		for (int i = 0; i < LENGTH(blocks); i++)
-		{
-			current = blocks + i;
-			if (current->signal == sig)
-				break;
-		}
-		char shcmd[1024];
-		sprintf(shcmd,"%s && kill -%d %d",current->command, current->signal+34,process_id);
-		char *command[] = { "/bin/sh", "-c", shcmd, NULL };
-		setenv("BLOCK_BUTTON", button, 1);
-		setsid();
-		execvp(command[0], command);
-		exit(EXIT_SUCCESS);
-	}
+    char button[2] = {'0' + si->si_value.sival_int & 0xff, '\0'};
+    pid_t process_id = getpid();
+    sig = si->si_value.sival_int >> 8;
+    if (fork() == 0)
+    {
+        const Block *current;
+        for (int i = 0; i < LENGTH(blocks); i++)
+        {
+            current = blocks + i;
+            if (current->signal == sig)
+                break;
+        }
+        char shcmd[1024];
+        sprintf(shcmd,"%s && kill -%d %d",current->command, current->signal+34,process_id);
+        char *command[] = { "/bin/sh", "-c", shcmd, NULL };
+        setenv("BLOCK_BUTTON", button, 1);
+        setsid();
+        execvp(command[0], command);
+        exit(EXIT_SUCCESS);
+    }
 }
-
+#endif
 
 void termhandler(int signum)
 {
 	statusContinue = 0;
+    exit(0);
 }
 
 int main(int argc, char** argv)
@@ -291,5 +290,4 @@ int main(int argc, char** argv)
 	signal(SIGTERM, termhandler);
 	signal(SIGINT, termhandler);
 	statusloop();
-	close(signalFD);
 }

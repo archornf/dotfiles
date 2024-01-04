@@ -7,6 +7,7 @@ autoconf
 automake
 awesome
 base
+base-devel
 bashtop
 bat
 bazel
@@ -15,6 +16,7 @@ bluez
 bluez-utils
 boost
 bullet-dp
+c-ares
 cabal-install
 cava
 cglm
@@ -97,7 +99,9 @@ netctl
 networkmanager
 ninja
 nm-connection-editor
+node-gyp
 nodejs
+nodejs-nopt
 npm
 ntfs-3g
 obs-studio
@@ -134,6 +138,7 @@ scrot
 sdl2_image
 sdl2_mixer
 sdl2_ttf
+semver
 slurp
 sndio
 speedtest-cli
