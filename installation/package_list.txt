@@ -29,6 +29,7 @@ cppcodec
 cpprestsdk
 cronie
 crow
+csfml
 dhcpcd
 diodon
 dmenu
@@ -139,6 +140,7 @@ sdl2_image
 sdl2_mixer
 sdl2_ttf
 semver
+sfml
 slurp
 sndio
 speedtest-cli

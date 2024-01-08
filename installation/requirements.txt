@@ -20,7 +20,7 @@ beautifulsoup4==4.12.2
 bleach==6.0.0
 blinker==1.7.0
 bs4==0.0.1
-btrfsutil==6.6.2
+btrfsutil==6.6.3
 cachetools==5.3.2
 certifi==2023.7.22
 cffi==1.16.0
@@ -45,7 +45,7 @@ einops==0.6.1
 exceptiongroup==1.1.3
 executing==1.2.0
 Farama-Notifications==0.0.4
-fastjsonschema==2.19.0
+fastjsonschema==2.19.1
 ffmpeg-downloader==0.2.0
 filelock==3.12.2
 Flask==3.0.0
@@ -64,11 +64,11 @@ h11==0.14.0
 hnswlib==0.7.0
 httpcore==0.17.3
 httpx==0.24.1
-idna==3.4
+idna==3.5
 imageio==2.31.1
 importlib-metadata==5.0.0
 inflect==7.0.0
-ipykernel==6.27.1
+ipykernel==6.28.0
 ipython==8.14.0
 itsdangerous==2.1.2
 jaraco.context==4.3.0
@@ -99,11 +99,11 @@ Markdown==3.5.1
 markdown-it-py==3.0.0
 markdownify==0.11.6
 MarkupSafe==2.1.3
-matplotlib==3.7.1
+matplotlib==3.8.2
 matplotlib-inline==0.1.6
 mdurl==0.1.2
 mediapy @ git+https://github.com/PWhiddy/mediapy.git@45101800d4f6adeffe814cad93de1db67c1bd614
-meson==1.3.0
+meson==1.3.1
 mistune==3.0.1
 ml-dtypes==0.2.0
 more-itertools==10.1.0
@@ -116,6 +116,7 @@ nbformat==5.9.2
 neat-python==0.92
 nest-asyncio==1.5.7
 networkx==3.1
+nodeenv==1.8.0
 notebook==7.0.6
 notebook_shim==0.2.3
 nspektr==0.5.0
@@ -149,11 +150,11 @@ pathtools==0.1.2
 pexpect==4.8.0
 pickleshare==0.7.5
 Pillow==9.5.0
-pipx==1.2.1
+pipx==1.3.3
 platformdirs==3.10.0
 ply==3.11
 pocketsphinx==5.0.2
-prometheus-client==0.18.0
+prometheus-client==0.19.0
 prompt-toolkit==3.0.38
 protobuf==4.23.4
 psutil==5.9.6
@@ -166,8 +167,8 @@ PyAudio==0.2.14
 pyboy==1.6.7
 pyChatGPT==0.4.3.3
 pycparser==2.21
-pydantic==2.5.2
-pydantic_core==2.14.5
+pydantic==2.5.3
+pydantic_core==2.14.6
 pydub==0.25.1
 pygame==2.5.2
 Pygments==2.15.1
@@ -175,6 +176,7 @@ PyGObject==3.46.0
 pyparsing==3.1.0
 PyPasser==0.0.5
 pyperclip==1.8.2
+pyright==1.1.344
 pyrsistent==0.19.3
 PySDL2==0.9.15
 pysdl2-dll==2.28.0

@@ -612,6 +612,8 @@ ps aux | grep node
 node &
 vmrss xxxx
 
+killall dotnet
+
 ----------------------------------------------------------------------------------
 Building BLPConverter:
 Add this to top of CMakeLists.txt (at line 3 after project and cmake_minimum... for example):
@@ -620,32 +622,58 @@ mkdir build && cd build
 cmake -DWITH_LIBRARY=YES ..
 make
 
-Downgrading npm:
+Building Stormlib:
+For debian: sudo apt-get install cmake git gcc zlib1g-dev
+git clone https://github.com/ladislav-zezula/StormLib.git
+cd StormLib
+cmake CMakeLists.txt -DBUILD_SHARED_LIBS=ON
+sudo make install
+sudo ldconfig
+
+Downgrading npm (not needed):
 npm install -g npm@6.0.1
 
+Uninstalling:
 sudo pacman -Rsc -n nodejs
 sudo pacman -Sy nodejs
 sudo pacman -Sy npm
-
-You might need this before reinstalling if something's messed up:
-sudo rm -rf /usr/lib/node_modules
 
 sudo pacman -S c-ares node-gyp nodejs-nopt npm semver yarn nodejs
 
 You can clean the cached packages by running sudo pacman -Sc command. 
 
+Check node / npm versions:
 node -v
 npm -v
-sudo npm install -g n
+Install n (see nvm for windows)
+npm install -g n
+You might need something like:
+sudo mkdir -p /usr/local/n && chown -R $(whoami) /usr/local/n/
+and:
+sudo chown -R $(whoami) /usr/local/bin /usr/local/lib /usr/local/include /usr/local/share
+
 Switching sudo node version examples:
 sudo n 10.6.0
 sudo n 12
 or:
 sudo n stable / sudo n latest
 
+Useful stuff:
 rm package-lock.json
-sudo npm cache clear --force
-sudo npm install --verbose
+npm cache clear --force
+npm install --verbose
+npm ci (clean install)
+
+In wowser:
+Do this:
+vim node_modules/blizzardry/lib/blp/blp-lib.js
+exports.default = new _ffiNapi2.default.Library('/usr/local/lib/libblp', {
+
+vim node_modules/blizzardry/lib/mpq/storm-lib.js
+exports.default = new _ffiNapi2.default.Library('/usr/local/lib/libstorm', {
+
+npm install
+Also see wowser.json in wowser dir for settings.
 
 ******************************************
 RealmServerPort = 3724
@@ -670,3 +698,36 @@ npm run serve
 npm run web-dev
 
 ----------------------------------------------------------------------------------
+Print one level of directories and their sizes:
+sudo du --max-depth=1 ~/ | sort -r -k1,1n
+
+----------------------------------------------------------------------------------
+Compiling rust-mandelbrot-set:
+
+Possibly also:
+rm package-lock.json
+rm -rf node_modules
+
+Update the "webpack" version in your package.json to use Webpack 4.x.x instead
+of 5.x.x. For example:
+
+"webpack": "^4.44.2"
+
+After making the change, run npm install again, and it should resolve
+the dependency conflict. Choose the option that aligns with your project's
+requirements and compatibility.
+
+Then:
+npm uninstall webpack --save-dev
+npm install webpack --save-dev
+
+npm run start, then see:
+localhost:9090
+
+OR use my modified fork:
+https://github.com/archornf/rust-mandelbrot-set
+
+----------------------------------------------------------------------------------
+Getting pacman package info:
+
+pacman -Si csfml
