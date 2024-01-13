@@ -494,12 +494,12 @@ func! CompileRun()
         endif
     elseif &filetype == 'cpp'
         if has("win64") || has("win32") || has("win16")
-            "exec "!g++ % -o %< -lbgi -lgdi32 -lcomdlg32 -luuid -loleaut32 -lole32"
-            exec "!g++ -O2 -Wall % -o %<"
+            "exec "!g++ % -o %< -std=c++11 -lpthread -lbgi -lgdi32 -lcomdlg32 -luuid -loleaut32 -lole32"
+            exec "!g++ -O2 -Wall % -o %< -std=c++17 -pthread"
             exec "!%:r.exe"
         else
-            "exec "!g++ -pthread % -o %< -std=c++11 -lcurl -lcpprest -lcrypto -lssl"
-            exec "!g++ -O2 -Wall % -o %< -std=c++17 -lcurl -lcpprest -lcrypto -lssl"
+            "exec "!g++ -O3 -Wall % -o %< -std=c++20 -lcurl -lcpprest -lcrypto -lssl -lpthread -Wl,--no-as-n Running"
+            exec "!g++ -O2 -Wall % -o %< -std=c++17 -lcurl -lcpprest -lcrypto -lssl -lpthread"
             exec "!time ./%:r"
         endif
     elseif &filetype == 'java'
