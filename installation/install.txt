@@ -7,9 +7,11 @@ station wlan0 scan
 station wlan0 get-networks
 station wlan0 connect OWNIT-B1C0
 enter password...
---------------------------------------------------
-FIRST: curl https://raw.githubusercontent.com/archornf/dotfiles/master/installation/arch_install_arch3.txt -O
---------------------------------------------------
+
+******************************************
+curl -o install.txt https://raw.githubusercontent.com/archornf/dotfiles/master/installation/install.txt
+wget -O install.txt https://raw.githubusercontent.com/archornf/dotfiles/master/installation/install.txt
+******************************************
 
 # Load the right keys
 ls /usr/share/kbd/keymaps**/*.map.gz | less
@@ -278,7 +280,8 @@ Open the root directory folder specified on the page
 Inside this folder, create a folder named "chrome"
 Put the userchrome.css file from this repo into the chrome folder
 Type about:config into your urlbar and go to the page
-Paste "toolkit.legacyUserProfileCustomizations.stylesheets" into the bar and set its value to true
+Paste "toolkit.legacyUserProfileCustomizations.stylesheets" into the bar and
+set its value to true
 Go back to about:profiles and click the restart normally buton
 That should be it!
 
@@ -288,133 +291,3 @@ adblock plus
 gruvbox dark theme firefox
 vimium
 imagus
-
-*******************************************************************************************
-*******************************************************************************************
-*******************************************************************************************
-
-DEB:
-Follow graphical install, then:
-su -
-Enter host passwd, then apt install sudo
-usermod -aG sudo jonas
-maybe also do: usermod -aG audio,video jonas
-apt install network-manager
-sudo nmcli device wifi connect OWNIT-B1C0 password XXX
-apt install neovim
-EDITOR=nvim visudo
-At the end of the /etc/sudoers file add this line: 
-jonas     ALL=(ALL) NOPASSWD:ALL
-exit
-reboot
-
-*OBS! If intel wifi, then you might have to follow:
-Change sources list:
-https://www.itzgeek.com/how-tos/linux/debian/setup-debian-11-official-repository-in-sources-list-etc-apt-sources-list.html
-
-add contrib non-free to every line and sudo apt update
-then sudo apt install iwlwifi and reboot...
----------------
-sudo apt install xorg i3 lxappearance awesome rxvt-unicode
-Install dwm dependencies:
-sudo apt install dwm suckless-tools dmenu
-sudo apt install make gcc libx11-dev libxft-dev libxinerama-dev
-sudo apt install thunar feh ranger zathura chromium git zsh firefox-esr
-libtool automake m4 autoconf build-essential curl
-libx11-xcb-dev libxcb-res0-dev fonts-font-awesome
-# Newovim dependencies:
-sudo apt-get install ninja-build gettext libtool-bin cmake g++ pkg-config unzip zip doxygen
-
-git clone https://github.com/jmattheis/gruvbox-dark-gtk ~/.themes/gruvbox-dark-gtk
-sudo cp /etc/X11/xinit/xinitrc ~/.xinitrc
-sudo apt install polybar lm-sensors yad picom
-sudo apt install rofi neofetch pulseaudio fzf xdg-utils nodejs python3-pip (python preinstalled)
-sudo localectl set-x11-keymap se (then sudo reboot)
-git clone polybar themes and run the starting script
-then copy files from dotfiles to .config
-git clone --depth=1 https://github.com/adi1090x/polybar-themes.git
-cd polybar-themes
-chmod +x setup.sh
-./setup.sh
-
-DO THIS:
-https://www.nerdfonts.com/font-downloads
-Download Jetbrains from above and copy the files to ~/.local/share/fonts/ -> restart or fc-cache -fv.
----
-OLD:
-Search for nerd fonts jetbrainsmono -> download -> mkdir JetBrains and unzip in new dir -> copy all files to ~/.local/share/fonts -> restart or fc-cache -fv.
-Or:
-https://github.com/JetBrains/JetBrainsMono
-mv JetBrainsMono-*.ttf ~/.local/share/fonts/
----
-
-install oh-my-zsh:
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
-install zsh autosuggestions and zsh-syntax-highlighting:
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-
-Copy bashrc and zshrc!
-
-https://github.com/erebe/greenclip
-
-sudo apt install virtualbox-guest-utils virtualbox-guest-X11
-Virtualbox guest utils doesn't work it seems... See:
-https://techviewleo.com/install-virtualbox-guest-additions-on-debian/
-
-Picom dependencies:
-sudo apt install libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-randr0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-present-dev libxcb-xinerama0-dev libxcb-glx0-dev libpixman-1-dev libdbus-1-dev libconfig-dev libgl1-mesa-dev libpcre2-dev libpcre3-dev libevdev-dev uthash-dev libev-dev libx11-xcb-dev
-
-https://github.com/pijulius/picom
-sudo apt remove picom, then:
-#git submodule update --init --recursive
-meson --buildtype=release . build
-ninja -C build
-sudo ninja -C build install
-
-Start picom with picom --animations
-
-pamix alsa-utils xinput qrencode silversearcher-ag maim imagemagick tesseract-ocr
-
-ST term works better for neovim theming it seems... Needs:
-sudo apt install libharfbuzz-dev
-And uncomment the line f->badweight = 1; in x.c
-
-sudo apt install lua / lua5.3
-sudo apt remove neovim, then:
-git clone https://github.com/neovim/neovim
-cd neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo
-sudo make install
-
-Ueberzug:
-first try: sudo apt install ueberzug
-sudo apt install libxres-dev
-pip3 install setuptools
-git clone https://github.com/WhiteBlackGoose/ueberzug-latest && cd ueberzug-latest
-sudo pip install -e .
-
-For dwm, fix battery, volume and cputemp scripts (remove unnecessary whitespace, add /usr/bin/bash instead of /bin/sh, and use sb-volume_deb. Also need to add correct click/scroll for dwmblocks to sb-battery... Also update keybinds for volume in dwm conf.
-
-pip3 install bs4 requests ocrspace pytesseract
-pip3 install pynvim
-pip3 install i3ipc
-pip3 install pytesseract
-pip3 install pyperclip
-
-(need to install eng trained data for tesseract-ocr also. Look for towardsdatascience python read text from image)... Also set tesseract variable...
-Download:
-https://github.com/tesseract-ocr/tessdata/blob/main/eng.traineddata
-And place in /home/jonas/.local/share/tessdata
-
-Might need to change TESSDATA_PREFIX in tesseract_ocr to /home/jonas/.local/share/tessdata
-And change scripts to /usr/bin/bash and /usr/bin/python3...
-
-Azerothcore:
-sudo apt-get update && sudo apt-get install git cmake make gcc g++ clang default-libmysqlclient-dev libssl-dev libbz2-dev libreadline-dev libncurses-dev mariadb-server libboost-all-dev -y
-
------------------------------------ 
-Haven't tried:
-bluez bluez-utils?
-sudo systemctl enable bluetooth.service

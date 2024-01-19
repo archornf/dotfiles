@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Array of packages to exclude from installation
-exclude_packages=("linux" "linux-firmware")
+exclude_packages=("linux" "linux-firmware" "yay" "yay-git")
 
 # Function to check if a package is in the exclusion list
 is_excluded() {
@@ -26,7 +26,7 @@ install_arch() {
 
 # Function to install packages for Debian
 install_debian() {
-    for file in pk1.txt pk2.txt pk3.txt; do
+    for file in deb_pk1.txt deb_pk2.txt deb_pk3.txt; do
         while read -r pkg; do
             if ! is_excluded "$pkg"; then
                 sudo apt-get install -y "$pkg"
