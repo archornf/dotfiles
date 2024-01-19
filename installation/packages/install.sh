@@ -1,14 +1,46 @@
-#! /bin/bash
-# You can skip rtl8852be-dkms-git / rtw89... and 
-# replace picom-pijulius-git with regular picom if you wish...
+#!/bin/bash
 
-# Other optional packages:
-# lf, bat
-# Not sure if these are required for lf previews: ffmpegthumbnailer, epub-thumbnailer-git, chafa
+# Array of packages to exclude from installation
+exclude_packages=("linux" "linux-firmware")
 
-# Other picom animation repos:
-# https://github.com/dccsillag/picom
-# https://github.com/jonaburg/picom
+# Function to check if a package is in the exclusion list
+is_excluded() {
+    for excluded_pkg in "${exclude_packages[@]}"; do
+        if [[ $1 == "$excluded_pkg" ]]; then
+            return 0 # Package is excluded
+        fi
+    done
+    return 1 # Package is not excluded
+}
 
-#for x in $(cat packages.txt); do yay -S --noconfirm $x; done
-for x in $(cat pk1); do yay -S --noconfirm $x; done
+# Function to install packages for Arch
+install_arch() {
+    for file in pk1.txt pk2.txt pk3.txt; do
+        while read -r pkg; do
+            if ! is_excluded "$pkg"; then
+                sudo pacman -S --noconfirm "$pkg"
+            fi
+        done < "$file"
+    done
+}
+
+# Function to install packages for Debian
+install_debian() {
+    for file in pk1.txt pk2.txt pk3.txt; do
+        while read -r pkg; do
+            if ! is_excluded "$pkg"; then
+                sudo apt-get install -y "$pkg"
+            fi
+        done < "$file"
+    done
+}
+
+# Check the Linux distribution and call the appropriate function
+if grep -q 'ID=arch' /etc/os-release; then
+    install_arch
+elif grep -q 'ID=debian' /etc/os-release || grep -q 'ID_LIKE=debian' /etc/os-release; then
+    install_debian
+else
+    echo "Unsupported Linux distribution."
+    exit 1
+fi
