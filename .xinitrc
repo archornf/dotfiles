@@ -41,5 +41,5 @@ xhost si:localuser:root
 #exec awesome
 #exec i3
 exec dwm &
-#sh ~/.dwm/autostart.sh &
+sh ~/.dwm/autostart.sh &
 picom

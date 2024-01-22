@@ -278,6 +278,20 @@ cd Debian-Hyprland && ./install.sh
 ******************************************
 OBS! you probably need in .bash_profile / .bashrc to run most games:
 export MESA_GL_VERSION_OVERRIDE=3.3
+
+ALSO:
+'getconf PAGESIZE' returns 16k for raspberry pi which is a problem for jemalloc
+and some other things (required for AzerothCore / TrinityCore):
+https://github.com/raspberrypi/bookworm-feedback/issues/107
+
+If you find this is a problem, switch to the 4k page size using:
+kernel=kernel8.img
+sudo nvim /boot/config.txt
+
+You can add it after arm_boost=1 for example. (before [cm4] and [all].
+
+Also make sure that realmlist address and port is set correctly. I've changed
+port when testing wowser / acore-client for example.
 ******************************************
 
 ioq3:

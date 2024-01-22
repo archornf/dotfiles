@@ -1262,3 +1262,4 @@ libjarjar-java
 libjatl-java
 libjavaewah-java
 libjavascriptcoregtk-4.1-0
+libjaxen-java

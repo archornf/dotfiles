@@ -1272,6 +1272,8 @@ libjcifs-java
 libjcip-annotations-java
 libjcommander-java
 libjcsp-java
+libjemalloc-dev
+libjemalloc2
 libjetty9-java
 libjformatstring-java
 libjgit-java
