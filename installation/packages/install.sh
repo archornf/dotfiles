@@ -26,7 +26,7 @@ install_arch() {
 
 # Function to install packages for Debian
 install_debian() {
-    for file in deb_pk1.txt deb_pk2.txt deb_pk3.txt; do
+    for file in pk1.txt pk2.txt pk3.txt; do
         while read -r pkg; do
             if ! is_excluded "$pkg"; then
                 sudo apt-get install -y "$pkg"
@@ -39,7 +39,8 @@ install_debian() {
 if grep -q 'ID=arch' /etc/os-release; then
     install_arch
 elif grep -q 'ID=debian' /etc/os-release || grep -q 'ID_LIKE=debian' /etc/os-release; then
-    install_debian
+    echo "Use debian branch instead of this!"
+    #install_debian
 else
     echo "Unsupported Linux distribution."
     exit 1

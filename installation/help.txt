@@ -731,3 +731,17 @@ https://github.com/archornf/rust-mandelbrot-set
 Getting pacman package info:
 
 pacman -Si csfml
+
+----------------------------------------------------------------------------------
+Using git lfs to upload acore_db / tcore_db:
+
+sudo pacman -S git-lfs
+In git repo:
+git init
+git lfs install
+git lfs track "acore_world.sql"
+git add .gitattributes
+git add -A
+git commit -m "Adding DB"
+git remote add origin https://github.com/archornf/acore_db.git
+git push origin master

@@ -1,4 +1,8 @@
+https://www.debian.org/releases/bookworm/debian-installer/
+https://archlinux.org/download/
+
 Follow graphical install, then:
+
 su -
 Enter host passwd, then apt install sudo
 usermod -aG sudo jonas
@@ -12,32 +16,101 @@ jonas     ALL=(ALL) NOPASSWD:ALL
 exit
 reboot
 
-*OBS! If intel wifi, then you might have to follow:
-Change sources list:
+Update sources list:
 https://www.itzgeek.com/how-tos/linux/debian/setup-debian-11-official-repository-in-sources-list-etc-apt-sources-list.html
 
-add contrib non-free to every line and sudo apt update
-then sudo apt install iwlwifi and reboot...
+Add contrib non-free to every line, uncomment lines with deb-src, then sudo apt update
+
+*OBS! If intel wifi, then you might have to:
+sudo apt install iwlwifi and reboot...
 
 ******************************************
 curl -o install.txt https://raw.githubusercontent.com/archornf/dotfiles/master/installation/deb_install.txt
 wget -O install.txt https://raw.githubusercontent.com/archornf/dotfiles/master/installation/deb_install.txt
 ******************************************
 
-sudo apt install xorg i3 lxappearance awesome rxvt-unicode
-Install dwm dependencies:
-sudo apt install dwm suckless-tools dmenu
-sudo apt install make gcc libx11-dev libxft-dev libxinerama-dev
-sudo apt install thunar feh ranger zathura chromium git zsh firefox-esr
-libtool automake m4 autoconf build-essential curl
+sudo apt install -y xorg i3 lxappearance awesome rxvt-unicode dwm suckless-tools \
+dmenu make gcc libx11-dev libxft-dev libxinerama-dev \ thunar feh ranger zathura \
+chromium git zsh firefox-esr libtool automake m4 autoconf build-essential curl \
 libx11-xcb-dev libxcb-res0-dev fonts-font-awesome
-# Newovim dependencies:
-sudo apt-get install ninja-build gettext libtool-bin cmake g++ pkg-config unzip zip doxygen
+
+(python should be preinstalled)
+sudo apt-get install -y ninja-build gettext libtool-bin cmake g++ pkg-config \
+unzip zip doxygen polybar lm-sensors yad picom rofi neofetch pulseaudio \
+fzf xdg-utils nodejs python3-pip p7zip
+
+sudo apt-get install -y libxext-dev libxcb1-dev libxcb-damage0-dev \
+libxcb-xfixes0-dev libxcb-shape0-dev libxcb-render-util0-dev \
+libxcb-render0-dev libxcb-randr0-dev libxcb-composite0-dev \
+libxcb-image0-dev libxcb-present-dev libxcb-xinerama0-dev \
+libxcb-glx0-dev libpixman-1-dev libdbus-1-dev libconfig-dev \
+libgl1-mesa-dev libpcre2-dev libpcre3-dev libevdev-dev uthash-dev \
+libev-dev libx11-xcb-dev pamix alsa-utils xinput qrencode \
+silversearcher-ag maim imagemagick tesseract-ocr
+
+(lua5.x)
+sudo apt-get install -y libxres-dev ueberzug lua5.4 \
+libluajit-5.1-dev lua-mpack lua-lpeg libunibilium-dev \
+libmsgpack-dev libtermkey-dev luajit
+
+sudo apt-get update -y && sudo apt-get install -y make gcc g++ clang \
+default-libmysqlclient-dev libssl-dev libbz2-dev libreadline-dev \
+libncurses-dev mariadb-server libboost-all-dev
+
+sudo apt-get install -y libopenal-dev libopenscenegraph-dev libbullet-dev libsdl2-dev \
+libmygui-dev libunshield-dev liblz4-dev libtinyxml-dev libqt5opengl5-dev \
+libboost-filesystem-dev libboost-program-options-dev libboost-iostreams-dev \
+libavcodec-dev libavformat-dev libavutil-dev libswscale-dev libswresample-dev \
+librecast-dev libluajit-5.1-dev libsqlite3-dev libyaml-cpp-dev libcollada-dom-dev
+
+sudo apt-get install -y build-essential cmake libbluetooth-dev \
+libcurl4-openssl-dev libenet-dev libfreetype6-dev libharfbuzz-dev \
+libjpeg-dev libogg-dev libopenal-dev libpng-dev \
+libssl-dev libvorbis-dev libmbedtls-dev pkg-config zlib1g-dev
+
+sudo apt-get install -y zlib1g libfreetype6 libwebp-dev libopus-dev \
+
+sudo apt-get install -y libopenal-dev libopenscenegraph-dev libbullet-dev libsdl2-dev \
+libmygui-dev libunshield-dev liblz4-dev libtinyxml-dev libqt5opengl5-dev \
+libboost-filesystem-dev libboost-program-options-dev libboost-iostreams-dev \
+
+sudo apt-get install -y libopusfile-dev libncurses5-dev libncursesw5-dev libgmp-dev libnettle8
+
+sudo apt-get install -y libbluetooth-dev libsdl2-dev \
+libcurl4-openssl-dev libenet-dev libfreetype6-dev libharfbuzz-dev \
+libjpeg-dev libogg-dev libopenal-dev libpng-dev \
+libssl-dev libvorbis-dev libmbedtls-dev pkg-config zlib1g-dev
+
+# TrinityCore:
+# For latest mysql-apt repository, check url from https://dev.mysql.com/downloads/repo/apt/
+wget https://dev.mysql.com/get/mysql-apt-config_0.8.29-1_all.deb -O /tmp/mysql-apt-config_all.deb
+sudo DEBIAN_FRONTEND=noninteractive dpkg -i /tmp/mysql-apt-config_all.deb
+
+# Not needed?
+sudo update-alternatives --install /usr/bin/cc cc /usr/bin/clang 100
+sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang 100
+
+python3 -m venv .venv
+source .venv/bin/activate
+Then:
+python3 -m pip install -r requirements.txt
+
+Or:
+pip install xyz --break-system-packages
+
+Or (use this):
+Add this to your ~/.config/pip/pip.conf file:
+[global]
+break-system-packages = true
+
+pip3 install bs4 requests ocrspace pytesseract pynvim i3ipc pyperclip
+
+******************************************
+# Other stuff
 
 git clone https://github.com/jmattheis/gruvbox-dark-gtk ~/.themes/gruvbox-dark-gtk
+Set gruvbox-dark theme through lxappearance (should appear through dmenu)
 sudo cp /etc/X11/xinit/xinitrc ~/.xinitrc
-sudo apt install polybar lm-sensors yad picom
-sudo apt install rofi neofetch pulseaudio fzf xdg-utils nodejs python3-pip (python preinstalled)
 sudo localectl set-x11-keymap se (then sudo reboot)
 git clone polybar themes and run the starting script
 then copy files from dotfiles to .config
@@ -46,7 +119,7 @@ cd polybar-themes
 chmod +x setup.sh
 ./setup.sh
 
-DO THIS:
+If JetBrainsMono can't be installed from apt:
 https://www.nerdfonts.com/font-downloads
 Download Jetbrains from above and copy the files to ~/.local/share/fonts/ -> restart or fc-cache -fv.
 ---
@@ -66,41 +139,13 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-m
 
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
-Copy bashrc and zshrc!
+cd ~/Downloads && git clone https://github.com/archornf/dotfiles
+Copy files from config!
 
-https://github.com/erebe/greenclip
-
-sudo apt install virtualbox-guest-utils virtualbox-guest-X11
-Virtualbox guest utils doesn't work it seems... See:
-https://techviewleo.com/install-virtualbox-guest-additions-on-debian/
-
-Picom dependencies:
-sudo apt install libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-randr0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-present-dev libxcb-xinerama0-dev libxcb-glx0-dev libpixman-1-dev libdbus-1-dev libconfig-dev libgl1-mesa-dev libpcre2-dev libpcre3-dev libevdev-dev uthash-dev libev-dev libx11-xcb-dev
-
-https://github.com/pijulius/picom
-sudo apt remove picom, then:
-#git submodule update --init --recursive
-meson --buildtype=release . build
-ninja -C build
-sudo ninja -C build install
-
-Start picom with picom --animations
-
-pamix alsa-utils xinput qrencode silversearcher-ag maim imagemagick tesseract-ocr
-
-ST term works better for neovim theming it seems... Needs:
-sudo apt install libharfbuzz-dev
+For ST:
 And uncomment the line f->badweight = 1; in x.c
 
-sudo apt install lua / lua5.3
-sudo apt remove neovim, then:
-git clone https://github.com/neovim/neovim
-cd neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo
-sudo make install
-
-Ueberzug:
-first try: sudo apt install ueberzug
-sudo apt install libxres-dev
+If sudo apt install ueberzug fails:
 pip3 install setuptools
 git clone https://github.com/WhiteBlackGoose/ueberzug-latest && cd ueberzug-latest
 sudo pip install -e .
@@ -110,12 +155,7 @@ whitespace, add /usr/bin/bash instead of /bin/sh, and use sb-volume_deb. Also
 need to add correct click/scroll for dwmblocks to sb-battery... Also update
 keybinds for volume in dwm conf.
 
-pip3 install bs4 requests ocrspace pytesseract
-pip3 install pynvim
-pip3 install i3ipc
-pip3 install pytesseract
-pip3 install pyperclip
-
+For tesseract ocr:
 (need to install eng trained data for tesseract-ocr also. Look for
 towardsdatascience python read text from image)... Also set tesseract
 variable...
@@ -126,10 +166,318 @@ And place in /home/jonas/.local/share/tessdata
 Might need to change TESSDATA_PREFIX in tesseract_ocr to /home/jonas/.local/share/tessdata
 And change scripts to /usr/bin/bash and /usr/bin/python3...
 
-Azerothcore:
-sudo apt-get update && sudo apt-get install git cmake make gcc g++ clang default-libmysqlclient-dev libssl-dev libbz2-dev libreadline-dev libncurses-dev mariadb-server libboost-all-dev -y
+******************************************
+cd ~
+mkdir Code Code2
+cd Code2
+mkdir C++ && cd C++
+git clone https://github.com/ornfelt/azerothcore-wotlk
+cd azerothcore-wotlk
+mkdir build && cd build
+cmake ../ -DCMAKE_INSTALL_PREFIX=$HOME/acore/ -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DWITH_WARNINGS=1 -DTOOLS_BUILD=all -DSCRIPTS=static -DMODULES=static -DWITH_COREDEBUG=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo
+make -j$(nproc)
 
------------------------------------ 
-Haven't tried:
-bluez bluez-utils?
+TrinityCore:
+git clone -b 3.3.5 https://github.com/ornfelt/trinitycore
+cd trinitycore
+mkdir build && cd build
+cmake ../ -DCMAKE_INSTALL_PREFIX=$HOME/tcore/ -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DWITH_WARNINGS=1 -DTOOLS_BUILD=all -DSCRIPTS=static -DMODULES=static -DWITH_COREDEBUG=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo
+make -j$(nproc)
+
+For DB configuration...
+sudo mysql
+-- for MySQL
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'passwd';
+-- for MariaDB
+ALTER USER 'root'@'localhost' IDENTIFIED VIA mysql_native_password USING PASSWORD('passwd');
+Then login via:
+mysql -u root -p
+
+******************************************
+sudo apt remove neovim, then:
+git clone https://github.com/neovim/neovim
+git checkout stable
+cd neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo
+sudo make install
+
+git clone --depth 1 https://github.com/wbthomason/packer.nvim \
+ ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+ 
+******************************************
+Eww:
+git clone https://github.com/elkowar/eww
+cd eww
+cargo build --release --no-default-features --features x11
+cd target/release
+chmod +x ./eww
+./eww daemon
+./eww open <window_name>
+
+******************************************
+Dotnet:
+See: https://learn.microsoft.com/en-us/dotnet/core/install/linux-debian
+Do this for Debian 12:
+wget https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+sudo dpkg -i packages-microsoft-prod.deb
+rm packages-microsoft-prod.deb
+
+sudo apt-get update && sudo apt-get install -y dotnet-sdk-8.0
+sudo apt-get update && sudo apt-get install -y aspnetcore-runtime-8.0
+
+If the above doesn't work, follow scripted install instead:
+https://learn.microsoft.com/en-us/dotnet/core/install/linux-scripted-manual#scripted-install
+
+wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh
+chmod +x ./dotnet-install.sh
+./dotnet-install.sh --version latest
+./dotnet-install.sh --version latest --runtime aspnetcore
+
+******************************************
+For spotify (debian 12):
+sudo mkdir -p /etc/apt/keyrings
+curl -sSf https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg | gpg --dearmor | sudo tee /etc/apt/keyrings/spotify.gpg > /dev/null
+echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/spotify.gpg] http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
+sudo apt update
+sudo apt install spotify-client
+
+# The spotify package is currently broken and installs files owned by uid 1000, fix it
+dpkg -L spotify-client | sudo xargs chown --no-dereference root:root
+
+******************************************
+Picom:
+https://github.com/pijulius/picom
+sudo apt remove picom, then:
+#git submodule update --init --recursive
+meson --buildtype=release . build
+ninja -C build
+sudo ninja -C build install
+Start picom with picom --animations
+
+******************************************
+Eclipse:
+https://wiki.debian.org/Eclipse
+
+Android studio:
+https://wiki.debian.org/AndroidStudio
+
+Steam:
+https://wiki.debian.org/Steam#Installing_Steam
+
+Greenclip:
+https://github.com/erebe/greenclip
+
+For virtualbox:
+sudo apt install -y virtualbox-guest-utils virtualbox-guest-X11
+Virtualbox guest utils doesn't work it seems... See:
+https://techviewleo.com/install-virtualbox-guest-additions-on-debian/
+
+Maybe try this:
+git clone --recursive https://github.com/ornfelt/Debian-Hyprland/
+cd Debian-Hyprland && ./install.sh
+
+******************************************
+ioq3 / https://github.com/ornfelt/q3lite
+
+just run make
+
+******************************************
+supertuxkart:
+
+git clone https://github.com/ornfelt/stk-code
+svn co https://svn.code.sf.net/p/supertuxkart/code/stk-assets stk-assets
+
+cd stk-code
+# create and enter the cmake_build directory
+mkdir build && cd build
+cmake ..
+Or:
+cmake .. -DCMAKE_BUILD_TYPE=Debug
+* Install shaderc from your distribution or disable vulkan support:
+cmake .. -DNO_SHADERC=on
+make -j$(nproc)
+
+To recompile the latest code without redownloading the entire source, 
+first run the svn up command inside the 'stk-assets' directory, then 
+run the following commands inside the 'stk-code' directory:
+git pull
+cd build
+cmake ..
+make -j$(nproc)
+
+******************************************
+OpenJK:
+
+Change the BuildJK2SPEngine, BuildJK2SPGame, and BuildJK2SPRdVanilla
+options to ON in CMakeLists.txt.
+
+******************************************
+unvanquished:
+
+git clone --recurse-submodules https://github.com/Unvanquished/Unvanquished.git
+cd Unvanquished/
+./download-paks build/pkg
+mkdir build; cd build
+cmake ..
+
+make -j$(nproc)
+
+******************************************
+small-games: Craft, CPP-FightingGame (also compile v2), pacman, space-shooter.
+
+git clone --recurse-submodules -b linux https://github.com/ornfelt/small_games
+
+Follow build instructions in readme.
+
+******************************************
+OpenJKDF2:
+
+git clone --recurse-submodules https://github.com/shinyquagsire23/OpenJKDF2
+cd OpenJKDF2
+Add the following to the end of ~/.bashrc:
+export PATH=$PATH:~/.local/bin
+source ~/.bashrc
+export CC=clang
+export CXX=clang++
+./build_linux64.sh
+LD_LIBRARY_PATH=build_linux64 ./build_linux64/openjkdf2
+or just: ./build_linux64/openjkdf2
+
+******************************************
+Gta:
+
+git clone --recurse-submodules https://github.com/halpz/re3.git
+cd re3
+If you're on x86/x86_64, run $ ./premake5Linux --with-librw gmake2.
+
+If you're on i.e. arm/arm64, you need to build your own premake5 from source.
+Then you can proceed to running premake5 with --with-librw gmake2 arguments.
+
+Do this:
+cd ~/Downloads
+For fetching pre-compiled binary (doesn't work for ARM64 :()
+#wget https://github.com/premake/premake-core/releases/download/v5.0.0-alpha16/premake-5.0.0-alpha16-linux.tar.gz
+See https://github.com/premake/premake-core/releases for updated version.
+Then,
+#tar -zxvf premake-5.0.0-alpha16-linux.tar.gz
+sudo mv premake5 /usr/local/bin
+premake5 --version
+
+Do this instead:
+cd ~/Downloads
+git clone --recurse-submodules https://github.com/premake/premake-core
+cd premake-core
+make -f Bootstrap.mak linux
+cd bin/release
+Verify that it's built for ARM64:
+file premake5
+sudo mv premake5 /usr/local/bin
+premake5 --version
+
+Now we can do:
+premake5 --with-librw gmake
+Instead of: ./premake5Linux --with-librw gmake2
+
+Enter the build directory and run make help to see a help message with supported 
+build configurations and architectures. As of now, refer to one of the 
+available configurations:
+
+make config=debug_linux-arm64-librw_gl3_glfw-oal
+Or:
+make config=release_linux-arm64-librw_gl3_glfw-oal
+
+For Vice City / miami branch:
+git clone --recurse-submodules -b miami https://github.com/halpz/re3 re3_vice
+
+Arm64 (rpbi):
+premake5 --with-librw gmake
+Else:
+./premake5Linux --with-librw gmake2
+
+Enter the build directory and run make help to see a help message with supported 
+build configurations and architectures. As of now, refer to one of the 
+available configurations:
+
+make config=debug_linux-arm64-librw_gl3_glfw-oal
+Or:
+make config=release_linux-arm64-librw_gl3_glfw-oal
+
+******************************************
+Openmw:
+
+git clone https://gitlab.com/OpenMW/openmw
+cd openmw
+If you have mygui 3.4.2, then: git checkout 1c2f92cac9
+If you have mygui 3.4.1, then git checkout abb71eeb
+See mygui version with:
+dpkg -l | grep mygui
+Or:
+apt list --installed | grep mygui
+Or:
+ldconfig -p | grep mygui
+
+mkdir build && cd build 
+cmake ../
+make -j$(nproc)
+sudo make install
+Note** If you are having undefined reference errors while compiling, 
+its possible that you have previously installed a different openscenegraph 
+version than what openMW depends on.
+To remove it, you can use:
+#removes just package
+apt-get remove <yourOSGversion>
+#or 
+#removes configurations as well
+apt-get remove --purge <yourOSGversion>
+
+******************************************
+* Don't forget to copy data for acore, tcore, q3, jajo, jkdf2, gta, openmw!
+
+******************************************
+Missing packages - install manually:
+
+gruvbox-dark-gtk
+ttf-icomoon-feather
+ttf-iosevka-nerd
+ttf-joypixels
+
+******************************************
 sudo systemctl enable bluetooth.service
+sudo systemctl enable NetworkManager.service
+More services...
+
+******************************************
+dpkg -l | awk '/^ii/ { print $2 }' > package_list.txt
+
+dpkg -l > package_list_all_info.txt
+
+sudo apt list --installed > package_list.txt
+
+# Alternative:
+sudo dpkg-query -f '${binary:Package}\n' -W > packages_list.txt
+
+# Now that you have the list, you can install the same packages
+# on your new server with:
+sudo xargs -a packages_list.txt apt install
+
+# Count
+sudo dpkg-query -f '${binary:Package}\n' -W | wc -l
+
+# USE THIS to print name only:
+dpkg-query -W -f='${binary:Package}\n' > package_list.txt
+# Get rid of ':arm64':
+dpkg-query -W -f='${binary:Package}\n' | awk -F: '{print $1}' > package_list.txt
+# Using sed:
+dpkg-query -W -f='${binary:Package}\n' | sed 's/:.*//' > package_list.txt
+# Using grep and cut:
+{ dpkg-query -W -f='${binary:Package}\n' | grep ":" | cut -d':' -f1; dpkg-query -W -f='${binary:Package}\n' | grep -v ":"; } > package_list.txt
+
+----
+To change all file permissions to full access recursively:
+chmod -R 777 /path/to/directory
+
+777 sets the permissions for the owner, group, and others 
+to read, write, and execute. This is the numeric way to 
+represent full permissions.
+
+To see permissions on files and dirs:
+ls -lh
