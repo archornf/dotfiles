@@ -63,7 +63,15 @@ cp -r ~/.config/st_git .config/st_git/
 cp -r ~/.config/zathura .config/zathura/
 
 cp -r ~/.dwm .dwm/
-cp -r ~/.local/bin bin/
+mkdir -p bin
+cp -r ~/.local/bin/cron bin/
+cp -r ~/.local/bin/dwm_keybinds bin/
+cp -r ~/.local/bin/i3-used-keybinds bin/
+cp -r ~/.local/bin/my_scripts bin/
+cp -r ~/.local/bin/statusbar bin/
+cp -r ~/.local/bin/vim bin/
+cp -r ~/.local/bin/widgets bin/
+cp -r ~/.local/bin/xyz bin/
 cp -r ~/Documents/installation installation/
 cp ~/Documents/help.txt installation/
 
