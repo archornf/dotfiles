@@ -37,10 +37,10 @@ install_debian() {
 
 # Check the Linux distribution and call the appropriate function
 if grep -q 'ID=arch' /etc/os-release; then
-    install_arch
+    echo "Use arch branch instead of this!"
+    #install_arch
 elif grep -q 'ID=debian' /etc/os-release || grep -q 'ID_LIKE=debian' /etc/os-release; then
-    echo "Use debian branch instead of this!"
-    #install_debian
+    install_debian
 else
     echo "Unsupported Linux distribution."
     exit 1

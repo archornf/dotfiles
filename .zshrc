@@ -232,7 +232,7 @@ export PATH="${PATH}:${HOME}/.local/bin/"
 export PATH="${PATH}:${HOME}/.local/bin/my_scripts"
 export LANG=en_US.UTF-8
 export LANGUAGE=en
-export LC_ALL=en_US.UTF-8 
+export LC_ALL=en_GB.UTF-8 
 #export ALPHAVANTAGE_API_KEY=AOUX3DK05GCWDMZ9
 
 alias f='fuzzyfind'
