@@ -276,9 +276,34 @@ git clone --recursive https://github.com/ornfelt/Debian-Hyprland/
 cd Debian-Hyprland && ./install.sh
 
 ******************************************
-ioq3 / https://github.com/ornfelt/q3lite
+OBS! you probably need in .bash_profile / .bashrc to run most games:
+export MESA_GL_VERSION_OVERRIDE=3.3
 
+ALSO:
+'getconf PAGESIZE' returns 16k for raspberry pi which is a problem for jemalloc
+and some other things (required for AzerothCore / TrinityCore):
+https://github.com/raspberrypi/bookworm-feedback/issues/107
+
+If you find this is a problem, switch to the 4k page size using:
+kernel=kernel8.img
+sudo nvim /boot/config.txt
+
+You can add it after arm_boost=1 for example. (before [cm4] and [all].
+
+Also make sure that realmlist address and port is set correctly. I've changed
+port when testing wowser / acore-client for example.
+******************************************
+
+ioq3:
 just run make
+
+https://github.com/ornfelt/q3lite doesn't work on rbpi 4b+
+You can get it to compile by adding this in make-raspberrypi.sh:
+else
+    echo -e "\e[01;31mUnable to determine platform type from /proc/cpuinfo\n\e[0m"
+    ptype="arm"
+    #exit 6
+fi
 
 ******************************************
 supertuxkart:
@@ -320,6 +345,13 @@ mkdir build; cd build
 cmake ..
 
 make -j$(nproc)
+
+On rbpi I got some IPC socket errors. However, you should still be able to run the game like this:
+./daemon -set r_fullscreen 0 -set r_noBorder 1 -set r_mode -1 -set r_customWidth 1280 -set r_customHeight 720 -set vm.cgame.type 3 -set vm.sgame.type 3
+
+See:
+https://github.com/Unvanquished/Unvanquished/issues/2739
+https://github.com/Unvanquished/Unvanquished/issues/1015
 
 ******************************************
 small-games: Craft, CPP-FightingGame (also compile v2), pacman, space-shooter.
@@ -430,7 +462,49 @@ apt-get remove <yourOSGversion>
 apt-get remove --purge <yourOSGversion>
 
 ******************************************
-* Don't forget to copy data for acore, tcore, q3, jajo, jkdf2, gta, openmw!
+Diablo:
+git clone https://github.com/ornfelt/devilutionX
+cd devilutionX
+The smpq package on debian has had issues so it might not work.
+But can you always try to install it and build:
+sudo apt-get install smpq
+Otherwise, you can do:
+sudo apt remove smpq
+cd tools && ./build_and_install_smpq.sh
+then:
+sudo cp /usr/local/bin/smpq /usr/bin/smpq
+
+Then build with:
+arm64 (aarch64):
+Packaging/nix/debian-cross-aarch64-prep.sh
+cmake -S. -Bbuild-aarch64-rel \
+  -DCMAKE_TOOLCHAIN_FILE=../CMake/platforms/aarch64-linux-gnu.toolchain.cmake \
+  -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DCPACK=ON \
+  -DDEVILUTIONX_SYSTEM_LIBFMT=OFF
+cmake --build build-aarch64-rel -j $(getconf _NPROCESSORS_ONLN) --target package
+
+Other:
+cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
+cmake --build build -j $(getconf _NPROCESSORS_ONLN)
+
+******************************************
+* Don't forget to copy data for acore, tcore, q3, jajo, jkdf2, gta, openmw, diablo!
+
+q3: copy all pk3 files into baseq3 dir (in buld dir).
+For jajo:
+For JO place game files place base in build dir. JA files at ~/local/share/openjk
+You also need to add all required .so files from the build dirs to
+~/local/share/openjk (maybe even in base dir it seems) and perhaps build dir.
+Not required on Windows. Maybe fixable with sudo make install?
+For jkdfs, copy all files into buld dir.
+For GTA, just copy re3 executable into GTA dirs / copy all GTA files into build
+dir.
+For OpenMW, keep the files in Download and run openmw-launcher and select the
+Morrowind.esm in Data Files dir. Then start with ./openmw
+For diablo: 
+Copy DIABDAT.MPQ from the CD or GOG-installation to the build dir.
+To run the Diablo: Hellfire expansion you will need to also copy hellfire.mpq,
+hfmonk.mpq, hfmusic.mpq, hfvoice.mpq.
 
 ******************************************
 Missing packages - install manually:
@@ -479,5 +553,8 @@ chmod -R 777 /path/to/directory
 to read, write, and execute. This is the numeric way to 
 represent full permissions.
 
-To see permissions on files and dirs:
+Set owner recursively:
+sudo chown -R jonas:jonas .
+
+To see permissions / owners on files and dirs:
 ls -lh

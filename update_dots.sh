@@ -82,10 +82,15 @@ cp -r ~/.Xresources .Xresources
 cp -r ~/.Xresources_cat .Xresources_cat
 cp -r ~/.zshrc .zshrc
 
+rm --f .config/dmenu/dmenu
+rm --f .config/dmenu/stest
+rm --f .config/dwm/dwm
+rm --f .config/dwmblocks/dwmblocks
+rm --f .config/st/st
+
 printf "Copied latest files...\n"
 
 #git add -A
 #git commit -m $1
 #git push ...
 #git push https://"{$2}"@github.com/archornf/dotfiles.git
-
