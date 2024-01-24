@@ -1,5 +1,7 @@
 #! /bin/sh
 
+cd ~/Documents/installation && ./update.sh && cd - > /dev/null
+
 rm -rf .config/awesome
 rm -rf .config/cava
 rm -rf .config/conky
