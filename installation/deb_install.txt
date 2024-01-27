@@ -506,6 +506,8 @@ cd chocolate-doom
 autoreconf -fiv
 ./configure
 make -j$(nproc)
+Run with:
+./crispy-doom -iwad ~/Downloads/doom/DOOM.WAD
 
 Doom 3:
 git clone https://github.com/dhewm/dhewm3.git
@@ -518,7 +520,7 @@ Replace /path/to/your/doom3/ with the path to your Doom3 installation (that
 contains base/ with pak000.pk4 to pak008.pk4
 
 ******************************************
-* Don't forget to copy data for acore, tcore, q3, jajo, jkdf2, gta, openmw, diablo!
+* Don't forget to copy data for acore, tcore, q3, jajo, jkdf2, gta, openmw, diablo, doom and doom3!
 
 q3: copy all pk3 files into baseq3 dir (in buld dir).
 For jajo:
@@ -535,6 +537,9 @@ For diablo:
 Copy DIABDAT.MPQ from the CD or GOG-installation to the build dir.
 To run the Diablo: Hellfire expansion you will need to also copy hellfire.mpq,
 hfmonk.mpq, hfmusic.mpq, hfvoice.mpq.
+For Doom you can keep the files in Downloads and run the executable with:
+./crispy-doom -iwad ~/Downloads/doom/DOOM.WAD
+For doom3, copy into build dir.
 
 ******************************************
 Missing packages - install manually:
