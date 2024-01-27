@@ -508,6 +508,8 @@ autoreconf -fiv
 make -j$(nproc)
 Run with:
 ./crispy-doom -iwad ~/Downloads/doom/DOOM.WAD
+For chocolate-doom:
+./chocolate-doom -iwad ~/Downloads/doom/DOOM.WAD
 
 Doom 3:
 git clone https://github.com/dhewm/dhewm3.git
@@ -539,6 +541,8 @@ To run the Diablo: Hellfire expansion you will need to also copy hellfire.mpq,
 hfmonk.mpq, hfmusic.mpq, hfvoice.mpq.
 For Doom you can keep the files in Downloads and run the executable with:
 ./crispy-doom -iwad ~/Downloads/doom/DOOM.WAD
+For chocolate-doom:
+./chocolate-doom -iwad ~/Downloads/doom/DOOM.WAD
 For doom3, copy into build dir.
 
 ******************************************
