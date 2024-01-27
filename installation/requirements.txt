@@ -170,6 +170,7 @@ roman==3.3
 RPi.GPIO==0.7.1a4
 RTIMULib==7.2.1
 scipy==1.10.1
+SCons==4.4.0
 Send2Trash==1.8.1b0
 sense-hat==2.6.0
 simple-http-server==0.22.2

@@ -488,6 +488,36 @@ cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
 cmake --build build -j $(getconf _NPROCESSORS_ONLN)
 
 ******************************************
+Crispy-doom
+
+git clone https://github.com/fabiangreffrath/crispy-doom
+
+cd crispy-doom
+autoreconf -fiv
+./configure
+make -j$(nproc)
+
+After successful compilation the resulting binaries can be found in the src/
+director
+
+Same with chocolate-doom:
+git clone https://github.com/chocolate-doom/chocolate-doom
+cd chocolate-doom
+autoreconf -fiv
+./configure
+make -j$(nproc)
+
+Doom 3:
+git clone https://github.com/dhewm/dhewm3.git
+mkdir build && cd build
+cmake ../neo/
+When all steps are done and no errors occurred, you should be able to run
+dhewm3 right there, like:
+./dhewm3 +set fs_basepath /path/to/your/doom3/
+Replace /path/to/your/doom3/ with the path to your Doom3 installation (that
+contains base/ with pak000.pk4 to pak008.pk4
+
+******************************************
 * Don't forget to copy data for acore, tcore, q3, jajo, jkdf2, gta, openmw, diablo!
 
 q3: copy all pk3 files into baseq3 dir (in buld dir).

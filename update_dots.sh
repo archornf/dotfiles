@@ -1,5 +1,7 @@
 #! /bin/sh
 
+cd ~/Documents/installation && ./update.sh && cd - > /dev/null
+
 rm -rf .config/awesome
 rm -rf .config/cava
 rm -rf .config/conky
@@ -94,4 +96,3 @@ printf "Copied latest files...\n"
 #git commit -m $1
 #git push ...
 #git push https://"{$2}"@github.com/archornf/dotfiles.git
-

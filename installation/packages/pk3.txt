@@ -1,3 +1,7 @@
+libxkbcommon-dev
+libxkbcommon-x11-0
+libxkbcommon-x11-dev
+libxkbcommon0
 libxkbcommon0
 libxkbfile-dev
 libxkbfile1
@@ -242,6 +246,7 @@ mypy
 mysql-apt-config
 mysql-common
 nano
+nasm
 ncdu
 ncurses-base
 ncurses-bin
@@ -1047,6 +1052,7 @@ sane-airscan
 sane-utils
 scantv
 scdoc
+scons
 scrot
 seatd
 sed
@@ -1246,6 +1252,7 @@ xwayland
 xxd
 xz-utils
 yad
+yasm
 yelp
 yelp-xsl
 yt-dlp

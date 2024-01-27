@@ -1,3 +1,5 @@
+libjavascriptcoregtk-4.1-0
+libjaxen-java
 libjaylink0
 libjbig-dev
 libjbig0
@@ -530,6 +532,8 @@ libopusfile-dev
 libopusfile0
 liborc-0.4-0
 liborc-0.4-0
+liborc-0.4-dev
+liborc-0.4-dev-bin
 libosgi-annotation-java
 libosgi-compendium-java
 libosgi-core-java
@@ -799,9 +803,14 @@ libsdl1.2debian
 libsdl2-2.0-0
 libsdl2-2.0-0
 libsdl2-dev
+libsdl2-gfx-1.0-0
+libsdl2-gfx-dev
 libsdl2-image-2.0-0
 libsdl2-image-dev
 libsdl2-mixer-2.0-0
+libsdl2-mixer-dev
+libsdl2-net-2.0-0
+libsdl2-net-dev
 libsdl2-ttf-2.0-0
 libsdl2-ttf-dev
 libseat-dev
@@ -1029,6 +1038,7 @@ libunistring2
 libunistring2
 libunshield-dev
 libunshield0
+libunwind-dev
 libunwind8
 libunwind8
 libupnp13
@@ -1233,6 +1243,7 @@ libxdg-basedir1
 libxdmcp-dev
 libxdmcp6
 libxdmcp6
+libxdo-dev
 libxdo3
 libxerces-c3.2
 libxerces2-java
@@ -1259,7 +1270,3 @@ libxi6
 libxinerama-dev
 libxinerama1
 libxinerama1
-libxkbcommon-dev
-libxkbcommon-x11-0
-libxkbcommon-x11-dev
-libxkbcommon0

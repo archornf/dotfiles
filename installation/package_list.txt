@@ -249,6 +249,7 @@ fonts-vlgothic
 fonts-wine
 foot
 foot-terminfo
+freeglut3-dev
 fuse3
 fzf
 g++
@@ -285,6 +286,8 @@ gir1.2-gdkpixbuf-2.0
 gir1.2-glib-2.0
 gir1.2-gmenu-3.0
 gir1.2-graphene-1.0
+gir1.2-gst-plugins-base-1.0
+gir1.2-gstreamer-1.0
 gir1.2-gtk-3.0
 gir1.2-gudev-1.0
 gir1.2-handy-1
@@ -348,7 +351,6 @@ gstreamer1.0-libav
 gstreamer1.0-plugins-bad
 gstreamer1.0-plugins-base
 gstreamer1.0-plugins-base
-gstreamer1.0-plugins-good
 gstreamer1.0-plugins-good
 gstreamer1.0-x
 gstreamer1.0-x
@@ -717,9 +719,11 @@ libcglm0
 libchafa0
 libchromaprint1
 libcjson1
+libclang-14-dev
 libclang-common-14-dev
 libclang-cpp13
 libclang-cpp14
+libclang-dev
 libclang-rt-14-dev
 libclang1-14
 libclass-data-inheritable-perl
@@ -858,6 +862,7 @@ libdv4
 libdvbpsi10
 libdvdnav4
 libdvdread8
+libdw-dev
 libdw1
 libdw1
 libdynaloader-functions-perl
@@ -872,6 +877,7 @@ libegl-mesa0
 libegl1
 libegl1-mesa-dev
 libel-api-java
+libelf-dev
 libelf1
 libelf1
 libemail-address-xs-perl
@@ -954,6 +960,7 @@ libflac12
 libflac12
 libflite1
 libfltk1.3
+libfluidsynth-dev
 libfluidsynth3
 libfm-data
 libfm-extra4
@@ -1129,8 +1136,10 @@ libgstreamer-gl1.0-0
 libgstreamer-plugins-bad1.0-0
 libgstreamer-plugins-base1.0-0
 libgstreamer-plugins-base1.0-0
+libgstreamer-plugins-base1.0-dev
 libgstreamer1.0-0
 libgstreamer1.0-0
+libgstreamer1.0-dev
 libgtest-dev
 libgtk-3-0
 libgtk-3-common
@@ -1252,8 +1261,8 @@ libiterator-util-perl
 libitm1
 libiw30
 libixml10
-libjack-jackd2-0
-libjack-jackd2-0
+libjack-dev
+libjack0
 libjansi-java
 libjansi-native-java
 libjansi1-java
@@ -1795,6 +1804,8 @@ libopusfile-dev
 libopusfile0
 liborc-0.4-0
 liborc-0.4-0
+liborc-0.4-dev
+liborc-0.4-dev-bin
 libosgi-annotation-java
 libosgi-compendium-java
 libosgi-core-java
@@ -2064,9 +2075,14 @@ libsdl1.2debian
 libsdl2-2.0-0
 libsdl2-2.0-0
 libsdl2-dev
+libsdl2-gfx-1.0-0
+libsdl2-gfx-dev
 libsdl2-image-2.0-0
 libsdl2-image-dev
 libsdl2-mixer-2.0-0
+libsdl2-mixer-dev
+libsdl2-net-2.0-0
+libsdl2-net-dev
 libsdl2-ttf-2.0-0
 libsdl2-ttf-dev
 libseat-dev
@@ -2294,6 +2310,7 @@ libunistring2
 libunistring2
 libunshield-dev
 libunshield0
+libunwind-dev
 libunwind8
 libunwind8
 libupnp13
@@ -2498,6 +2515,7 @@ libxdg-basedir1
 libxdmcp-dev
 libxdmcp6
 libxdmcp6
+libxdo-dev
 libxdo3
 libxerces-c3.2
 libxerces2-java
@@ -2772,6 +2790,7 @@ mypy
 mysql-apt-config
 mysql-common
 nano
+nasm
 ncdu
 ncurses-base
 ncurses-bin
@@ -3577,6 +3596,7 @@ sane-airscan
 sane-utils
 scantv
 scdoc
+scons
 scrot
 seatd
 sed
@@ -3776,6 +3796,7 @@ xwayland
 xxd
 xz-utils
 yad
+yasm
 yelp
 yelp-xsl
 yt-dlp
