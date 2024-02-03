@@ -745,3 +745,11 @@ git add -A
 git commit -m "Adding DB"
 git remote add origin https://github.com/archornf/acore_db.git
 git push origin master
+
+----------------------------------------------------------------------------------
+./main -m ./models/llama-2-7b.Q4_K_M.gguf -n 128
+./main -m ./models/llama-2-7b-chat/ggml-model-q4_0.gguf -n 128
+
+./server -m models/llama-2-7b.Q4_K_M.gguf --threads $(nproc) -c 2048
+./server -m models/llama-2-7b-chat/ggml-model-q4_0.gguf --threads $(nproc) -c 2048
+
