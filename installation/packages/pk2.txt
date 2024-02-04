@@ -1,3 +1,4 @@
+libjavaewah-java
 libjavascriptcoregtk-4.1-0
 libjaxen-java
 libjaylink0
@@ -419,6 +420,8 @@ libmygui.opengl3platform0debian1v5
 libmygui.openglplatform0debian1v5
 libmyguiengine3debian1v5
 libmysofa1
+libmysql++-dev
+libmysql++3v5
 libnamespace-clean-perl
 libnative-platform-java
 libnative-platform-jni
@@ -1268,5 +1271,4 @@ libxi-dev
 libxi6
 libxi6
 libxinerama-dev
-libxinerama1
 libxinerama1

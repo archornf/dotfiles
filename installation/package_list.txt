@@ -70,6 +70,7 @@ caca-utils
 cargo
 cava
 chafa
+checkinstall
 chromium
 chromium-browser
 chromium-common
@@ -441,6 +442,8 @@ libaa1
 libabsl20220623
 libabsl20220623
 libaccountsservice0
+libace-7.0.8
+libace-dev
 libacl1
 libaec0
 libaio1
@@ -1691,6 +1694,8 @@ libmygui.opengl3platform0debian1v5
 libmygui.openglplatform0debian1v5
 libmyguiengine3debian1v5
 libmysofa1
+libmysql++-dev
+libmysql++3v5
 libnamespace-clean-perl
 libnative-platform-java
 libnative-platform-jni
@@ -3597,6 +3602,7 @@ sane-utils
 scantv
 scdoc
 scons
+screen
 scrot
 seatd
 sed

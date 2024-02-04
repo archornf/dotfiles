@@ -1,3 +1,4 @@
+libxinerama1
 libxkbcommon-dev
 libxkbcommon-x11-0
 libxkbcommon-x11-dev
@@ -1053,6 +1054,7 @@ sane-utils
 scantv
 scdoc
 scons
+screen
 scrot
 seatd
 sed

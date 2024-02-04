@@ -70,6 +70,7 @@ caca-utils
 cargo
 cava
 chafa
+checkinstall
 chromium
 chromium-browser
 chromium-common
@@ -441,6 +442,8 @@ libaa1
 libabsl20220623
 libabsl20220623
 libaccountsservice0
+libace-7.0.8
+libace-dev
 libacl1
 libaec0
 libaio1
@@ -1269,4 +1272,3 @@ libjansi1-java
 libjansson4
 libjarjar-java
 libjatl-java
-libjavaewah-java
