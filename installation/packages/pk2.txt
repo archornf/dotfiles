@@ -1,4 +1,3 @@
-linux
 linux-firmware
 luarocks
 lxappearance
@@ -32,6 +31,7 @@ os-prober
 packer
 pamixer
 patch
+perl-rename
 php
 picom-pijulius-git
 pkgconf
@@ -81,3 +81,4 @@ tmux
 tstock
 ttf-font-awesome
 ttf-icomoon-feather
+ttf-iosevka-nerd

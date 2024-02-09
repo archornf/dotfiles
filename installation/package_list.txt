@@ -115,6 +115,7 @@ os-prober
 packer
 pamixer
 patch
+perl-rename
 php
 picom-pijulius-git
 pkgconf

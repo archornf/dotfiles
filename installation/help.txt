@@ -753,3 +753,34 @@ git push origin master
 ./server -m models/llama-2-7b.Q4_K_M.gguf --threads $(nproc) -c 2048
 ./server -m models/llama-2-7b-chat/ggml-model-q4_0.gguf --threads $(nproc) -c 2048
 
+----------------------------------------------------------------------------------
+Rename files and dirs to lowercase:
+
+This didn't quite work since perl-rename should be used instead of other rename:
+rename 'y/A-Z/a-z/' *
+This works:
+perl-rename 'y/A-Z/a-z/' *
+
+Recursively:
+find . -type f -exec perl-rename 'y/A-Z/a-z/' {} +
+
+find . starts the search from the current directory (.).
+-type f restricts the search to files only, excluding directories.
+-exec allows you to execute a command on all items found.
+perl-rename 'y/A-Z/a-z/' {} + calls perl-rename on each file found. The {} is a
+placeholder for the current file name, and + at the end runs the command with
+as many files as possible at once for efficiency.
+
+This command will lowercase all letters in the filenames of all files found in
+the current directory and its subdirectories. However, it does not rename
+directories themselves to lowercase. If you want to rename directories too, you
+could use a slightly modified command:
+
+find . -depth -execdir perl-rename 'y/A-Z/a-z/' {} \;
+
+-depth ensures the command processes files and directories depth-first, which
+is important when renaming directories to avoid issues with changing paths
+before all files inside have been processed.
+-execdir is similar to -exec but executes the command from the directory of the
+found file, which can be safer and more efficient for renaming operations.
+
