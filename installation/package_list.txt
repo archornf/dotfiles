@@ -2,7 +2,6 @@ ace
 advancecomp
 adwaita-dark
 alsa-utils
-android-studio
 autoconf
 automake
 awesome
@@ -155,6 +154,7 @@ swaybg
 swayidle
 swaylock-effects-git
 swaylockd
+swww
 sxiv
 tesseract
 the_silver_searcher
@@ -174,7 +174,7 @@ unzip
 urxvt-resize-font-git
 visidata
 vorbis-tools
-waybar-hyprland
+waybar
 waybar-mpris-git
 wget
 wine
@@ -244,6 +244,7 @@ yad
 yaml-cpp
 yarn
 yay-git
+yq
 zathura
 zathura-pdf-poppler
 zip

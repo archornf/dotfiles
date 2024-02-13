@@ -2,7 +2,6 @@ ace
 advancecomp
 adwaita-dark
 alsa-utils
-android-studio
 autoconf
 automake
 awesome
@@ -82,3 +81,4 @@ lib32-libpulse
 libcurl-openssl-1.0
 light
 linux
+linux-firmware

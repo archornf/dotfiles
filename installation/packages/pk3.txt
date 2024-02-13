@@ -6,7 +6,7 @@ unzip
 urxvt-resize-font-git
 visidata
 vorbis-tools
-waybar-hyprland
+waybar
 waybar-mpris-git
 wget
 wine
@@ -76,6 +76,7 @@ yad
 yaml-cpp
 yarn
 yay-git
+yq
 zathura
 zathura-pdf-poppler
 zip

@@ -1,4 +1,3 @@
-linux-firmware
 luarocks
 lxappearance
 m4
@@ -71,6 +70,7 @@ swaybg
 swayidle
 swaylock-effects-git
 swaylockd
+swww
 sxiv
 tesseract
 the_silver_searcher
