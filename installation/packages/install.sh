@@ -2,14 +2,26 @@
 
 # Array of packages to exclude from installation
 exclude_packages=("linux" "linux-firmware" "yay" "yay-git")
+exclude_patterns=("docker" "linux-headers-rpi" "rpi-" "raspberrypi-" "raspi-")
 
-# Function to check if a package is in the exclusion list
+# Function to check if a package is in the exclusion list or matches an exclusion pattern
 is_excluded() {
+    local pkg_name="$1"
+
+    # Check exact matches
     for excluded_pkg in "${exclude_packages[@]}"; do
-        if [[ $1 == "$excluded_pkg" ]]; then
+        if [[ "$pkg_name" == "$excluded_pkg" ]]; then
             return 0 # Package is excluded
         fi
     done
+
+    # Check patterns
+    for pattern in "${exclude_patterns[@]}"; do
+        if [[ "$pkg_name" == *"$pattern"* ]]; then
+            return 0 # Package matches an exclusion pattern and is excluded
+        fi
+    done
+
     return 1 # Package is not excluded
 }
 
@@ -19,6 +31,7 @@ install_arch() {
         while read -r pkg; do
             if ! is_excluded "$pkg"; then
                 sudo pacman -S --noconfirm "$pkg"
+                #echo "installing $pkg"
             fi
         done < "$file"
     done
@@ -30,6 +43,7 @@ install_debian() {
         while read -r pkg; do
             if ! is_excluded "$pkg"; then
                 sudo apt-get install -y "$pkg"
+                #echo "installing $pkg"
             fi
         done < "$file"
     done

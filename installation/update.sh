@@ -10,7 +10,15 @@ if grep -q 'ID=arch' /etc/os-release; then
     pacman -Qm > other.txt
 elif grep -q 'ID=debian' /etc/os-release || grep -q 'ID_LIKE=debian' /etc/os-release; then
     # Execute commands and save output to files
-    dpkg-query -W -f='${binary:Package}\n' | awk -F: '{print $1}' > package_list.txt
+    #dpkg-query -W -f='${binary:Package}\n' | awk -F: '{print $1}' > package_list.txt
+
+    # Get only manually installed packages
+    apt list --manual-installed | awk 'NR > 1 {split($0, a, "/"); print a[1]}' > package_list.txt
+    #apt list --manual-installed | sed '1d; s#/.*##' > package_list.txt
+    # Old:
+    #comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u)
+    # Using aptitude
+    #comm -23 <(aptitude search '~i !~M' -F '%p' | sed "s/ *$//" | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u
 else
     echo "Unsupported Linux distribution."
     exit 1
