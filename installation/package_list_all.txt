@@ -89,6 +89,7 @@ conky
 conky-std
 console-setup
 console-setup-linux
+containerd.io
 coreutils
 cpio
 cpp
@@ -154,6 +155,11 @@ dmsetup
 dns-root-data
 dnsmasq-base
 docbook-xml
+docker-buildx-plugin
+docker-ce
+docker-ce-cli
+docker-ce-rootless-extras
+docker-compose-plugin
 docutils-common
 dos2unix
 dosfstools
@@ -2134,6 +2140,7 @@ libsixel1
 libslang2
 libslang2
 libslf4j-java
+libslirp0
 libslopy7.6
 libsm-dev
 libsm6
@@ -2810,6 +2817,8 @@ nettle-dev
 network-manager
 nfs-common
 nftables
+nginx
+nginx-common
 ninja-build
 node-abbrev
 node-acorn
@@ -3230,9 +3239,11 @@ perl-modules-5.36
 perl-openssl-defaults
 php
 php-common
+php-mysql
 php8.2
 php8.2-cli
 php8.2-common
+php8.2-mysql
 php8.2-opcache
 php8.2-readline
 pi-bluetooth
@@ -3248,6 +3259,7 @@ picom
 pigpio
 pigpio-tools
 pigpiod
+pigz
 pinentry-curses
 pinentry-gnome3
 pipanel
@@ -3310,6 +3322,7 @@ python3-all
 python3-all-dev
 python3-appdirs
 python3-apt
+python3-argcomplete
 python3-argon2
 python3-asgiref
 python3-astroid
@@ -3514,6 +3527,7 @@ python3-widgetsnbextension
 python3-wrapt
 python3-xdg
 python3-xlib
+python3-xmltodict
 python3-yaml
 python3-zipp
 python3-zmq
@@ -3612,6 +3626,7 @@ sgml-base
 sgml-data
 shared-mime-info
 silversearcher-ag
+slirp4netns
 slurp
 socat
 software-properties-common
@@ -3805,6 +3820,7 @@ yad
 yasm
 yelp
 yelp-xsl
+yq
 yt-dlp
 yudit-common
 zathura

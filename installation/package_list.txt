@@ -526,6 +526,7 @@ pciutils
 perl-base
 perl-modules-5.36
 perl
+php-mysql
 php
 pi-bluetooth
 pi-package

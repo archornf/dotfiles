@@ -30,8 +30,9 @@ install_arch() {
     for file in pk1.txt pk2.txt pk3.txt; do
         while read -r pkg; do
             if ! is_excluded "$pkg"; then
-                sudo pacman -S --noconfirm "$pkg"
+                sudo pacman -S --noconfirm "$pkg" 2>&1 | tee -a log.txt
                 #echo "installing $pkg"
+		sleep 1
             fi
         done < "$file"
     done
@@ -39,10 +40,11 @@ install_arch() {
 
 # Function to install packages for Debian
 install_debian() {
-    for file in pk1.txt pk2.txt pk3.txt; do
+    #for file in pk1.txt pk2.txt pk3.txt; do
+    for file in pk3.txt; do
         while read -r pkg; do
             if ! is_excluded "$pkg"; then
-                sudo apt-get install -y "$pkg"
+                sudo apt-get install -y "$pkg" 2>&1 | tee -a log.txt
                 #echo "installing $pkg"
             fi
         done < "$file"
