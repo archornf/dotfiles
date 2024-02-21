@@ -11,13 +11,13 @@ case $BLOCK_BUTTON in
 esac
 
 # Fetch weather information and process it
-curl -sf "wttr.in/Uppsala?format=1" | sed -r 's/^.{3}//;s/^ *//g;s/C//g' | tee "$HOME/.local/share/weatherreport"
+curl -sf --max-time 2  "wttr.in/Uppsala?format=1" | sed -r 's/^.{3}//;s/^ *//g;s/C//g' | tee "$HOME/.local/share/weatherreport"
 
 # Read the output to check for digits
 WEATHER_REPORT=$(cat "$HOME/.local/share/weatherreport")
 
 # Check if the output contains a digit
-if ! [[ "$WEATHER_REPORT" =~ [0-9] ]]; then
+if ! [[ "$WEATHER_REPORT" =~ [0-9] ]] || [[ ${#WEATHER_REPORT} -gt 10 ]]; then
     #echo "Using fallback..."
     # If no digit is found, fallback to the python script
     python ~/.local/bin/statusbar/weather_py.py | tee "$HOME/.local/share/weatherreport"
