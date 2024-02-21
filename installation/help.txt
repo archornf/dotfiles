@@ -802,3 +802,6 @@ cmake -DCMAKE_BUILD_TYPE=Release -DENABLE_WAYLAND=ON ..
 cmake --build .
 sudo make install
 
+----------------------------------------------------------------------------------
+scp jonas@raspberrypi:/home/jonas/history /home/jonas/Downloads/rasp_history
+
