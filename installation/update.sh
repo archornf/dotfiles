@@ -36,4 +36,4 @@ mv packages/pkaa.txt packages/pk1.txt
 mv packages/pkab.txt packages/pk2.txt
 mv packages/pkac.txt packages/pk3.txt
 
-history > ~/history.txt
+cp ~/.bash_history ~/history.txt && cat ~/.zsh_history >> ~/history.txt
