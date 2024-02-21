@@ -147,6 +147,7 @@ sndio
 speedtest-cli
 spotify-launcher
 starship
+steam
 subversion
 sudo
 swaybg

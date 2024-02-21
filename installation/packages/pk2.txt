@@ -63,6 +63,7 @@ sndio
 speedtest-cli
 spotify-launcher
 starship
+steam
 subversion
 sudo
 swaybg
@@ -81,4 +82,3 @@ tstock
 ttf-font-awesome
 ttf-icomoon-feather
 ttf-iosevka-nerd
-ttf-jetbrains-mono-nerd
