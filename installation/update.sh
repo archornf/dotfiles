@@ -28,3 +28,5 @@ split -l "$lines_per_file" package_list.txt packages/pk --additional-suffix=.txt
 mv packages/pkaa.txt packages/pk1.txt
 mv packages/pkab.txt packages/pk2.txt
 mv packages/pkac.txt packages/pk3.txt
+
+cp ~/.bash_history /home/jonas/history.txt && cat ~/.zsh_history >> /home/jonas/history.txt
