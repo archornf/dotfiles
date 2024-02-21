@@ -9,8 +9,15 @@ if grep -q 'ID=arch' /etc/os-release; then
     pacman -Qe | awk '{print $1}' > package_list.txt
     pacman -Qm > other.txt
 elif grep -q 'ID=debian' /etc/os-release || grep -q 'ID_LIKE=debian' /etc/os-release; then
-    # Execute commands and save output to files
-    dpkg-query -W -f='${binary:Package}\n' | awk -F: '{print $1}' > package_list.txt
+    # All packages
+    dpkg-query -W -f='${binary:Package}\n' | awk -F: '{print $1}' > package_list_all.txt
+    # Get only manually installed packages
+    apt list --manual-installed | sed '1d; s#/.*##' > package_list.txt
+    #apt list --manual-installed | awk 'NR > 1 {split($0, a, "/"); print a[1]}' > package_list.txt
+    # Old:
+    #comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u) > package_list.txt
+    # Using aptitude
+    #comm -23 <(aptitude search '~i !~M' -F '%p' | sed "s/ *$//" | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u > package_list.txt
 else
     echo "Unsupported Linux distribution."
     exit 1
@@ -29,4 +36,4 @@ mv packages/pkaa.txt packages/pk1.txt
 mv packages/pkab.txt packages/pk2.txt
 mv packages/pkac.txt packages/pk3.txt
 
-cp ~/.bash_history /home/jonas/history.txt && cat ~/.zsh_history >> /home/jonas/history.txt
+cp ~/.bash_history ~/history.txt && cat ~/.zsh_history >> ~/history.txt
