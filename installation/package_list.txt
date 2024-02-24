@@ -31,7 +31,7 @@ cargo
 cava
 chafa
 checkinstall
-chromium
+chromium-browser
 cifs-utils
 clang
 cmake-extras
@@ -297,6 +297,8 @@ libluajit-5.1-dev
 liblz4-1
 liblz4-dev
 liblzma5
+libmariadb-dev-compat
+libmariadb-dev
 libmbedtls-dev
 libmd0
 libmnl0
@@ -489,7 +491,6 @@ mousepad
 mpv-mpris
 mpv
 mtools
-mysql-apt-config
 nano
 nasm
 ncdu
@@ -518,7 +519,6 @@ openssl
 optipng
 p7zip-full
 p7zip
-packages-microsoft-prod
 pamix
 pamixer
 parted
@@ -583,7 +583,6 @@ ranger
 raspberrypi-archive-keyring
 raspberrypi-net-mods
 raspberrypi-sys-mods
-raspberrypi-ui-mods
 raspi-config
 raspi-firmware
 raspi-gpio
@@ -595,8 +594,6 @@ rfkill
 rofi
 rp-prefapps
 rpi-eeprom
-rpi-firefox-mods
-rpi-imager
 rpi-update
 rsync
 rustc

@@ -77,9 +77,6 @@ cava
 chafa
 checkinstall
 chromium
-chromium-browser
-chromium-browser-l10n
-chromium-codecs-ffmpeg-extra
 chromium-common
 chromium-sandbox
 cifs-utils
@@ -98,7 +95,6 @@ connman
 connman-gtk
 console-setup
 console-setup-linux
-containerd.io
 coreutils
 cpio
 cpp
@@ -168,11 +164,6 @@ dmsetup
 dns-root-data
 dnsmasq-base
 docbook-xml
-docker-buildx-plugin
-docker-ce
-docker-ce-cli
-docker-ce-rootless-extras
-docker-compose-plugin
 docutils-common
 dos2unix
 dosfstools
@@ -385,6 +376,7 @@ gstreamer1.0-libav
 gstreamer1.0-plugins-bad
 gstreamer1.0-plugins-base
 gstreamer1.0-plugins-base
+gstreamer1.0-plugins-good
 gstreamer1.0-plugins-good
 gstreamer1.0-x
 gstreamer1.0-x
@@ -1006,7 +998,6 @@ libflac12
 libflac12
 libflite1
 libfltk1.3
-libfluidsynth-dev
 libfluidsynth3
 libfm-data
 libfm-extra4
@@ -1305,8 +1296,8 @@ libiterator-util-perl
 libitm1
 libiw30
 libixml10
-libjack-dev
-libjack0
+libjack-jackd2-0
+libjack-jackd2-0
 libjansi-java
 libjansi-native-java
 libjansi1-java
@@ -2123,7 +2114,6 @@ libsdl2-gfx-dev
 libsdl2-image-2.0-0
 libsdl2-image-dev
 libsdl2-mixer-2.0-0
-libsdl2-mixer-dev
 libsdl2-net-2.0-0
 libsdl2-net-dev
 libsdl2-ttf-2.0-0
@@ -2173,7 +2163,6 @@ libsixel1
 libslang2
 libslang2
 libslf4j-java
-libslirp0
 libslopy7.6
 libsm-dev
 libsm6
@@ -2851,6 +2840,7 @@ ncurses-base
 ncurses-bin
 ncurses-term
 neofetch
+neovim
 neovim-runtime
 net-tools
 netbase
@@ -3303,7 +3293,6 @@ picom
 pigpio
 pigpio-tools
 pigpiod
-pigz
 pinentry-curses
 pinentry-gnome3
 pipewire
@@ -3657,11 +3646,11 @@ sgml-base
 sgml-data
 shared-mime-info
 silversearcher-ag
-slirp4netns
 slurp
 smplayer
 smplayer-l10n
 smplayer-themes
+smpq
 socat
 software-properties-common
 sound-theme-freedesktop

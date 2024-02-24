@@ -1,3 +1,4 @@
+libext2fs2
 libfdisk1
 libffi8
 libfile-find-rule-perl
@@ -62,6 +63,8 @@ libluajit-5.1-dev
 liblz4-1
 liblz4-dev
 liblzma5
+libmariadb-dev-compat
+libmariadb-dev
 libmbedtls-dev
 libmd0
 libmnl0
@@ -229,7 +232,3 @@ lua-lpeg
 lua-mpack
 lua5.1
 lua5.4
-luajit
-luarocks
-lxappearance
-lxde
