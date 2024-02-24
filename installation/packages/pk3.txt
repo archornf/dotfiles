@@ -1,5 +1,3 @@
-lxappearance
-lxde
 lxtask
 m4
 maim
@@ -201,6 +199,8 @@ wayland-protocols
 wbritish
 wget
 whiptail
+wine32
+wine64
 wine
 wireless-tools
 wl-clipboard

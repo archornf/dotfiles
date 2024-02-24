@@ -2663,10 +2663,15 @@ linux-base
 linux-headers-6.1.0-rpi7-common-rpi
 linux-headers-6.1.0-rpi7-rpi-2712
 linux-headers-6.1.0-rpi7-rpi-v8
+linux-headers-6.1.0-rpi8-common-rpi
+linux-headers-6.1.0-rpi8-rpi-2712
+linux-headers-6.1.0-rpi8-rpi-v8
 linux-headers-rpi-2712
 linux-headers-rpi-v8
 linux-image-6.1.0-rpi7-rpi-2712
 linux-image-6.1.0-rpi7-rpi-v8
+linux-image-6.1.0-rpi8-rpi-2712
+linux-image-6.1.0-rpi8-rpi-v8
 linux-image-rpi-2712
 linux-image-rpi-v8
 linux-kbuild-6.1

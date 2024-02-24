@@ -109,6 +109,7 @@ fonts-jetbrains-mono
 fonts-liberation2
 fonts-noto-cjk
 fonts-noto-color-emoji
+fonts-wine
 foot
 freeglut3-dev
 fzf
@@ -409,6 +410,7 @@ libvulkan-volk-dev
 libwayland-dev
 libwebp-dev
 libwidevinecdm0
+libwine
 libx11-dev
 libx11-xcb-dev
 libxcb-composite0-dev
@@ -667,6 +669,8 @@ wayland-protocols
 wbritish
 wget
 whiptail
+wine32
+wine64
 wine
 wireless-tools
 wl-clipboard
