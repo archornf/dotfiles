@@ -9,31 +9,31 @@ mkdir -p ~/Documents ~/Downloads ~/Pictures/Wallpapers
 mkdir -p ~/Code/c ~/Code/c++ ~/Code/c# ~/Code/python ~/Code2/C ~/Code2/C++ ~/Code2/C# ~/Code2/Python ~/Code2/Wow/tools
 
 # Copy stuff
-cp -r .config/awesome/ ~/.config/awesome
-cp -r .config/cava/ ~/.config/cava
-cp -r .config/conky/ ~/.config/conky
-cp -r .config/dmenu/ ~/.config/dmenu
-cp -r .config/dmenu_git/ ~/.config/dmenu_git
-cp -r .config/dwm/ ~/.config/dwm
-cp -r .config/dwm_git/ ~/.config/dwm_git
-cp -r .config/dwmblocks/ ~/.config/dwmblocks
-cp -r .config/dwm_mul_mon/ ~/.config/dwm_mul_mon
-cp -r .config/eww/ ~/.config/eww
-cp -r .config/hypr/ ~/.config/hypr
-cp -r .config/i3/ ~/.config/i3
-cp -r .config/kitty/ ~/.config/kitty
-cp -r .config/lf/ ~/.config/lf
-cp -r .config/neofetch/ ~/.config/neofetch
-cp -r .config/nvim/ ~/.config/nvim
-cp -r .config/picom/ ~/.config/picom
-cp -r .config/polybar/ ~/.config/polybar
-cp -r .config/ranger/ ~/.config/ranger
-cp -r .config/rofi/ ~/.config/rofi
-cp -r .config/st/ ~/.config/st
-cp -r .config/st_git/ ~/.config/st_git
-cp -r .config/zathura/ ~/.config/zathura
+cp -r .config/awesome/ ~/.config/
+cp -r .config/cava/ ~/.config/
+cp -r .config/conky/ ~/.config/
+cp -r .config/dmenu/ ~/.config/
+cp -r .config/dmenu_git/ ~/.config/
+cp -r .config/dwm/ ~/.config/
+cp -r .config/dwm_git/ ~/.config/
+cp -r .config/dwmblocks/ ~/.config/
+cp -r .config/dwm_mul_mon/ ~/.config/
+cp -r .config/eww/ ~/.config/
+cp -r .config/hypr/ ~/.config/
+cp -r .config/i3/ ~/.config/
+cp -r .config/kitty/ ~/.config/
+cp -r .config/lf/ ~/.config/
+cp -r .config/neofetch/ ~/.config/
+cp -r .config/nvim/ ~/.config/
+cp -r .config/picom/ ~/.config/
+cp -r .config/polybar/ ~/.config/
+cp -r .config/ranger/ ~/.config/
+cp -r .config/rofi/ ~/.config/
+cp -r .config/st/ ~/.config/
+cp -r .config/st_git/ ~/.config/
+cp -r .config/zathura/ ~/.config/
 
-cp -r .dwm/ ~/.dwm
+cp -r .dwm/ ~/
 cp -r bin/cron ~/.local/bin/
 cp -r bin/dwm_keybinds ~/.local/bin/
 cp -r bin/i3-used-keybinds ~/.local/bin/
@@ -51,6 +51,12 @@ cp -r .xinitrc ~/.xinitrc
 cp -r .Xresources ~/.Xresources
 cp -r .Xresources_cat ~/.Xresources_cat
 cp -r .zshrc ~/.zshrc
+
+if [ ! -f ~/.bash_profile ]; then
+    cp -r .bash_profile ~/.bash_profile
+else
+    echo ".bash_profile already installed."
+fi
 
 # oh-my-zsh
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
@@ -113,8 +119,8 @@ else
     echo "packer already installed."
 fi
 
-gruvbox, font (no?) to setup.sh
-Add more mkdirs and clones to setup.sh (only clone if not exists...)
-Do all compiles in setup.sh also?? sleep 5s between each?
-also add pip install -r requirements.txt??
+# gruvbox and jetbrains font
+# Add more mkdirs and clones to setup.sh (only clone if not exists...)
+# Do all compiles in setup.sh also?? sleep 5s between each?
+# also add pip install -r requirements.txt?
 
