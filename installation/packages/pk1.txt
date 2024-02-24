@@ -71,6 +71,7 @@ i3blocks
 i3lock
 i3status
 imagemagick
+inetutils
 jdk-openjdk
 jdtls
 jq
@@ -81,4 +82,3 @@ lib32-libpulse
 libcurl-openssl-1.0
 light
 linux
-linux-firmware

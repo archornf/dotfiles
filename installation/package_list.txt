@@ -71,6 +71,7 @@ i3blocks
 i3lock
 i3status
 imagemagick
+inetutils
 jdk-openjdk
 jdtls
 jq

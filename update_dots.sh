@@ -1,6 +1,21 @@
 #! /bin/sh
 
-cd ~/Documents/installation && ./update.sh && cd - > /dev/null
+arg=$(echo "$1" | tr '[:upper:]' '[:lower:]')
+
+if [ $# -eq 0 ]; then
+#if [ -z "$arg" ]; then
+    echo "No arguments provided."
+    cd ~/Documents/installation && ./update.sh && cd - > /dev/null
+    rm -rf installation
+    cp -r ~/Documents/installation installation/
+    cp ~/Documents/help.txt installation/
+else
+    if echo "$arg" | grep -q "no-pkg"; then
+        echo "Skipping update due to 'no-pkg' argument."
+    else
+        echo "Unknown argument provided"
+    fi
+fi
 
 rm -rf .config/awesome
 rm -rf .config/cava
@@ -28,7 +43,6 @@ rm -rf .config/zathura
 
 rm -rf .dwm
 rm -rf bin
-rm -rf installation
 
 rm .bashrc
 rm .tmux.conf
@@ -74,8 +88,6 @@ cp -r ~/.local/bin/statusbar bin/
 cp -r ~/.local/bin/vim bin/
 cp -r ~/.local/bin/widgets bin/
 cp -r ~/.local/bin/xyz bin/
-cp -r ~/Documents/installation installation/
-cp ~/Documents/help.txt installation/
 
 cp -r ~/.bashrc .bashrc
 cp -r ~/.tmux.conf .tmux.conf
@@ -89,6 +101,12 @@ rm --f .config/dmenu/stest
 rm --f .config/dwm/dwm
 rm --f .config/dwmblocks/dwmblocks
 rm --f .config/st/st
+rm --f installation/packages/log.txt
+
+rm --f .config/dmenu/*.o
+rm --f .config/dwm/*.o
+rm --f .config/dwmblocks/*.o
+rm --f .config/st/*.o
 
 printf "Copied latest files...\n"
 
