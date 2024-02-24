@@ -89,6 +89,7 @@ rm --f .config/dmenu/stest
 rm --f .config/dwm/dwm
 rm --f .config/dwmblocks/dwmblocks
 rm --f .config/st/st
+rm --f installation/packages/log.txt
 
 printf "Copied latest files...\n"
 
