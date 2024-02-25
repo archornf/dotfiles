@@ -106,8 +106,10 @@ python3-twython
 python3-venv
 python3-yaml
 python3
+qmake6
 qrencode
 qt5-style-kvantum
+qt6-base-dev-tools
 qt6-base-dev
 qt6ct
 qtwebengine5-dev

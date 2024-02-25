@@ -156,11 +156,13 @@ alias .wow='wine ~/Downloads/wow/Wow.exe'
 playermap ()
 {
     if [ -n "$1" ]; then
-        echo "Launching tcore playermap: php -S localhost:8000" &
-        cd ~/Code2/Python/wander_nodes_util/tcore_map/playermap && php -S localhost:8000;
+        echo "Launching tcore playermap: php -S localhost:8000"
+        #cd ~/Code2/Python/wander_nodes_util/tcore_map/playermap && php -S localhost:8000;
+        cd ~/Code2/Python/wander_nodes_util/tcore_map/playermap && php -S $(ip addr show | grep -v 'inet6' | grep -v 'inet 127' | grep 'inet' | head -n 1 | awk '{print $2}' | cut -d/ -f1):8000;
+
     else
         echo "Launching acore playermap: php -S localhost:8000" &
-        cd ~/Code2/Python/wander_nodes_util/acore_map/playermap && php -S localhost:8000;
+        cd ~/Code2/Python/wander_nodes_util/acore_map/playermap && php -S $(ip addr show | grep -v 'inet6' | grep -v 'inet 127' | grep 'inet' | head -n 1 | awk '{print $2}' | cut -d/ -f1):8000;
     fi
 }
 alias .playermap='playermap'

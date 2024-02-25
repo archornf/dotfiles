@@ -114,7 +114,7 @@ if [ ! -d "$HOME/.local/share/nvim/site/pack/packer/start/packer.nvim/.git" ]; t
     git clone --depth 1 https://github.com/wbthomason/packer.nvim "$HOME/.local/share/nvim/site/pack/packer/start/packer.nvim"
     mv ~/.config/nvim/init.lua ~/.config/nvim/temp.lua
     mv ~/.config/nvim/install.lua ~/.config/nvim/init.lua
-    echo "Now open vim and do :PackerInstall and then move temp.lua to init.lua in ~/.config/nvim"
+    echo "Packer installed! Now open vim and do :PackerInstall and then move temp.lua to init.lua in ~/.config/nvim"
 else
     echo "packer already installed."
 fi
