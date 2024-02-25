@@ -597,10 +597,6 @@ or:
 make config=release_linux-amd64-librw_gl3_glfw-oal
 
 ----------------------------------------------------------------------------------
-For architecture:
-uname -m
-
-----------------------------------------------------------------------------------
 PS AUX:
 USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
 
@@ -616,18 +612,24 @@ killall dotnet
 
 ----------------------------------------------------------------------------------
 Building BLPConverter:
-Add this to top of CMakeLists.txt (at line 3 after project and cmake_minimum... for example):
+Add this to top of CMakeLists.txt (at line 3 after project and cmake_minimum...
+for example):
 set (CMAKE_CXX_STANDARD 11)
+You also might need CMAKE_CXX_STANDARD 98 to FreeImage CMakeLists...
 mkdir build && cd build
 cmake -DWITH_LIBRARY=YES ..
-make
+sudo make install
+sudo cp /usr/local/lib/libblp.so /usr/lib
+sudo ldconfig
 
 Building Stormlib:
 For debian: sudo apt-get install cmake git gcc zlib1g-dev
 git clone https://github.com/ladislav-zezula/StormLib.git
 cd StormLib
-cmake CMakeLists.txt -DBUILD_SHARED_LIBS=ON
+mkdir build && cd build
+cmake .. -DBUILD_SHARED_LIBS=ON
 sudo make install
+sudo cp /usr/local/lib/libstorm.so /usr/lib
 sudo ldconfig
 
 Downgrading npm (not needed):
@@ -675,7 +677,7 @@ exports.default = new _ffiNapi2.default.Library('/usr/local/lib/libstorm', {
 npm install
 Also see wowser.json in wowser dir for settings.
 
-Do this to use blpconverter script
+Remember to do this to use blpconverter script:
 sudo cp /usr/local/lib/libblp.so /usr/lib
 
 ******************************************
@@ -792,6 +794,16 @@ Mount external hard drive:
 sudo fdisk -l
 sudo mkdir -p /media
 sudo mount /dev/sda1 /media
+
+Automount on Boot (Optional):
+sudo nvim /etc/fstab
+
+Add Mount Entry: Add a line to the end of the file with details about your hard
+drive. For example:
+/dev/sda1 /mnt/external_hd auto defaults,users,rw,nofail 0 0
+
+Unmounting:
+sudo umount /media
 
 ----------------------------------------------------------------------------------
 ueberzugpp:
