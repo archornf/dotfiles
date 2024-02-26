@@ -45,6 +45,7 @@ cp bin/lf-select ~/.local/bin/
 
 cp -r installation/ ~/Documents/
 cp installation/help.txt ~/Documents/
+cp Screenshots/space.jpg ~/Pictures/Wallpapers/
 
 cp .bashrc ~/.bashrc
 cp .tmux.conf ~/.tmux.conf
