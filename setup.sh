@@ -4,7 +4,7 @@
 mkdir -p ~/.config/
 mkdir -p ~/.local/bin/
 mkdir -p ~/Documents ~/Downloads ~/Pictures/Wallpapers
-mkdir -p ~/Code/c ~/Code/c++ ~/Code/c# ~/Code/python ~/Code2/C ~/Code2/C++ ~/Code2/C# ~/Code2/Python ~/Code2/Wow/tools
+mkdir -p ~/Code/c ~/Code/c++ ~/Code/c# ~/Code/python ~/Code2/C ~/Code2/C++ ~/Code2/C# ~/Code2/General ~/Code2/Python ~/Code2/Wow/tools
 
 # Copy stuff
 cp -r .config/awesome/ ~/.config/
@@ -40,22 +40,23 @@ cp -r bin/statusbar ~/.local/bin/
 cp -r bin/vim ~/.local/bin/
 cp -r bin/widgets ~/.local/bin/
 cp -r bin/xyz ~/.local/bin/
-cp -r bin/lfub ~/.local/bin/
-cp -r bin/lf-select ~/.local/bin/
+cp bin/lfub ~/.local/bin/
+cp bin/lf-select ~/.local/bin/
 
 cp -r installation/ ~/Documents/
+cp installation/help.txt ~/Documents/
 
-cp -r .bashrc ~/.bashrc
-cp -r .tmux.conf ~/.tmux.conf
-cp -r .xinitrc ~/.xinitrc
-cp -r .Xresources ~/.Xresources
-cp -r .Xresources_cat ~/.Xresources_cat
-cp -r .zshrc ~/.zshrc
+cp .bashrc ~/.bashrc
+cp .tmux.conf ~/.tmux.conf
+cp .xinitrc ~/.xinitrc
+cp .Xresources ~/.Xresources
+cp .Xresources_cat ~/.Xresources_cat
+cp .zshrc ~/.zshrc
 
 if [ ! -f ~/.bash_profile ]; then
     cp -r .bash_profile ~/.bash_profile
 else
-    echo ".bash_profile already installed."
+    echo ".bash_profile already exists."
 fi
 
 # oh-my-zsh
