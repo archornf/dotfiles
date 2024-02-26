@@ -1,4 +1,3 @@
-libext2fs2
 libfdisk1
 libffi8
 libfile-find-rule-perl
@@ -232,3 +231,5 @@ lua-lpeg
 lua-mpack
 lua5.1
 lua5.4
+luajit
+luarocks

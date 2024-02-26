@@ -686,7 +686,10 @@ xinput
 xorg-dev
 xorg
 xsel
+xserver-xorg-input-all
+xserver-xorg-input-libinput
 xserver-xorg-input-synaptics
+xserver-xorg-video-all
 xserver-xorg-video-vesa
 xserver-xorg
 xwayland

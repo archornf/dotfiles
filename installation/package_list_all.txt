@@ -3839,8 +3839,17 @@ xserver-common
 xserver-xorg
 xserver-xorg-core
 xserver-xorg-dev
+xserver-xorg-input-all
+xserver-xorg-input-libinput
 xserver-xorg-input-synaptics
+xserver-xorg-input-wacom
 xserver-xorg-legacy
+xserver-xorg-video-all
+xserver-xorg-video-amdgpu
+xserver-xorg-video-ati
+xserver-xorg-video-fbdev
+xserver-xorg-video-nouveau
+xserver-xorg-video-radeon
 xserver-xorg-video-vesa
 xss-lock
 xtrans-dev
