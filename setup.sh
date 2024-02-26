@@ -40,8 +40,10 @@ cp -r bin/statusbar ~/.local/bin/
 cp -r bin/vim ~/.local/bin/
 cp -r bin/widgets ~/.local/bin/
 cp -r bin/xyz ~/.local/bin/
+cp -r bin/lfub ~/.local/bin/
+cp -r bin/lf-select ~/.local/bin/
+
 cp -r installation/ ~/Documents/
-cp installation/help.txt ~/Documents/
 
 cp -r .bashrc ~/.bashrc
 cp -r .tmux.conf ~/.tmux.conf

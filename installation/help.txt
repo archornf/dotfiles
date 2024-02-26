@@ -791,6 +791,7 @@ found file, which can be safer and more efficient for renaming operations.
 
 ----------------------------------------------------------------------------------
 Mount external hard drive:
+lsblk
 sudo fdisk -l
 sudo mkdir -p /media
 sudo mount /dev/sda1 /media
