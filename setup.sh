@@ -1,12 +1,10 @@
 #!/bin/bash
 
-# Should be ran from $HOME/Downloads/dotfiles only...
-
 # Setup required dirs
 mkdir -p ~/.config/
 mkdir -p ~/.local/bin/
 mkdir -p ~/Documents ~/Downloads ~/Pictures/Wallpapers
-mkdir -p ~/Code/c ~/Code/c++ ~/Code/c# ~/Code/python ~/Code2/C ~/Code2/C++ ~/Code2/C# ~/Code2/Python ~/Code2/Wow/tools
+mkdir -p ~/Code/c ~/Code/c++ ~/Code/c# ~/Code/python ~/Code2/C ~/Code2/C++ ~/Code2/C# ~/Code2/General ~/Code2/Python ~/Code2/Wow/tools
 
 # Copy stuff
 cp -r .config/awesome/ ~/.config/
@@ -42,20 +40,24 @@ cp -r bin/statusbar ~/.local/bin/
 cp -r bin/vim ~/.local/bin/
 cp -r bin/widgets ~/.local/bin/
 cp -r bin/xyz ~/.local/bin/
+cp bin/lfub ~/.local/bin/
+cp bin/lf-select ~/.local/bin/
+
 cp -r installation/ ~/Documents/
 cp installation/help.txt ~/Documents/
+cp Screenshots/space.jpg ~/Pictures/Wallpapers/
 
-cp -r .bashrc ~/.bashrc
-cp -r .tmux.conf ~/.tmux.conf
-cp -r .xinitrc ~/.xinitrc
-cp -r .Xresources ~/.Xresources
-cp -r .Xresources_cat ~/.Xresources_cat
-cp -r .zshrc ~/.zshrc
+cp .bashrc ~/.bashrc
+cp .tmux.conf ~/.tmux.conf
+cp .xinitrc ~/.xinitrc
+cp .Xresources ~/.Xresources
+cp .Xresources_cat ~/.Xresources_cat
+cp .zshrc ~/.zshrc
 
 if [ ! -f ~/.bash_profile ]; then
     cp -r .bash_profile ~/.bash_profile
 else
-    echo ".bash_profile already installed."
+    echo ".bash_profile already exists."
 fi
 
 # oh-my-zsh
@@ -119,8 +121,113 @@ else
     echo "packer already installed."
 fi
 
-# gruvbox and jetbrains font
-# Add more mkdirs and clones to setup.sh (only clone if not exists...)
+# Check if jetbrains nerd fonts exist
+check_font_exists() {
+    if ls ~/.local/share/fonts/*jetbrains*.ttf 1> /dev/null 2>&1 || ls ~/.fonts/*jetbrains*.ttf 1> /dev/null 2>&1; then
+        return 0 # Font exists
+    else
+        return 1 # Font does not exist
+    fi
+}
+
+# Function to download and install JetBrains Mono font
+install_jetbrains_mono() {
+    echo "Downloading JetBrains Mono font..."
+    cd ~/Downloads && wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip
+    
+    echo "Installing JetBrains Mono font..."
+    mkdir -p ~/.local/share/fonts/ && unzip JetBrainsMono.zip -d ~/.local/share/fonts/
+    
+    echo "Updating font cache..."
+    fc-cache -fv
+}
+
+# Install fonts on debian only since Arch uses the package: ttf-jetbrains-mono-nerd
+if grep -iq "debian" /etc/os-release; then
+    if ! check_font_exists; then
+        install_jetbrains_mono
+    else
+        echo "JetBrains Mono font already installed."
+    fi
+else
+    echo "Install jetbrains via sudo pacman -S ttf-jetbrains-mono-nerd"
+fi
+
+
+
+# Variable to control whether to skip prompts and proceed directly
+justDoIt=false
+
+# Clone projects (unless they already exist)
+clone_projects() {
+    cd ~/Code2/C++ || exit
+
+    if [ ! -d "azerothcore-wotlk" ]; then
+        git clone https://github.com/ornfelt/azerothcore-wotlk
+    else
+        echo "azerothcore-wotlk already cloned."
+    fi
+
+    if [ ! -d "trinitycore" ]; then
+        git clone -b 3.3.5 https://github.com/ornfelt/trinitycore --single-branch --depth 1
+    else
+        echo "trinitycore already cloned."
+    fi
+
+    if [ ! -d "small_games" ]; then
+        git clone --recurse-submodules -b linux https://github.com/ornfelt/small_games
+    else
+        echo "small_games already cloned."
+    fi
+
+    if [ ! -d "OpenJKDF2" ]; then
+        git clone --recurse-submodules https://github.com/ornfelt/OpenJKDF2 -b linux
+    else
+        echo "OpenJKDF2 already cloned."
+    fi
+
+    if [ ! -d "simc" ]; then
+        git clone --recurse-submodules https://github.com/ornfelt/simc --single-branch --depth 1
+    else
+        echo "simc already cloned."
+    fi
+
+    if [ ! -d "stk-code" ]; then
+        git clone https://github.com/ornfelt/stk-code
+        if [ ! -d "stk-assets" ]; then
+            svn co https://svn.code.sf.net/p/supertuxkart/code/stk-assets stk-assets
+        else
+            echo "stk-assets already cloned."
+        fi
+    else
+        echo "stk-code already cloned."
+    fi
+
+    if [ ! -d "devilutionX" ]; then
+        git clone https://github.com/ornfelt/devilutionX
+    else
+        echo "devilutionX already cloned."
+    fi
+}
+
+if $justDoIt; then
+    clone_projects
+else
+    # Ask the user if they want to proceed with cloning projects
+    echo "Do you want to proceed with cloning projects? (yes/y)"
+    read answer
+
+    # Convert the answer to lowercase using awk
+    answer=$(echo $answer | awk '{print tolower($0)}')
+
+    # Check if the user's answer is 'yes' or 'y'
+    if [[ "$answer" == "yes" ]] || [[ "$answer" == "y" ]]; then
+        clone_projects
+    else
+        echo "Operation cancelled."
+        exit 1
+    fi
+fi
+
 # Do all compiles in setup.sh also?? sleep 5s between each?
 # also add pip install -r requirements.txt?
-

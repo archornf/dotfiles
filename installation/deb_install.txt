@@ -10,7 +10,7 @@ wget https://github.com/erebe/greenclip/releases/download/v4.2/greenclip
 Where is greenclip daemon?
 
 Add python notebooks to https://github.com/ornfelt/food-wine-pairing-api
-2024-02-23: pulled pork
+2024-02-25: Ost- och skinksås pasta
 2024-02-24: xx
 
 ******************************************
@@ -74,8 +74,10 @@ pip3 install bs4 requests ocrspace pytesseract pynvim i3ipc pyperclip
 
 git clone https://github.com/jmattheis/gruvbox-dark-gtk ~/.themes/gruvbox-dark-gtk
 Set gruvbox-dark theme through lxappearance (should appear through dmenu)
-sudo cp /etc/X11/xinit/xinitrc ~/.xinitrc
-sudo localectl set-x11-keymap se (then sudo reboot)
+
+# sudo cp /etc/X11/xinit/xinitrc ~/.xinitrc
+# sudo localectl set-x11-keymap se (then sudo reboot)
+
 git clone polybar themes and run the starting script
 then copy files from dotfiles to .config
 git clone --depth=1 https://github.com/adi1090x/polybar-themes.git
@@ -84,16 +86,17 @@ chmod +x setup.sh
 ./setup.sh
 
 If JetBrainsMono can't be installed from apt:
+cd ~/Downloads && wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip
+mkdir -p ~/.local/share/fonts/ && unzip JetBrainsMono.zip -d ~/.local/share/fonts/
+fc-cache -fv
+
+Manual install:
 https://www.nerdfonts.com/font-downloads
-Download Jetbrains from above and copy the files to ~/.local/share/fonts/ -> restart or fc-cache -fv.
----
-OLD:
-Search for nerd fonts jetbrainsmono -> download -> mkdir JetBrains and unzip in
-new dir -> copy all files to ~/.local/share/fonts -> restart or fc-cache -fv.
-Or:
-https://github.com/JetBrains/JetBrainsMono
-mv JetBrainsMono-*.ttf ~/.local/share/fonts/
----
+Download Jetbrains from above and copy the files to either:
+~/.fonts/
+or:
+~/.local/share/fonts/
+restart or use: fc-cache -fv
 
 install oh-my-zsh:
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
@@ -138,6 +141,7 @@ cd BLPConverter
 mkdir build && cd build
 cmake .. -DWITH_LIBRARY=YES
 sudo make install
+sudo cp /usr/local/lib/libblp.so /usr/lib/
 sudo ldconfig
 
 Stormlib:
@@ -147,10 +151,68 @@ cd StormLib
 mkdir build && cd build
 cmake .. -DBUILD_SHARED_LIBS=ON
 sudo make install
+sudo cp /usr/local/lib/libstorm.so /usr/lib/
 sudo ldconfig
 
 ******************************************
 mpq gophercraft:
+
+go build github.com/Gophercraft/mpq/cmd/gophercraft_mpq_set
+
+******************************************
+clone my_notes
+
+******************************************
+Simc:
+
+git clone --recurse-submodules https://github.com/ornfelt/simc --single-branch --depth 1
+cd simc/
+mkdir build && cd build
+cmake ../ -DCMAKE_BUILD_TYPE=Release
+make -j$(nproc)
+sudo make install
+
+Or:
+Command Line Interface (classic build)
+    cd your_simc_source_dir/engine
+    make optimized
+    This builds an optimized executable named simc
+    Additional options:
+        Build with clang: Add CXX=clang++, eg. make optimized CXX=clang++
+    Note that if you issue the build with SC_NO_NETWORKING=1, libcurl-dev package is not necessary
+
+******************************************
+git clone --recurse-submodules https://github.com/wowserhq/spelunker
+cd spelunker/packages/spelunker-api && npm install && cd -
+cd spelunker/packages/spelunker-web && npm install && cd -
+
+git clone --recurse-submodules https://github.com/ornfelt/wowser
+cd wowser
+git checkout minimal
+npm install
+
+Accessing spelunker hosted on raspberry pi:
+npm uninstall crypto-hash
+npm install js-sha256
+
+In /home/jonas/Code2/Wow/tools/spelunker/packages/spelunker-web/src/components/Spelunker/graphql-client.js
+Remove crypto sha256 and use this:
+import { sha256 } from 'js-sha256';
+
+.envrc:
+export API_PORT=3001
+export API_URI=http://192.168.1.172:3001/graphql
+export CORS_ALLOWED_ORIGINS=*
+export DATA_DIR='/home/jonas/Downloads/wow/Data'
+export DATABASE_AUTH_URI=mysql://trinity:trinity@127.0.0.1/auth
+export DATABASE_CHARACTERS_URI=mysql://trinity:trinity@127.0.0.1/characters
+export DATABASE_WORLD_URI=mysql://trinity:trinity@127.0.0.1/world
+export DEBUG=spelunker:*
+export PIPELINE_URI=http://192.168.1.172:3001/pipeline
+export WEB_PORT=3000
+
+export DATA_URI=http://192.168.1.172:3002/files
+export MINIMAP_URI=http://192.168.1.172:3002/files
 
 ******************************************
 AzerothCore:
@@ -161,7 +223,7 @@ cmake ../ -DCMAKE_INSTALL_PREFIX=$HOME/acore/ -DCMAKE_C_COMPILER=/usr/bin/clang 
 make -j$(nproc)
 
 TrinityCore:
-git clone -b 3.3.5 https://github.com/ornfelt/trinitycore
+git clone -b 3.3.5 https://github.com/ornfelt/trinitycore --single-branch --depth 1
 cd trinitycore
 mkdir build && cd build
 cmake ../ -DCMAKE_INSTALL_PREFIX=$HOME/tcore/ -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DWITH_WARNINGS=1 -DTOOLS_BUILD=all -DSCRIPTS=static -DMODULES=static -DWITH_COREDEBUG=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo
@@ -312,7 +374,7 @@ cmake ..
 Or:
 cmake .. -DCMAKE_BUILD_TYPE=Debug
 * Install shaderc from your distribution or disable vulkan support:
-cmake .. -DNO_SHADERC=on
+cmake .. -DCMAKE_BUILD_TYPE=Release -DNO_SHADERC=on
 make -j$(nproc)
 
 To recompile the latest code without redownloading the entire source, 
@@ -375,7 +437,7 @@ Follow build instructions in readme.
 OpenJKDF2:
 
 * Make sure cog package is NOT installed (only pip3 install cogapp)
-git clone --recurse-submodules https://github.com/ornfelt/OpenJKDF2
+git clone --recurse-submodules https://github.com/ornfelt/OpenJKDF2 -b linux
 cd OpenJKDF2
 Add the following to the end of ~/.bashrc:
 export PATH=$PATH:~/.local/bin
@@ -460,7 +522,7 @@ Or:
 ldconfig -p | grep mygui
 
 mkdir build && cd build 
-cmake ../
+cmake .. -DCMAKE_BUILD_TYPE=Release
 make -j$(nproc)
 sudo make install
 Note** If you are having undefined reference errors while compiling, 
@@ -502,7 +564,7 @@ cmake --build build -j $(getconf _NPROCESSORS_ONLN)
 ******************************************
 Crispy-doom
 
-git clone --recurse-submodules https://github.com/fabiangreffrath/crispy-doom
+git clone --recurse-submodules https://github.com/ornfelt/crispy-doom
 
 cd crispy-doom
 autoreconf -fiv
@@ -924,7 +986,10 @@ xinput
 xorg 
 xorg-dev 
 xsel 
+xserver-xorg-input-all
+xserver-xorg-input-libinput
 xserver-xorg-input-synaptics 
+xserver-xorg-video-all
 xserver-xorg-video-vesa 
 yad 
 yad 

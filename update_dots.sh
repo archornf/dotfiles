@@ -88,6 +88,8 @@ cp -r ~/.local/bin/statusbar bin/
 cp -r ~/.local/bin/vim bin/
 cp -r ~/.local/bin/widgets bin/
 cp -r ~/.local/bin/xyz bin/
+cp -r ~/.local/bin/lfub bin/
+cp -r ~/.local/bin/lf-select bin/
 
 cp -r ~/.bashrc .bashrc
 cp -r ~/.tmux.conf .tmux.conf
@@ -112,5 +114,5 @@ printf "Copied latest files...\n"
 
 #git add -A
 #git commit -m $1
-#git push ...
 #git push https://"{$2}"@github.com/archornf/dotfiles.git
+#git push https://$GITHUB_TOKEN@github.com/archornf/dotfiles.git

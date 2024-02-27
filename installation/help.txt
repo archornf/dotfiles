@@ -597,10 +597,6 @@ or:
 make config=release_linux-amd64-librw_gl3_glfw-oal
 
 ----------------------------------------------------------------------------------
-For architecture:
-uname -m
-
-----------------------------------------------------------------------------------
 PS AUX:
 USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
 
@@ -616,18 +612,24 @@ killall dotnet
 
 ----------------------------------------------------------------------------------
 Building BLPConverter:
-Add this to top of CMakeLists.txt (at line 3 after project and cmake_minimum... for example):
+Add this to top of CMakeLists.txt (at line 3 after project and cmake_minimum...
+for example):
 set (CMAKE_CXX_STANDARD 11)
+You also might need CMAKE_CXX_STANDARD 98 to FreeImage CMakeLists...
 mkdir build && cd build
 cmake -DWITH_LIBRARY=YES ..
-make
+sudo make install
+sudo cp /usr/local/lib/libblp.so /usr/lib
+sudo ldconfig
 
 Building Stormlib:
 For debian: sudo apt-get install cmake git gcc zlib1g-dev
 git clone https://github.com/ladislav-zezula/StormLib.git
 cd StormLib
-cmake CMakeLists.txt -DBUILD_SHARED_LIBS=ON
+mkdir build && cd build
+cmake .. -DBUILD_SHARED_LIBS=ON
 sudo make install
+sudo cp /usr/local/lib/libstorm.so /usr/lib
 sudo ldconfig
 
 Downgrading npm (not needed):
@@ -674,6 +676,9 @@ exports.default = new _ffiNapi2.default.Library('/usr/local/lib/libstorm', {
 
 npm install
 Also see wowser.json in wowser dir for settings.
+
+Remember to do this to use blpconverter script:
+sudo cp /usr/local/lib/libblp.so /usr/lib
 
 ******************************************
 RealmServerPort = 3724
@@ -745,3 +750,71 @@ git add -A
 git commit -m "Adding DB"
 git remote add origin https://github.com/archornf/acore_db.git
 git push origin master
+
+----------------------------------------------------------------------------------
+./main -m ./models/llama-2-7b.Q4_K_M.gguf -n 128
+./main -m ./models/llama-2-7b-chat/ggml-model-q4_0.gguf -n 128
+
+./server -m models/llama-2-7b.Q4_K_M.gguf --threads $(nproc) -c 2048
+./server -m models/llama-2-7b-chat/ggml-model-q4_0.gguf --threads $(nproc) -c 2048
+
+----------------------------------------------------------------------------------
+Rename files and dirs to lowercase:
+
+This didn't quite work since perl-rename should be used instead of other rename:
+rename 'y/A-Z/a-z/' *
+This works:
+perl-rename 'y/A-Z/a-z/' *
+
+Recursively:
+find . -type f -exec perl-rename 'y/A-Z/a-z/' {} +
+
+find . starts the search from the current directory (.).
+-type f restricts the search to files only, excluding directories.
+-exec allows you to execute a command on all items found.
+perl-rename 'y/A-Z/a-z/' {} + calls perl-rename on each file found. The {} is a
+placeholder for the current file name, and + at the end runs the command with
+as many files as possible at once for efficiency.
+
+This command will lowercase all letters in the filenames of all files found in
+the current directory and its subdirectories. However, it does not rename
+directories themselves to lowercase. If you want to rename directories too, you
+could use a slightly modified command:
+
+find . -depth -execdir perl-rename 'y/A-Z/a-z/' {} \;
+
+-depth ensures the command processes files and directories depth-first, which
+is important when renaming directories to avoid issues with changing paths
+before all files inside have been processed.
+-execdir is similar to -exec but executes the command from the directory of the
+found file, which can be safer and more efficient for renaming operations.
+
+----------------------------------------------------------------------------------
+Mount external hard drive:
+lsblk
+sudo fdisk -l
+sudo mkdir -p /media
+sudo mount /dev/sda1 /media
+
+Automount on Boot (Optional):
+sudo nvim /etc/fstab
+
+Add Mount Entry: Add a line to the end of the file with details about your hard
+drive. For example:
+/dev/sda1 /mnt/external_hd auto defaults,users,rw,nofail 0 0
+
+Unmounting:
+sudo umount /media
+
+----------------------------------------------------------------------------------
+ueberzugpp:
+git clone https://github.com/jstkdng/ueberzugpp.git
+cd ueberzugpp
+mkdir build && cd build
+cmake -DCMAKE_BUILD_TYPE=Release -DENABLE_WAYLAND=ON ..
+cmake --build .
+sudo make install
+
+----------------------------------------------------------------------------------
+scp jonas@raspberrypi:/home/jonas/history /home/jonas/Downloads/rasp_history
+
