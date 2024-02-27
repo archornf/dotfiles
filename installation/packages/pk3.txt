@@ -1,5 +1,3 @@
-lxappearance
-lxde
 lxtask
 m4
 maim
@@ -141,6 +139,7 @@ sense-hat
 sensible-utils
 silversearcher-ag
 slurp
+smpq
 software-properties-common
 speedtest-cli
 ssh-import-id

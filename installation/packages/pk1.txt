@@ -233,3 +233,4 @@ libenet-dev
 libev-dev
 libevdev-dev
 libext2fs2
+libfdisk1

@@ -1,19 +1,4 @@
-TODO:
-OpenJKDF2 - Use ornfelt and maybe create linux branch???
-Add other star wars
-small_games compilation...
-Move command notes to docs
-add blp and stormlib and do the copy for lib also! sudo cp ....
-
-add:
-wget https://github.com/erebe/greenclip/releases/download/v4.2/greenclip
-Where is greenclip daemon?
-
-Add python notebooks to https://github.com/ornfelt/food-wine-pairing-api
-2024-02-25: Ost- och skinksås pasta
-2024-02-24: xx
-
-******************************************
+----------------------------------------------------------------------------------
 https://www.debian.org/releases/bookworm/debian-installer/
 https://archlinux.org/download/
 
@@ -132,6 +117,9 @@ And place in /home/jonas/.local/share/tessdata
 
 Might need to change TESSDATA_PREFIX in tesseract_ocr to /home/jonas/.local/share/tessdata
 And change scripts to /usr/bin/bash and /usr/bin/python3...
+
+wget https://github.com/erebe/greenclip/releases/download/v4.2/greenclip
+Where is greenclip daemon?
 
 ******************************************
 BLPConverter

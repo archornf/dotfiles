@@ -123,7 +123,7 @@ fi
 
 # Check if jetbrains nerd fonts exist
 check_font_exists() {
-    if ls ~/.local/share/fonts/*jetbrains*.ttf 1> /dev/null 2>&1 || ls ~/.fonts/*jetbrains*.ttf 1> /dev/null 2>&1; then
+    if ls ~/.local/share/fonts/*JetBrainsMonoNerdFont*.ttf 1> /dev/null 2>&1 || ls ~/.fonts/*JetBrainsMonoNerdFont*.ttf 1> /dev/null 2>&1; then
         return 0 # Font exists
     else
         return 1 # Font does not exist
@@ -168,8 +168,8 @@ clone_projects() {
         echo "azerothcore-wotlk already cloned."
     fi
 
-    if [ ! -d "trinitycore" ]; then
-        git clone -b 3.3.5 https://github.com/ornfelt/trinitycore --single-branch --depth 1
+    if [ ! -d "TrinityCore" ]; then
+        git clone -b 3.3.5 https://github.com/ornfelt/TrinityCore --single-branch --depth 1
     else
         echo "trinitycore already cloned."
     fi
@@ -208,26 +208,70 @@ clone_projects() {
     else
         echo "devilutionX already cloned."
     fi
+
+    if [ ! -d "crispy-doom" ]; then
+        git clone https://github.com/ornfelt/crispy-doom
+    else
+        echo "crispy-doom already cloned."
+    fi
+
+    if [ ! -d "dhewm3" ]; then
+        git clone https://github.com/ornfelt/dhewm3
+    else
+        echo "dhewm3 already cloned."
+    fi
 }
 
 if $justDoIt; then
     clone_projects
 else
-    # Ask the user if they want to proceed with cloning projects
     echo "Do you want to proceed with cloning projects? (yes/y)"
     read answer
 
-    # Convert the answer to lowercase using awk
+    # To lowercase using awk
     answer=$(echo $answer | awk '{print tolower($0)}')
 
-    # Check if the user's answer is 'yes' or 'y'
     if [[ "$answer" == "yes" ]] || [[ "$answer" == "y" ]]; then
         clone_projects
-    else
-        echo "Operation cancelled."
-        exit 1
     fi
 fi
 
-# Do all compiles in setup.sh also?? sleep 5s between each?
-# also add pip install -r requirements.txt?
+# Compile projects (unless already done)
+compile_projects() {
+    cd ~/Code2/C++ || exit
+
+    # compile
+    echo "compiling x..."
+    sleep 5
+    echo "compiling y..."
+    sleep 5
+}
+
+if $justDoIt; then
+    compile_projects
+else
+    echo "Do you want to proceed with compiling projects? (yes/y)"
+    read answer
+
+    # To lowercase using awk
+    answer=$(echo $answer | awk '{print tolower($0)}')
+
+    if [[ "$answer" == "yes" ]] || [[ "$answer" == "y" ]]; then
+        compile_projects
+    fi
+fi
+
+
+if $justDoIt; then
+    pip3 install -r ~/Documents/installation/requirements.txt
+else
+    echo "Do you want to install python packages? (yes/y)"
+    read answer
+
+    # To lowercase using awk
+    answer=$(echo $answer | awk '{print tolower($0)}')
+
+    if [[ "$answer" == "yes" ]] || [[ "$answer" == "y" ]]; then
+        pip3 install -r ~/Documents/installation/requirements.txt
+    fi
+fi

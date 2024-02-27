@@ -611,6 +611,7 @@ sense-hat
 sensible-utils
 silversearcher-ag
 slurp
+smpq
 software-properties-common
 speedtest-cli
 ssh-import-id

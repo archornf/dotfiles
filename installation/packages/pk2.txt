@@ -1,4 +1,3 @@
-libfdisk1
 libffi8
 libfile-find-rule-perl
 libfmt-dev
@@ -233,3 +232,5 @@ lua5.1
 lua5.4
 luajit
 luarocks
+lxappearance
+lxde

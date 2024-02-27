@@ -3662,6 +3662,7 @@ slurp
 smplayer
 smplayer-l10n
 smplayer-themes
+smpq
 socat
 software-properties-common
 sound-theme-freedesktop
