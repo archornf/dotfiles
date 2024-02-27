@@ -1506,6 +1506,7 @@ liblzma5
 liblzma5
 liblzo2-2
 libmad0
+libmad0-dev
 libmagic-mgc
 libmagic1
 libmagickcore-6.q16-6
@@ -2474,7 +2475,9 @@ libwww-mechanize-perl
 libwww-perl
 libwww-robotrules-perl
 libwxbase3.2-1
+libwxgtk-gl3.2-1
 libwxgtk3.2-1
+libwxgtk3.2-dev
 libx11-6
 libx11-6
 libx11-data
@@ -3790,6 +3793,8 @@ wl-clipboard
 wlogout
 wlr-randr
 wpasupplicant
+wx-common
+wx3.2-headers
 x11-apps
 x11-common
 x11-session-utils

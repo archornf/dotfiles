@@ -121,7 +121,7 @@ else
     echo "packer already installed."
 fi
 
-# Check if jetbrains nerd fonts exist
+# jetbrains nerd fonts
 check_font_exists() {
     if ls ~/.local/share/fonts/*JetBrainsMonoNerdFont*.ttf 1> /dev/null 2>&1 || ls ~/.fonts/*JetBrainsMonoNerdFont*.ttf 1> /dev/null 2>&1; then
         return 0 # Font exists
@@ -130,7 +130,7 @@ check_font_exists() {
     fi
 }
 
-# Function to download and install JetBrains Mono font
+# Download and install
 install_jetbrains_mono() {
     echo "Downloading JetBrains Mono font..."
     cd ~/Downloads && wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip
@@ -142,7 +142,7 @@ install_jetbrains_mono() {
     fc-cache -fv
 }
 
-# Install fonts on debian only since Arch uses the package: ttf-jetbrains-mono-nerd
+# Install fonts on debian only since arch uses the package: ttf-jetbrains-mono-nerd
 if grep -iq "debian" /etc/os-release; then
     if ! check_font_exists; then
         install_jetbrains_mono
@@ -153,13 +153,12 @@ else
     echo "Install jetbrains via sudo pacman -S ttf-jetbrains-mono-nerd"
 fi
 
-
-
 # Variable to control whether to skip prompts and proceed directly
 justDoIt=false
 
 # Clone projects (unless they already exist)
 clone_projects() {
+    echo "Cloning projects..."
     cd ~/Code2/C++ || exit
 
     if [ ! -d "azerothcore-wotlk" ]; then
@@ -210,13 +209,13 @@ clone_projects() {
     fi
 
     if [ ! -d "crispy-doom" ]; then
-        git clone https://github.com/ornfelt/crispy-doom
+        git clone --recurse-submodules https://github.com/ornfelt/crispy-doom
     else
         echo "crispy-doom already cloned."
     fi
 
     if [ ! -d "dhewm3" ]; then
-        git clone https://github.com/ornfelt/dhewm3
+        git clone --recurse-submodules https://github.com/ornfelt/dhewm3
     else
         echo "dhewm3 already cloned."
     fi
@@ -238,9 +237,10 @@ fi
 
 # Compile projects (unless already done)
 compile_projects() {
+    echo "Compiling projects..."
     cd ~/Code2/C++ || exit
 
-    # compile
+    # compile...
     echo "compiling x..."
     sleep 5
     echo "compiling y..."
@@ -263,6 +263,7 @@ fi
 
 
 if $justDoIt; then
+    echo "Installing python packages..."
     pip3 install -r ~/Documents/installation/requirements.txt
 else
     echo "Do you want to install python packages? (yes/y)"
@@ -272,6 +273,7 @@ else
     answer=$(echo $answer | awk '{print tolower($0)}')
 
     if [[ "$answer" == "yes" ]] || [[ "$answer" == "y" ]]; then
+        echo "Installing python packages..."
         pip3 install -r ~/Documents/installation/requirements.txt
     fi
 fi

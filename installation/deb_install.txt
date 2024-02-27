@@ -336,8 +336,8 @@ You can add it after arm_boost=1 for example. (before [cm4] and [all].
 
 Also make sure that realmlist address and port is set correctly. I've changed
 port when testing wowser / acore-client for example.
-******************************************
 
+******************************************
 ioq3:
 just run make
 
@@ -381,6 +381,7 @@ options to ON in CMakeLists.txt.
 
 cmake -DCMAKE_INSTALL_PREFIX=/home/jonas/Downloads/ja_data -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
 make -j$(nproc)
+sudo make install
 
 ******************************************
 git clone --recurse-submodules https://github.com/JKGDevs/JediKnightGalaxies
@@ -404,7 +405,7 @@ git clone --recurse-submodules https://github.com/Unvanquished/Unvanquished.git
 cd Unvanquished/
 ./download-paks build/pkg
 mkdir build && cd build
-cmake ..
+cmake .. -DCMAKE_BUILD_TYPE=Release
 make -j$(nproc)
 
 On rbpi I got some IPC socket errors. However, you should still be able to run the game like this:
@@ -425,11 +426,14 @@ Follow build instructions in readme.
 OpenJKDF2:
 
 * Make sure cog package is NOT installed (only pip3 install cogapp)
+sudo apt remove cog
+Make sure that cog is in ~/.local/bin
 git clone --recurse-submodules https://github.com/ornfelt/OpenJKDF2 -b linux
 cd OpenJKDF2
-Add the following to the end of ~/.bashrc:
+Add the following to ~/.bashrc (if not added already)
 export PATH=$PATH:~/.local/bin
-source ~/.bashrc
+then: source ~/.bashrc
+
 export CC=clang
 export CXX=clang++
 ./build_linux64.sh
@@ -577,6 +581,7 @@ Doom 3:
 git clone --recurse-submodules https://github.com/ornfelt/dhewm3.git
 mkdir build && cd build
 cmake ../neo/
+make -j$(nproc)
 When all steps are done and no errors occurred, you should be able to run
 dhewm3 right there, like:
 ./dhewm3 +set fs_basepath /path/to/your/doom3/
@@ -584,28 +589,78 @@ Replace /path/to/your/doom3/ with the path to your Doom3 installation (that
 contains base/ with pak000.pk4 to pak008.pk4
 
 ******************************************
-* Don't forget to copy data for acore, tcore, q3, jajo, jkdf2, gta, openmw, diablo, doom and doom3!
+reone:
+
+git clone --recurse-submodules https://github.com/seedhartha/reone
+cd reone && cmake -B build -S . -DCMAKE_BUILD_TYPE=RelWithDebInfo
+make -j$(nproc)
+sudo make install
+
+******************************************
+kotor-js:
+TODO
+
+
+******************************************
+* Don't forget to copy data for:
+acore, tcore, 
+q3, doom, doom3, 
+jajo, jkdf2, kotor1/2,
+gta, openmw, diablo, stk_addons
 
 q3: copy all pk3 files into baseq3 dir (in buld dir).
-For jajo:
-For JO place game files place base in build dir. JA files at ~/local/share/openjk
-You also need to add all required .so files from the build dirs to
-~/local/share/openjk (maybe even in base dir it seems) and perhaps build dir.
-Not required on Windows. Maybe fixable with sudo make install?
-For jkdfs, copy all files into buld dir.
+
+ja: ~/local/share/openjk or wherever you used DCMAKE_INSTALL_PREFIX?
+jo:~/local/share/openjo or wherever you used DCMAKE_INSTALL_PREFIX?
+
+For jkdfs, files into:
+~/.local/share/OpenJKDF2/openjkdf2
+
+Kotor:
+TODO.
+
 For GTA, just copy re3 executable into GTA dirs / copy all GTA files into build
 dir.
+
 For OpenMW, keep the files in Download and run openmw-launcher and select the
 Morrowind.esm in Data Files dir. Then start with ./openmw
+
 For diablo: 
 Copy DIABDAT.MPQ from the CD or GOG-installation to the build dir.
 To run the Diablo: Hellfire expansion you will need to also copy hellfire.mpq,
 hfmonk.mpq, hfmusic.mpq, hfvoice.mpq.
+
 For Doom you can keep the files in Downloads and run the executable with:
 ./crispy-doom -iwad ~/Downloads/doom/DOOM.WAD
 For chocolate-doom:
 ./chocolate-doom -iwad ~/Downloads/doom/DOOM.WAD
 For doom3, copy into build dir.
+
+stk addons:
+
+On Windows:
+%APPDATA%\supertuxkart\addons
+
+On Linux:
+~/.local/share/supertuxkart/addons
+/usr/share/games/supertuxkart/data/tracks (for older STK versions)
+
+On Mac OS X:
+~/Library/Application Support/SuperTuxKart/Addons
+
+Installing and Removing
+
+Within this folder, the following files and subdirectories exist: icons, karts,
+tmp, tracks, addons.xml, addons_installed.xml, news.xml
+
+To install an Add-on, simply copy the whole folder with the Add-On to the
+correspondig subdirectory. Note that Arenas go in the track folder because they
+are technically tracks.
+
+Uninstalling is done by removing that folder.
+
+Additionally, /installaddon and /uninstalladdon can be used in networking lobby
+to install or uninstall Add-ons.
 
 ******************************************
 Missing packages - install manually:
@@ -789,6 +844,7 @@ liblua5.2-dev
 liblua5.3-dev 
 libluajit-5.1-dev 
 liblz4-dev 
+libmad0-dev
 libmbedtls-dev 
 libminizip-dev
 libmpg123-dev
@@ -847,6 +903,7 @@ libunshield-dev
 libvorbis-dev 
 libwebp-dev 
 libwine 
+libwxgtk3.2-dev
 libx11-dev 
 libx11-xcb-dev
 libxcb-composite0-dev 

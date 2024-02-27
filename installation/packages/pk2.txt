@@ -61,6 +61,7 @@ libluajit-5.1-dev
 liblz4-1
 liblz4-dev
 liblzma5
+libmad0-dev
 libmariadb-dev-compat
 libmariadb-dev
 libmbedtls-dev
@@ -177,6 +178,7 @@ libwayland-dev
 libwebp-dev
 libwidevinecdm0
 libwine
+libwxgtk3.2-dev
 libx11-dev
 libx11-xcb-dev
 libxcb-composite0-dev
@@ -232,5 +234,3 @@ lua5.1
 lua5.4
 luajit
 luarocks
-lxappearance
-lxde

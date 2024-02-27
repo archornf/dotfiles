@@ -1,3 +1,5 @@
+lxappearance
+lxde
 lxtask
 m4
 maim
