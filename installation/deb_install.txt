@@ -304,9 +304,6 @@ https://wiki.debian.org/AndroidStudio
 Steam:
 https://wiki.debian.org/Steam#Installing_Steam
 
-Greenclip:
-https://github.com/erebe/greenclip
-
 For virtualbox:
 sudo apt install -y virtualbox-guest-utils virtualbox-guest-X11
 Virtualbox guest utils doesn't work it seems... See:
@@ -638,8 +635,6 @@ npm run start
 TODO:
 
 * clone wander_nodes-utils
-* Fix jkdf2 files, test wowmapview
-* greenclip!
 
 vmangos, cmangos-bots... Copy data from home pc to HDD...
 dbs...
@@ -648,8 +643,18 @@ mkdir ~/Code/js
 Fix battery script to show for different batteries and network if no
 battery found?
 
-wget https://github.com/erebe/greenclip/releases/download/v4.2/greenclip
-Where is greenclip daemon?
+******************************************
+Greenclip:
+
+wget https://github.com/erebe/greenclip/releases/download/v4.2/greenclip -O ~/.local/bin/greenclip
+
+wowmapview:
+git clone --recurse-submodules https://github.com/ornfelt/wowmapviewer -b linux
+cd src/stormlib && make -f Makefile.linux
+cd .. && make
+
+To run:
+./wowmapview -gamepath ~/Downloads/cata/Data/
 
 ----------------------------------------------------------------------------------
 * Don't forget to copy data for:
@@ -721,46 +726,6 @@ ttf-joypixels
 sudo systemctl enable bluetooth.service
 sudo systemctl enable NetworkManager.service
 More services...
-
-******************************************
-dpkg -l | awk '/^ii/ { print $2 }' > package_list.txt
-
-dpkg -l > package_list_all_info.txt
-
-sudo apt list --installed > package_list.txt
-
-# Alternative:
-sudo dpkg-query -f '${binary:Package}\n' -W > packages_list.txt
-
-# Now that you have the list, you can install the same packages
-# on your new server with:
-sudo xargs -a packages_list.txt apt install
-
-# Count
-sudo dpkg-query -f '${binary:Package}\n' -W | wc -l
-
-# USE THIS to print name only:
-dpkg-query -W -f='${binary:Package}\n' > package_list.txt
-# Get rid of ':arm64':
-dpkg-query -W -f='${binary:Package}\n' | awk -F: '{print $1}' > package_list.txt
-# Using sed:
-dpkg-query -W -f='${binary:Package}\n' | sed 's/:.*//' > package_list.txt
-# Using grep and cut:
-{ dpkg-query -W -f='${binary:Package}\n' | grep ":" | cut -d':' -f1; dpkg-query -W -f='${binary:Package}\n' | grep -v ":"; } > package_list.txt
-
-----
-To change all file permissions to full access recursively:
-chmod -R 777 /path/to/directory
-
-777 sets the permissions for the owner, group, and others 
-to read, write, and execute. This is the numeric way to 
-represent full permissions.
-
-Set owner recursively:
-sudo chown -R jonas:jonas .
-
-To see permissions / owners on files and dirs:
-ls -lh
 
 ----------------------------------------------------------------------------------
 #sudo apt-get update -y && sudo apt-get upgrade -y
@@ -920,6 +885,8 @@ libqt5opengl5-dev
 libreadline-dev 
 librecast-dev 
 librust-starship-module-config-derive-dev
+libsdl1.2-compat
+libsdl1.2-compat-dev
 libsdl2-2.0.0 
 libsdl2-dev
 libsdl2-gfx-1.0-0 
