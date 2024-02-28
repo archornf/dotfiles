@@ -212,13 +212,7 @@ fcitx-config-common
 fcitx-config-gtk
 fcitx-data
 fcitx-frontend-all
-fcitx-frontend-gtk2
-fcitx-frontend-gtk3
-fcitx-frontend-qt5
-fcitx-frontend-qt6
 fcitx-libs-dev
-fcitx-module-dbus
-fcitx-module-kimpanel
 fcitx-module-lua
 fcitx-module-quickphrase-editor5
 fcitx-module-x11
@@ -2115,7 +2109,9 @@ libsasl2-modules-db
 libsasl2-modules-db
 libsbc1
 libsdl-image1.2
-libsdl1.2debian
+libsdl1.2-compat
+libsdl1.2-compat-dev
+libsdl1.2-compat-shim
 libsdl2-2.0-0
 libsdl2-2.0-0
 libsdl2-dev

@@ -351,6 +351,8 @@ libreadline8
 librecast-dev
 librust-starship-module-config-derive-dev
 libsamplerate0-dev
+libsdl1.2-compat-dev
+libsdl1.2-compat
 libsdl2-2.0-0
 libsdl2-dev
 libsdl2-gfx-1.0-0

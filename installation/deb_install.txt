@@ -118,9 +118,6 @@ And place in /home/jonas/.local/share/tessdata
 Might need to change TESSDATA_PREFIX in tesseract_ocr to /home/jonas/.local/share/tessdata
 And change scripts to /usr/bin/bash and /usr/bin/python3...
 
-wget https://github.com/erebe/greenclip/releases/download/v4.2/greenclip
-Where is greenclip daemon?
-
 ******************************************
 BLPConverter
 sudo apt-get install cmake git gcc
@@ -419,8 +416,34 @@ https://github.com/Unvanquished/Unvanquished/issues/1015
 small-games: Craft, CPP-FightingGame (also compile v2), pacman, space-shooter.
 
 git clone --recurse-submodules -b linux https://github.com/ornfelt/small_games
+cd small_games
+cd BirdGame
+g++ -std=c++17 -g *.cpp -o main -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
+cd ../CPP_FightingGame/FightingGameProject
+cmake . && make -j$(nproc)
 
-Follow build instructions in readme.
+cd ../../Craft
+cmake . && make -j$(nproc)
+gcc -std=c99 -O3 -fPIC -shared -o world -I src -I deps/noise deps/noise/noise.c src/world.c
+
+cd ../pacman/
+mkdir build && cd build
+cmake ..
+cmake --build .
+
+https://emscripten.org/docs/getting_started/downloads.html#installation-instructions
+# git clone https://github.com/emscripten-core/emsdk.git
+# cd emsdk
+# ./emsdk install latest
+# ./emsdk activate latest
+# source ./emsdk_env.sh
+# mkdir build_wasm && cd build_wasm
+# emcmake cmake -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=MinSizeRel ..
+# cmake --build .
+
+cd ../../space-shooter
+make linux / make linux-release
+#make web / make web-release
 
 ******************************************
 OpenJKDF2:
@@ -596,28 +619,58 @@ cd reone && cmake -B build -S . -DCMAKE_BUILD_TYPE=RelWithDebInfo
 make -j$(nproc)
 sudo make install
 
+Reone doesn't work well with ARM. Pi's GPU usually supports up to OpenGL ES
+3.2, reone requires OpenGL 3.3 Core.
+https://github.com/seedhartha/reone/issues/54
+Otherwise:
+reone --game GAME_DIR
+
 ******************************************
 kotor-js:
-TODO
 
+npm install
+Run the build command:
+npm run webpack:dev-watch
+Run the start command in a separate console/shell window:
+npm run start
 
 ******************************************
+TODO:
+
+* clone wander_nodes-utils
+* Fix jkdf2 files, test wowmapview
+* greenclip!
+
+vmangos, cmangos-bots... Copy data from home pc to HDD...
+dbs...
+mkdir ~/Code/js
+
+Fix battery script to show for different batteries and network if no
+battery found?
+
+wget https://github.com/erebe/greenclip/releases/download/v4.2/greenclip
+Where is greenclip daemon?
+
+----------------------------------------------------------------------------------
 * Don't forget to copy data for:
-acore, tcore, 
-q3, doom, doom3, 
+acore, tcore, vmangos, cmangos-bots,
+q3, doom, doom3,
 jajo, jkdf2, kotor1/2,
 gta, openmw, diablo, stk_addons
 
 q3: copy all pk3 files into baseq3 dir (in buld dir).
 
-ja: ~/local/share/openjk or wherever you used DCMAKE_INSTALL_PREFIX?
-jo:~/local/share/openjo or wherever you used DCMAKE_INSTALL_PREFIX?
+ja: ~/local/share/openjk or maybe /usr/local/JediAcademy or wherever you used DCMAKE_INSTALL_PREFIX?
+jo:~/local/share/openjo or maybe /usr/local/JediOutcast wherever you used DCMAKE_INSTALL_PREFIX?
+Run from either:
+/usr/local/JediAcademy
+/usr/local/JediOutcast
 
-For jkdfs, files into:
+For jkdf2:
 ~/.local/share/OpenJKDF2/openjkdf2
 
 Kotor:
-TODO.
+use launcher(s) to select location.
 
 For GTA, just copy re3 executable into GTA dirs / copy all GTA files into build
 dir.
@@ -637,19 +690,14 @@ For chocolate-doom:
 For doom3, copy into build dir.
 
 stk addons:
+On Windows: %APPDATA%\supertuxkart\addons
 
-On Windows:
-%APPDATA%\supertuxkart\addons
-
-On Linux:
-~/.local/share/supertuxkart/addons
+On Linux: ~/.local/share/supertuxkart/addons
 /usr/share/games/supertuxkart/data/tracks (for older STK versions)
 
-On Mac OS X:
-~/Library/Application Support/SuperTuxKart/Addons
+On Mac OS X: ~/Library/Application Support/SuperTuxKart/Addons
 
-Installing and Removing
-
+Installing and Removing:
 Within this folder, the following files and subdirectories exist: icons, karts,
 tmp, tracks, addons.xml, addons_installed.xml, news.xml
 
@@ -658,7 +706,6 @@ correspondig subdirectory. Note that Arenas go in the track folder because they
 are technically tracks.
 
 Uninstalling is done by removing that folder.
-
 Additionally, /installaddon and /uninstalladdon can be used in networking lobby
 to install or uninstall Add-ons.
 

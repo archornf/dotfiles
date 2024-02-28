@@ -4,7 +4,7 @@
 mkdir -p ~/.config/
 mkdir -p ~/.local/bin/
 mkdir -p ~/Documents ~/Downloads ~/Pictures/Wallpapers
-mkdir -p ~/Code/c ~/Code/c++ ~/Code/c# ~/Code/python ~/Code2/C ~/Code2/C++ ~/Code2/C# ~/Code2/General ~/Code2/Python ~/Code2/Wow/tools
+mkdir -p ~/Code/c ~/Code/c++ ~/Code/c# ~/Code/js ~/Code/python ~/Code2/C ~/Code2/C++ ~/Code2/C# ~/Code2/General ~/Code2/Python ~/Code2/Wow/tools
 
 # Copy stuff
 cp -r .config/awesome/ ~/.config/

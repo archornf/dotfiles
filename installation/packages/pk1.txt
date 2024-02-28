@@ -234,3 +234,4 @@ libev-dev
 libevdev-dev
 libext2fs2
 libfdisk1
+libffi8
