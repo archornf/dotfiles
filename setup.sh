@@ -156,69 +156,107 @@ fi
 # Variable to control whether to skip prompts and proceed directly
 justDoIt=false
 
-# Clone projects (unless they already exist)
-clone_projects() {
-    echo "Cloning projects..."
-    cd ~/Code2/C++ || exit
+clone_repo_if_missing() {
+    local repo_dir=$1
+    local repo_url=$2
+    local branch=$3
 
-    if [ ! -d "azerothcore-wotlk" ]; then
-        git clone https://github.com/ornfelt/azerothcore-wotlk
-    else
-        echo "azerothcore-wotlk already cloned."
-    fi
+    # Convert the repo_dir to lowercase for case-insensitive comparison
+    local repo_dir_lower=$(echo "$repo_dir" | tr '[:upper:]' '[:lower:]')
 
-    if [ ! -d "TrinityCore" ]; then
-        git clone -b 3.3.5 https://github.com/ornfelt/TrinityCore --single-branch --depth 1
-    else
-        echo "trinitycore already cloned."
-    fi
+    if [ ! -d "$repo_dir" ]; then
+        echo "Cloning $repo_dir from $repo_url"
 
-    if [ ! -d "small_games" ]; then
-        git clone --recurse-submodules -b linux https://github.com/ornfelt/small_games
-    else
-        echo "small_games already cloned."
-    fi
-
-    if [ ! -d "OpenJKDF2" ]; then
-        git clone --recurse-submodules https://github.com/ornfelt/OpenJKDF2 -b linux
-    else
-        echo "OpenJKDF2 already cloned."
-    fi
-
-    if [ ! -d "simc" ]; then
-        git clone --recurse-submodules https://github.com/ornfelt/simc --single-branch --depth 1
-    else
-        echo "simc already cloned."
-    fi
-
-    if [ ! -d "stk-code" ]; then
-        git clone https://github.com/ornfelt/stk-code
-        if [ ! -d "stk-assets" ]; then
-            svn co https://svn.code.sf.net/p/supertuxkart/code/stk-assets stk-assets
+        # Check if repo_dir matches specific cases and clone accordingly
+        if [[ "$repo_dir_lower" == "trinitycore" || "$repo_dir_lower" == "simc" ]]; then
+            echo "Cloning $repo_dir with --single-branch --depth 1"
+            if [ -z "$branch" ]; then
+                git clone --recurse-submodules $repo_url --single-branch --depth 1 $repo_dir
+            else
+                git clone --recurse-submodules -b $branch $repo_url --single-branch --depth 1 $repo_dir
+            fi
         else
-            echo "stk-assets already cloned."
+            if [ -z "$branch" ]; then
+                git clone --recurse-submodules $repo_url $repo_dir
+            else
+                git clone --recurse-submodules -b $branch $repo_url $repo_dir
+            fi
         fi
     else
-        echo "stk-code already cloned."
+        echo "$repo_dir already cloned."
+    fi
+}
+
+# Clone projects (unless they already exist)
+clone_projects() {
+
+    echo "Cloning projects in ~/Documents..."
+    if [ -z "$GITHUB_TOKEN" ]; then
+        echo "Error: GITHUB_TOKEN environment variable is not set. Skipping..."
+    else
+        cd ~/Documents || exit
+        git clone https://$GITHUB_TOKEN@github.com/archornf/my_notes
     fi
 
-    if [ ! -d "devilutionX" ]; then
-        git clone https://github.com/ornfelt/devilutionX
+
+    echo "Cloning projects in ~/Code/c..."
+    cd ~/Code/c || exit
+    clone_repo_if_missing "neovim" "https://github.com/neovim/neovim"
+
+    echo "Cloning projects in ~/Code/c++..."
+    cd "~/Code/c++" || exit
+    clone_repo_if_missing "JediKnightGalaxies" "https://github.com/JKGDevs/JediKnightGalaxies"
+    clone_repo_if_missing "jk2mv" "https://github.com/mvdevs/jk2mv"
+    clone_repo_if_missing "Unvanquished" "https://github.com/Unvanquished/Unvanquished"
+    clone_repo_if_missing "reone" "https://github.com/seedhartha/reone"
+    clone_repo_if_missing "re3" "https://github.com/halpz/re3"
+    if [ ! -d "re3_vice" ]; then
+        git clone --recurse-submodules -b miami https://github.com/halpz/re3 re3_vice
     else
-        echo "devilutionX already cloned."
+        echo "re3_vice already cloned."
     fi
 
-    if [ ! -d "crispy-doom" ]; then
-        git clone --recurse-submodules https://github.com/ornfelt/crispy-doom
+    echo "Cloning projects in ~/Code/go..."
+    cd ~/Code/go || exit
+    clone_repo_if_missing "mpq" "https://github.com/Gophercraft/mpq"
+
+    echo "Cloning projects in ~/Code2/C..."
+    cd ~/Code2/C || exit
+    clone_repo_if_missing "ioq3" "https://github.com/ornfelt/ioq3"
+
+    echo "Cloning projects in ~/Code2/C++..."
+    cd "~/Code2/C++" || exit
+    clone_repo_if_missing "small_games" "https://github.com/ornfelt/small_games" "linux"
+    clone_repo_if_missing "OpenJKDF2" "https://github.com/ornfelt/OpenJKDF2" "linux"
+    clone_repo_if_missing "devilutionX" "https://github.com/ornfelt/devilutionX"
+    clone_repo_if_missing "crispy-doom" "https://github.com/ornfelt/crispy-doom"
+    clone_repo_if_missing "dhewm3" "https://github.com/ornfelt/dhewm3"
+    clone_repo_if_missing "openmw" "https://github.com/OpenMW/openmw"
+    clone_repo_if_missing "azerothcore-wotlk" "https://github.com/ornfelt/azerothcore-wotlk"
+    clone_repo_if_missing "trinitycore" "https://github.com/ornfelt/TrinityCore" "3.3.5"
+    clone_repo_if_missing "simc" "https://github.com/ornfelt/simc"
+    clone_repo_if_missing "stk-code" "https://github.com/ornfelt/stk-code"
+    if [ ! -d "stk-assets" ]; then
+        svn co https://svn.code.sf.net/p/supertuxkart/code/stk-assets stk-assets
     else
-        echo "crispy-doom already cloned."
+        echo "stk-assets already cloned."
     fi
 
-    if [ ! -d "dhewm3" ]; then
-        git clone --recurse-submodules https://github.com/ornfelt/dhewm3
-    else
-        echo "dhewm3 already cloned."
-    fi
+    echo "Cloning projects in ~/Code2/Python..."
+    cd ~/Code2/Python || exit
+    clone_repo_if_missing "wander_nodes_util" "https://github.com/ornfelt/wander_nodes_util"
+
+    echo "Cloning projects in ~/Code2/Rust..."
+    cd ~/Code2/Rust || exit
+    clone_repo_if_missing "eww" "https://github.com/elkowar/eww"
+    clone_repo_if_missing "swww" "https://github.com/LGFae/swww"
+
+    echo "Cloning projects in ~/Code2/Wow/tools..."
+    cd ~/Code2/Wow/tools || exit
+    clone_repo_if_missing "spelunker" "https://github.com/wowserhq/spelunker"
+    clone_repo_if_missing "wowser" "https://github.com/ornfelt/wowser"
+    clone_repo_if_missing "wowmapviewer" "https://github.com/ornfelt/wowmapviewer" "linux"
+    clone_repo_if_missing "WebWoWViewercpp" "https://github.com/ornfelt/WebWoWViewercpp" "linux"
 }
 
 if $justDoIt; then
@@ -226,7 +264,6 @@ if $justDoIt; then
 else
     echo "Do you want to proceed with cloning projects? (yes/y)"
     read answer
-
     # To lowercase using awk
     answer=$(echo $answer | awk '{print tolower($0)}')
 
@@ -235,16 +272,87 @@ else
     fi
 fi
 
+# Function to install if binary doesn't exist
+install_if_missing() {
+    local binary=$1
+    local directory=$2
+
+    if ! command -v $binary &> /dev/null; then
+        echo "$binary not found, installing..."
+        cd ~/.config/$directory || exit
+        sudo make clean install
+        cd - || exit # Return to the previous directory
+    else
+        echo "$binary exists, skipping installation."
+    fi
+}
+
+print_and_cd_to_dir() {
+    local dir_path=$1
+
+    echo "Compiling projects in $dir_path..."
+    cd "$dir_path" || exit
+    sleep 1
+}
+
 # Compile projects (unless already done)
 compile_projects() {
-    echo "Compiling projects..."
-    cd ~/Code2/C++ || exit
 
-    # compile...
-    echo "compiling x..."
-    sleep 5
-    echo "compiling y..."
-    sleep 5
+    echo "Compiling projects in ~/.config..."
+    install_if_missing dwm dwm
+    install_if_missing dwmblocks dwmblocks
+    install_if_missing dmenu dmenu
+    install_if_missing st st
+    sleep 1
+
+    print_and_cd_to_dir "~/Code/c"
+
+    # Note: If the shell has issues with '++', you might need to quote or escape it...
+    print_and_cd_to_dir "~/Code/c++"
+
+    print_and_cd_to_dir "~/Code/go"
+
+    print_and_cd_to_dir "~/Code2/C"
+
+    print_and_cd_to_dir "~/Code2/C++"
+
+    print_and_cd_to_dir "~/Code2/Python"
+
+    print_and_cd_to_dir "~/Code2/Rust"
+
+    print_and_cd_to_dir "~/Code2/Wow/tools"
+
+    cd gophercraft_mpq
+    go build github.com/Gophercraft/mpq/cmd/gophercraft_mpq_set
+    cd -
+
+    # Compile and install BLPConverter if build directory doesn't exist
+    if [ ! -d "BLPConverter/build" ]; then
+        echo "Compiling and installing BLPConverter..."
+        cd BLPConverter
+        mkdir build && cd build
+        cmake .. -DWITH_LIBRARY=YES
+        sudo make install
+        sudo cp /usr/local/lib/libblp.so /usr/lib/
+        sudo ldconfig
+        cd ../../
+    else
+        echo "BLPConverter build directory exists, skipping..."
+    fi
+
+    # Compile and install StormLib if build directory doesn't exist
+    if [ ! -d "StormLib/build" ]; then
+        echo "Compiling and installing StormLib..."
+        cd StormLib
+        mkdir build && cd build
+        cmake .. -DBUILD_SHARED_LIBS=ON
+        sudo make install
+        sudo cp /usr/local/lib/libstorm.so /usr/lib/
+        sudo ldconfig
+        cd ../../
+    else
+        echo "StormLib build directory exists, skipping..."
+    fi
 }
 
 if $justDoIt; then
@@ -252,7 +360,6 @@ if $justDoIt; then
 else
     echo "Do you want to proceed with compiling projects? (yes/y)"
     read answer
-
     # To lowercase using awk
     answer=$(echo $answer | awk '{print tolower($0)}')
 
@@ -261,14 +368,13 @@ else
     fi
 fi
 
-
+# Install python packages
 if $justDoIt; then
     echo "Installing python packages..."
     pip3 install -r ~/Documents/installation/requirements.txt
 else
     echo "Do you want to install python packages? (yes/y)"
     read answer
-
     # To lowercase using awk
     answer=$(echo $answer | awk '{print tolower($0)}')
 
