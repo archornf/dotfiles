@@ -257,7 +257,15 @@ clone_projects() {
     clone_repo_if_missing "spelunker" "https://github.com/wowserhq/spelunker"
     clone_repo_if_missing "wowser" "https://github.com/ornfelt/wowser"
     clone_repo_if_missing "wowmapviewer" "https://github.com/ornfelt/wowmapviewer" "linux"
-    clone_repo_if_missing "WebWoWViewercpp" "https://github.com/ornfelt/WebWoWViewercpp" "linux"
+    clone_repo_if_missing "WebWoWViewer" "https://github.com/ornfelt/WebWoWViewer"
+
+    architecture=$(uname -m)
+    if [[ "$architecture" == arm* ]] || [[ "$architecture" == aarch64* ]]; then
+    #if grep -q -i 'raspbian\|raspberry pi os' /etc/os-release; then
+        clone_repo_if_missing "WebWoWViewercpp" "https://github.com/ornfelt/WebWoWViewercpp" "raspbian"
+    else
+        clone_repo_if_missing "WebWoWViewercpp" "https://github.com/ornfelt/WebWoWViewercpp" "linux"
+    fi
 }
 
 if $justDoIt; then
@@ -311,11 +319,16 @@ compile_projects() {
     # Note: If the shell has issues with '++', you might need to quote or escape it...
     print_and_cd_to_dir "~/Code/c++"
 
+    # If raspbian / arm, compile premake for gta...
+    #git clone --recurse-submodules https://github.com/premake/premake-core
+
     print_and_cd_to_dir "~/Code/go"
 
     print_and_cd_to_dir "~/Code2/C"
 
     print_and_cd_to_dir "~/Code2/C++"
+
+    # Diablo: check that smpq is not installed and compile smpq and use aarch64-prep for raspbian/arm
 
     print_and_cd_to_dir "~/Code2/Python"
 
