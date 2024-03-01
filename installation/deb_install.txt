@@ -584,7 +584,7 @@ export DATA_URI=http://192.168.1.172:3002/files
 export MINIMAP_URI=http://192.168.1.172:3002/files
 
 ******************************************
-webwowviewercpp etc:
+wowmapview:
 
 wowmapview:
 git clone --recurse-submodules https://github.com/ornfelt/wowmapviewer -b linux
@@ -593,6 +593,13 @@ cd .. && make
 
 To run:
 ./wowmapview -gamepath ~/Downloads/cata/Data/
+
+WebWowViewerCpp:
+
+git clone --recurse-submodules https://github.com/Deamon87/WebWowViewerCpp -b raspbian
+cd WebWowViewerCpp
+mkdir build && cd build
+cmake .. && make -j$(nproc)
 
 ----------------------------------------------------------------------------------
 Greenclip:
