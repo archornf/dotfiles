@@ -216,9 +216,14 @@ clone_projects() {
         echo "re3_vice already cloned."
     fi
 
-    echo "Cloning projects in ~/Code/go..."
-    cd ~/Code/go || exit
-    clone_repo_if_missing "mpq" "https://github.com/Gophercraft/mpq"
+    echo "Cloning projects in ~/Code/js..."
+    cd ~/Code/js || exit
+    clone_repo_if_missing "KotOR.js" "https://github.com/KobaltBlu/KotOR.js"
+
+    echo "Cloning projects in ~/Code/rust..."
+    cd ~/Code/rust || exit
+    clone_repo_if_missing "eww" "https://github.com/elkowar/eww"
+    clone_repo_if_missing "swww" "https://github.com/LGFae/swww"
 
     echo "Cloning projects in ~/Code2/C..."
     cd ~/Code2/C || exit
@@ -246,13 +251,9 @@ clone_projects() {
     cd ~/Code2/Python || exit
     clone_repo_if_missing "wander_nodes_util" "https://github.com/ornfelt/wander_nodes_util"
 
-    echo "Cloning projects in ~/Code2/Rust..."
-    cd ~/Code2/Rust || exit
-    clone_repo_if_missing "eww" "https://github.com/elkowar/eww"
-    clone_repo_if_missing "swww" "https://github.com/LGFae/swww"
-
     echo "Cloning projects in ~/Code2/Wow/tools..."
     cd ~/Code2/Wow/tools || exit
+    clone_repo_if_missing "mpq" "https://github.com/Gophercraft/mpq"
     clone_repo_if_missing "spelunker" "https://github.com/wowserhq/spelunker"
     clone_repo_if_missing "wowser" "https://github.com/ornfelt/wowser"
     clone_repo_if_missing "wowmapviewer" "https://github.com/ornfelt/wowmapviewer" "linux"
