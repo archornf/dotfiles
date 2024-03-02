@@ -1,61 +1,61 @@
 #!/bin/bash
 
 # Setup required dirs
-mkdir -p ~/.config/
-mkdir -p ~/.local/bin/
-mkdir -p ~/Documents ~/Downloads ~/Pictures/Wallpapers
-mkdir -p ~/Code/c ~/Code/c++ ~/Code/c# ~/Code/js ~/Code/python ~/Code/rust ~/Code2/C ~/Code2/C++ ~/Code2/C# ~/Code2/General ~/Code2/Python ~/Code2/Wow/tools
+mkdir -p $HOME/.config/
+mkdir -p $HOME/.local/bin/
+mkdir -p $HOME/Documents $HOME/Downloads $HOME/Pictures/Wallpapers
+mkdir -p $HOME/Code/c $HOME/Code/c++ $HOME/Code/c# $HOME/Code/js $HOME/Code/python $HOME/Code/rust $HOME/Code2/C $HOME/Code2/C++ $HOME/Code2/C# $HOME/Code2/General $HOME/Code2/Python $HOME/Code2/Wow/tools
 
 # Copy stuff
-cp -r .config/awesome/ ~/.config/
-cp -r .config/cava/ ~/.config/
-cp -r .config/conky/ ~/.config/
-cp -r .config/dmenu/ ~/.config/
-cp -r .config/dmenu_git/ ~/.config/
-cp -r .config/dwm/ ~/.config/
-cp -r .config/dwm_git/ ~/.config/
-cp -r .config/dwmblocks/ ~/.config/
-cp -r .config/dwm_mul_mon/ ~/.config/
-cp -r .config/eww/ ~/.config/
-cp -r .config/hypr/ ~/.config/
-cp -r .config/i3/ ~/.config/
-cp -r .config/kitty/ ~/.config/
-cp -r .config/lf/ ~/.config/
-cp -r .config/neofetch/ ~/.config/
-cp -r .config/nvim/ ~/.config/
-cp -r .config/picom/ ~/.config/
-cp -r .config/polybar/ ~/.config/
-cp -r .config/ranger/ ~/.config/
-cp -r .config/rofi/ ~/.config/
-cp -r .config/st/ ~/.config/
-cp -r .config/st_git/ ~/.config/
-cp -r .config/zathura/ ~/.config/
+cp -r .config/awesome/ $HOME/.config/
+cp -r .config/cava/ $HOME/.config/
+cp -r .config/conky/ $HOME/.config/
+cp -r .config/dmenu/ $HOME/.config/
+cp -r .config/dmenu_git/ $HOME/.config/
+cp -r .config/dwm/ $HOME/.config/
+cp -r .config/dwm_git/ $HOME/.config/
+cp -r .config/dwmblocks/ $HOME/.config/
+cp -r .config/dwm_mul_mon/ $HOME/.config/
+cp -r .config/eww/ $HOME/.config/
+cp -r .config/hypr/ $HOME/.config/
+cp -r .config/i3/ $HOME/.config/
+cp -r .config/kitty/ $HOME/.config/
+cp -r .config/lf/ $HOME/.config/
+cp -r .config/neofetch/ $HOME/.config/
+cp -r .config/nvim/ $HOME/.config/
+cp -r .config/picom/ $HOME/.config/
+cp -r .config/polybar/ $HOME/.config/
+cp -r .config/ranger/ $HOME/.config/
+cp -r .config/rofi/ $HOME/.config/
+cp -r .config/st/ $HOME/.config/
+cp -r .config/st_git/ $HOME/.config/
+cp -r .config/zathura/ $HOME/.config/
 
-cp -r .dwm/ ~/
-cp -r bin/cron ~/.local/bin/
-cp -r bin/dwm_keybinds ~/.local/bin/
-cp -r bin/i3-used-keybinds ~/.local/bin/
-cp -r bin/my_scripts ~/.local/bin/
-cp -r bin/statusbar ~/.local/bin/
-cp -r bin/vim ~/.local/bin/
-cp -r bin/widgets ~/.local/bin/
-cp -r bin/xyz ~/.local/bin/
-cp bin/lfub ~/.local/bin/
-cp bin/lf-select ~/.local/bin/
+cp -r .dwm/ $HOME/
+cp -r bin/cron $HOME/.local/bin/
+cp -r bin/dwm_keybinds $HOME/.local/bin/
+cp -r bin/i3-used-keybinds $HOME/.local/bin/
+cp -r bin/my_scripts $HOME/.local/bin/
+cp -r bin/statusbar $HOME/.local/bin/
+cp -r bin/vim $HOME/.local/bin/
+cp -r bin/widgets $HOME/.local/bin/
+cp -r bin/xyz $HOME/.local/bin/
+cp bin/lfub $HOME/.local/bin/
+cp bin/lf-select $HOME/.local/bin/
 
-cp -r installation/ ~/Documents/
-cp installation/help.txt ~/Documents/
-cp Screenshots/space.jpg ~/Pictures/Wallpapers/
+cp -r installation/ $HOME/Documents/
+cp installation/help.txt $HOME/Documents/
+cp Screenshots/space.jpg $HOME/Pictures/Wallpapers/
 
-cp .bashrc ~/.bashrc
-cp .tmux.conf ~/.tmux.conf
-cp .xinitrc ~/.xinitrc
-cp .Xresources ~/.Xresources
-cp .Xresources_cat ~/.Xresources_cat
-cp .zshrc ~/.zshrc
+cp .bashrc $HOME/.bashrc
+cp .tmux.conf $HOME/.tmux.conf
+cp .xinitrc $HOME/.xinitrc
+cp .Xresources $HOME/.Xresources
+cp .Xresources_cat $HOME/.Xresources_cat
+cp .zshrc $HOME/.zshrc
 
-if [ ! -f ~/.bash_profile ]; then
-    cp -r .bash_profile ~/.bash_profile
+if [ ! -f $HOME/.bash_profile ]; then
+    cp -r .bash_profile $HOME/.bash_profile
 else
     echo ".bash_profile already exists."
 fi
@@ -114,16 +114,16 @@ fi
 # packer.nvim
 if [ ! -d "$HOME/.local/share/nvim/site/pack/packer/start/packer.nvim/.git" ]; then
     git clone --depth 1 https://github.com/wbthomason/packer.nvim "$HOME/.local/share/nvim/site/pack/packer/start/packer.nvim"
-    mv ~/.config/nvim/init.lua ~/.config/nvim/temp.lua
-    mv ~/.config/nvim/install.lua ~/.config/nvim/init.lua
-    echo "Packer installed! Now open vim and do :PackerInstall and then move temp.lua to init.lua in ~/.config/nvim"
+    mv $HOME/.config/nvim/init.lua $HOME/.config/nvim/temp.lua
+    mv $HOME/.config/nvim/install.lua $HOME/.config/nvim/init.lua
+    echo "Packer installed! Now open vim and do :PackerInstall and then move temp.lua to init.lua in $HOME/.config/nvim"
 else
     echo "packer already installed."
 fi
 
 # jetbrains nerd fonts
 check_font_exists() {
-    if ls ~/.local/share/fonts/*JetBrainsMonoNerdFont*.ttf 1> /dev/null 2>&1 || ls ~/.fonts/*JetBrainsMonoNerdFont*.ttf 1> /dev/null 2>&1; then
+    if ls $HOME/.local/share/fonts/*JetBrainsMonoNerdFont*.ttf 1> /dev/null 2>&1 || ls $HOME/.fonts/*JetBrainsMonoNerdFont*.ttf 1> /dev/null 2>&1; then
         return 0 # Font exists
     else
         return 1 # Font does not exist
@@ -133,10 +133,10 @@ check_font_exists() {
 # Download and install
 install_jetbrains_mono() {
     echo "Downloading JetBrains Mono font..."
-    cd ~/Downloads && wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip
+    cd $HOME/Downloads && wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip
     
     echo "Installing JetBrains Mono font..."
-    mkdir -p ~/.local/share/fonts/ && unzip JetBrainsMono.zip -d ~/.local/share/fonts/
+    mkdir -p $HOME/.local/share/fonts/ && unzip JetBrainsMono.zip -d $HOME/.local/share/fonts/
     
     echo "Updating font cache..."
     fc-cache -fv
@@ -185,24 +185,24 @@ clone_repo_if_missing() {
 # Clone projects (unless they already exist)
 clone_projects() {
 
-    echo "Cloning projects in ~/Documents..."
+    echo "Cloning projects in $HOME/Documents..."
     if [ -z "$GITHUB_TOKEN" ]; then
         echo "Error: GITHUB_TOKEN environment variable is not set. Skipping..."
     else
         if [ ! -d "$HOME/Documents/my_notes" ]; then
-            cd ~/Documents || exit
+            cd $HOME/Documents || exit
             git clone https://$GITHUB_TOKEN@github.com/archornf/my_notes
         else
             echo "my_notes already cloned."
         fi
     fi
 
-    echo "Cloning projects in ~/Code/c..."
-    cd ~/Code/c || exit
+    echo "Cloning projects in $HOME/Code/c..."
+    cd $HOME/Code/c || exit
     clone_repo_if_missing "neovim" "https://github.com/neovim/neovim"
 
-    echo "Cloning projects in ~/Code/c++..."
-    cd "~/Code/c++" || exit
+    echo "Cloning projects in $HOME/Code/c++..."
+    cd "$HOME/Code/c++" || exit
     clone_repo_if_missing "JediKnightGalaxies" "https://github.com/JKGDevs/JediKnightGalaxies"
     clone_repo_if_missing "jk2mv" "https://github.com/mvdevs/jk2mv"
     clone_repo_if_missing "Unvanquished" "https://github.com/Unvanquished/Unvanquished"
@@ -214,22 +214,22 @@ clone_projects() {
         echo "re3_vice already cloned."
     fi
 
-    echo "Cloning projects in ~/Code/js..."
-    cd ~/Code/js || exit
+    echo "Cloning projects in $HOME/Code/js..."
+    cd $HOME/Code/js || exit
     clone_repo_if_missing "KotOR.js" "https://github.com/KobaltBlu/KotOR.js"
 
-    echo "Cloning projects in ~/Code/rust..."
-    cd ~/Code/rust || exit
+    echo "Cloning projects in $HOME/Code/rust..."
+    cd $HOME/Code/rust || exit
     clone_repo_if_missing "eww" "https://github.com/elkowar/eww"
     clone_repo_if_missing "swww" "https://github.com/LGFae/swww"
 
-    echo "Cloning projects in ~/Code2/C..."
-    cd ~/Code2/C || exit
+    echo "Cloning projects in $HOME/Code2/C..."
+    cd $HOME/Code2/C || exit
     clone_repo_if_missing "ioq3" "https://github.com/ornfelt/ioq3"
     clone_repo_if_missing "picom-animations" "https://github.com/ornfelt/picom-animations"
 
-    echo "Cloning projects in ~/Code2/C++..."
-    cd "~/Code2/C++" || exit
+    echo "Cloning projects in $HOME/Code2/C++..."
+    cd "$HOME/Code2/C++" || exit
     clone_repo_if_missing "small_games" "https://github.com/ornfelt/small_games" "linux"
     clone_repo_if_missing "OpenJK" "https://github.com/JACoders/OpenJK"
     clone_repo_if_missing "OpenJKDF2" "https://github.com/ornfelt/OpenJKDF2" "linux"
@@ -247,18 +247,18 @@ clone_projects() {
         echo "stk-assets already cloned."
     fi
 
-    echo "Cloning projects in ~/Code2/General..."
-    cd ~/Code2/General || exit
+    echo "Cloning projects in $HOME/Code2/General..."
+    cd $HOME/Code2/General || exit
     clone_repo_if_missing "utils" "https://github.com/ornfelt/utils"
     clone_repo_if_missing "Svea-Examples" "https://github.com/ornfelt/Svea-Examples"
     clone_repo_if_missing "1brc" "https://github.com/ornfelt/1brc"
 
-    echo "Cloning projects in ~/Code2/Python..."
-    cd ~/Code2/Python || exit
+    echo "Cloning projects in $HOME/Code2/Python..."
+    cd $HOME/Code2/Python || exit
     clone_repo_if_missing "wander_nodes_util" "https://github.com/ornfelt/wander_nodes_util"
 
-    echo "Cloning projects in ~/Code2/Wow/tools..."
-    cd ~/Code2/Wow/tools || exit
+    echo "Cloning projects in $HOME/Code2/Wow/tools..."
+    cd $HOME/Code2/Wow/tools || exit
     clone_repo_if_missing "mpq" "https://github.com/Gophercraft/mpq"
     clone_repo_if_missing "spelunker" "https://github.com/wowserhq/spelunker"
     clone_repo_if_missing "wowser" "https://github.com/ornfelt/wowser"
@@ -294,7 +294,7 @@ install_if_missing() {
 
     if ! command -v $binary &> /dev/null; then
         echo "$binary not found, installing..."
-        cd ~/.config/$directory || exit
+        cd $HOME/.config/$directory || exit
         sudo make clean install
         cd - || exit # Return to the previous directory
     else
@@ -350,14 +350,14 @@ check_dir() {
 compile_projects() {
     architecture=$(uname -m)
 
-    echo "Compiling projects in ~/.config..."
+    echo "Compiling projects in $HOME/.config..."
     install_if_missing dwm dwm
     install_if_missing dwmblocks dwmblocks
     install_if_missing dmenu dmenu
     install_if_missing st st
     sleep 1
 
-    print_and_cd_to_dir "~/Code/c"
+    print_and_cd_to_dir "$HOME/Code/c"
 
     if check_dir "neovim"; then
         cd ..
@@ -370,7 +370,7 @@ compile_projects() {
     fi
 
     # Note: If the shell has issues with '++', you might need to quote or escape it...
-    print_and_cd_to_dir "~/Code/c++"
+    print_and_cd_to_dir "$HOME/Code/c++"
 
     if check_dir "OpenJK"; then
         sed -i '/option(BuildJK2SPEngine /s/OFF)/ON)/; /option(BuildJK2SPGame /s/OFF)/ON)/; /option(BuildJK2SPRdVanilla /s/OFF)/ON)/' ../CMakeLists.txt
@@ -405,7 +405,7 @@ compile_projects() {
     if check_dir "re3"; then
         cd ..
         if [[ "$architecture" == arm* ]] || [[ "$architecture" == aarch64* ]]; then
-            cd ~/Downloads
+            cd $HOME/Downloads
             git clone --recurse-submodules https://github.com/premake/premake-core
             cd premake-core
             make -f Bootstrap.mak linux
@@ -414,7 +414,7 @@ compile_projects() {
             file premake5
             sudo mv premake5 /usr/local/bin
             premake5 --version
-            cd "~/Code/c++/re3"
+            cd "$HOME/Code/c++/re3"
             premake5 --with-librw gmake
             cd build && make help
             make config=release_linux-arm64-librw_gl3_glfw-oal
@@ -446,14 +446,14 @@ compile_projects() {
         sudo make install
     fi
 
-    print_and_cd_to_dir "~/Code/js"
+    print_and_cd_to_dir "$HOME/Code/js"
 
     if check_dir "KotOR.js" "node_modules"; then
         npm install
         npm run webpack:dev-watch
     fi
 
-    print_and_cd_to_dir "~/Code/rust"
+    print_and_cd_to_dir "$HOME/Code/rust"
 
     # Only compile if rust version is > 1.6
     rustc_version=$(rustc --version | grep -oP 'rustc \K[^\s]+')
@@ -474,7 +474,7 @@ compile_projects() {
         echo "rustc version is 1.6 or below. Skipping rust projects..."
     fi
 
-    print_and_cd_to_dir "~/Code2/C"
+    print_and_cd_to_dir "$HOME/Code2/C"
 
     if check_dir "ioq3"; then
         make
@@ -487,7 +487,7 @@ compile_projects() {
         ninja -C build
     fi
 
-    print_and_cd_to_dir "~/Code2/C++"
+    print_and_cd_to_dir "$HOME/Code2/C++"
 
     if check_dir "stk-code"; then
         cmake .. -DCMAKE_BUILD_TYPE=Release -DNO_SHADERC=on
@@ -601,7 +601,7 @@ compile_projects() {
         make -j$(nproc)
     fi
 
-    print_and_cd_to_dir "~/Code2/Wow/tools"
+    print_and_cd_to_dir "$HOME/Code2/Wow/tools"
 
     if [ ! -f "mpq/gophercraft_mpq_set" ]; then
         cd mpq
@@ -662,7 +662,7 @@ fi
 # Install python packages
 if $justDoIt; then
     echo "Installing python packages..."
-    pip3 install -r ~/Documents/installation/requirements.txt
+    pip3 install -r $HOME/Documents/installation/requirements.txt
 else
     echo "Do you want to install python packages? (yes/y)"
     read answer
@@ -671,7 +671,7 @@ else
 
     if [[ "$answer" == "yes" ]] || [[ "$answer" == "y" ]]; then
         echo "Installing python packages..."
-        pip3 install -r ~/Documents/installation/requirements.txt
+        pip3 install -r $HOME/Documents/installation/requirements.txt
     fi
 fi
 
