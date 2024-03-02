@@ -148,9 +148,12 @@ cd ~/Code/c++
 
 OpenJK:
 
+git clone --recurse-submodules https://github.com/JACoders/OpenJK 
+
 Change the BuildJK2SPEngine, BuildJK2SPGame, and BuildJK2SPRdVanilla
 options to ON in CMakeLists.txt.
 
+cd OpenJK
 cmake -DCMAKE_INSTALL_PREFIX=/home/jonas/Downloads/ja_data -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
 make -j$(nproc)
 sudo make install
@@ -192,7 +195,7 @@ Gta:
 
 git clone --recurse-submodules https://github.com/halpz/re3.git
 cd re3
-If you're on x86/x86_64, run $ ./premake5Linux --with-librw gmake2.
+If you're on x86/x86_64, run $ ./premake5Linux --with-librw gmake2
 
 If you're on i.e. arm/arm64, you need to build your own premake5 from source.
 Then you can proceed to running premake5 with --with-librw gmake2 arguments.
@@ -266,9 +269,9 @@ cd ~/Code/js
 kotor-js:
 
 npm install
-Run the build command:
+# Run the build command
 npm run webpack:dev-watch
-Run the start command in a separate console/shell window:
+# Run the start command in a separate console/shell window
 npm run start
 
 ----------------------------------------------------------------------------------
@@ -282,6 +285,7 @@ rustc --version
 
 swww:
 git clone https://github.com/LGFae/swww
+cd swww
 cargo build --release
 
 Eww:
@@ -340,6 +344,7 @@ git clone --recurse-submodules -b linux https://github.com/ornfelt/small_games
 cd small_games
 cd BirdGame
 g++ -std=c++17 -g *.cpp -o main -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
+cp -r BirdGame/graphics ./
 cd ../CPP_FightingGame/FightingGameProject
 cmake . && make -j$(nproc)
 
@@ -391,6 +396,7 @@ cd azerothcore-wotlk
 mkdir build && cd build
 cmake ../ -DCMAKE_INSTALL_PREFIX=$HOME/acore/ -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DWITH_WARNINGS=1 -DTOOLS_BUILD=all -DSCRIPTS=static -DMODULES=static -DWITH_COREDEBUG=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo
 make -j$(nproc)
+make install
 
 TrinityCore:
 git clone -b 3.3.5 https://github.com/ornfelt/trinitycore --single-branch --depth 1
@@ -398,6 +404,7 @@ cd trinitycore
 mkdir build && cd build
 cmake ../ -DCMAKE_INSTALL_PREFIX=$HOME/tcore/ -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DWITH_WARNINGS=1 -DTOOLS_BUILD=all -DSCRIPTS=static -DMODULES=static -DWITH_COREDEBUG=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo
 make -j$(nproc)
+make install
 
 For DB configuration...
 sudo mysql
@@ -489,6 +496,7 @@ For chocolate-doom:
 
 Doom 3:
 git clone --recurse-submodules https://github.com/ornfelt/dhewm3.git
+cd dhewm3
 mkdir build && cd build
 cmake ../neo/
 make -j$(nproc)
@@ -529,6 +537,7 @@ sudo ldconfig
 ******************************************
 mpq gophercraft:
 
+cd gophercraft_mpq_set
 go build github.com/Gophercraft/mpq/cmd/gophercraft_mpq_set
 
 ******************************************

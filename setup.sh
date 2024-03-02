@@ -143,7 +143,7 @@ install_jetbrains_mono() {
 }
 
 # Install fonts on debian only since arch uses the package: ttf-jetbrains-mono-nerd
-if grep -iq "debian" /etc/os-release; then
+if grep -qEi 'debian|raspbian' /etc/os-release; then
     if ! check_font_exists; then
         install_jetbrains_mono
     else
@@ -160,30 +160,25 @@ clone_repo_if_missing() {
     local repo_dir=$1
     local repo_url=$2
     local branch=$3
+    local parent_dir="."
 
-    # Convert the repo_dir to lowercase for case-insensitive comparison
-    local repo_dir_lower=$(echo "$repo_dir" | tr '[:upper:]' '[:lower:]')
-
-    if [ ! -d "$repo_dir" ]; then
-        echo "Cloning $repo_dir from $repo_url"
-
-        # Check if repo_dir matches specific cases and clone accordingly
-        if [[ "$repo_dir_lower" == "trinitycore" || "$repo_dir_lower" == "simc" ]]; then
-            echo "Cloning $repo_dir with --single-branch --depth 1"
-            if [ -z "$branch" ]; then
-                git clone --recurse-submodules $repo_url --single-branch --depth 1 $repo_dir
-            else
-                git clone --recurse-submodules -b $branch $repo_url --single-branch --depth 1 $repo_dir
-            fi
-        else
-            if [ -z "$branch" ]; then
-                git clone --recurse-submodules $repo_url $repo_dir
-            else
-                git clone --recurse-submodules -b $branch $repo_url $repo_dir
-            fi
-        fi
-    else
+    # Case insensitive check
+    if find "$parent_dir" -maxdepth 1 -type d -iname "$(basename "$repo_dir")" | grep -iq "$(basename "$repo_dir")$"; then
         echo "$repo_dir already cloned."
+        return 0
+    else
+        echo "Cloning $repo_dir from $repo_url"
+        # Clone based on specific cases
+        local clone_cmd="git clone --recurse-submodules"
+        if [[ "${repo_dir,,}" == "trinitycore" || "${repo_dir,,}" == "simc" ]]; then
+            clone_cmd="$clone_cmd --single-branch --depth 1"
+        fi
+        if [ -n "$branch" ]; then
+            clone_cmd="$clone_cmd -b $branch"
+        fi
+        clone_cmd="$clone_cmd $repo_url $repo_dir"
+        eval "$clone_cmd"
+        return $?
     fi
 }
 
@@ -194,10 +189,13 @@ clone_projects() {
     if [ -z "$GITHUB_TOKEN" ]; then
         echo "Error: GITHUB_TOKEN environment variable is not set. Skipping..."
     else
-        cd ~/Documents || exit
-        git clone https://$GITHUB_TOKEN@github.com/archornf/my_notes
+        if [ ! -d "$HOME/Documents/my_notes" ]; then
+            cd ~/Documents || exit
+            git clone https://$GITHUB_TOKEN@github.com/archornf/my_notes
+        else
+            echo "my_notes already cloned."
+        fi
     fi
-
 
     echo "Cloning projects in ~/Code/c..."
     cd ~/Code/c || exit
@@ -232,6 +230,7 @@ clone_projects() {
     echo "Cloning projects in ~/Code2/C++..."
     cd "~/Code2/C++" || exit
     clone_repo_if_missing "small_games" "https://github.com/ornfelt/small_games" "linux"
+    clone_repo_if_missing "OpenJK" "https://github.com/JACoders/OpenJK"
     clone_repo_if_missing "OpenJKDF2" "https://github.com/ornfelt/OpenJKDF2" "linux"
     clone_repo_if_missing "devilutionX" "https://github.com/ornfelt/devilutionX"
     clone_repo_if_missing "crispy-doom" "https://github.com/ornfelt/crispy-doom"
@@ -296,6 +295,7 @@ install_if_missing() {
     fi
 }
 
+# Helper functions
 print_and_cd_to_dir() {
     local dir_path=$1
 
@@ -304,69 +304,315 @@ print_and_cd_to_dir() {
     sleep 1
 }
 
+check_dir() {
+    local project_name=$1
+    local dir_type=${2:-build} # Default to build
+    local parent_dir=$(dirname "${project_name}")
+    local project_dir_name=$(basename "${project_name}")
+    local target_dir="${project_name}/${dir_type}"
+
+    parent_dir=$(cd "$parent_dir" && pwd)
+
+    local match_found=false
+    if [ -d "$parent_dir" ]; then
+        # Check case-insensitively
+        while IFS= read -r dir; do
+            if [[ "$(basename "$dir")" =~ ^[${project_dir_name^}${project_dir_name,,}]$ ]]; then
+                match_found=true
+                break
+            fi
+        done < <(find "$parent_dir" -maxdepth 1 -type d)
+    fi
+
+    if $match_found && [ -d "$target_dir" ]; then
+        echo "${target_dir} already exists."
+        return 1 # Return false
+    elif $match_found; then
+        if [[ "$dir_type" != "node_modules" ]]; then
+            mkdir -p "$target_dir"
+        fi
+        cd "$parent_dir/$project_dir_name"
+        [[ "$dir_type" != "node_modules" ]] && cd "$dir_type"
+        return 0 # Return true
+    else
+        echo "Project directory $project_name does not exist."
+        return 1 # Return false
+    fi
+}
+
 # Compile projects (unless already done)
 compile_projects() {
+    architecture=$(uname -m)
 
     echo "Compiling projects in ~/.config..."
     install_if_missing dwm dwm
     install_if_missing dwmblocks dwmblocks
     install_if_missing dmenu dmenu
     install_if_missing st st
+    # TODO: Picom?
     sleep 1
 
     print_and_cd_to_dir "~/Code/c"
 
+    # TODO: check if already built...
+    if dpkg -l | grep -qw "neovim"; then
+        sudo apt remove neovim
+    fi
+    cd neovim && git checkout stable
+    make CMAKE_BUILD_TYPE=RelWithDebInfo
+    sudo make install
+    cd ...
+
     # Note: If the shell has issues with '++', you might need to quote or escape it...
     print_and_cd_to_dir "~/Code/c++"
 
-    # If raspbian / arm, compile premake for gta...
-    #git clone --recurse-submodules https://github.com/premake/premake-core
+    # TODO: sed Change the BuildJK2SPEngine, BuildJK2SPGame, and BuildJK2SPRdVanilla
+    # options to ON in CMakeLists.txt.
+    if check_dir "OpenJK"; then
+        cmake -DCMAKE_INSTALL_PREFIX=/home/jonas/Downloads/ja_data -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
+        make -j$(nproc)
+        sudo make install
+        cd ...
+    fi
 
-    print_and_cd_to_dir "~/Code/go"
+    if check_dir "JediKnightGalaxies"; then
+        cmake -DCMAKE_INSTALL_PREFIX=/home/jonas/Downloads/ja_data -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
+        make -j$(nproc)
+        sudo make install
+        cd ...
+    fi
+
+    if check_dir "jk2mv.js" "build_new"; then
+        cmake .. CMAKE_BUILD_TYPE=Release
+        make -j$(nproc)
+        sudo make install
+        cd ...
+    fi
+
+    if check_dir "Unvanquished"; then
+        cd .. && ./download-paks build/pkg && cd -
+        cmake .. -DCMAKE_BUILD_TYPE=Release
+        make -j$(nproc)
+        cd ...
+    fi
+
+    # re3
+    if check_dir "re3"; then
+        cd ..
+        if [[ "$architecture" == arm* ]] || [[ "$architecture" == aarch64* ]]; then
+            cd ~/Downloads
+            git clone --recurse-submodules https://github.com/premake/premake-core
+            cd premake-core
+            make -f Bootstrap.mak linux
+            cd bin/release
+            # Verify that it's built for ARM64:
+            file premake5
+            sudo mv premake5 /usr/local/bin
+            premake5 --version
+            cd "~/Code/c++/re3"
+            premake5 --with-librw gmake
+            cd build && make help
+            make config=release_linux-arm64-librw_gl3_glfw-oal
+        else
+            ./premake5Linux --with-librw gmake2
+            cd build && make help
+            make config=release_linux-amd64-librw_gl3_glfw-oal
+        fi
+        cd ...
+    fi
+
+    if check_dir "re3_vice"; then
+        cd ..
+        if [[ "$architecture" == arm* ]] || [[ "$architecture" == aarch64* ]]; then
+            premake5 --with-librw gmake
+            cd build && make help
+            make config=release_linux-arm64-librw_gl3_glfw-oal
+        else
+            ./premake5Linux --with-librw gmake2
+            cd build && make help
+            make config=release_linux-amd64-librw_gl3_glfw-oal
+        fi
+        cd ...
+    fi
+
+    # TODO check if compiled...
+    cd reone && cmake -B build -S . -DCMAKE_BUILD_TYPE=RelWithDebInfo
+    make -j$(nproc)
+    sudo make install
+
+    print_and_cd_to_dir "~/Code/js"
+
+    if check_dir "KotOR.js" "node_modules"; then
+        npm install
+        npm run webpack:dev-watch
+    fi
+
+    print_and_cd_to_dir "~/Code/rust"
+
+    # TODO check if compiled...
+    # Only compile if rust version is >= ?
+    cd swww
+    cargo build --release
+    cd ..
+    cd eww
+    cargo build --release --no-default-features --features x11
+    cd target/release
+    chmod +x ./eww
 
     print_and_cd_to_dir "~/Code2/C"
 
+    cd ioq3 && make
+
     print_and_cd_to_dir "~/Code2/C++"
 
-    # Diablo: check that smpq is not installed and compile smpq and use aarch64-prep for raspbian/arm
+    if check_dir "stk-code"; then
+        cmake .. -DCMAKE_BUILD_TYPE=Release -DNO_SHADERC=on
+        make -j$(nproc)
+        cd ...
+    fi
 
-    print_and_cd_to_dir "~/Code2/Python"
+    # Simply check for Craft binary for this...
+    if [ ! -f "small_games/Craft/craft" ]; then
+        cd small_games
 
-    print_and_cd_to_dir "~/Code2/Rust"
+        cd BirdGame
+        g++ -std=c++17 -g *.cpp -o main -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
+        cp -r BirdGame/graphics ./
+
+        cd ../CPP_FightingGame/FightingGameProject
+        cmake . && make -j$(nproc)
+
+        cd ../../Craft
+        cmake . && make -j$(nproc)
+        gcc -std=c99 -O3 -fPIC -shared -o world -I src -I deps/noise deps/noise/noise.c src/world.c
+
+        cd ../pacman/
+        mkdir build && cd build
+        cmake ..
+        cmake --build .
+        cd ...
+    else
+        echo "small_games already compiled."
+    fi
+
+
+    # TODO CHECK
+    cd OpenJKDF2
+    export CC=clang
+    export CXX=clang++
+    ./build_linux64.sh
+    cd ..
+
+    if check_dir "azerothcore-wotlk"; then
+        cmake ../ -DCMAKE_INSTALL_PREFIX=$HOME/acore/ -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DWITH_WARNINGS=1 -DTOOLS_BUILD=all -DSCRIPTS=static -DMODULES=static -DWITH_COREDEBUG=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo
+        make -j$(nproc)
+        make install
+    fi
+
+    if check_dir "trinitycore"; then
+        cmake ../ -DCMAKE_INSTALL_PREFIX=$HOME/tcore/ -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DWITH_WARNINGS=1 -DTOOLS_BUILD=all -DSCRIPTS=static -DMODULES=static -DWITH_COREDEBUG=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo
+        make -j$(nproc)
+        make install
+    fi
+
+    if check_dir "openmw"; then
+        # Check MyGUI version
+        mygui_version=$(dpkg -l | grep mygui | awk '{print $3}')
+        if [ ! -z "$mygui_version" ]; then
+            echo "MyGUI version detected: $mygui_version"
+            if [[ "$mygui_version" == "3.4.2"* ]]; then
+                echo "MyGUI version is 3.4.2"
+                git checkout 1c2f92cac9
+            elif [[ "$mygui_version" == "3.4.1"* ]]; then
+                echo "MyGUI version is 3.4.1"
+                git checkout abb71eeb
+            else
+                echo "MyGUI version is: $mygui_version"
+            fi
+            cmake .. -DCMAKE_BUILD_TYPE=Release
+            make -j$(nproc)
+            sudo make install
+            cd ...
+        else
+            echo "MyGUI is not installed or not found."
+            cd ..
+        fi
+    fi
+
+    # TODO CHECK
+    cd devilutionX
+    if grep -qEi 'debian|raspbian' /etc/os-release; then
+        echo "Running on Debian or Raspbian. Installing smpq package from tools script."
+        sudo apt remove smpq
+        cd tools && ./build_and_install_smpq.sh
+        sudo cp /usr/local/bin/smpq /usr/bin/smpq
+        cd ..
+    fi
+    if [[ "$architecture" == arm* ]] || [[ "$architecture" == aarch64* ]]; then
+        Packaging/nix/debian-cross-aarch64-prep.sh
+        cmake -S. -Bbuild-aarch64-rel \
+        -DCMAKE_TOOLCHAIN_FILE=../CMake/platforms/aarch64-linux-gnu.toolchain.cmake \
+        -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DCPACK=ON \
+        -DDEVILUTIONX_SYSTEM_LIBFMT=OFF
+        cmake --build build-aarch64-rel -j $(getconf _NPROCESSORS_ONLN) --target package
+    else
+        cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
+        cmake --build build -j $(getconf _NPROCESSORS_ONLN)
+    fi
+    cd ..
+
+    # TODO CHECK
+    cd crispy-doom
+    autoreconf -fiv
+    ./configure
+    make -j$(nproc)
+
+    if check_dir "dhewm3"; then
+        cmake ../neo/
+        make -j$(nproc)
+    fi
 
     print_and_cd_to_dir "~/Code2/Wow/tools"
 
+    # TODO CHECK
     cd gophercraft_mpq
     go build github.com/Gophercraft/mpq/cmd/gophercraft_mpq_set
-    cd -
+    cd ..
 
-    # Compile and install BLPConverter if build directory doesn't exist
-    if [ ! -d "BLPConverter/build" ]; then
-        echo "Compiling and installing BLPConverter..."
-        cd BLPConverter
-        mkdir build && cd build
+    if check_dir "BLPConverter"; then
         cmake .. -DWITH_LIBRARY=YES
         sudo make install
         sudo cp /usr/local/lib/libblp.so /usr/lib/
         sudo ldconfig
         cd ../../
-    else
-        echo "BLPConverter build directory exists, skipping..."
     fi
 
-    # Compile and install StormLib if build directory doesn't exist
-    if [ ! -d "StormLib/build" ]; then
-        echo "Compiling and installing StormLib..."
-        cd StormLib
-        mkdir build && cd build
+    if check_dir "StormLib"; then
         cmake .. -DBUILD_SHARED_LIBS=ON
         sudo make install
         sudo cp /usr/local/lib/libstorm.so /usr/lib/
         sudo ldconfig
         cd ../../
-    else
-        echo "StormLib build directory exists, skipping..."
     fi
+
+    if check_dir "simc"; then
+        cmake ../ -DCMAKE_BUILD_TYPE=Release
+        make -j$(nproc)
+        sudo make install
+    fi
+
+    if check_dir "wowser" "node_modules"; then
+        git checkout minimal
+        npm install
+    fi
+
+    cd src/stormlib && make -f Makefile.linux
+    cd .. && make
+
+    if check_dir "WebWowViewerCpp"; then
+        cmake .. && make -j$(nproc)
+    fi
+
 }
 
 if $justDoIt; then
@@ -397,3 +643,50 @@ else
         pip3 install -r ~/Documents/installation/requirements.txt
     fi
 fi
+
+
+# Kept for reference...
+
+#clone_repo_if_missing() {
+#    local repo_dir=$1
+#    local repo_url=$2
+#    local branch=$3
+#
+#    local parent_dir=$(dirname "$repo_dir")
+#    local target_dir_name=$(basename "$repo_dir")
+#    local target_dir_name_lower=$(echo "$target_dir_name" | tr '[:upper:]' '[:lower:]')
+#    local dir_exists=false
+#
+#    # Might be more robust than the above for directories with a large number
+#    # of files or when dealing with special characters in filenames
+#    if [ -d "$parent_dir" ]; then
+#        while IFS= read -r dir; do
+#            dir_name=$(basename "$dir")
+#            if [ "$(echo "$dir_name" | tr '[:upper:]' '[:lower:]')" = "$target_dir_name_lower" ]; then
+#                dir_exists=true
+#                break
+#            fi
+#        done < <(find "$parent_dir" -maxdepth 1 -type d)
+#    fi
+#
+#    if ! $dir_exists; then
+#        echo "Cloning $repo_dir from $repo_url"
+#
+#        if [[ "$target_dir_name_lower" == "trinitycore" || "$target_dir_name_lower" == "simc" ]]; then
+#            echo "Cloning $repo_dir with --single-branch --depth 1"
+#            if [ -z "$branch" ]; then
+#                git clone --recurse-submodules $repo_url --single-branch --depth 1 "$repo_dir"
+#            else
+#                git clone --recurse-submodules -b $branch $repo_url --single-branch --depth 1 "$repo_dir"
+#            fi
+#        else
+#            if [ -z "$branch" ]; then
+#                git clone --recurse-submodules $repo_url "$repo_dir"
+#            else
+#                git clone --recurse-submodules -b $branch $repo_url "$repo_dir"
+#            fi
+#        fi
+#    else
+#        echo "$repo_dir already cloned."
+#    fi
+#}
