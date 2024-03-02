@@ -4,7 +4,7 @@
 mkdir -p ~/.config/
 mkdir -p ~/.local/bin/
 mkdir -p ~/Documents ~/Downloads ~/Pictures/Wallpapers
-mkdir -p ~/Code/c ~/Code/c++ ~/Code/c# ~/Code/js ~/Code/python ~/Code2/C ~/Code2/C++ ~/Code2/C# ~/Code2/General ~/Code2/Python ~/Code2/Wow/tools
+mkdir -p ~/Code/c ~/Code/c++ ~/Code/c# ~/Code/js ~/Code/python ~/Code/rust ~/Code2/C ~/Code2/C++ ~/Code2/C# ~/Code2/General ~/Code2/Python ~/Code2/Wow/tools
 
 # Copy stuff
 cp -r .config/awesome/ ~/.config/
@@ -226,6 +226,7 @@ clone_projects() {
     echo "Cloning projects in ~/Code2/C..."
     cd ~/Code2/C || exit
     clone_repo_if_missing "ioq3" "https://github.com/ornfelt/ioq3"
+    clone_repo_if_missing "picom-animations" "https://github.com/ornfelt/picom-animations"
 
     echo "Cloning projects in ~/Code2/C++..."
     cd "~/Code2/C++" || exit
@@ -245,6 +246,12 @@ clone_projects() {
     else
         echo "stk-assets already cloned."
     fi
+
+    echo "Cloning projects in ~/Code2/General..."
+    cd ~/Code2/General || exit
+    clone_repo_if_missing "utils" "https://github.com/ornfelt/utils"
+    clone_repo_if_missing "Svea-Examples" "https://github.com/ornfelt/Svea-Examples"
+    clone_repo_if_missing "1brc" "https://github.com/ornfelt/1brc"
 
     echo "Cloning projects in ~/Code2/Python..."
     cd ~/Code2/Python || exit
@@ -325,14 +332,13 @@ check_dir() {
     fi
 
     if $match_found && [ -d "$target_dir" ]; then
-        echo "${target_dir} already exists."
+        echo "${target_dir} already compiled."
         return 1 # Return false
     elif $match_found; then
-        if [[ "$dir_type" != "node_modules" ]]; then
-            mkdir -p "$target_dir"
-        fi
         cd "$parent_dir/$project_dir_name"
-        [[ "$dir_type" != "node_modules" ]] && cd "$dir_type"
+        if [[ "$dir_type" == *"build"* ]]; then
+            mkdir -p "$target_dir" && cd "$target_dir"
+        fi
         return 0 # Return true
     else
         echo "Project directory $project_name does not exist."
@@ -349,26 +355,25 @@ compile_projects() {
     install_if_missing dwmblocks dwmblocks
     install_if_missing dmenu dmenu
     install_if_missing st st
-    # TODO: Picom?
     sleep 1
 
     print_and_cd_to_dir "~/Code/c"
 
-    # TODO: check if already built...
-    if dpkg -l | grep -qw "neovim"; then
-        sudo apt remove neovim
+    if check_dir "neovim"; then
+        cd ..
+        if dpkg -l | grep -qw "neovim"; then
+            sudo apt remove neovim -y
+        fi
+        git checkout stable
+        make CMAKE_BUILD_TYPE=RelWithDebInfo
+        sudo make install
     fi
-    cd neovim && git checkout stable
-    make CMAKE_BUILD_TYPE=RelWithDebInfo
-    sudo make install
-    cd ...
 
     # Note: If the shell has issues with '++', you might need to quote or escape it...
     print_and_cd_to_dir "~/Code/c++"
 
-    # TODO: sed Change the BuildJK2SPEngine, BuildJK2SPGame, and BuildJK2SPRdVanilla
-    # options to ON in CMakeLists.txt.
     if check_dir "OpenJK"; then
+        sed -i '/option(BuildJK2SPEngine /s/OFF)/ON)/; /option(BuildJK2SPGame /s/OFF)/ON)/; /option(BuildJK2SPRdVanilla /s/OFF)/ON)/' ../CMakeLists.txt
         cmake -DCMAKE_INSTALL_PREFIX=/home/jonas/Downloads/ja_data -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
         make -j$(nproc)
         sudo make install
@@ -435,10 +440,11 @@ compile_projects() {
         cd ...
     fi
 
-    # TODO check if compiled...
-    cd reone && cmake -B build -S . -DCMAKE_BUILD_TYPE=RelWithDebInfo
-    make -j$(nproc)
-    sudo make install
+    if check_dir "reone" "bin"; then
+        cmake -B build -S . -DCMAKE_BUILD_TYPE=RelWithDebInfo
+        make -j$(nproc)
+        sudo make install
+    fi
 
     print_and_cd_to_dir "~/Code/js"
 
@@ -449,19 +455,37 @@ compile_projects() {
 
     print_and_cd_to_dir "~/Code/rust"
 
-    # TODO check if compiled...
-    # Only compile if rust version is >= ?
-    cd swww
-    cargo build --release
-    cd ..
-    cd eww
-    cargo build --release --no-default-features --features x11
-    cd target/release
-    chmod +x ./eww
+    # Only compile if rust version is > 1.6
+    rustc_version=$(rustc --version | grep -oP 'rustc \K[^\s]+')
+    major_version=$(echo "$rustc_version" | cut -d'.' -f1)
+    minor_version=$(echo "$rustc_version" | cut -d'.' -f2)
+
+    if [ "$major_version" -gt 1 ] || { [ "$major_version" -eq 1 ] && [ "$minor_version" -gt 6 ]; }; then
+        echo "rustc version is above 1.6"
+        cd swww
+        cargo build --release
+        cd ..
+
+        cd eww
+        cargo build --release --no-default-features --features x11
+        cd target/release
+        chmod +x ./eww
+    else
+        echo "rustc version is 1.6 or below. Skipping rust projects..."
+    fi
 
     print_and_cd_to_dir "~/Code2/C"
 
-    cd ioq3 && make
+    if check_dir "ioq3"; then
+        make
+        cd ..
+    fi
+
+    if check_dir "picom-animations"; then
+        cd ..
+        meson --buildtype=release . build
+        ninja -C build
+    fi
 
     print_and_cd_to_dir "~/Code2/C++"
 
@@ -473,9 +497,7 @@ compile_projects() {
 
     # Simply check for Craft binary for this...
     if [ ! -f "small_games/Craft/craft" ]; then
-        cd small_games
-
-        cd BirdGame
+        cd small_games/BirdGame
         g++ -std=c++17 -g *.cpp -o main -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
         cp -r BirdGame/graphics ./
 
@@ -495,13 +517,15 @@ compile_projects() {
         echo "small_games already compiled."
     fi
 
-
-    # TODO CHECK
-    cd OpenJKDF2
-    export CC=clang
-    export CXX=clang++
-    ./build_linux64.sh
-    cd ..
+    if ! find ./OpenJKDF2 -maxdepth 1 -type d -name "build*" | grep -q .; then
+        cd OpenJKDF2
+        export CC=clang
+        export CXX=clang++
+        ./build_linux64.sh
+        cd ..
+    else
+        echo "OpenJKDF2 already compiled."
+    fi
 
     if check_dir "azerothcore-wotlk"; then
         cmake ../ -DCMAKE_INSTALL_PREFIX=$HOME/acore/ -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DWITH_WARNINGS=1 -DTOOLS_BUILD=all -DSCRIPTS=static -DMODULES=static -DWITH_COREDEBUG=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo
@@ -539,33 +563,38 @@ compile_projects() {
         fi
     fi
 
-    # TODO CHECK
-    cd devilutionX
-    if grep -qEi 'debian|raspbian' /etc/os-release; then
-        echo "Running on Debian or Raspbian. Installing smpq package from tools script."
-        sudo apt remove smpq
-        cd tools && ./build_and_install_smpq.sh
-        sudo cp /usr/local/bin/smpq /usr/bin/smpq
+    if ! find ./devilutionX -maxdepth 1 -type d -name "build*" | grep -q .; then
+        cd devilutionX
+        if grep -qEi 'debian|raspbian' /etc/os-release; then
+            echo "Running on Debian or Raspbian. Installing smpq package from tools script."
+            sudo apt remove smpq -y
+            cd tools && ./build_and_install_smpq.sh
+            sudo cp /usr/local/bin/smpq /usr/bin/smpq
+            cd ..
+        fi
+        if [[ "$architecture" == arm* ]] || [[ "$architecture" == aarch64* ]]; then
+            Packaging/nix/debian-cross-aarch64-prep.sh
+            cmake -S. -Bbuild-aarch64-rel \
+            -DCMAKE_TOOLCHAIN_FILE=../CMake/platforms/aarch64-linux-gnu.toolchain.cmake \
+            -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DCPACK=ON \
+            -DDEVILUTIONX_SYSTEM_LIBFMT=OFF
+            cmake --build build-aarch64-rel -j $(getconf _NPROCESSORS_ONLN) --target package
+        else
+            cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
+            cmake --build build -j $(getconf _NPROCESSORS_ONLN)
+        fi
+        cd ..
+    else
+        echo "devilutionX already compiled."
+    fi
+
+    if [ ! -f "crispy-doom/src/crispy-doom" ]; then
+        cd crispy-doom
+        autoreconf -fiv
+        ./configure
+        make -j$(nproc)
         cd ..
     fi
-    if [[ "$architecture" == arm* ]] || [[ "$architecture" == aarch64* ]]; then
-        Packaging/nix/debian-cross-aarch64-prep.sh
-        cmake -S. -Bbuild-aarch64-rel \
-        -DCMAKE_TOOLCHAIN_FILE=../CMake/platforms/aarch64-linux-gnu.toolchain.cmake \
-        -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DCPACK=ON \
-        -DDEVILUTIONX_SYSTEM_LIBFMT=OFF
-        cmake --build build-aarch64-rel -j $(getconf _NPROCESSORS_ONLN) --target package
-    else
-        cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
-        cmake --build build -j $(getconf _NPROCESSORS_ONLN)
-    fi
-    cd ..
-
-    # TODO CHECK
-    cd crispy-doom
-    autoreconf -fiv
-    ./configure
-    make -j$(nproc)
 
     if check_dir "dhewm3"; then
         cmake ../neo/
@@ -574,10 +603,11 @@ compile_projects() {
 
     print_and_cd_to_dir "~/Code2/Wow/tools"
 
-    # TODO CHECK
-    cd gophercraft_mpq
-    go build github.com/Gophercraft/mpq/cmd/gophercraft_mpq_set
-    cd ..
+    if [ ! -f "mpq/gophercraft_mpq_set" ]; then
+        cd mpq
+        go build github.com/Gophercraft/mpq/cmd/gophercraft_mpq_set
+        cd ..
+    fi
 
     if check_dir "BLPConverter"; then
         cmake .. -DWITH_LIBRARY=YES
@@ -606,13 +636,14 @@ compile_projects() {
         npm install
     fi
 
-    cd src/stormlib && make -f Makefile.linux
-    cd .. && make
+    if [ ! -f "wowmapviewer/bin/wowmapview" ]; then
+        cd wowmapviewer/src/stormlib && make -f Makefile.linux
+        cd .. && make
+    fi
 
     if check_dir "WebWowViewerCpp"; then
         cmake .. && make -j$(nproc)
     fi
-
 }
 
 if $justDoIt; then
