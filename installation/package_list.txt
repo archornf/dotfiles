@@ -27,7 +27,6 @@ btop
 build-essential
 ca-certificates
 cabal-install
-cargo
 cava
 chafa
 checkinstall
@@ -602,7 +601,6 @@ rp-prefapps
 rpi-eeprom
 rpi-update
 rsync
-rustc
 rustfmt
 rxvt-unicode
 scdoc

@@ -234,4 +234,3 @@ lua-mpack
 lua5.1
 lua5.4
 luajit
-luarocks

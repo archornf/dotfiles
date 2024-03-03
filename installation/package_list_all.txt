@@ -72,7 +72,6 @@ ca-certificates-java
 ca-certificates-mono
 cabal-install
 caca-utils
-cargo
 cava
 chafa
 checkinstall
@@ -3637,7 +3636,6 @@ rsync
 rtkit
 rtmpdump
 runit-helper
-rustc
 rustfmt
 rxvt-unicode
 samba-libs

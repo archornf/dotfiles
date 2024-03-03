@@ -1,3 +1,4 @@
+luarocks
 lxappearance
 lxde
 lxtask
@@ -128,7 +129,6 @@ rp-prefapps
 rpi-eeprom
 rpi-update
 rsync
-rustc
 rustfmt
 rxvt-unicode
 scdoc
