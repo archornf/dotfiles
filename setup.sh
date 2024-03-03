@@ -186,7 +186,7 @@ clone_repo_if_missing() {
 # Clone projects (unless they already exist)
 clone_projects() {
 
-    echo "Cloning projects in $HOME/Documents..."
+    echo -e "\nCloning projects in $HOME/Documents..."
     if [ -z "$GITHUB_TOKEN" ]; then
         echo "Error: GITHUB_TOKEN environment variable is not set. Skipping..."
     else
@@ -199,11 +199,11 @@ clone_projects() {
         fi
     fi
 
-    echo "Cloning projects in $HOME/Code/c..."
+    echo -e "\nCloning projects in $HOME/Code/c..."
     cd $HOME/Code/c || exit
     clone_repo_if_missing "neovim" "https://github.com/neovim/neovim"
 
-    echo "Cloning projects in $HOME/Code/c++..."
+    echo -e "\nCloning projects in $HOME/Code/c++..."
     cd "$HOME/Code/c++" || exit
     clone_repo_if_missing "openmw" "https://github.com/OpenMW/openmw"
     clone_repo_if_missing "OpenJK" "https://github.com/JACoders/OpenJK"
@@ -218,21 +218,21 @@ clone_projects() {
         echo "re3_vice already cloned."
     fi
 
-    echo "Cloning projects in $HOME/Code/js..."
+    echo -e "\nCloning projects in $HOME/Code/js..."
     cd $HOME/Code/js || exit
     clone_repo_if_missing "KotOR.js" "https://github.com/KobaltBlu/KotOR.js"
 
-    echo "Cloning projects in $HOME/Code/rust..."
+    echo -e "\nCloning projects in $HOME/Code/rust..."
     cd $HOME/Code/rust || exit
     clone_repo_if_missing "eww" "https://github.com/elkowar/eww"
     clone_repo_if_missing "swww" "https://github.com/LGFae/swww"
 
-    echo "Cloning projects in $HOME/Code2/C..."
+    echo -e "\nCloning projects in $HOME/Code2/C..."
     cd $HOME/Code2/C || exit
     clone_repo_if_missing "ioq3" "https://github.com/ornfelt/ioq3"
     clone_repo_if_missing "picom-animations" "https://github.com/ornfelt/picom-animations"
 
-    echo "Cloning projects in $HOME/Code2/C++..."
+    echo -e "\nCloning projects in $HOME/Code2/C++..."
     cd "$HOME/Code2/C++" || exit
     clone_repo_if_missing "small_games" "https://github.com/ornfelt/small_games" "linux"
     clone_repo_if_missing "OpenJKDF2" "https://github.com/ornfelt/OpenJKDF2" "linux"
@@ -241,7 +241,6 @@ clone_projects() {
     clone_repo_if_missing "dhewm3" "https://github.com/ornfelt/dhewm3"
     clone_repo_if_missing "azerothcore-wotlk" "https://github.com/ornfelt/azerothcore-wotlk"
     clone_repo_if_missing "trinitycore" "https://github.com/ornfelt/TrinityCore" "3.3.5"
-    clone_repo_if_missing "simc" "https://github.com/ornfelt/simc"
     clone_repo_if_missing "stk-code" "https://github.com/ornfelt/stk-code"
     if [ ! -d "stk-assets" ]; then
         svn co https://svn.code.sf.net/p/supertuxkart/code/stk-assets stk-assets
@@ -249,17 +248,18 @@ clone_projects() {
         echo "stk-assets already cloned."
     fi
 
-    echo "Cloning projects in $HOME/Code2/General..."
+    echo -e "\nCloning projects in $HOME/Code2/General..."
     cd $HOME/Code2/General || exit
     clone_repo_if_missing "Svea-Examples" "https://github.com/ornfelt/Svea-Examples"
     clone_repo_if_missing "1brc" "https://github.com/ornfelt/1brc"
 
-    echo "Cloning projects in $HOME/Code2/Python..."
+    echo -e "\nCloning projects in $HOME/Code2/Python..."
     cd $HOME/Code2/Python || exit
     clone_repo_if_missing "wander_nodes_util" "https://github.com/ornfelt/wander_nodes_util"
 
-    echo "Cloning projects in $HOME/Code2/Wow/tools..."
+    echo -e "\nCloning projects in $HOME/Code2/Wow/tools..."
     cd $HOME/Code2/Wow/tools || exit
+    clone_repo_if_missing "simc" "https://github.com/ornfelt/simc"
     clone_repo_if_missing "mpq" "https://github.com/Gophercraft/mpq"
     clone_repo_if_missing "spelunker" "https://github.com/wowserhq/spelunker"
     clone_repo_if_missing "wowser" "https://github.com/ornfelt/wowser"
@@ -278,7 +278,7 @@ clone_projects() {
 if $justDoIt; then
     clone_projects
 else
-    echo "Do you want to proceed with cloning projects? (yes/y)"
+    echo -e "\nDo you want to proceed with cloning projects? (yes/y)"
     read answer
     # To lowercase using awk
     answer=$(echo $answer | awk '{print tolower($0)}')
@@ -293,6 +293,7 @@ install_if_missing() {
     local binary=$1
     local directory=$2
 
+    echo "--------------------------------------------------------"
     if ! command -v $binary &> /dev/null; then
         echo "$binary not found, installing..."
         cd $HOME/.config/$directory || exit
@@ -307,9 +308,8 @@ install_if_missing() {
 print_and_cd_to_dir() {
     local dir_path=$1
 
-    echo "Compiling projects in $dir_path..."
+    echo -e "\nCompiling projects in $dir_path..."
     cd "$dir_path" || exit
-    sleep 1
 }
 
 check_dir() {
@@ -332,6 +332,7 @@ check_dir() {
                 echo "Entering ${dir_name}..."
                 cd "$dir_name"
             fi
+            sleep 1
             return 0  # Return true
         fi
     else
@@ -349,7 +350,6 @@ compile_projects() {
     install_if_missing dwmblocks dwmblocks
     install_if_missing dmenu dmenu
     install_if_missing st st
-    sleep 1
 
     print_and_cd_to_dir "$HOME/Code/c"
 
@@ -365,6 +365,30 @@ compile_projects() {
 
     # Note: If the shell has issues with '++', you might need to quote or escape it...
     print_and_cd_to_dir "$HOME/Code/c++"
+
+    if check_dir "openmw"; then
+        # Check MyGUI version
+        mygui_version=$(dpkg -l | grep mygui | awk '{print $3}')
+        if [ ! -z "$mygui_version" ]; then
+            echo "MyGUI version detected: $mygui_version"
+            if [[ "$mygui_version" == "3.4.2"* ]]; then
+                echo "MyGUI version is 3.4.2"
+                git checkout 1c2f92cac9
+            elif [[ "$mygui_version" == "3.4.1"* ]]; then
+                echo "MyGUI version is 3.4.1"
+                git checkout abb71eeb
+            else
+                echo "MyGUI version is: $mygui_version"
+            fi
+            cmake .. -DCMAKE_BUILD_TYPE=Release
+            make -j$(nproc)
+            sudo make install
+            cd ...
+        else
+            echo "MyGUI is not installed or not found."
+            cd ..
+        fi
+    fi
 
     if check_dir "OpenJK"; then
         sed -i '/option(BuildJK2SPEngine /s/OFF)/ON)/; /option(BuildJK2SPGame /s/OFF)/ON)/; /option(BuildJK2SPRdVanilla /s/OFF)/ON)/' ../CMakeLists.txt
@@ -454,6 +478,7 @@ compile_projects() {
     major_version=$(echo "$rustc_version" | cut -d'.' -f1)
     minor_version=$(echo "$rustc_version" | cut -d'.' -f2)
 
+    echo "--------------------------------------------------------"
     if [ "$major_version" -gt 1 ] || { [ "$major_version" -eq 1 ] && [ "$minor_version" -gt 7 ]; }; then
         echo "rustc version is above 1.7"
         if check_dir "swww" "target"; then
@@ -461,7 +486,7 @@ compile_projects() {
             cd ..
         fi
 
-        if check_dir "ewww" "target"; then
+        if check_dir "eww" "target"; then
             cargo build --release --no-default-features --features x11
             cd target/release
             chmod +x ./eww
@@ -492,8 +517,8 @@ compile_projects() {
     fi
 
     # Simply check for Craft binary for this...
+    echo "--------------------------------------------------------"
     if [ ! -f "small_games/Craft/craft" ]; then
-        echo "--------------------------------------------------------"
         cd small_games/BirdGame
         g++ -std=c++17 -g *.cpp -o main -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
         cp -r BirdGame/graphics ./
@@ -517,17 +542,6 @@ compile_projects() {
         echo "small_games already compiled."
     fi
 
-    if ! find ./OpenJKDF2 -maxdepth 1 -type d -name "build*" | grep -q .; then
-        echo "--------------------------------------------------------"
-        cd OpenJKDF2
-        export CC=clang
-        export CXX=clang++
-        ./build_linux64.sh
-        cd ..
-    else
-        echo "OpenJKDF2 already compiled."
-    fi
-
     if check_dir "azerothcore-wotlk"; then
         cmake ../ -DCMAKE_INSTALL_PREFIX=$HOME/acore/ -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DWITH_WARNINGS=1 -DTOOLS_BUILD=all -DSCRIPTS=static -DMODULES=static -DWITH_COREDEBUG=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo
         make -j$(nproc)
@@ -540,32 +554,19 @@ compile_projects() {
         make install
     fi
 
-    if check_dir "openmw"; then
-        # Check MyGUI version
-        mygui_version=$(dpkg -l | grep mygui | awk '{print $3}')
-        if [ ! -z "$mygui_version" ]; then
-            echo "MyGUI version detected: $mygui_version"
-            if [[ "$mygui_version" == "3.4.2"* ]]; then
-                echo "MyGUI version is 3.4.2"
-                git checkout 1c2f92cac9
-            elif [[ "$mygui_version" == "3.4.1"* ]]; then
-                echo "MyGUI version is 3.4.1"
-                git checkout abb71eeb
-            else
-                echo "MyGUI version is: $mygui_version"
-            fi
-            cmake .. -DCMAKE_BUILD_TYPE=Release
-            make -j$(nproc)
-            sudo make install
-            cd ...
-        else
-            echo "MyGUI is not installed or not found."
-            cd ..
-        fi
+    echo "--------------------------------------------------------"
+    if ! find ./OpenJKDF2 -maxdepth 1 -type d -name "build*" | grep -q .; then
+        cd OpenJKDF2
+        export CC=clang
+        export CXX=clang++
+        ./build_linux64.sh
+        cd ..
+    else
+        echo "OpenJKDF2 already compiled."
     fi
 
+    echo "--------------------------------------------------------"
     if ! find ./devilutionX -maxdepth 1 -type d -name "build*" | grep -q .; then
-        echo "--------------------------------------------------------"
         cd devilutionX
         if grep -qEi 'debian|raspbian' /etc/os-release; then
             echo "Running on Debian or Raspbian. Installing smpq package from tools script."
@@ -590,28 +591,37 @@ compile_projects() {
         echo "devilutionX already compiled."
     fi
 
+    echo "--------------------------------------------------------"
     if [ ! -f "crispy-doom/src/crispy-doom" ]; then
-        echo "--------------------------------------------------------"
         cd crispy-doom
         autoreconf -fiv
         ./configure
         make -j$(nproc)
         cd ..
+    else
+        echo "crispy-doom already compiled."
     fi
 
     if check_dir "dhewm3"; then
-        echo "--------------------------------------------------------"
         cmake ../neo/
         make -j$(nproc)
     fi
 
     print_and_cd_to_dir "$HOME/Code2/Wow/tools"
 
+    if check_dir "simc"; then
+        cmake ../ -DCMAKE_BUILD_TYPE=Release
+        make -j$(nproc)
+        sudo make install
+    fi
+
+    echo "--------------------------------------------------------"
     if [ ! -f "mpq/gophercraft_mpq_set" ]; then
-        echo "--------------------------------------------------------"
         cd mpq
         go build github.com/Gophercraft/mpq/cmd/gophercraft_mpq_set
         cd ..
+    else
+        echo "mpq already compiled."
     fi
 
     if check_dir "BLPConverter"; then
@@ -630,21 +640,17 @@ compile_projects() {
         cd ../../
     fi
 
-    if check_dir "simc"; then
-        cmake ../ -DCMAKE_BUILD_TYPE=Release
-        make -j$(nproc)
-        sudo make install
-    fi
-
     if check_dir "wowser" "node_modules"; then
         git checkout minimal
         npm install
     fi
 
+    echo "--------------------------------------------------------"
     if [ ! -f "wowmapviewer/bin/wowmapview" ]; then
-        echo "--------------------------------------------------------"
         cd wowmapviewer/src/stormlib && make -f Makefile.linux
         cd .. && make
+    else
+        echo "wowmapviewer already compiled."
     fi
 
     if check_dir "WebWowViewerCpp"; then
@@ -655,7 +661,7 @@ compile_projects() {
 if $justDoIt; then
     compile_projects
 else
-    echo "Do you want to proceed with compiling projects? (yes/y)"
+    echo -e "\nDo you want to proceed with compiling projects? (yes/y)"
     read answer
     # To lowercase using awk
     answer=$(echo $answer | awk '{print tolower($0)}')
@@ -670,7 +676,7 @@ if $justDoIt; then
     echo "Installing python packages..."
     pip3 install -r $HOME/Documents/installation/requirements.txt
 else
-    echo "Do you want to install python packages? (yes/y)"
+    echo -e "\nDo you want to install python packages? (yes/y)"
     read answer
     # To lowercase using awk
     answer=$(echo $answer | awk '{print tolower($0)}')
