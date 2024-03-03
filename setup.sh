@@ -4,7 +4,7 @@
 mkdir -p $HOME/.config/
 mkdir -p $HOME/.local/bin/
 mkdir -p $HOME/Documents $HOME/Downloads $HOME/Pictures/Wallpapers
-mkdir -p $HOME/Code/c $HOME/Code/c++ $HOME/Code/c# $HOME/Code/js $HOME/Code/python $HOME/Code/rust $HOME/Code2/C $HOME/Code2/C++ $HOME/Code2/C# $HOME/Code2/General $HOME/Code2/Python $HOME/Code2/Wow/tools
+mkdir -p $HOME/Code/c $HOME/Code/c++ $HOME/Code/c# $HOME/Code/js $HOME/Code/python $HOME/Code/rust $HOME/Code2/C $HOME/Code2/C++ $HOME/Code2/C# $HOME/Code2/General $HOME/Code2/Go $HOME/Code2/Python $HOME/Code2/Wow/tools
 
 # Copy stuff
 cp -r .config/awesome/ $HOME/.config/
@@ -156,6 +156,16 @@ fi
 # Variable to control whether to skip prompts and proceed directly
 justDoIt=false
 
+# Helper function
+print_and_cd_to_dir() {
+    local dir_path=$1
+    local print_prefix=$2
+
+    echo -e "\n--------------------------------------------------------"
+    echo -e "$print_prefix projects in $dir_path...\n"
+    cd "$dir_path" || exit
+}
+
 clone_repo_if_missing() {
     local repo_dir=$1
     local repo_url=$2
@@ -186,25 +196,23 @@ clone_repo_if_missing() {
 # Clone projects (unless they already exist)
 clone_projects() {
 
-    echo -e "\nCloning projects in $HOME/Documents...\n"
+    print_and_cd_to_dir "$HOME/Documents" "Cloning"
+
     if [ -z "$GITHUB_TOKEN" ]; then
         echo "Error: GITHUB_TOKEN environment variable is not set. Skipping..."
     else
         if [ ! -d "$HOME/Documents/my_notes" ]; then
-            cd $HOME/Documents || exit
-            echo "--------------------------------------------------------"
             git clone https://$GITHUB_TOKEN@github.com/archornf/my_notes
         else
             echo "my_notes already cloned."
         fi
     fi
 
-    echo -e "\nCloning projects in $HOME/Code/c...\n"
-    cd $HOME/Code/c || exit
+    print_and_cd_to_dir "$HOME/Code/c" "Cloning"
     clone_repo_if_missing "neovim" "https://github.com/neovim/neovim"
 
-    echo -e "\nCloning projects in $HOME/Code/c++...\n"
-    cd "$HOME/Code/c++" || exit
+    print_and_cd_to_dir "$HOME/Code/c++" "Cloning"
+
     clone_repo_if_missing "openmw" "https://github.com/OpenMW/openmw"
     clone_repo_if_missing "OpenJK" "https://github.com/JACoders/OpenJK"
     clone_repo_if_missing "JediKnightGalaxies" "https://github.com/JKGDevs/JediKnightGalaxies"
@@ -218,22 +226,20 @@ clone_projects() {
         echo "re3_vice already cloned."
     fi
 
-    echo -e "\nCloning projects in $HOME/Code/js...\n"
-    cd $HOME/Code/js || exit
+    print_and_cd_to_dir "$HOME/Code/js" "Cloning"
+
     clone_repo_if_missing "KotOR.js" "https://github.com/KobaltBlu/KotOR.js"
 
-    echo -e "\nCloning projects in $HOME/Code/rust...\n"
-    cd $HOME/Code/rust || exit
+    print_and_cd_to_dir "$HOME/Code/rust" "Cloning"
+
     clone_repo_if_missing "eww" "https://github.com/elkowar/eww"
     clone_repo_if_missing "swww" "https://github.com/LGFae/swww"
 
-    echo -e "\nCloning projects in $HOME/Code2/C...\n"
-    cd $HOME/Code2/C || exit
+    print_and_cd_to_dir "$HOME/Code2/C" "Cloning"
     clone_repo_if_missing "ioq3" "https://github.com/ornfelt/ioq3"
     clone_repo_if_missing "picom-animations" "https://github.com/ornfelt/picom-animations"
 
-    echo -e "\nCloning projects in $HOME/Code2/C++...\n"
-    cd "$HOME/Code2/C++" || exit
+    print_and_cd_to_dir "$HOME/Code2/C++" "Cloning"
     clone_repo_if_missing "small_games" "https://github.com/ornfelt/small_games" "linux"
     clone_repo_if_missing "OpenJKDF2" "https://github.com/ornfelt/OpenJKDF2" "linux"
     clone_repo_if_missing "devilutionX" "https://github.com/ornfelt/devilutionX"
@@ -241,6 +247,7 @@ clone_projects() {
     clone_repo_if_missing "dhewm3" "https://github.com/ornfelt/dhewm3"
     clone_repo_if_missing "azerothcore-wotlk" "https://github.com/ornfelt/azerothcore-wotlk"
     clone_repo_if_missing "trinitycore" "https://github.com/ornfelt/TrinityCore" "3.3.5"
+    clone_repo_if_missing "simc" "https://github.com/ornfelt/simc"
     clone_repo_if_missing "stk-code" "https://github.com/ornfelt/stk-code"
     if [ ! -d "stk-assets" ]; then
         svn co https://svn.code.sf.net/p/supertuxkart/code/stk-assets stk-assets
@@ -248,18 +255,26 @@ clone_projects() {
         echo "stk-assets already cloned."
     fi
 
-    echo -e "\nCloning projects in $HOME/Code2/General...\n"
-    cd $HOME/Code2/General || exit
+    print_and_cd_to_dir "$HOME/Code2/General" "Cloning"
     clone_repo_if_missing "Svea-Examples" "https://github.com/ornfelt/Svea-Examples"
     clone_repo_if_missing "1brc" "https://github.com/ornfelt/1brc"
+    if [ -z "$GITHUB_TOKEN" ]; then
+        echo "Error: GITHUB_TOKEN environment variable is not set. Skipping..."
+    else
+        if [ ! -d "$HOME/Code2/General/utils" ]; then
+            git clone https://$GITHUB_TOKEN@github.com/ornfelt/utils
+        else
+            echo "utils already cloned."
+        fi
+    fi
 
-    echo -e "\nCloning projects in $HOME/Code2/Python...\n"
-    cd $HOME/Code2/Python || exit
+    print_and_cd_to_dir "$HOME/Code2/Go" "Cloning"
+    clone_repo_if_missing "wotlk-sim" "https://github.com/ornfelt/wotlk-sim"
+
+    print_and_cd_to_dir "$HOME/Code2/Python" "Cloning"
     clone_repo_if_missing "wander_nodes_util" "https://github.com/ornfelt/wander_nodes_util"
 
-    echo -e "\nCloning projects in $HOME/Code2/Wow/tools...\n"
-    cd $HOME/Code2/Wow/tools || exit
-    clone_repo_if_missing "simc" "https://github.com/ornfelt/simc"
+    print_and_cd_to_dir "$HOME/Code2/Wow/tools" "Cloning"
     clone_repo_if_missing "mpq" "https://github.com/Gophercraft/mpq"
     clone_repo_if_missing "spelunker" "https://github.com/wowserhq/spelunker"
     clone_repo_if_missing "wowser" "https://github.com/ornfelt/wowser"
@@ -298,18 +313,10 @@ install_if_missing() {
         echo "$binary not found, installing..."
         cd $HOME/.config/$directory || exit
         sudo make clean install
-        cd - || exit # Return to the previous directory
+        cd - || exit # Return to previous directory
     else
         echo "$binary exists, skipping installation."
     fi
-}
-
-# Helper functions
-print_and_cd_to_dir() {
-    local dir_path=$1
-
-    echo -e "\nCompiling projects in $dir_path...\n"
-    cd "$dir_path" || exit
 }
 
 check_dir() {
@@ -324,7 +331,6 @@ check_dir() {
         actual_dir_name=$(basename "$path")
         break
     done < <(find . -maxdepth 1 -type d -iname "${dir_name}")
-
     
     if [[ -n "$actual_dir_name" ]]; then
         local target_dir="./${actual_dir_name}/${dir_type}"
@@ -387,7 +393,7 @@ compile_projects() {
     install_if_missing dmenu dmenu
     install_if_missing st st
 
-    print_and_cd_to_dir "$HOME/Code/c"
+    print_and_cd_to_dir "$HOME/Code/c" "Compiling"
 
     #if check_dir "neovim"; then
     #    cd ..
@@ -400,7 +406,7 @@ compile_projects() {
     #fi
 
     # Note: If the shell has issues with '++', you might need to quote or escape it...
-    print_and_cd_to_dir "$HOME/Code/c++"
+    print_and_cd_to_dir "$HOME/Code/c++" "Compiling"
 
     if check_dir "openmw"; then
         # Check MyGUI version
@@ -503,14 +509,14 @@ compile_projects() {
         sudo make install
     fi
 
-    print_and_cd_to_dir "$HOME/Code/js"
+    print_and_cd_to_dir "$HOME/Code/js" "Compiling"
 
     if check_dir "KotOR.js" "node_modules"; then
         npm install
         npm run webpack:dev-watch
     fi
 
-    print_and_cd_to_dir "$HOME/Code/rust"
+    print_and_cd_to_dir "$HOME/Code/rust" "Compiling"
 
     # Only compile if rust version is > 1.7
     rustc_version=$(rustc --version | grep -oP 'rustc \K[^\s]+')
@@ -538,7 +544,7 @@ compile_projects() {
         fi
     fi
 
-    print_and_cd_to_dir "$HOME/Code2/C"
+    print_and_cd_to_dir "$HOME/Code2/C" "Compiling"
 
     if check_dir "ioq3"; then
         make
@@ -551,7 +557,7 @@ compile_projects() {
         ninja -C build
     fi
 
-    print_and_cd_to_dir "$HOME/Code2/C++"
+    print_and_cd_to_dir "$HOME/Code2/C++" "Compiling"
 
     if check_dir "stk-code"; then
         cmake .. -DCMAKE_BUILD_TYPE=Release -DNO_SHADERC=on
@@ -592,6 +598,12 @@ compile_projects() {
         cmake ../ -DCMAKE_INSTALL_PREFIX=$HOME/tcore/ -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DWITH_WARNINGS=1 -DTOOLS_BUILD=all -DSCRIPTS=static -DMODULES=static -DWITH_COREDEBUG=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo
         make -j$(nproc)
         make install
+    fi
+
+    if check_dir "simc"; then
+        cmake ../ -DCMAKE_BUILD_TYPE=Release
+        make -j$(nproc)
+        sudo make install
     fi
 
     echo "--------------------------------------------------------"
@@ -644,13 +656,7 @@ compile_projects() {
         make -j$(nproc)
     fi
 
-    print_and_cd_to_dir "$HOME/Code2/Wow/tools"
-
-    if check_dir "simc"; then
-        cmake ../ -DCMAKE_BUILD_TYPE=Release
-        make -j$(nproc)
-        sudo make install
-    fi
+    print_and_cd_to_dir "$HOME/Code2/Wow/tools" "Compiling"
 
     if check_file "mpq" "gophercraft_mpq_set"; then
         cd mpq
