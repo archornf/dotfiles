@@ -218,13 +218,13 @@ clone_projects() {
     clone_repo_if_missing "JediKnightGalaxies" "https://github.com/JKGDevs/JediKnightGalaxies"
     clone_repo_if_missing "jk2mv" "https://github.com/mvdevs/jk2mv"
     clone_repo_if_missing "Unvanquished" "https://github.com/Unvanquished/Unvanquished"
-    clone_repo_if_missing "reone" "https://github.com/seedhartha/reone"
     clone_repo_if_missing "re3" "https://github.com/halpz/re3"
     if [ ! -d "re3_vice" ]; then
         git clone --recurse-submodules -b miami https://github.com/halpz/re3 re3_vice
     else
         echo "re3_vice already cloned."
     fi
+    clone_repo_if_missing "reone" "https://github.com/seedhartha/reone"
 
     print_and_cd_to_dir "$HOME/Code/js" "Cloning"
 
@@ -240,20 +240,20 @@ clone_projects() {
     clone_repo_if_missing "picom-animations" "https://github.com/ornfelt/picom-animations"
 
     print_and_cd_to_dir "$HOME/Code2/C++" "Cloning"
-    clone_repo_if_missing "small_games" "https://github.com/ornfelt/small_games" "linux"
-    clone_repo_if_missing "OpenJKDF2" "https://github.com/ornfelt/OpenJKDF2" "linux"
-    clone_repo_if_missing "devilutionX" "https://github.com/ornfelt/devilutionX"
-    clone_repo_if_missing "crispy-doom" "https://github.com/ornfelt/crispy-doom"
-    clone_repo_if_missing "dhewm3" "https://github.com/ornfelt/dhewm3"
-    clone_repo_if_missing "azerothcore-wotlk" "https://github.com/ornfelt/azerothcore-wotlk"
-    clone_repo_if_missing "trinitycore" "https://github.com/ornfelt/TrinityCore" "3.3.5"
-    clone_repo_if_missing "simc" "https://github.com/ornfelt/simc"
     clone_repo_if_missing "stk-code" "https://github.com/ornfelt/stk-code"
     if [ ! -d "stk-assets" ]; then
         svn co https://svn.code.sf.net/p/supertuxkart/code/stk-assets stk-assets
     else
         echo "stk-assets already cloned."
     fi
+    clone_repo_if_missing "small_games" "https://github.com/ornfelt/small_games" "linux"
+    clone_repo_if_missing "azerothcore-wotlk" "https://github.com/ornfelt/azerothcore-wotlk"
+    clone_repo_if_missing "trinitycore" "https://github.com/ornfelt/TrinityCore" "3.3.5"
+    clone_repo_if_missing "simc" "https://github.com/ornfelt/simc"
+    clone_repo_if_missing "OpenJKDF2" "https://github.com/ornfelt/OpenJKDF2" "linux"
+    clone_repo_if_missing "devilutionX" "https://github.com/ornfelt/devilutionX"
+    clone_repo_if_missing "crispy-doom" "https://github.com/ornfelt/crispy-doom"
+    clone_repo_if_missing "dhewm3" "https://github.com/ornfelt/dhewm3"
 
     print_and_cd_to_dir "$HOME/Code2/General" "Cloning"
     clone_repo_if_missing "Svea-Examples" "https://github.com/ornfelt/Svea-Examples"
@@ -523,22 +523,22 @@ compile_projects() {
     major_version=$(echo "$rustc_version" | cut -d'.' -f1)
     minor_version=$(echo "$rustc_version" | cut -d'.' -f2)
 
-    if check_dir "swww" "target"; then
-        if [ "$major_version" -gt 1 ] || { [ "$major_version" -eq 1 ] && [ "$minor_version" -gt 7 ]; }; then
-            echo "rustc version is above 1.7"
-            cargo build --release
-            cd ..
-        else
-            echo "rustc version is 1.7 or below. Skipping rust project..."
-        fi
-    fi
-
     if check_dir "eww" "target"; then
         if [ "$major_version" -gt 1 ] || { [ "$major_version" -eq 1 ] && [ "$minor_version" -gt 7 ]; }; then
             echo "rustc version is above 1.7"
             cargo build --release --no-default-features --features x11
             cd target/release
             chmod +x ./eww
+        else
+            echo "rustc version is 1.7 or below. Skipping rust project..."
+        fi
+    fi
+
+    if check_dir "swww" "target"; then
+        if [ "$major_version" -gt 1 ] || { [ "$major_version" -eq 1 ] && [ "$minor_version" -gt 7 ]; }; then
+            echo "rustc version is above 1.7"
+            cargo build --release
+            cd ..
         else
             echo "rustc version is 1.7 or below. Skipping rust project..."
         fi
@@ -680,18 +680,28 @@ compile_projects() {
         cd ../../
     fi
 
+    if check_dir "spelunker" "node_modules"; then
+        npm install
+        cd packages/spelunker-api && npm install && cd -
+        cd packages/spelunker-web && npm install && cd -
+        cd ..
+    fi
+
     if check_dir "wowser" "node_modules"; then
         git checkout minimal
         npm install
+        cd ..
     fi
 
     if check_file "wowmapviewer" "bin/wowmapview"; then
         cd wowmapviewer/src/stormlib && make -f Makefile.linux
         cd .. && make
+        cd ..
     fi
 
     if check_dir "WebWowViewerCpp"; then
         cmake .. && make -j$(nproc)
+        cd ..
     fi
 }
 

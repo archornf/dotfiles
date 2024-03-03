@@ -123,11 +123,9 @@ TODO:
 
 vmangos, cmangos-bots... Copy data from home pc to HDD...
 dbs...
-mkdir ~/Code/js
 
 Fix battery script to show for different batteries and network if no
 battery found?
-
 
 ----------------------------------------------------------------------------------
 cd ~/Documents
@@ -146,6 +144,35 @@ sudo make install
 ----------------------------------------------------------------------------------
 cd ~/Code/c++
 
+******************************************
+Openmw:
+
+git clone https://gitlab.com/OpenMW/openmw
+cd openmw
+If you have mygui 3.4.2, then: git checkout 1c2f92cac9
+If you have mygui 3.4.1, then git checkout abb71eeb
+See mygui version with:
+dpkg -l | grep mygui
+Or:
+apt list --installed | grep mygui
+Or:
+ldconfig -p | grep mygui
+
+mkdir build && cd build 
+cmake .. -DCMAKE_BUILD_TYPE=Release
+make -j$(nproc)
+sudo make install
+Note** If you are having undefined reference errors while compiling, 
+its possible that you have previously installed a different openscenegraph 
+version than what openMW depends on.
+To remove it, you can use:
+#removes just package
+apt-get remove <yourOSGversion>
+#or 
+#removes configurations as well
+apt-get remove --purge <yourOSGversion>
+
+******************************************
 OpenJK:
 
 git clone --recurse-submodules https://github.com/JACoders/OpenJK 
@@ -159,6 +186,8 @@ make -j$(nproc)
 sudo make install
 
 ******************************************
+JediKnightGalaxies & jk2mv:
+
 git clone --recurse-submodules https://github.com/JKGDevs/JediKnightGalaxies
 cd JediKnightGalaxies && mkdir build && cd build
 cmake -DCMAKE_INSTALL_PREFIX=/home/jonas/Downloads/ja_data -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
@@ -191,7 +220,7 @@ https://github.com/Unvanquished/Unvanquished/issues/2739
 https://github.com/Unvanquished/Unvanquished/issues/1015
 
 ******************************************
-Gta:
+GTA / re3:
 
 git clone --recurse-submodules https://github.com/halpz/re3.git
 cd re3
@@ -277,16 +306,11 @@ npm run start
 ----------------------------------------------------------------------------------
 cd ~/Code/rust
 
-eww and swww requires other rust version:
+eww and swww requires other rust version (> 1.7?):
 
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 source "$HOME/.cargo/env"
 rustc --version
-
-swww:
-git clone https://github.com/LGFae/swww
-cd swww
-cargo build --release
 
 Eww:
 git clone https://github.com/elkowar/eww
@@ -296,6 +320,11 @@ cd target/release
 chmod +x ./eww
 ./eww daemon
 ./eww open <window_name>
+
+swww:
+git clone https://github.com/LGFae/swww
+cd swww
+cargo build --release
 
 ----------------------------------------------------------------------------------
 cd ~/Code2/C
@@ -310,6 +339,14 @@ else
     ptype="arm"
     #exit 6
 fi
+
+******************************************
+picom:
+
+git clone recurse-submodules https://github.com/ornfelt/picom-animations
+cd picom-animations
+meson --buildtype=release . build
+ninja -C build
 
 ----------------------------------------------------------------------------------
 cd ~/Code2/C++
@@ -372,24 +409,6 @@ make linux / make linux-release
 #make web / make web-release
 
 ******************************************
-OpenJKDF2:
-
-* Make sure cog package is NOT installed (only pip3 install cogapp)
-sudo apt remove cog
-Make sure that cog is in ~/.local/bin
-git clone --recurse-submodules https://github.com/ornfelt/OpenJKDF2 -b linux
-cd OpenJKDF2
-Add the following to ~/.bashrc (if not added already)
-export PATH=$PATH:~/.local/bin
-then: source ~/.bashrc
-
-export CC=clang
-export CXX=clang++
-./build_linux64.sh
-LD_LIBRARY_PATH=build_linux64 ./build_linux64/openjkdf2
-or just: ./build_linux64/openjkdf2
-
-******************************************
 AzerothCore:
 git clone https://github.com/ornfelt/azerothcore-wotlk
 cd azerothcore-wotlk
@@ -416,32 +435,42 @@ Then login via:
 mysql -u root -p
 
 ******************************************
-Openmw:
+simc:
 
-git clone https://gitlab.com/OpenMW/openmw
-cd openmw
-If you have mygui 3.4.2, then: git checkout 1c2f92cac9
-If you have mygui 3.4.1, then git checkout abb71eeb
-See mygui version with:
-dpkg -l | grep mygui
-Or:
-apt list --installed | grep mygui
-Or:
-ldconfig -p | grep mygui
-
-mkdir build && cd build 
-cmake .. -DCMAKE_BUILD_TYPE=Release
+git clone --recurse-submodules https://github.com/ornfelt/simc --single-branch --depth 1
+cd simc/
+mkdir build && cd build
+cmake ../ -DCMAKE_BUILD_TYPE=Release
 make -j$(nproc)
 sudo make install
-Note** If you are having undefined reference errors while compiling, 
-its possible that you have previously installed a different openscenegraph 
-version than what openMW depends on.
-To remove it, you can use:
-#removes just package
-apt-get remove <yourOSGversion>
-#or 
-#removes configurations as well
-apt-get remove --purge <yourOSGversion>
+
+Or:
+Command Line Interface (classic build):
+cd your_simc_source_dir/engine
+make optimized
+This builds an optimized executable named simc
+Additional options:
+Build with clang: Add CXX=clang++, eg. make optimized CXX=clang++
+Note that if you issue the build with SC_NO_NETWORKING=1, libcurl-dev
+package is not necessary
+
+******************************************
+OpenJKDF2:
+
+* Make sure cog package is NOT installed (only pip3 install cogapp)
+sudo apt remove cog
+Make sure that cog is in ~/.local/bin
+git clone --recurse-submodules https://github.com/ornfelt/OpenJKDF2 -b linux
+cd OpenJKDF2
+Add the following to ~/.bashrc (if not added already)
+export PATH=$PATH:~/.local/bin
+then: source ~/.bashrc
+
+export CC=clang
+export CXX=clang++
+./build_linux64.sh
+LD_LIBRARY_PATH=build_linux64 ./build_linux64/openjkdf2
+or just: ./build_linux64/openjkdf2
 
 ******************************************
 Diablo:
@@ -507,6 +536,18 @@ Replace /path/to/your/doom3/ with the path to your Doom3 installation (that
 contains base/ with pak000.pk4 to pak008.pk4
 
 ----------------------------------------------------------------------------------
+cd ~/Code2/General
+
+git clone --recurse-submodules https://github.com/ornfelt/Svea-Examples
+git clone --recurse-submodules https://github.com/ornfelt/Svea-1brc
+git clone https://$GITHUB_TOKEN@github.com/ornfelt/utils
+
+----------------------------------------------------------------------------------
+cd ~/Code2/Go
+
+git clone --recurse-submodules https://github.com/ornfelt/wotlk-sim
+
+----------------------------------------------------------------------------------
 cd ~/Code2/Python
 
 git clone https://github.com/ornfelt/wander_nodes_util
@@ -514,6 +555,13 @@ git clone https://github.com/ornfelt/wander_nodes_util
 ----------------------------------------------------------------------------------
 cd ~/Code2/Wow/tools
 
+******************************************
+mpq gophercraft:
+
+cd gophercraft_mpq_set
+go build github.com/Gophercraft/mpq/cmd/gophercraft_mpq_set
+
+******************************************
 BLPConverter
 sudo apt-get install cmake git gcc
 git clone git://github.com/ornfelt/BLPConverter.git
@@ -524,6 +572,7 @@ sudo make install
 sudo cp /usr/local/lib/libblp.so /usr/lib/
 sudo ldconfig
 
+******************************************
 Stormlib:
 sudo apt-get install cmake git gcc zlib1g-dev
 git clone git://github.com/ladislav-zezula/StormLib.git
@@ -535,31 +584,8 @@ sudo cp /usr/local/lib/libstorm.so /usr/lib/
 sudo ldconfig
 
 ******************************************
-mpq gophercraft:
+Wowser and spelunker:
 
-cd gophercraft_mpq_set
-go build github.com/Gophercraft/mpq/cmd/gophercraft_mpq_set
-
-******************************************
-simc:
-
-git clone --recurse-submodules https://github.com/ornfelt/simc --single-branch --depth 1
-cd simc/
-mkdir build && cd build
-cmake ../ -DCMAKE_BUILD_TYPE=Release
-make -j$(nproc)
-sudo make install
-
-Or:
-Command Line Interface (classic build)
-    cd your_simc_source_dir/engine
-    make optimized
-    This builds an optimized executable named simc
-    Additional options:
-        Build with clang: Add CXX=clang++, eg. make optimized CXX=clang++
-    Note that if you issue the build with SC_NO_NETWORKING=1, libcurl-dev package is not necessary
-
-******************************************
 git clone --recurse-submodules https://github.com/wowserhq/spelunker
 cd spelunker/packages/spelunker-api && npm install && cd -
 cd spelunker/packages/spelunker-web && npm install && cd -
@@ -605,12 +631,14 @@ To run:
 
 WebWowViewerCpp:
 
-git clone --recurse-submodules https://github.com/Deamon87/WebWowViewerCpp -b raspbian
+git clone --recurse-submodules https://github.com/Deamon87/WebWowViewerCpp -b linux
 cd WebWowViewerCpp
 mkdir build && cd build
 cmake .. && make -j$(nproc)
 
 ----------------------------------------------------------------------------------
+Other stuff:
+
 Greenclip:
 
 wget https://github.com/erebe/greenclip/releases/download/v4.2/greenclip -O ~/.local/bin/greenclip
@@ -765,7 +793,7 @@ ttf-joypixels
 ******************************************
 sudo systemctl enable bluetooth.service
 sudo systemctl enable NetworkManager.service
-More services...
+More services nginx, firewall etc...
 
 ----------------------------------------------------------------------------------
 #sudo apt-get update -y && sudo apt-get upgrade -y
