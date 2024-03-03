@@ -186,7 +186,7 @@ clone_repo_if_missing() {
 # Clone projects (unless they already exist)
 clone_projects() {
 
-    echo -e "\nCloning projects in $HOME/Documents..."
+    echo -e "\nCloning projects in $HOME/Documents...\n"
     if [ -z "$GITHUB_TOKEN" ]; then
         echo "Error: GITHUB_TOKEN environment variable is not set. Skipping..."
     else
@@ -199,11 +199,11 @@ clone_projects() {
         fi
     fi
 
-    echo -e "\nCloning projects in $HOME/Code/c..."
+    echo -e "\nCloning projects in $HOME/Code/c...\n"
     cd $HOME/Code/c || exit
     clone_repo_if_missing "neovim" "https://github.com/neovim/neovim"
 
-    echo -e "\nCloning projects in $HOME/Code/c++..."
+    echo -e "\nCloning projects in $HOME/Code/c++...\n"
     cd "$HOME/Code/c++" || exit
     clone_repo_if_missing "openmw" "https://github.com/OpenMW/openmw"
     clone_repo_if_missing "OpenJK" "https://github.com/JACoders/OpenJK"
@@ -218,21 +218,21 @@ clone_projects() {
         echo "re3_vice already cloned."
     fi
 
-    echo -e "\nCloning projects in $HOME/Code/js..."
+    echo -e "\nCloning projects in $HOME/Code/js...\n"
     cd $HOME/Code/js || exit
     clone_repo_if_missing "KotOR.js" "https://github.com/KobaltBlu/KotOR.js"
 
-    echo -e "\nCloning projects in $HOME/Code/rust..."
+    echo -e "\nCloning projects in $HOME/Code/rust...\n"
     cd $HOME/Code/rust || exit
     clone_repo_if_missing "eww" "https://github.com/elkowar/eww"
     clone_repo_if_missing "swww" "https://github.com/LGFae/swww"
 
-    echo -e "\nCloning projects in $HOME/Code2/C..."
+    echo -e "\nCloning projects in $HOME/Code2/C...\n"
     cd $HOME/Code2/C || exit
     clone_repo_if_missing "ioq3" "https://github.com/ornfelt/ioq3"
     clone_repo_if_missing "picom-animations" "https://github.com/ornfelt/picom-animations"
 
-    echo -e "\nCloning projects in $HOME/Code2/C++..."
+    echo -e "\nCloning projects in $HOME/Code2/C++...\n"
     cd "$HOME/Code2/C++" || exit
     clone_repo_if_missing "small_games" "https://github.com/ornfelt/small_games" "linux"
     clone_repo_if_missing "OpenJKDF2" "https://github.com/ornfelt/OpenJKDF2" "linux"
@@ -248,16 +248,16 @@ clone_projects() {
         echo "stk-assets already cloned."
     fi
 
-    echo -e "\nCloning projects in $HOME/Code2/General..."
+    echo -e "\nCloning projects in $HOME/Code2/General...\n"
     cd $HOME/Code2/General || exit
     clone_repo_if_missing "Svea-Examples" "https://github.com/ornfelt/Svea-Examples"
     clone_repo_if_missing "1brc" "https://github.com/ornfelt/1brc"
 
-    echo -e "\nCloning projects in $HOME/Code2/Python..."
+    echo -e "\nCloning projects in $HOME/Code2/Python...\n"
     cd $HOME/Code2/Python || exit
     clone_repo_if_missing "wander_nodes_util" "https://github.com/ornfelt/wander_nodes_util"
 
-    echo -e "\nCloning projects in $HOME/Code2/Wow/tools..."
+    echo -e "\nCloning projects in $HOME/Code2/Wow/tools...\n"
     cd $HOME/Code2/Wow/tools || exit
     clone_repo_if_missing "simc" "https://github.com/ornfelt/simc"
     clone_repo_if_missing "mpq" "https://github.com/Gophercraft/mpq"
@@ -308,36 +308,72 @@ install_if_missing() {
 print_and_cd_to_dir() {
     local dir_path=$1
 
-    echo -e "\nCompiling projects in $dir_path..."
+    echo -e "\nCompiling projects in $dir_path...\n"
     cd "$dir_path" || exit
 }
 
 check_dir() {
     local dir_name=$1
     local dir_type=${2:-build} # Default to build
-    local target_dir="${dir_name}/${dir_type}"
-
     echo "--------------------------------------------------------"
-    # Check case-insensitively
-    if [ "$(find . -maxdepth 1 -type d -iname "${dir_name}" | wc -l)" -gt 0 ]; then
+    
+    # Capture the actual directory name, preserving its case
+    #local actual_dir_name=$(find . -maxdepth 1 -type d -iname "${dir_name}" -exec basename {} \; | head -n 1)
+    # Use loop instead to get rid of find basename terminated by signal 13...
+    while IFS= read -r path; do
+        actual_dir_name=$(basename "$path")
+        break
+    done < <(find . -maxdepth 1 -type d -iname "${dir_name}")
+
+    
+    if [[ -n "$actual_dir_name" ]]; then
+        local target_dir="./${actual_dir_name}/${dir_type}"
+        
         if [ -d "$target_dir" ]; then
             echo "${target_dir} already compiled."
             return 1 # Return false
         else
-            # Only create and cd into $dir_type if it contains "build"
             if [[ "$dir_type" == *"build"* ]]; then
                 echo "Creating and entering ${target_dir}..."
                 mkdir -p "$target_dir" && cd "$target_dir"
             else
-                echo "Entering ${dir_name}..."
-                cd "$dir_name"
+                echo "Entering ${actual_dir_name}..."
+                cd "./${actual_dir_name}"
             fi
             sleep 1
-            return 0  # Return true
+            return 0 # Return true
         fi
     else
         echo "Directory $dir_name does not exist."
-        return 1  # Return false
+        return 1 # Return false
+    fi
+}
+
+check_file() {
+    local dir_name=$1
+    local file_path=$2
+    echo "--------------------------------------------------------"
+    
+    # Capture the actual directory name, preserving its case
+    #local actual_dir_name=$(find . -maxdepth 1 -type d -iname "$dir_name" -exec basename {} \; | head -n 1)
+    # Use loop instead to get rid of find basename terminated by signal 13...
+    while IFS= read -r path; do
+        actual_dir_name=$(basename "$path")
+        break
+    done < <(find . -maxdepth 1 -type d -iname "${dir_name}")
+
+    local full_file_path="./${actual_dir_name}/${file_path}"
+
+    # Check case-insensitively if the file exists
+    if find "$(dirname "$full_file_path")" -maxdepth 1 -type f -iname "$(basename "$full_file_path")" | grep -iq "$(basename "$full_file_path")$"; then
+    #if [ -f "$full_file_path" ]; then
+        echo "${actual_dir_name} already compiled."
+        return 1 # Return false
+    else
+        echo "File ${full_file_path} does not exist."
+        echo "Entering ${actual_dir_name}..."
+        cd "./${actual_dir_name}"
+        return 0 # Return true
     fi
 }
 
@@ -353,15 +389,15 @@ compile_projects() {
 
     print_and_cd_to_dir "$HOME/Code/c"
 
-    if check_dir "neovim"; then
-        cd ..
-        if dpkg -l | grep -qw "neovim"; then
-            sudo apt remove neovim -y
-        fi
-        git checkout stable
-        make CMAKE_BUILD_TYPE=RelWithDebInfo
-        sudo make install
-    fi
+    #if check_dir "neovim"; then
+    #    cd ..
+    #    if dpkg -l | grep -qw "neovim"; then
+    #        sudo apt remove neovim -y
+    #    fi
+    #    git checkout stable
+    #    make CMAKE_BUILD_TYPE=RelWithDebInfo
+    #    sudo make install
+    #fi
 
     # Note: If the shell has issues with '++', you might need to quote or escape it...
     print_and_cd_to_dir "$HOME/Code/c++"
@@ -398,26 +434,28 @@ compile_projects() {
         cd ...
     fi
 
-    #if check_dir "JediKnightGalaxies"; then
-    #    cmake -DCMAKE_INSTALL_PREFIX=/home/jonas/Downloads/ja_data -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
-    #    make -j$(nproc)
-    #    sudo make install
-    #    cd ...
-    #fi
+    if [[ "$architecture" == arm* ]] || [[ "$architecture" == aarch64* ]]; then
+        if check_dir "JediKnightGalaxies"; then
+            cmake -DCMAKE_INSTALL_PREFIX=/home/jonas/Downloads/ja_data -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
+            make -j$(nproc)
+            sudo make install
+            cd ...
+        fi
 
-    #if check_dir "jk2mv.js" "build_new"; then
-    #    cmake .. CMAKE_BUILD_TYPE=Release
-    #    make -j$(nproc)
-    #    sudo make install
-    #    cd ...
-    #fi
+        if check_dir "jk2mv.js" "build_new"; then
+            cmake .. CMAKE_BUILD_TYPE=Release
+            make -j$(nproc)
+            sudo make install
+            cd ...
+        fi
 
-    #if check_dir "Unvanquished"; then
-    #    cd .. && ./download-paks build/pkg && cd -
-    #    cmake .. -DCMAKE_BUILD_TYPE=Release
-    #    make -j$(nproc)
-    #    cd ...
-    #fi
+        if check_dir "Unvanquished"; then
+            cd .. && ./download-paks build/pkg && cd -
+            cmake .. -DCMAKE_BUILD_TYPE=Release
+            make -j$(nproc)
+            cd ...
+        fi
+    fi
 
     # re3
     if check_dir "re3"; then
@@ -478,21 +516,25 @@ compile_projects() {
     major_version=$(echo "$rustc_version" | cut -d'.' -f1)
     minor_version=$(echo "$rustc_version" | cut -d'.' -f2)
 
-    echo "--------------------------------------------------------"
-    if [ "$major_version" -gt 1 ] || { [ "$major_version" -eq 1 ] && [ "$minor_version" -gt 7 ]; }; then
-        echo "rustc version is above 1.7"
-        if check_dir "swww" "target"; then
+    if check_dir "swww" "target"; then
+        if [ "$major_version" -gt 1 ] || { [ "$major_version" -eq 1 ] && [ "$minor_version" -gt 7 ]; }; then
+            echo "rustc version is above 1.7"
             cargo build --release
             cd ..
+        else
+            echo "rustc version is 1.7 or below. Skipping rust project..."
         fi
+    fi
 
-        if check_dir "eww" "target"; then
+    if check_dir "eww" "target"; then
+        if [ "$major_version" -gt 1 ] || { [ "$major_version" -eq 1 ] && [ "$minor_version" -gt 7 ]; }; then
+            echo "rustc version is above 1.7"
             cargo build --release --no-default-features --features x11
             cd target/release
             chmod +x ./eww
+        else
+            echo "rustc version is 1.7 or below. Skipping rust project..."
         fi
-    else
-        echo "rustc version is 1.6 or below. Skipping rust projects..."
     fi
 
     print_and_cd_to_dir "$HOME/Code2/C"
@@ -517,8 +559,7 @@ compile_projects() {
     fi
 
     # Simply check for Craft binary for this...
-    echo "--------------------------------------------------------"
-    if [ ! -f "small_games/Craft/craft" ]; then
+    if check_file "small_games" "Craft/craft"; then
         cd small_games/BirdGame
         g++ -std=c++17 -g *.cpp -o main -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
         cp -r BirdGame/graphics ./
@@ -538,8 +579,6 @@ compile_projects() {
         cmake ..
         cmake --build .
         cd ...
-    else
-        echo "small_games already compiled."
     fi
 
     if check_dir "azerothcore-wotlk"; then
@@ -548,7 +587,7 @@ compile_projects() {
         make install
     fi
 
-    if check_dir "TrinityCore"; then
+    if check_dir "trinitycore"; then
         cmake ../ -DCMAKE_INSTALL_PREFIX=$HOME/tcore/ -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DWITH_WARNINGS=1 -DTOOLS_BUILD=all -DSCRIPTS=static -DMODULES=static -DWITH_COREDEBUG=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo
         make -j$(nproc)
         make install
@@ -591,15 +630,12 @@ compile_projects() {
         echo "devilutionX already compiled."
     fi
 
-    echo "--------------------------------------------------------"
-    if [ ! -f "crispy-doom/src/crispy-doom" ]; then
+    if check_file "crispy-doom" "src/crispy-doom"; then
         cd crispy-doom
         autoreconf -fiv
         ./configure
         make -j$(nproc)
         cd ..
-    else
-        echo "crispy-doom already compiled."
     fi
 
     if check_dir "dhewm3"; then
@@ -615,13 +651,10 @@ compile_projects() {
         sudo make install
     fi
 
-    echo "--------------------------------------------------------"
-    if [ ! -f "mpq/gophercraft_mpq_set" ]; then
+    if check_file "mpq" "gophercraft_mpq_set"; then
         cd mpq
         go build github.com/Gophercraft/mpq/cmd/gophercraft_mpq_set
         cd ..
-    else
-        echo "mpq already compiled."
     fi
 
     if check_dir "BLPConverter"; then
@@ -645,12 +678,9 @@ compile_projects() {
         npm install
     fi
 
-    echo "--------------------------------------------------------"
-    if [ ! -f "wowmapviewer/bin/wowmapview" ]; then
+    if check_file "wowmapviewer" "bin/wowmapview"; then
         cd wowmapviewer/src/stormlib && make -f Makefile.linux
         cd .. && make
-    else
-        echo "wowmapviewer already compiled."
     fi
 
     if check_dir "WebWowViewerCpp"; then
