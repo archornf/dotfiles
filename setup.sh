@@ -282,9 +282,9 @@ clone_projects() {
     clone_repo_if_missing "WebWoWViewer" "https://github.com/ornfelt/WebWoWViewer"
 
     architecture=$(uname -m)
-    if [[ "$architecture" == arm* ]] || [[ "$architecture" == aarch64* ]]; then
     #if grep -q -i 'raspbian\|raspberry pi os' /etc/os-release; then
-        clone_repo_if_missing "WebWoWViewercpp" "https://github.com/ornfelt/WebWoWViewercpp" "raspbian"
+    if [[ "$architecture" == arm* ]] || [[ "$architecture" == aarch64* ]]; then
+        clone_repo_if_missing "WebWoWViewercpp" "https://github.com/ornfelt/WebWoWViewercpp" "linux"
     else
         clone_repo_if_missing "WebWoWViewercpp" "https://github.com/ornfelt/WebWoWViewercpp" "linux"
     fi
