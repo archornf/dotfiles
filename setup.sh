@@ -434,7 +434,8 @@ compile_projects() {
         cd ...
     fi
 
-    if [[ "$architecture" == arm* ]] || [[ "$architecture" == aarch64* ]]; then
+    # Compile if NOT arm arch
+    if ! [[ "$architecture" == arm* ]] && ! [[ "$architecture" == aarch64* ]]; then
         if check_dir "JediKnightGalaxies"; then
             cmake -DCMAKE_INSTALL_PREFIX=/home/jonas/Downloads/ja_data -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
             make -j$(nproc)
