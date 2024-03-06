@@ -82,3 +82,4 @@ lib32-libpulse
 libcurl-openssl-1.0
 light
 linux
+linux-firmware

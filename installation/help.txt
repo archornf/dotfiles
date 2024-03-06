@@ -818,3 +818,119 @@ sudo make install
 ----------------------------------------------------------------------------------
 scp jonas@raspberrypi:/home/jonas/history /home/jonas/Downloads/rasp_history
 
+----------------------------------------------------------------------------------
+On a system running Debian, you can use the apt-cache search command followed
+by a keyword to search for packages. This command searches the package
+descriptions for the specified keyword.
+
+apt-cache search <keyword>
+
+For example, to search for packages related to "nginx", you would run:
+apt-cache search nginx
+
+Similar to apt-cache search, you can use the apt search command, which also
+searches the package cache:
+apt search <keyword>
+
+This command provides similar functionality but is part of the newer apt tool,
+which provides more user-friendly output.
+
+To search for already installed packages, you can use dpkg -l followed by a
+pattern. This will list all installed packages that match the pattern.
+dpkg -l | grep <keyword>
+
+aptitude is another package manager for Debian that offers a text-based
+graphical user interface for package management, including searching for
+packages.
+aptitude search <keyword>
+
+This command searches for packages similar to apt-cache search and apt search
+but within the aptitude interface, which some users might find more intuitive.
+
+******************************************
+On arch linux you can search with:
+
+The syntax is as follows for searching packages:
+pacman -Ss {pkgNameHere}
+pacman -Ss {keyWordHere}
+pacman --sync --search packageName
+
+For example, search for nmap, type pacman command:
+pacman -Ss nginx
+
+yay -Ss nginx
+
+How to search for a package with pkgfile?
+
+The pkgfile command is nothing but a pacman ‘.files’ metadata explorer. First
+install pkgfile using the following syntax:
+sudo pacman -S pkgfile
+
+Type the following command to update index:
+sudo pkgfile --update
+
+search:
+pkgfile nginx
+
+How do I display files provided by a remote package i.e. uninstalled package?
+pkgfile -l packageName
+
+How do I perform matching with regular expressions?
+pkgfile -r regex
+pkgfile -r php*
+
+----------------------------------------------------------------------------------
+Using ninja:
+cmake -G Ninja ..
+ninja
+
+----------------------------------------------------------------------------------
+To give all permissions to a folder give chmod -R 777:
+
+sudo chmod -R 777 /var/DirectoryName
+
+Below gives all permissions to everybody to all files and subdirectories:
+
+chmod -R a+rwx path
+
+This command displays information about the directory itself (due to the -d
+option), including its permissions:
+ls -ld /home/jonas/Downloads/wow_classic/
+
+The output will look something like this:
+drwxr-xr-x 2 jonas jonas 4096 Oct  1 12:34 /home/jonas/Downloads/wow_classic/
+
+Here, drwxr-xr-x represents the permissions:
+
+d indicates it's a directory.
+The first rwx set shows that the owner (jonas) has read, write, and execute
+permissions.
+The second r-x set shows that the group (also jonas here) has read and execute
+permissions.
+The third r-x set shows that others have read and execute permissions.
+
+To allow all actions (read, write, execute) for all users on the directory
+/home/jonas/Downloads/wow_classic/ and its contents, you can use the chmod
+command with the -R (recursive) option. Be cautious with this, as it can expose
+your data to all users on the system. The command is:
+sudo chmod -R 777 /home/jonas/Downloads/wow_classic/
+
+chmod changes the file mode (permissions).
+-R applies the change recursively to the directory and all its contents.
+777 sets the permissions to read, write, and execute for the owner, group, and
+others.
+/home/jonas/Downloads/wow_classic/ is the path to your directory.
+
+If the issue is not with permissions but rather ownership, you can change the
+owner using the chown command. For example, to change the owner to jonas (both
+user and group), you would use:
+sudo chown -R jonas:jonas /home/jonas/Downloads/wow_classic/
+
+This changes the ownership recursively to the user jonas and the group jonas,
+which, combined with appropriate permissions, might be all that's needed for
+your application.
+
+******************************************
+CMAKE:
+cmake -DCMAKE_BUILD_TYPE=Debug ..
+cmake -DCMAKE_BUILD_TYPE=Release ..

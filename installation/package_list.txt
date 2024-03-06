@@ -138,6 +138,7 @@ rtw89-dkms-git
 rustup
 rxvt-unicode
 scrot
+sdl12-compat
 sdl2_image
 sdl2_mixer
 sdl2_ttf
