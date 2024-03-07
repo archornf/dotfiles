@@ -155,6 +155,8 @@ fi
 
 # Variable to control whether to skip prompts and proceed directly
 justDoIt=false
+# Variable to control whether to only inform about missing repos / builds
+justInform=true
 
 # Helper function
 print_and_cd_to_dir() {
@@ -178,6 +180,10 @@ clone_repo_if_missing() {
         echo "$repo_dir already cloned."
         return 0
     else
+        if $justInform; then
+            echo "$repo_dir NOT cloned."
+            return 0
+        fi
         echo "Cloning $repo_dir from $repo_url"
         # Clone based on specific cases
         local clone_cmd="git clone --recurse-submodules"
@@ -202,7 +208,11 @@ clone_projects() {
         echo "Error: GITHUB_TOKEN environment variable is not set. Skipping..."
     else
         if [ ! -d "$HOME/Documents/my_notes" ]; then
-            git clone https://$GITHUB_TOKEN@github.com/archornf/my_notes
+            if $justInform; then
+                echo "$repo_dir NOT cloned."
+            else
+                git clone https://$GITHUB_TOKEN@github.com/archornf/my_notes
+            fi
         else
             echo "my_notes already cloned."
         fi
@@ -221,7 +231,11 @@ clone_projects() {
     clone_repo_if_missing "reone" "https://github.com/seedhartha/reone"
     clone_repo_if_missing "re3" "https://github.com/halpz/re3"
     if [ ! -d "re3_vice" ]; then
-        git clone --recurse-submodules -b miami https://github.com/halpz/re3 re3_vice
+        if $justInform; then
+            echo "$repo_dir NOT cloned."
+        else
+            git clone --recurse-submodules -b miami https://github.com/halpz/re3 re3_vice
+        fi
     else
         echo "re3_vice already cloned."
     fi
@@ -250,7 +264,11 @@ clone_projects() {
     clone_repo_if_missing "simc" "https://github.com/ornfelt/simc"
     clone_repo_if_missing "stk-code" "https://github.com/ornfelt/stk-code"
     if [ ! -d "stk-assets" ]; then
-        svn co https://svn.code.sf.net/p/supertuxkart/code/stk-assets stk-assets
+        if $justInform; then
+            echo "$repo_dir NOT cloned."
+        else
+            svn co https://svn.code.sf.net/p/supertuxkart/code/stk-assets stk-assets
+        fi
     else
         echo "stk-assets already cloned."
     fi
@@ -262,7 +280,11 @@ clone_projects() {
         echo "Error: GITHUB_TOKEN environment variable is not set. Skipping..."
     else
         if [ ! -d "$HOME/Code2/General/utils" ]; then
-            git clone https://$GITHUB_TOKEN@github.com/ornfelt/utils
+            if $justInform; then
+                echo "$repo_dir NOT cloned."
+            else
+                git clone https://$GITHUB_TOKEN@github.com/ornfelt/utils
+            fi
         else
             echo "utils already cloned."
         fi
@@ -293,7 +315,11 @@ clone_projects() {
 if $justDoIt; then
     clone_projects
 else
-    echo -e "\nDo you want to proceed with cloning projects? (yes/y)"
+    if $justInform; then
+        echo -e "\nDo you want to check cloned projects? (yes/y)"
+    else
+        echo -e "\nDo you want to proceed with cloning projects? (yes/y)"
+    fi
     read answer
     # To lowercase using awk
     answer=$(echo $answer | awk '{print tolower($0)}')
@@ -310,7 +336,11 @@ install_if_missing() {
 
     echo "--------------------------------------------------------"
     if ! command -v $binary &> /dev/null; then
-        echo "$binary not found, installing..."
+        echo "$binary NOT found..."
+        if $justInform; then
+            return 0
+        fi
+        echo "installing: $binary"
         cd $HOME/.config/$directory || exit
         sudo make clean install
         cd - || exit # Return to previous directory
@@ -334,20 +364,42 @@ check_dir() {
     
     if [[ -n "$actual_dir_name" ]]; then
         local target_dir="./${actual_dir_name}/${dir_type}"
-        
-        if [ -d "$target_dir" ]; then
-            echo "${target_dir} already compiled."
-            return 1 # Return false
-        else
-            if [[ "$dir_type" == *"build"* ]]; then
+
+        # Check if the directory exists based on the dir_type pattern
+        if [[ "$dir_type" == "build*" ]]; then
+            # Use find and grep to check for the existence of matching directories
+            if find "./${actual_dir_name}" -maxdepth 1 -type d -name "${dir_type}" | grep -q .; then
+                echo "${target_dir} already compiled."
+                return 1 # Return false
+            else
+                if $justInform; then
+                    echo "${target_dir} NOT compiled."
+                    return 1
+                fi
                 echo "Creating and entering ${target_dir}..."
                 mkdir -p "$target_dir" && cd "$target_dir"
-            else
-                echo "Entering ${actual_dir_name}..."
-                cd "./${actual_dir_name}"
+                sleep 1
+                return 0 # Return true
             fi
-            sleep 1
-            return 0 # Return true
+        else
+            if [ -d "$target_dir" ]; then
+                echo "${target_dir} already compiled."
+                return 1 # Return false
+            else
+                if $justInform; then
+                    echo "${target_dir} NOT compiled."
+                    return 1
+                fi
+                if [[ "$dir_type" == *"build"* ]]; then
+                    echo "Creating and entering ${target_dir}..."
+                    mkdir -p "$target_dir" && cd "$target_dir"
+                else
+                    echo "Entering ${actual_dir_name}..."
+                    cd "./${actual_dir_name}"
+                fi
+                sleep 1
+                return 0 # Return true
+            fi
         fi
     else
         echo "Directory $dir_name does not exist."
@@ -370,13 +422,17 @@ check_file() {
 
     local full_file_path="./${actual_dir_name}/${file_path}"
 
-    # Check case-insensitively if the file exists
-    if find "$(dirname "$full_file_path")" -maxdepth 1 -type f -iname "$(basename "$full_file_path")" | grep -iq "$(basename "$full_file_path")$"; then
     #if [ -f "$full_file_path" ]; then
-        echo "${actual_dir_name} already compiled."
+    # Check case-insensitively if the file exists
+    if find "$(dirname "$full_file_path")" -maxdepth 1 -type f -iname "$(basename "$full_file_path")" 2>/dev/null | grep -iq "$(basename "$full_file_path")$" >/dev/null 2>&1; then
+        echo "${dir_name} already compiled."
         return 1 # Return false
     else
-        echo "File ${full_file_path} does not exist."
+        echo "File ${file_path} in ${dir_name} does not exist."
+        if $justInform; then
+            echo "${dir_name} NOT compiled."
+            return 1
+        fi
         echo "Entering ${actual_dir_name}..."
         cd "./${actual_dir_name}"
         return 0 # Return true
@@ -386,6 +442,7 @@ check_file() {
 # Compile projects (unless already done)
 compile_projects() {
     architecture=$(uname -m)
+    echo -e "Identified architecture: $architecture\n"
 
     echo "Compiling projects in $HOME/.config..."
     install_if_missing dwm dwm
@@ -395,15 +452,16 @@ compile_projects() {
 
     print_and_cd_to_dir "$HOME/Code/c" "Compiling"
 
-    #if check_dir "neovim"; then
-    #    cd ..
-    #    if dpkg -l | grep -qw "neovim"; then
-    #        sudo apt remove neovim -y
-    #    fi
-    #    git checkout stable
-    #    make CMAKE_BUILD_TYPE=RelWithDebInfo
-    #    sudo make install
-    #fi
+    if check_dir "neovim"; then
+        cd ..
+        #if dpkg -l | grep -qw "neovim"; then
+        #    sudo apt remove neovim -y
+        #fi
+        #git checkout stable
+        #make CMAKE_BUILD_TYPE=RelWithDebInfo
+        #sudo make install
+        cd ..
+    fi
 
     # Note: If the shell has issues with '++', you might need to quote or escape it...
     print_and_cd_to_dir "$HOME/Code/c++" "Compiling"
@@ -504,9 +562,11 @@ compile_projects() {
     fi
 
     if check_dir "reone"; then
+        cd ..
         cmake -B build -S . -DCMAKE_BUILD_TYPE=RelWithDebInfo
-        cd build make -j$(nproc)
+        cd build && make -j$(nproc)
         sudo make install
+        cd ...
     fi
 
     print_and_cd_to_dir "$HOME/Code/js" "Compiling"
@@ -514,6 +574,7 @@ compile_projects() {
     if check_dir "KotOR.js" "node_modules"; then
         npm install
         npm run webpack:dev-watch
+        cd ..
     fi
 
     print_and_cd_to_dir "$HOME/Code/rust" "Compiling"
@@ -539,6 +600,7 @@ compile_projects() {
             cargo build --release --no-default-features --features x11
             cd target/release
             chmod +x ./eww
+            cd ../../..
         else
             echo "rustc version is 1.7 or below. Skipping rust project..."
         fi
@@ -555,6 +617,7 @@ compile_projects() {
         cd ..
         meson --buildtype=release . build
         ninja -C build
+        cd ..
     fi
 
     print_and_cd_to_dir "$HOME/Code2/C++" "Compiling"
@@ -592,34 +655,31 @@ compile_projects() {
         cmake ../ -DCMAKE_INSTALL_PREFIX=$HOME/acore/ -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DWITH_WARNINGS=1 -DTOOLS_BUILD=all -DSCRIPTS=static -DMODULES=static -DWITH_COREDEBUG=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo
         make -j$(nproc)
         make install
+        cd ...
     fi
 
     if check_dir "trinitycore"; then
         cmake ../ -DCMAKE_INSTALL_PREFIX=$HOME/tcore/ -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DWITH_WARNINGS=1 -DTOOLS_BUILD=all -DSCRIPTS=static -DMODULES=static -DWITH_COREDEBUG=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo
         make -j$(nproc)
         make install
+        cd ...
     fi
 
     if check_dir "simc"; then
         cmake ../ -DCMAKE_BUILD_TYPE=Release
         make -j$(nproc)
         sudo make install
+        cd ...
     fi
 
-    echo "--------------------------------------------------------"
-    if ! find ./OpenJKDF2 -maxdepth 1 -type d -name "build*" | grep -q .; then
-        cd OpenJKDF2
+    if check_dir "OpenJKDF2" "build*"; then
         export CC=clang
         export CXX=clang++
         ./build_linux64.sh
         cd ..
-    else
-        echo "OpenJKDF2 already compiled."
     fi
 
-    echo "--------------------------------------------------------"
-    if ! find ./devilutionX -maxdepth 1 -type d -name "build*" | grep -q .; then
-        cd devilutionX
+    if check_dir "devilutionX" "build*"; then
         if grep -qEi 'debian|raspbian' /etc/os-release; then
             echo "Running on Debian or Raspbian. Installing smpq package from tools script."
             sudo apt remove smpq -y
@@ -639,8 +699,6 @@ compile_projects() {
             cmake --build build -j $(getconf _NPROCESSORS_ONLN)
         fi
         cd ..
-    else
-        echo "devilutionX already compiled."
     fi
 
     if check_file "crispy-doom" "src/crispy-doom"; then
@@ -654,6 +712,7 @@ compile_projects() {
     if check_dir "dhewm3"; then
         cmake ../neo/
         make -j$(nproc)
+        cd ..
     fi
 
     print_and_cd_to_dir "$HOME/Code2/Wow/tools" "Compiling"
@@ -683,22 +742,31 @@ compile_projects() {
     if check_dir "wowser" "node_modules"; then
         git checkout minimal
         npm install
+        cd ..
     fi
 
     if check_file "wowmapviewer" "bin/wowmapview"; then
         cd wowmapviewer/src/stormlib && make -f Makefile.linux
         cd .. && make
+        cd ..
     fi
 
     if check_dir "WebWowViewerCpp"; then
         cmake .. && make -j$(nproc)
+        cd ..
     fi
+
+    cd "$original_dir"
 }
 
 if $justDoIt; then
     compile_projects
 else
-    echo -e "\nDo you want to proceed with compiling projects? (yes/y)"
+    if $justInform; then
+        echo -e "\nDo you want to check compiled projects? (yes/y)"
+    else
+        echo -e "\nDo you want to proceed with compiling projects? (yes/y)"
+    fi
     read answer
     # To lowercase using awk
     answer=$(echo $answer | awk '{print tolower($0)}')
@@ -708,19 +776,72 @@ else
     fi
 fi
 
+check_pip_packages() {
+    requirements_path="$HOME/Documents/installation/requirements.txt"
+
+    # Extract package names from requirements.txt, ignoring versions
+    requirements_packages=$(cut -d'=' -f1 < "$requirements_path")
+
+    # Extract installed packages names, ignoring versions
+    installed_packages=$(pip freeze | cut -d'=' -f1)
+
+    # Convert to arrays (assuming Bash 4+ for associative array support)
+    declare -A reqs
+    declare -A installed
+
+    # Populate arrays
+    for pkg in $requirements_packages; do reqs["$pkg"]=1; done
+    for pkg in $installed_packages; do installed["$pkg"]=1; done
+
+    # Compare: Find packages in requirements.txt not installed
+    echo -e "\nPackages in requirements.txt but not installed:\n"
+    for pkg in "${!reqs[@]}"; do
+        if [[ ! ${installed["$pkg"]} ]]; then
+            echo "$pkg"
+        fi
+    done
+
+    # Compare: Find installed packages not in requirements.txt
+    echo -e "\nInstalled packages not in requirements.txt:\n"
+    for pkg in "${!installed[@]}"; do
+        if [[ ! ${reqs["$pkg"]} ]]; then
+            echo "$pkg"
+        fi
+    done
+}
+
+install_pip_packages() {
+    #pip3 install -r $HOME/Documents/installation/requirements.txt
+    requirements_path="$HOME/Documents/installation/requirements.txt"
+
+    # Read each line in requirements.txt, remove version specifications, and install
+    while read -r package || [[ -n $package ]]; do
+        package_name=$(echo "$package" | cut -d'=' -f1)
+        pip3 install "$package_name"
+    done < "$requirements_path"
+}
+
 # Install python packages
 if $justDoIt; then
     echo "Installing python packages..."
-    pip3 install -r $HOME/Documents/installation/requirements.txt
+    install_pip_packages
 else
-    echo -e "\nDo you want to install python packages? (yes/y)"
+    if $justInform; then
+        echo -e "\nDo you want to check python packages? (yes/y)"
+    else
+        echo -e "\nDo you want to install python packages? (yes/y)"
+    fi
     read answer
     # To lowercase using awk
     answer=$(echo $answer | awk '{print tolower($0)}')
 
     if [[ "$answer" == "yes" ]] || [[ "$answer" == "y" ]]; then
-        echo "Installing python packages..."
-        pip3 install -r $HOME/Documents/installation/requirements.txt
+        if $justInform; then
+            check_pip_packages
+        else
+            echo "Installing python packages..."
+            install_pip_packages
+        fi
     fi
 fi
 
