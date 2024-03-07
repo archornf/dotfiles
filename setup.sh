@@ -175,6 +175,13 @@ clone_repo_if_missing() {
     local parent_dir="."
 
     echo "--------------------------------------------------------"
+    if [[ "${repo_dir,,}" == "my_notes" || "${repo_dir,,}" == "utils" ]]; then
+        if [ -z "$GITHUB_TOKEN" ]; then
+            echo "Error: GITHUB_TOKEN environment variable is not set. Skipping $repo_dir..."
+            return 1
+        fi
+    fi
+
     # Case insensitive check
     if find "$parent_dir" -maxdepth 1 -type d -iname "$(basename "$repo_dir")" | grep -iq "$(basename "$repo_dir")$"; then
         echo "$repo_dir already cloned."
@@ -185,14 +192,22 @@ clone_repo_if_missing() {
             return 0
         fi
         echo "Cloning $repo_dir from $repo_url"
+
         # Clone based on specific cases
         local clone_cmd="git clone --recurse-submodules"
+
         if [[ "${repo_dir,,}" == "trinitycore" || "${repo_dir,,}" == "simc" ]]; then
             clone_cmd="$clone_cmd --single-branch --depth 1"
         fi
+
         if [ -n "$branch" ]; then
             clone_cmd="$clone_cmd -b $branch"
         fi
+
+        if [[ "${repo_dir,,}" == "my_notes" || "${repo_dir,,}" == "utils" ]]; then
+            repo_url="${repo_url/https:\/\//https:\/\/$GITHUB_TOKEN@}"
+        fi
+
         clone_cmd="$clone_cmd $repo_url $repo_dir"
         eval "$clone_cmd"
         return $?
@@ -203,20 +218,7 @@ clone_repo_if_missing() {
 clone_projects() {
 
     print_and_cd_to_dir "$HOME/Documents" "Cloning"
-
-    if [ -z "$GITHUB_TOKEN" ]; then
-        echo "Error: GITHUB_TOKEN environment variable is not set. Skipping..."
-    else
-        if [ ! -d "$HOME/Documents/my_notes" ]; then
-            if $justInform; then
-                echo "$repo_dir NOT cloned."
-            else
-                git clone https://$GITHUB_TOKEN@github.com/archornf/my_notes
-            fi
-        else
-            echo "my_notes already cloned."
-        fi
-    fi
+    clone_repo_if_missing "my_notes" "https://github.com/archornf/my_notes"
 
     print_and_cd_to_dir "$HOME/Code/c" "Cloning"
     clone_repo_if_missing "neovim" "https://github.com/neovim/neovim"
@@ -229,23 +231,13 @@ clone_projects() {
     clone_repo_if_missing "jk2mv" "https://github.com/mvdevs/jk2mv"
     clone_repo_if_missing "Unvanquished" "https://github.com/Unvanquished/Unvanquished"
     clone_repo_if_missing "re3" "https://github.com/halpz/re3"
-    if [ ! -d "re3_vice" ]; then
-        if $justInform; then
-            echo "$repo_dir NOT cloned."
-        else
-            git clone --recurse-submodules -b miami https://github.com/halpz/re3 re3_vice
-        fi
-    else
-        echo "re3_vice already cloned."
-    fi
+    clone_repo_if_missing "re3_vice" "https://github.com/halpz/re3" "miami"
     clone_repo_if_missing "reone" "https://github.com/seedhartha/reone"
 
     print_and_cd_to_dir "$HOME/Code/js" "Cloning"
-
     clone_repo_if_missing "KotOR.js" "https://github.com/KobaltBlu/KotOR.js"
 
     print_and_cd_to_dir "$HOME/Code/rust" "Cloning"
-
     clone_repo_if_missing "eww" "https://github.com/elkowar/eww"
     clone_repo_if_missing "swww" "https://github.com/LGFae/swww"
 
@@ -276,19 +268,7 @@ clone_projects() {
     print_and_cd_to_dir "$HOME/Code2/General" "Cloning"
     clone_repo_if_missing "Svea-Examples" "https://github.com/ornfelt/Svea-Examples"
     clone_repo_if_missing "1brc" "https://github.com/ornfelt/1brc"
-    if [ -z "$GITHUB_TOKEN" ]; then
-        echo "Error: GITHUB_TOKEN environment variable is not set. Skipping..."
-    else
-        if [ ! -d "$HOME/Code2/General/utils" ]; then
-            if $justInform; then
-                echo "$repo_dir NOT cloned."
-            else
-                git clone https://$GITHUB_TOKEN@github.com/ornfelt/utils
-            fi
-        else
-            echo "utils already cloned."
-        fi
-    fi
+    clone_repo_if_missing "utils" "https://github.com/ornfelt/utils"
 
     print_and_cd_to_dir "$HOME/Code2/Go" "Cloning"
     clone_repo_if_missing "wotlk-sim" "https://github.com/ornfelt/wotlk-sim"
