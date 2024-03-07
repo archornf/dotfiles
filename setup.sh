@@ -228,7 +228,6 @@ clone_projects() {
     clone_repo_if_missing "JediKnightGalaxies" "https://github.com/JKGDevs/JediKnightGalaxies"
     clone_repo_if_missing "jk2mv" "https://github.com/mvdevs/jk2mv"
     clone_repo_if_missing "Unvanquished" "https://github.com/Unvanquished/Unvanquished"
-    clone_repo_if_missing "reone" "https://github.com/seedhartha/reone"
     clone_repo_if_missing "re3" "https://github.com/halpz/re3"
     if [ ! -d "re3_vice" ]; then
         if $justInform; then
@@ -239,6 +238,7 @@ clone_projects() {
     else
         echo "re3_vice already cloned."
     fi
+    clone_repo_if_missing "reone" "https://github.com/seedhartha/reone"
 
     print_and_cd_to_dir "$HOME/Code/js" "Cloning"
 
@@ -254,14 +254,6 @@ clone_projects() {
     clone_repo_if_missing "picom-animations" "https://github.com/ornfelt/picom-animations"
 
     print_and_cd_to_dir "$HOME/Code2/C++" "Cloning"
-    clone_repo_if_missing "small_games" "https://github.com/ornfelt/small_games" "linux"
-    clone_repo_if_missing "OpenJKDF2" "https://github.com/ornfelt/OpenJKDF2" "linux"
-    clone_repo_if_missing "devilutionX" "https://github.com/ornfelt/devilutionX"
-    clone_repo_if_missing "crispy-doom" "https://github.com/ornfelt/crispy-doom"
-    clone_repo_if_missing "dhewm3" "https://github.com/ornfelt/dhewm3"
-    clone_repo_if_missing "azerothcore-wotlk" "https://github.com/ornfelt/azerothcore-wotlk"
-    clone_repo_if_missing "trinitycore" "https://github.com/ornfelt/TrinityCore" "3.3.5"
-    clone_repo_if_missing "simc" "https://github.com/ornfelt/simc"
     clone_repo_if_missing "stk-code" "https://github.com/ornfelt/stk-code"
     if [ ! -d "stk-assets" ]; then
         if $justInform; then
@@ -272,6 +264,14 @@ clone_projects() {
     else
         echo "stk-assets already cloned."
     fi
+    clone_repo_if_missing "small_games" "https://github.com/ornfelt/small_games" "linux"
+    clone_repo_if_missing "azerothcore-wotlk" "https://github.com/ornfelt/azerothcore-wotlk"
+    clone_repo_if_missing "trinitycore" "https://github.com/ornfelt/TrinityCore" "3.3.5"
+    clone_repo_if_missing "simc" "https://github.com/ornfelt/simc"
+    clone_repo_if_missing "OpenJKDF2" "https://github.com/ornfelt/OpenJKDF2" "linux"
+    clone_repo_if_missing "devilutionX" "https://github.com/ornfelt/devilutionX"
+    clone_repo_if_missing "crispy-doom" "https://github.com/ornfelt/crispy-doom"
+    clone_repo_if_missing "dhewm3" "https://github.com/ornfelt/dhewm3"
 
     print_and_cd_to_dir "$HOME/Code2/General" "Cloning"
     clone_repo_if_missing "Svea-Examples" "https://github.com/ornfelt/Svea-Examples"
@@ -304,9 +304,9 @@ clone_projects() {
     clone_repo_if_missing "WebWoWViewer" "https://github.com/ornfelt/WebWoWViewer"
 
     architecture=$(uname -m)
-    if [[ "$architecture" == arm* ]] || [[ "$architecture" == aarch64* ]]; then
     #if grep -q -i 'raspbian\|raspberry pi os' /etc/os-release; then
-        clone_repo_if_missing "WebWoWViewercpp" "https://github.com/ornfelt/WebWoWViewercpp" "raspbian"
+    if [[ "$architecture" == arm* ]] || [[ "$architecture" == aarch64* ]]; then
+        clone_repo_if_missing "WebWoWViewercpp" "https://github.com/ornfelt/WebWoWViewercpp" "linux"
     else
         clone_repo_if_missing "WebWoWViewercpp" "https://github.com/ornfelt/WebWoWViewercpp" "linux"
     fi
@@ -584,16 +584,6 @@ compile_projects() {
     major_version=$(echo "$rustc_version" | cut -d'.' -f1)
     minor_version=$(echo "$rustc_version" | cut -d'.' -f2)
 
-    if check_dir "swww" "target"; then
-        if [ "$major_version" -gt 1 ] || { [ "$major_version" -eq 1 ] && [ "$minor_version" -gt 7 ]; }; then
-            echo "rustc version is above 1.7"
-            cargo build --release
-            cd ..
-        else
-            echo "rustc version is 1.7 or below. Skipping rust project..."
-        fi
-    fi
-
     if check_dir "eww" "target"; then
         if [ "$major_version" -gt 1 ] || { [ "$major_version" -eq 1 ] && [ "$minor_version" -gt 7 ]; }; then
             echo "rustc version is above 1.7"
@@ -601,6 +591,16 @@ compile_projects() {
             cd target/release
             chmod +x ./eww
             cd ../../..
+        else
+            echo "rustc version is 1.7 or below. Skipping rust project..."
+        fi
+    fi
+
+    if check_dir "swww" "target"; then
+        if [ "$major_version" -gt 1 ] || { [ "$major_version" -eq 1 ] && [ "$minor_version" -gt 7 ]; }; then
+            echo "rustc version is above 1.7"
+            cargo build --release
+            cd ..
         else
             echo "rustc version is 1.7 or below. Skipping rust project..."
         fi
@@ -737,6 +737,13 @@ compile_projects() {
         sudo cp /usr/local/lib/libstorm.so /usr/lib/
         sudo ldconfig
         cd ../../
+    fi
+
+    if check_dir "spelunker" "node_modules"; then
+        npm install
+        cd packages/spelunker-api && npm install && cd -
+        cd packages/spelunker-web && npm install && cd -
+        cd ..
     fi
 
     if check_dir "wowser" "node_modules"; then
