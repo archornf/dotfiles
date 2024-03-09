@@ -187,7 +187,6 @@ sudo -Scc will clean pacman cache also
 GIT:
 
 git clone https://scuzzlebuzzle:<MYTOKEN>@github.com/scuzzlebuzzle/ol3-1.git --branch=gh-pages gh-pages
-git clone https://archornf:<MYTOKEN>@github.com/archornf/progrm_help_docs.git
 
 # After cloning
 cd gh-pages
@@ -204,9 +203,6 @@ git diff file
 Add files at patch level: git add -p file
 Then you can say y to one change and n to another that isn't part of the same topic...
 for example: some changes in index.html will be staged for first commit and other changes can be staged for commit later...
-
-X5JHFXWJ4OTINV2B
-export ALPHAVANTAGE_API_KEY=X5JHFXWJ4OTINV2B
 
 vmornf@gmail.com
 vmornf @ github
@@ -506,6 +502,10 @@ ls /usr/lib | grep -in mygui > test2.txt
 
 See pacman install paths:
 pacman -Ql mygui
+
+Copy files or working directory:
+ls -a | xclip -selection clipboard
+pwd | xclip -selection clipboard
 
 ----------------------------------------------------------------------------------
 SSH:
@@ -934,3 +934,62 @@ your application.
 CMAKE:
 cmake -DCMAKE_BUILD_TYPE=Debug ..
 cmake -DCMAKE_BUILD_TYPE=Release ..
+
+******************************************
+ps aux | grep openjk
+
+kill -9 1396473
+killall -9 chrome
+
+To get all process IDs by name:
+pgrep process_name
+
+To kill all processes by name:
+pkill process_name
+
+To get all process IDs by name and kill them:
+ps aux | grep process_name | grep -v grep | awk '{print $2}' | xargs kill
+
+ps aux lists all running processes.
+grep process_name filters processes by name. Replace process_name with the
+actual name of the process you're targeting.
+grep -v grep excludes the grep command itself from the results (since it will
+also appear in the list, matching the search term).
+awk '{print $2}' extracts the second column, which is the PID.
+xargs kill passes the PIDs to the kill command, which terminates the
+processes.
+
+If you need to force kill the processes (if they don't terminate gracefully
+with SIGTERM), you can use kill -9 instead of kill:
+ps aux | grep process_name | grep -v grep | awk '{print $2}' | xargs kill -9
+
+******************************************
+OpeneJK:
+
+sed -i '/option(BuildJK2SPEngine /s/OFF)/ON)/; /option(BuildJK2SPGame /s/OFF)/ON)/; /option(BuildJK2SPRdVanilla /s/OFF)/ON)/' ../CMakeLists.txt
+cmake -DCMAKE_INSTALL_PREFIX=/home/jonas/.local/share/openjk -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
+make -j$(nproc)
+sudo make install
+
+To recompile:
+cmake .. && make -j$(nproc)
+Or just: sudo make install
+
+Commands:
+https://jkhub.org/tutorials/console-commands-cvars/all-console-commands-cheats-r15/
+https://jkhub.org/files/file/602-yoda-vm/
+
+Notes on modelscale:
+https://jkhub.org/forums/topic/7522-modelscales/
+
+For jk2mv, place pk3s in ~/.jk2mv and run with:
+jk2mvmp
+
+JediOutcast files needs to be in both dirs like:
+sudo cp -r /home/jonas/.jk2mv/base /home/jonas/.local/share/openjk/JediOutcast/
+
+JediAcademy files in:
+/home/jonas/.local/share/openjk/base
+or:
+/home/jonas/.local/share/openjk/JediAcademy/base
+
