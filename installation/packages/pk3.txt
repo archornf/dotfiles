@@ -1,4 +1,3 @@
-luarocks
 lxappearance
 lxde
 lxtask
@@ -17,11 +16,13 @@ mesa-va-drivers
 meson
 mkvtoolnix
 mono-complete
+monodoc-gtk2.0-manual
 mount
 mousepad
 mpv-mpris
 mpv
 mtools
+mysql-apt-config
 nano
 nasm
 ncdu
@@ -50,6 +51,7 @@ openssl
 optipng
 p7zip-full
 p7zip
+packages-microsoft-prod
 pamix
 pamixer
 parted
@@ -83,6 +85,7 @@ psmisc
 pulseaudio
 python-is-python3
 python3-bs4
+python3-certbot-nginx
 python3-flask
 python3-gpiozero
 python3-jinja2
@@ -105,10 +108,8 @@ python3-twython
 python3-venv
 python3-yaml
 python3
-qmake6
 qrencode
 qt5-style-kvantum
-qt6-base-dev-tools
 qt6-base-dev
 qt6ct
 qtwebengine5-dev
@@ -116,6 +117,7 @@ ranger
 raspberrypi-archive-keyring
 raspberrypi-net-mods
 raspberrypi-sys-mods
+raspberrypi-ui-mods
 raspi-config
 raspi-firmware
 raspi-gpio
@@ -127,8 +129,11 @@ rfkill
 rofi
 rp-prefapps
 rpi-eeprom
+rpi-firefox-mods
+rpi-imager
 rpi-update
 rsync
+rustc
 rustfmt
 rxvt-unicode
 scdoc
@@ -141,7 +146,6 @@ sense-hat
 sensible-utils
 silversearcher-ag
 slurp
-smpq
 software-properties-common
 speedtest-cli
 ssh-import-id
@@ -176,6 +180,8 @@ udev
 udisks2
 ueberzug
 ufw
+uim-gtk2.0-immodule
+uim-gtk2.0
 unshield
 unzip
 usb-modeswitch
@@ -217,10 +223,7 @@ xinput
 xorg-dev
 xorg
 xsel
-xserver-xorg-input-all
-xserver-xorg-input-libinput
 xserver-xorg-input-synaptics
-xserver-xorg-video-all
 xserver-xorg-video-vesa
 xserver-xorg
 xwayland

@@ -27,10 +27,12 @@ btop
 build-essential
 ca-certificates
 cabal-install
+cargo
 cava
+certbot
 chafa
 checkinstall
-chromium-browser
+chromium
 cifs-utils
 clang
 cmake-extras
@@ -145,6 +147,8 @@ gstreamer1.0-plugins-good
 gstreamer1.0-x
 gtk2-engines-murrine
 gtk2-engines
+gtk2.0-examples-dbgsym
+gtk2.0-examples
 gvfs-backends
 gvfs-fuse
 gvfs
@@ -234,3 +238,4 @@ libevdev-dev
 libext2fs2
 libfdisk1
 libffi8
+libfile-find-rule-perl

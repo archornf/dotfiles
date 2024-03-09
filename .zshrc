@@ -99,7 +99,7 @@ source $ZSH/oh-my-zsh.sh
 # fi
 
 # Compilation flags
-# export ARCHFLAGS="-arch x86_64"
+# export ARCHFLAGS="-arch arm64"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -145,7 +145,12 @@ alias .docs='cd ~/Documents; ls'
 alias .down='cd ~/Downloads; ls'
 alias .dots='cd ~/Downloads/dotfiles; ls'
 alias .ioq3='/home/jonas/Code2/C/ioq3/build/release-linux-arm64/ioquake3.arm64 +set sv_pure 0 +set vm_game 0 +set vm_cgame 0 +set vm_ui 0'
+alias .ioq32='/home/jonas/Code2/C/ioq3/build/release-linux-arm64_golden/ioquake3.arm64 +set sv_pure 0 +set vm_game 0 +set vm_cgame 0 +set vm_ui 0'
 alias .stk='/home/jonas/Code2/C++/stk-code/build/bin/supertuxkart'
+alias .openjk='/home/jonas/.local/share/openjk/JediAcademy/openjk.arm64'
+alias .openjk_sp='/home/jonas/.local/share/openjk/JediAcademy/openjk_sp.arm64'
+alias .openjo_sp='/home/jonas/.local/share/openjk/JediOutcast/openjo_sp.arm64'
+alias .japlus='/home/jonas/.local/share/openjk/JediAcademy/openjk.arm64 +set fs_game "japlus"'
 alias lf='/home/jonas/.local/bin/lfub'
 
 alias .acore='cd ~/acore/bin; pwd; ls'
@@ -231,6 +236,7 @@ export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 export PATH="${PATH}:${HOME}/.local/bin/"
 export PATH="${PATH}:${HOME}/.local/bin/my_scripts"
+#export PATH="${PATH}:${HOME}/.local/lib/"
 export LANG=en_US.UTF-8
 export LANGUAGE=en
 export LC_ALL=en_GB.UTF-8 
