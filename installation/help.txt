@@ -778,8 +778,6 @@ curl --request POST \
 Server load status:
 http://localhost:8080/health
 
-This should also work but run server instead...
-
 ./main -m /media/2024/ollama/huggingfaces/Meta-Llama-3-8B-Instruct/ggml-model-f16-Q4.gguf -n -1 --color -r "User:" --in-prefix " " -i -p \
 'User: Hi
 AI: Hello. I am an AI chatbot. Would you like to talk?
@@ -790,6 +788,7 @@ User:'
 Using in vim:
 cp llama.vim ~/.vim/autoload/
 Use llm function in vimrc instead...
+Not perfect...
 
 ----------------------------------------------------------------------------------
 Rename files and dirs to lowercase:

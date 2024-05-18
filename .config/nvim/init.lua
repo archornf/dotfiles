@@ -492,7 +492,38 @@ map('v', '<leader>0', ':ChatGPT<CR>')
 --map('n', '<leader>0', ':GpChatToggle<CR>')
 --map('v', '<leader>0', ':GpChatToggle<CR>')
 
--- vim.api.nvim_command('autocmd BufEnter *.tex :set wrap linebreak nolist spell')
+local function llm()
+    local url = "http://127.0.0.1:8080/completion"
+    local buffer_content = table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), "\n")
+
+    local json_payload = {
+        temp = 0.72,
+        top_k = 100,
+        top_p = 0.73,
+        repeat_penalty = 1.100000023841858,
+        n_predict = 256,
+        stop = {"\n\n\n"},
+        stream = false,
+        prompt = buffer_content
+    }
+
+    local curl_command = 'curl -k -s -X POST -H "Content-Type: application/json" -d @- ' .. url
+    local response = vim.fn.system(curl_command, vim.fn.json_encode(json_payload))
+
+    local content = vim.fn.json_decode(response).content
+    local split_newlines = vim.split(content, '\n', true)
+
+    local line_num = vim.api.nvim_win_get_cursor(0)[1]
+    local lines = vim.api.nvim_buf_get_lines(0, line_num - 1, line_num, false)
+    lines[1] = lines[1] .. split_newlines[1]
+    vim.api.nvim_buf_set_lines(0, line_num - 1, line_num, false, lines)
+    vim.api.nvim_buf_set_lines(0, line_num, line_num, false, vim.list_slice(split_newlines, 2))
+end
+
+vim.api.nvim_create_user_command('Llm', llm, {})
+vim.api.nvim_set_keymap('n', '<C-B>', '<Cmd>:Llm<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('i', '<C-B>', '<Cmd>:Llm<CR>', {noremap = true, silent = true})
+
 -- Filetype shortcuts
 vim.cmd([[
 autocmd FileType html inoremap <i<Tab> <em></em> <Space><++><Esc>/<<Enter>GNi
@@ -542,30 +573,30 @@ map <F6> <Esc>:setlocal spell! spelllang=sv<CR>
 
 "inoremap <C-B> <Cmd>call llama#doLlamaGen()<CR>
 
-function! Llm()
-  let url = "http://127.0.0.1:8080/completion"
-
-  " Get the content of the current buffer
-  let buffer_content = join(getline(1, '$'), "\n")
-
-  " Create the JSON payload
-  let json_payload = {"temp":0.72,"top_k":100,"top_p":0.73,"repeat_penalty":1.100000023841858,"n_predict":256,"stop": ["\n\n\n"],"stream": v:false}
-  let json_payload.prompt = buffer_content
-
-  " Define the curl command
-  let curl_command = 'curl -k -s -X POST -H "Content-Type: application/json" -d @- ' . url
-  let response = system(curl_command, json_encode(json_payload))
-
-  " Extract the content field from the response
-  let content = json_decode(response).content
-
-  let split_newlines = split(content, '\n', 1)
-
-  " Insert the content at the cursor position
-  call setline(line('.'), [ getline('.') . split_newlines[0] ] + split_newlines[1:])
-endfunction
-
-command! Llm call Llm()
+"function! Llm()
+"  let url = "http://127.0.0.1:8080/completion"
+"
+"  " Get the content of the current buffer
+"  let buffer_content = join(getline(1, '$'), "\n")
+"
+"  " Create the JSON payload
+"  let json_payload = {"temp":0.72,"top_k":100,"top_p":0.73,"repeat_penalty":1.100000023841858,"n_predict":256,"stop": ["\n\n\n"],"stream": v:false}
+"  let json_payload.prompt = buffer_content
+"
+"  " Define the curl command
+"  let curl_command = 'curl -k -s -X POST -H "Content-Type: application/json" -d @- ' . url
+"  let response = system(curl_command, json_encode(json_payload))
+"
+"  " Extract the content field from the response
+"  let content = json_decode(response).content
+"
+"  let split_newlines = split(content, '\n', 1)
+"
+"  " Insert the content at the cursor position
+"  call setline(line('.'), [ getline('.') . split_newlines[0] ] + split_newlines[1:])
+"endfunction
+"
+"command! Llm call Llm()
 "noremap <C-B> <Cmd>:Llm<CR>
 "inoremap <C-B> <Cmd>:Llm<CR>
 
