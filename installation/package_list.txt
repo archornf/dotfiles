@@ -54,7 +54,7 @@ gdb
 ghc
 git
 git-lfs
-glfw-x11
+glfw
 glm
 gnome-calculator
 gnome-calendar
@@ -246,7 +246,8 @@ xsel
 yad
 yaml-cpp
 yarn
-yay-git
+yay-bin
+yay-bin-debug
 yq
 zathura
 zathura-pdf-poppler

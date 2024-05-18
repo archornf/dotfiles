@@ -133,6 +133,7 @@ let NERDTreeShowHidden=1
 
 " Disable tab key for vimwiki (enables autocomplete via tabbing)
 let g:vimwiki_key_mappings = { 'table_mappings': 0 }
+"let g:python3_host_prog = $PYTHON_PATH
 ]])
 
 local function getWords()
@@ -435,6 +436,62 @@ vim.keymap.set("n", "<leader>t", "<cmd>silent !tmux neww tmux-sessionizer<CR>") 
   -- }
 
 
+if vim.fn.has('win32') == 1 then
+    --vim.g.python3_host_prog = 'C:/Windows/python.exe'
+    vim.g.python3_host_prog = os.getenv("PYTHON_PATH")
+end
+
+local config = {
+     openai_api_key = os.getenv("OPENAI_API_KEY")
+}
+
+require("chatgpt").setup(config)
+map('n', '<leader>e', ':ChatGPTEditWithInstructions<CR>')
+map('v', '<leader>e', ':ChatGPTEditWithInstructions<CR>')
+map('n', '<leader>x', ':ChatGPTRun explain_code<CR>')
+map('v', '<leader>x', ':ChatGPTRun explain_code<CR>')
+map('n', '<leader>c', ':ChatGPTRun complete_code<CR>')
+map('v', '<leader>c', ':ChatGPTRun complete_code<CR>')
+map('n', '<leader>v', ':ChatGPTRun summarize<CR>')
+map('v', '<leader>v', ':ChatGPTRun summarize<CR>')
+map('n', '<leader>g', ':ChatGPTRun grammar_correction<CR>')
+map('v', '<leader>g', ':ChatGPTRun grammar_correction<CR>')
+map('n', '<leader>6', ':ChatGPTRun docstring<CR>')
+map('v', '<leader>6', ':ChatGPTRun docstring<CR>')
+map('n', '<leader>7', ':ChatGPTRun add_tests<CR>')
+map('v', '<leader>7', ':ChatGPTRun add_tests<CR>')
+map('n', '<leader>8', ':ChatGPTRun optimize_code<CR>')
+map('v', '<leader>8', ':ChatGPTRun optimize_code<CR>')
+map('n', '<leader>9', ':ChatGPTRun code_readability_analysis<CR>')
+map('v', '<leader>9', ':ChatGPTRun code_readability_analysis<CR>')
+map('n', '<leader>0', ':ChatGPT<CR>')
+map('v', '<leader>0', ':ChatGPT<CR>')
+
+--require("gp").setup({openai_api_key: os.getenv("OPENAI_API_KEY")})
+--require("gp").setup(config)
+--map('n', '<leader>e', ':GpAppend<CR>')
+--map('v', '<leader>e', ':GpAppend<CR>')
+--map('n', '<leader>x', ':GpTabnew<CR>')
+--map('v', '<leader>x', ':GpTabnew<CR>')
+--map('n', '<leader>c', ':GpNew<CR>')
+--map('v', '<leader>c', ':GpNew<CR>')
+--map('n', '<leader>v', ':GpVnew<CR>')
+--map('v', '<leader>v', ':GpVnew<CR>')
+--map('n', '<leader>g', ':GpRewrite<CR>')
+--map('v', '<leader>g', ':GpRewrite<CR>')
+--map('n', '<leader>6', ':GpImplement<CR>')
+--map('v', '<leader>6', ':GpImplement<CR>')
+--map('n', '<leader>7', ':GpChatRespond<CR>')
+--map('v', '<leader>7', ':GpChatRespond<CR>')
+----map('n', '<leader>8', ':GpChatFinder<CR>')
+----map('v', '<leader>8', ':GpChatFinder<CR>')
+--map('n', '<leader>8', ':GpContext<CR>')
+--map('v', '<leader>8', ':GpContext<CR>')
+--map('n', '<leader>9', ':GpChatNew<CR>')
+--map('v', '<leader>9', ':GpChatNew<CR>')
+--map('n', '<leader>0', ':GpChatToggle<CR>')
+--map('v', '<leader>0', ':GpChatToggle<CR>')
+
 -- vim.api.nvim_command('autocmd BufEnter *.tex :set wrap linebreak nolist spell')
 -- Filetype shortcuts
 vim.cmd([[
@@ -486,7 +543,6 @@ map <F6> <Esc>:setlocal spell! spelllang=sv<CR>
 "inoremap <C-B> <Cmd>call llama#doLlamaGen()<CR>
 
 function! Llm()
-
   let url = "http://127.0.0.1:8080/completion"
 
   " Get the content of the current buffer
@@ -510,7 +566,8 @@ function! Llm()
 endfunction
 
 command! Llm call Llm()
-noremap <C-B> :Llm<CR>
+"noremap <C-B> <Cmd>:Llm<CR>
+"inoremap <C-B> <Cmd>:Llm<CR>
 
 func! CompileRun()
     exec "w"
@@ -657,4 +714,29 @@ return require('packer').startup(function()
 
   -- Other stuff
   -- use 'frazrepo/vim-rainbow'
+
+  use({
+      "jackMort/ChatGPT.nvim",
+      --config = function()
+      --    require("chatgpt").setup()
+      --end,
+      requires = {
+          "MunifTanjim/nui.nvim",
+          "nvim-lua/plenary.nvim",
+          "folke/trouble.nvim",
+          "nvim-telescope/telescope.nvim"
+      }
+  })
+
+  --use("robitx/gp.nvim")
+  --use({
+  --    "robitx/gp.nvim",
+  --    config = function()
+  --        require("gp").setup()
+  --        or setup with your own config (see Install > Configuration in Readme)
+  --        require("gp").setup(config)
+  --        shortcuts might be setup here (see Usage > Shortcuts in Readme)
+  --    end,
+  --})
+
 end)

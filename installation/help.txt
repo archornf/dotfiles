@@ -758,6 +758,39 @@ git push origin master
 ./server -m models/llama-2-7b.Q4_K_M.gguf --threads $(nproc) -c 2048
 ./server -m models/llama-2-7b-chat/ggml-model-q4_0.gguf --threads $(nproc) -c 2048
 
+<<-- 2024-05-18 Sat -->
+llama3:
+python convert-hf-to-gguf.py /media/2024/ollama/huggingfaces/Meta-Llama-3-8B-Instruct
+./quantize /media/2024/ollama/huggingfaces/Meta-Llama-3-8B-Instruct/ggml-model-f16.gguf /media/2024/ollama/huggingfaces/Meta-Llama-3-8B-Instruct/ggml-model-f16-Q4.gguf Q4_K_M
+
+./server -m /media/2024/ollama/huggingfaces/Meta-Llama-3-8B-Instruct/ggml-model-f16-Q4.gguf --threads $(nproc) -c 2048
+
+curl --request POST \
+    --url http://localhost:8080/completion \
+    --header "Content-Type: application/json" \
+    --data '{"prompt": "Building a website can be done in 10 simple steps:","n_predict": 128}'
+
+curl --request POST \
+    --url http://localhost:8080/completion \
+    --header "Content-Type: application/json" \
+    --data '{"prompt": "Write python code for calculating effective interest rate:","n_predict": 500}'
+
+Server load status:
+http://localhost:8080/health
+
+This should also work but run server instead...
+
+./main -m /media/2024/ollama/huggingfaces/Meta-Llama-3-8B-Instruct/ggml-model-f16-Q4.gguf -n -1 --color -r "User:" --in-prefix " " -i -p \
+'User: Hi
+AI: Hello. I am an AI chatbot. Would you like to talk?
+User: Sure!
+AI: What would you like to talk about?
+User:'
+
+Using in vim:
+cp llama.vim ~/.vim/autoload/
+Use llm function in vimrc instead...
+
 ----------------------------------------------------------------------------------
 Rename files and dirs to lowercase:
 
