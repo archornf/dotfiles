@@ -167,7 +167,6 @@ vim.opt.encoding = 'utf-8'
 vim.opt.fileencoding = 'utf-8'
 -- vim.cmd("autocmd!")
 -- vim.opt.cmdheight = 1
---
 
 --vim.cmd([[
 --set runtimepath+=~/.vim
@@ -375,9 +374,10 @@ map('n', '<leader>5', '"5p')
 map('n', '<M-w>', ':silent! NERDTreeToggle ~/<CR>')
 map('n', '<M-e>', ':silent! NERDTreeToggle %:p<CR>')
 -- map('n', '<C-b>', ':NERDTreeToggle<CR>')
-map('n', '<M-d>', ':FZF<CR>')
+--map('n', '<M-d>', ':FZF<CR>')
 map('n', '<M-a>', ':FZF ~/<CR>')
 map('n', '<M-A>', ':FZF /<CR>')
+map('n', '<M-S>', ':FZF C:/<CR>')
 
 -- Vimgrep and QuickFix Lists
 -- TODO: leader f
@@ -399,7 +399,7 @@ map('n', '<M-P>', ':clast<CR>')
 --         cclose
 --     endif
 -- endfunction
--- 
+--
 -- nnoremap <M-b> :call ToggleQuickfix()<CR>
 -- ]]
 
@@ -420,6 +420,8 @@ local function toggle_quickfix()
         vim.cmd('copen')
     end
 end
+
+vim.api.nvim_set_keymap('n', '<M-b>', '', {noremap = true, silent = true, callback = toggle_quickfix})
 
 -- Window management and movement
 map('n', '<M-u>', ':resize +2<CR>')
@@ -478,28 +480,28 @@ map('n', '<M-,>', ':tabe ~/.zshrc<CR>')
 map('n', '<M-.>', ':tabe ~/Documents/vimtutor.txt<CR>')
 
 -- Windows
-local function openPowershellProfile()
-    local poshTheme = os.getenv("POSH_THEME")
-    if not poshTheme then
-        print("POSH_THEME environment variable not set")
-        return
-    end
-
-    local basePath = poshTheme:match("^(.*\\WindowsPowerShell\\)")
-    if not basePath then
-        print("Invalid POSH_THEME path")
-        return
-    end
-
-    local filePath = basePath .. "Microsoft.PowerShell_profile.ps1"
-    vim.cmd("tabe " .. filePath)
-end
+-- local function openPowershellProfile()
+--     local poshTheme = os.getenv("POSH_THEME")
+--     if not poshTheme then
+--         print("POSH_THEME environment variable not set")
+--         return
+--     end
+--     local basePath = poshTheme:match("^(.*\\WindowsPowerShell\\)")
+--     if not basePath then
+--         print("Invalid POSH_THEME path")
+--         return
+--     end
+--     local filePath = basePath .. "Microsoft.PowerShell_profile.ps1"
+--     vim.cmd("tabe " .. filePath)
+-- end
+-- 
+-- vim.api.nvim_set_keymap('n', '<M-,>', '', {noremap = true, silent = true, callback = openPowershellProfile})
 
 if vim.fn.has('win32') == 1 then
-	map('n', '<M-m>', ':tabe C:/Users/se-jonornf-01/AppData/Local/nvim/init.lua<CR>')
-    vim.api.nvim_set_keymap('n', '<M-,>', '', {noremap = true, silent = true, callback = openPowershellProfile})
-    vim.api.nvim_set_keymap('n', '<M-,>', '<cmd>tabe ' .. os.getenv('ps_profile_path') .. '/Microsoft.PowerShell_profile.ps1<CR>', { noremap = true, silent = true })
-    vim.api.nvim_set_keymap('n', '<M-.>', '<cmd>tabe ' .. os.getenv('my_notes_path') .. '/vimtutor.txt<CR>', { noremap = true, silent = true })
+	--map('n', '<M-m>', ':tabe C:/Users/se-jonornf-01/AppData/Local/nvim/init.lua<CR>')
+	vim.api.nvim_set_keymap('n', '<M-m>', '<cmd>tabe ' .. vim.fn.expand('$LOCALAPPDATA') .. '/nvim/init.lua<CR>', { noremap = true, silent = true })
+	vim.api.nvim_set_keymap('n', '<M-,>', '<cmd>tabe ' .. (os.getenv('ps_profile_path') or '.') .. '/Microsoft.PowerShell_profile.ps1<CR>', { noremap = true, silent = true })
+	vim.api.nvim_set_keymap('n', '<M-.>', '<cmd>tabe ' .. (os.getenv('my_notes_path') or '.') .. '/vimtutor.txt<CR>', { noremap = true, silent = true })
 end
 -- TODO use env vars:
 -- local code_root_dir = os.getenv("code_root_dir") or "C:/Users/jonas/OneDrive/Documents"
@@ -626,54 +628,54 @@ local config = {
 -- map('n', '<M-c>', ':tabe ~/Documents/vimtutor.txt<CR>')
 
 -- Model can be changed in actions for this plugin
---require("chatgpt").setup(config)
---map('n', '<leader>e', ':ChatGPTEditWithInstructions<CR>')
---map('v', '<leader>e', ':ChatGPTEditWithInstructions<CR>')
---map('n', '<leader>x', ':ChatGPTRun explain_code<CR>')
---map('v', '<leader>x', ':ChatGPTRun explain_code<CR>')
---map('n', '<leader>c', ':ChatGPTRun complete_code<CR>')
---map('v', '<leader>c', ':ChatGPTRun complete_code<CR>')
---map('n', '<leader>v', ':ChatGPTRun summarize<CR>')
---map('v', '<leader>v', ':ChatGPTRun summarize<CR>')
---map('n', '<leader>g', ':ChatGPTRun grammar_correction<CR>')
---map('v', '<leader>g', ':ChatGPTRun grammar_correction<CR>')
---map('n', '<leader>6', ':ChatGPTRun docstring<CR>')
---map('v', '<leader>6', ':ChatGPTRun docstring<CR>')
---map('n', '<leader>7', ':ChatGPTRun add_tests<CR>')
---map('v', '<leader>7', ':ChatGPTRun add_tests<CR>')
---map('n', '<leader>8', ':ChatGPTRun optimize_code<CR>')
---map('v', '<leader>8', ':ChatGPTRun optimize_code<CR>')
---map('n', '<leader>9', ':ChatGPTRun code_readability_analysis<CR>')
---map('v', '<leader>9', ':ChatGPTRun code_readability_analysis<CR>')
---map('n', '<leader>0', ':ChatGPT<CR>')
---map('v', '<leader>0', ':ChatGPT<CR>')
+require("chatgpt").setup(config)
+map('n', '<leader>e', ':ChatGPTEditWithInstructions<CR>')
+map('v', '<leader>e', ':ChatGPTEditWithInstructions<CR>')
+map('n', '<leader>x', ':ChatGPTRun explain_code<CR>')
+map('v', '<leader>x', ':ChatGPTRun explain_code<CR>')
+map('n', '<leader>c', ':ChatGPTRun complete_code<CR>')
+map('v', '<leader>c', ':ChatGPTRun complete_code<CR>')
+map('n', '<leader>v', ':ChatGPTRun summarize<CR>')
+map('v', '<leader>v', ':ChatGPTRun summarize<CR>')
+map('n', '<leader>g', ':ChatGPTRun grammar_correction<CR>')
+map('v', '<leader>g', ':ChatGPTRun grammar_correction<CR>')
+map('n', '<leader>6', ':ChatGPTRun docstring<CR>')
+map('v', '<leader>6', ':ChatGPTRun docstring<CR>')
+map('n', '<leader>7', ':ChatGPTRun add_tests<CR>')
+map('v', '<leader>7', ':ChatGPTRun add_tests<CR>')
+map('n', '<leader>8', ':ChatGPTRun optimize_code<CR>')
+map('v', '<leader>8', ':ChatGPTRun optimize_code<CR>')
+map('n', '<leader>9', ':ChatGPTRun code_readability_analysis<CR>')
+map('v', '<leader>9', ':ChatGPTRun code_readability_analysis<CR>')
+map('n', '<leader>0', ':ChatGPT<CR>')
+map('v', '<leader>0', ':ChatGPT<CR>')
 
 --require("gp").setup({openai_api_key: os.getenv("OPENAI_API_KEY")})
-require("gp").setup(config)
-map('n', '<leader>e', ':GpAppend<CR>')
-map('v', '<leader>e', ':GpAppend<CR>')
-map('n', '<leader>x', ':GpTabnew<CR>')
-map('v', '<leader>x', ':GpTabnew<CR>')
-map('n', '<leader>c', ':GpNew<CR>')
-map('v', '<leader>c', ':GpNew<CR>')
-map('n', '<leader>v', ':GpVnew<CR>')
-map('v', '<leader>v', ':GpVnew<CR>')
-map('n', '<leader>g', ':GpRewrite<CR>')
-map('v', '<leader>g', ':GpRewrite<CR>')
-map('n', '<leader>6', ':GpImplement<CR>')
-map('v', '<leader>6', ':GpImplement<CR>')
-map('n', '<leader>7', ':GpChatRespond<CR>')
-map('v', '<leader>7', ':GpChatRespond<CR>')
---map('n', '<leader>8', ':GpChatFinder<CR>')
---map('v', '<leader>8', ':GpChatFinder<CR>')
-map('n', '<leader>8', ':GpContext<CR>')
-map('v', '<leader>8', ':GpContext<CR>')
-map('n', '<leader>9', ':GpChatNew<CR>')
-map('v', '<leader>9', ':GpChatNew<CR>')
-map('n', '<leader>0', ':GpChatToggle<CR>')
-map('v', '<leader>0', ':GpChatToggle<CR>')
-map('n', '<leader>h', ':GpNextAgent<CR>')
-map('v', '<leader>h', ':GpNextAgent<CR>')
+--require("gp").setup(config)
+--map('n', '<leader>e', ':GpAppend<CR>')
+--map('v', '<leader>e', ':GpAppend<CR>')
+--map('n', '<leader>x', ':GpTabnew<CR>')
+--map('v', '<leader>x', ':GpTabnew<CR>')
+--map('n', '<leader>c', ':GpNew<CR>')
+--map('v', '<leader>c', ':GpNew<CR>')
+--map('n', '<leader>v', ':GpVnew<CR>')
+--map('v', '<leader>v', ':GpVnew<CR>')
+--map('n', '<leader>g', ':GpRewrite<CR>')
+--map('v', '<leader>g', ':GpRewrite<CR>')
+--map('n', '<leader>6', ':GpImplement<CR>')
+--map('v', '<leader>6', ':GpImplement<CR>')
+--map('n', '<leader>7', ':GpChatRespond<CR>')
+--map('v', '<leader>7', ':GpChatRespond<CR>')
+----map('n', '<leader>8', ':GpChatFinder<CR>')
+----map('v', '<leader>8', ':GpChatFinder<CR>')
+--map('n', '<leader>8', ':GpContext<CR>')
+--map('v', '<leader>8', ':GpContext<CR>')
+--map('n', '<leader>9', ':GpChatNew<CR>')
+--map('v', '<leader>9', ':GpChatNew<CR>')
+--map('n', '<leader>0', ':GpChatToggle<CR>')
+--map('v', '<leader>0', ':GpChatToggle<CR>')
+--map('n', '<leader>h', ':GpNextAgent<CR>')
+--map('v', '<leader>h', ':GpNextAgent<CR>')
 -- There's also:
 -- :GpAgent (for info)
 -- :GpWhisper
@@ -851,7 +853,7 @@ end
 --"        "    exec "!csc %"
 --"        "    exec "!time %:r.exe"
 --"        "else
---"        "    exec "!mcs % && time mono ./%:t:r.exe" 
+--"        "    exec "!mcs % && time mono ./%:t:r.exe"
 --"        "endif
 --"        exec "!dotnet build && dotnet run"
 --"    elseif &filetype == 'fs'
@@ -1068,20 +1070,20 @@ return require('packer').startup(function()
   -- Other stuff
   -- use 'frazrepo/vim-rainbow'
 
-  --use({
-  --    "jackMort/ChatGPT.nvim",
-  --    --config = function()
-  --    --    require("chatgpt").setup()
-  --    --end,
-  --    requires = {
-  --        "MunifTanjim/nui.nvim",
-  --        "nvim-lua/plenary.nvim",
-  --        "folke/trouble.nvim",
-  --        "nvim-telescope/telescope.nvim"
-  --    }
-  --})
+  use({
+      "jackMort/ChatGPT.nvim",
+      --config = function()
+      --    require("chatgpt").setup()
+      --end,
+      requires = {
+          "MunifTanjim/nui.nvim",
+          "nvim-lua/plenary.nvim",
+          "folke/trouble.nvim",
+          "nvim-telescope/telescope.nvim"
+      }
+  })
 
-  use("robitx/gp.nvim")
+  --use("robitx/gp.nvim")
   --use({
   --    "robitx/gp.nvim",
   --    config = function()
