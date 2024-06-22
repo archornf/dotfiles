@@ -333,6 +333,14 @@ check_dir() {
     local dir_name=$1
     local dir_type=${2:-build} # Default to build
     echo "--------------------------------------------------------"
+
+    read -p "Compile $dir_name? (yes/y to confirm): " user_input
+    if [[ "$user_input" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+        echo "Proceeding with compilation of $dir_name..."
+    else
+        echo "Skipping compilation of $dir_name."
+        return 1 # False, exit function
+    fi
     
     # Capture the actual directory name, preserving its case
     #local actual_dir_name=$(find . -maxdepth 1 -type d -iname "${dir_name}" -exec basename {} \; | head -n 1)
@@ -391,6 +399,14 @@ check_file() {
     local dir_name=$1
     local file_path=$2
     echo "--------------------------------------------------------"
+
+    read -p "Compile $dir_name? (yes/y to confirm): " user_input
+    if [[ "$user_input" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+        echo "Proceeding with compilation of $dir_name..."
+    else
+        echo "Skipping compilation of $dir_name."
+        return 1 # False, exit function
+    fi
     
     # Capture the actual directory name, preserving its case
     #local actual_dir_name=$(find . -maxdepth 1 -type d -iname "$dir_name" -exec basename {} \; | head -n 1)
@@ -878,3 +894,4 @@ fi
 #        echo "$repo_dir already cloned."
 #    fi
 #}
+

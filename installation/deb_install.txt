@@ -795,45 +795,13 @@ sudo systemctl enable bluetooth.service
 sudo systemctl enable NetworkManager.service
 More services nginx, firewall etc...
 
-******************************************
-1. Print matching packages to the console:
-
-You can use grep to search through all pk*.txt files for packages containing
-"arm" and print the results to the console. Here's the one-liner command:
-grep -h "arm" pk*.txt
-
-2. Print matching packages to a file and uninstall them:
-
-Use grep to search for "arm" in the files and redirect the output to a file
-(e.g., arm_packages.txt):
-
-grep -h "arm" pk*.txt > arm_packages.txt
-
-Use xargs with apt-get remove to uninstall the packages listed in
-arm_packages.txt without confirmation. Make sure you have the appropriate
-permissions (use sudo if necessary).
-
-xargs -a arm_packages.txt sudo apt-get remove -y
-
-Combining steps into a single script:
-
-Here's a small script that performs both steps:
-
-#!/bin/bash
-
-grep -h "arm" pk*.txt > arm_packages.txt
-xargs -a arm_packages.txt sudo apt-get remove -y
-
-Or to skip the printing to file:
-
-grep -h "arm" pk*.txt | xargs sudo apt-get remove -y
-
 ----------------------------------------------------------------------------------
 #sudo apt-get update -y && sudo apt-get upgrade -y
 #sudo apt-get install -y
 
 ace 
 advancecomp 
+alacritty
 alsa-utils
 autoconf 
 automake 
@@ -891,6 +859,7 @@ git-core
 git-lfs 
 git-man 
 gnuplot 
+golang
 gpg
 gradle 
 grep 
