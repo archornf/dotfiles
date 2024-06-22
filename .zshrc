@@ -226,7 +226,20 @@ mkcdir ()
        cd -P -- "$1"
 }
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# fzf
+if command -v fzf >/dev/null 2>&1; then
+    fzf_version=$(fzf --version | awk '{print $1}')
+    fzf_major_version=$(echo "$fzf_version" | awk -F. '{print $1}')
+
+    if [ "$fzf_major_version" -lt 48 ]; then
+        [ -f /usr/share/doc/fzf/examples/completion.zsh ] && source /usr/share/doc/fzf/examples/completion.zsh
+        [ -f /usr/share/doc/fzf/examples/key-bindings.zsh ] && source /usr/share/doc/fzf/examples/key-bindings.zsh
+    else
+        [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+    fi
+else
+    echo "fzf is not installed"
+fi
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 
 precmd() { eval "$PROMPT_COMMAND" }

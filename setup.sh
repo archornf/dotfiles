@@ -479,7 +479,8 @@ compile_projects() {
             cmake .. -DCMAKE_BUILD_TYPE=Release
             make -j$(nproc)
             sudo make install
-            cd ...
+            #cd ...
+            cd ../..
         else
             echo "MyGUI is not installed or not found."
             cd ..
@@ -491,7 +492,7 @@ compile_projects() {
         cmake -DCMAKE_INSTALL_PREFIX=/home/jonas/.local/share/openjk -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
         make -j$(nproc)
         sudo make install
-        cd ...
+        cd ../..
     fi
 
     # Compile if NOT arm arch
@@ -500,21 +501,21 @@ compile_projects() {
             cmake -DCMAKE_INSTALL_PREFIX=/home/jonas/Downloads/ja_data -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
             make -j$(nproc)
             sudo make install
-            cd ...
+            cd ../..
         fi
 
         if check_dir "jk2mv.js" "build_new"; then
             cmake .. CMAKE_BUILD_TYPE=Release
             make -j$(nproc)
             sudo make install
-            cd ...
+            cd ../..
         fi
 
         if check_dir "Unvanquished"; then
             cd .. && ./download-paks build/pkg && cd -
             cmake .. -DCMAKE_BUILD_TYPE=Release
             make -j$(nproc)
-            cd ...
+            cd ../..
         fi
     fi
 
@@ -540,7 +541,7 @@ compile_projects() {
             cd build && make help
             make config=release_linux-amd64-librw_gl3_glfw-oal
         fi
-        cd ...
+        cd ../..
     fi
 
     if check_dir "re3_vice"; then
@@ -554,7 +555,7 @@ compile_projects() {
             cd build && make help
             make config=release_linux-amd64-librw_gl3_glfw-oal
         fi
-        cd ...
+        cd ../..
     fi
 
     if check_dir "reone"; then
@@ -562,7 +563,7 @@ compile_projects() {
         cmake -B build -S . -DCMAKE_BUILD_TYPE=RelWithDebInfo
         cd build && make -j$(nproc)
         sudo make install
-        cd ...
+        cd ../..
     fi
 
     print_and_cd_to_dir "$HOME/Code/js" "Compiling"
@@ -621,7 +622,7 @@ compile_projects() {
     if check_dir "stk-code"; then
         cmake .. -DCMAKE_BUILD_TYPE=Release -DNO_SHADERC=on
         make -j$(nproc)
-        cd ...
+        cd ../..
     fi
 
     # Simply check for Craft binary for this...
@@ -644,28 +645,28 @@ compile_projects() {
         mkdir build && cd build
         cmake ..
         cmake --build .
-        cd ...
+        cd ../..
     fi
 
     if check_dir "azerothcore-wotlk"; then
         cmake ../ -DCMAKE_INSTALL_PREFIX=$HOME/acore/ -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DWITH_WARNINGS=1 -DTOOLS_BUILD=all -DSCRIPTS=static -DMODULES=static -DWITH_COREDEBUG=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo
         make -j$(nproc)
         make install
-        cd ...
+        cd ../..
     fi
 
     if check_dir "trinitycore"; then
         cmake ../ -DCMAKE_INSTALL_PREFIX=$HOME/tcore/ -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DWITH_WARNINGS=1 -DTOOLS_BUILD=all -DSCRIPTS=static -DMODULES=static -DWITH_COREDEBUG=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo
         make -j$(nproc)
         make install
-        cd ...
+        cd ../..
     fi
 
     if check_dir "simc"; then
         cmake ../ -DCMAKE_BUILD_TYPE=Release
         make -j$(nproc)
         sudo make install
-        cd ...
+        cd ../..
     fi
 
     if check_dir "OpenJKDF2" "build*"; then
