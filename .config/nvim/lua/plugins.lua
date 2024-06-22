@@ -45,7 +45,6 @@ return require('packer').startup(function()
 
   -- Colorschemes
   use("gruvbox-community/gruvbox")
-  use { "catppuccin/nvim", as = "catppuccin" }
 
   -- Other stuff
   -- use 'frazrepo/vim-rainbow'

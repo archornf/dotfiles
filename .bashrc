@@ -20,5 +20,3 @@ export EDITOR=nvim;
 export PATH=$PATH:/usr/local/go/bin
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
-export ACE_ROOT=/usr/include/ace
-export TBB_ROOT_DIR=/usr/include/tbb

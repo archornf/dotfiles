@@ -99,7 +99,7 @@ source $ZSH/oh-my-zsh.sh
 # fi
 
 # Compilation flags
-# export ARCHFLAGS="-arch arm64"
+# export ARCHFLAGS="-arch x86_64"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -142,20 +142,21 @@ alias .cnfp='cd ~/.config/polybar; ls'
 alias .cnfh='cd ~/.config/hypr; ls'
 alias .pics='cd ~/Pictures; ls'
 alias .docs='cd ~/Documents; ls'
+alias .cdn='cd ~/Documents/my_notes; ls'
 alias .down='cd ~/Downloads; ls'
 alias .dots='cd ~/Downloads/dotfiles; ls'
-alias .ioq3='/home/jonas/Code2/C/ioq3/build/release-linux-arm64/ioquake3.arm64 +set sv_pure 0 +set vm_game 0 +set vm_cgame 0 +set vm_ui 0'
-alias .ioq32='/home/jonas/Code2/C/ioq3/build/release-linux-arm64_golden/ioquake3.arm64 +set sv_pure 0 +set vm_game 0 +set vm_cgame 0 +set vm_ui 0'
+alias .ioq3='/home/jonas/Code2/C/ioq3/build/release-linux-x86_64/ioquake3.x86_64 +set sv_pure 0 +set vm_game 0 +set vm_cgame 0 +set vm_ui 0'
+alias .ioq32='/home/jonas/Code2/C/ioq3/build/release-linux-x86_64_golden/ioquake3.x86_64 +set sv_pure 0 +set vm_game 0 +set vm_cgame 0 +set vm_ui 0'
 alias .stk='/home/jonas/Code2/C++/stk-code/build/bin/supertuxkart'
-alias .openjk='/home/jonas/.local/share/openjk/JediAcademy/openjk.arm64'
-alias .openjk_sp='/home/jonas/.local/share/openjk/JediAcademy/openjk_sp.arm64'
-alias .openjo_sp='/home/jonas/.local/share/openjk/JediOutcast/openjo_sp.arm64'
-alias .japlus='/home/jonas/.local/share/openjk/JediAcademy/openjk.arm64 +set fs_game "japlus"'
+alias .openjk='/home/jonas/.local/share/openjk/JediAcademy/openjk.x86_64'
+alias .openjk_sp='/home/jonas/.local/share/openjk/JediAcademy/openjk_sp.x86_64'
+alias .openjo_sp='/home/jonas/.local/share/openjk/JediOutcast/openjo_sp.x86_64'
+alias .japlus='/home/jonas/.local/share/openjk/JediAcademy/openjk.x86_64 +set fs_game "japlus"'
 alias lf='/home/jonas/.local/bin/lfub'
 
 alias .acore='cd ~/acore/bin; pwd; ls'
 alias .tcore='cd ~/tcore/bin; pwd; ls'
-alias .wow='wine ~/Downloads/wow/Wow.exe'
+alias .wow='wine /mnt/new/wow/Wow.exe'
 
 playermap ()
 {
@@ -163,9 +164,8 @@ playermap ()
         echo "Launching tcore playermap: php -S localhost:8000"
         #cd ~/Code2/Python/wander_nodes_util/tcore_map/playermap && php -S localhost:8000;
         cd ~/Code2/Python/wander_nodes_util/tcore_map/playermap && php -S $(ip addr show | grep -v 'inet6' | grep -v 'inet 127' | grep 'inet' | head -n 1 | awk '{print $2}' | cut -d/ -f1):8000;
-
     else
-        echo "Launching acore playermap: php -S localhost:8000" &
+        echo "Launching acore playermap: php -S localhost:8000"
         cd ~/Code2/Python/wander_nodes_util/acore_map/playermap && php -S $(ip addr show | grep -v 'inet6' | grep -v 'inet 127' | grep 'inet' | head -n 1 | awk '{print $2}' | cut -d/ -f1):8000;
     fi
 }
@@ -237,9 +237,12 @@ export PATH=$PATH:$GOPATH/bin
 export PATH="${PATH}:${HOME}/.local/bin/"
 export PATH="${PATH}:${HOME}/.local/bin/my_scripts"
 #export PATH="${PATH}:${HOME}/.local/lib/"
+export PATH="${PATH}:${HOME}/Code/f#/FsAutoComplete/src/FsAutoComplete/bin/Release/net6.0"
+export OMNISHARP_PATH="/usr/lib/omnisharp-roslyn/"
+
 export LANG=en_US.UTF-8
 export LANGUAGE=en
-export LC_ALL=en_GB.UTF-8 
+export LC_ALL=en_US.UTF-8 
 #export ALPHAVANTAGE_API_KEY=AOUX3DK05GCWDMZ9
 
 alias f='fuzzyfind'
