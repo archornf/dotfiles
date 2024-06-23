@@ -42,6 +42,7 @@ cp -r bin/widgets $HOME/.local/bin/
 cp -r bin/xyz $HOME/.local/bin/
 cp bin/lfub $HOME/.local/bin/
 cp bin/lf-select $HOME/.local/bin/
+cp bin/greenclip $HOME/.local/bin/
 
 cp -r installation/ $HOME/Documents/
 cp installation/help.txt $HOME/Documents/
