@@ -364,10 +364,17 @@ check_dir() {
                     echo "${target_dir} NOT compiled."
                     return 1
                 fi
-                echo "Creating and entering ${target_dir}..."
-                mkdir -p "$target_dir" && cd "$target_dir"
-                sleep 1
-                return 0 # Return true
+                if [[ "$actual_dir_name" == "ioq3" ]]; then
+                    echo "Entering ${actual_dir_name}..."
+                    cd "./${actual_dir_name}"
+                    sleep 1
+                    return 0 # Return true
+                else
+                    echo "Creating and entering ${target_dir}..."
+                    mkdir -p "$target_dir" && cd "$target_dir"
+                    sleep 1
+                    return 0 # Return true
+                fi
             fi
         else
             if [ -d "$target_dir" ]; then
