@@ -665,7 +665,7 @@ compile_projects() {
         mkdir build && cd build
         cmake ..
         cmake --build .
-        cd ../..
+        cd ../../..
     fi
 
     if check_dir "azerothcore-wotlk"; then
