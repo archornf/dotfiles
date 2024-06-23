@@ -602,6 +602,7 @@ compile_projects() {
             cd ../../..
         else
             echo "rustc version is 1.63 or below. Skipping rust project..."
+            cd ..
         fi
     fi
 
@@ -612,6 +613,7 @@ compile_projects() {
             cd ..
         else
             echo "rustc version is 1.63 or below. Skipping rust project..."
+            cd ..
         fi
     fi
 
@@ -640,7 +642,7 @@ compile_projects() {
 
     # Simply check for Craft binary for this...
     if check_file "small_games" "Craft/craft"; then
-        cd small_games/BirdGame
+        cd BirdGame
         g++ -std=c++17 -g *.cpp -o main -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
         cp -r BirdGame/graphics ./
 
@@ -652,6 +654,11 @@ compile_projects() {
         cd ../../Craft
         cmake . && make -j$(nproc)
         gcc -std=c99 -O3 -fPIC -shared -o world -I src -I deps/noise deps/noise/noise.c src/world.c
+
+        echo "--------------------------------------------------------"
+        cd ../space-shooter/
+        make linux
+        #make linux-release
 
         echo "--------------------------------------------------------"
         cd ../pacman/
