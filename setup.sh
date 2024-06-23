@@ -570,52 +570,58 @@ compile_projects() {
 
     if check_dir "KotOR.js" "node_modules"; then
         npm install
-        npm run webpack:dev-watch
+        #npm run webpack:dev-watch
+        npm run webpack:dev -- --no-watch # No watch to exit after compile
         cd ..
     fi
 
     print_and_cd_to_dir "$HOME/Code/rust" "Compiling"
 
-    # Only compile if rust version is > 1.7
-    rustc_version=$(rustc --version | grep -oP 'rustc \K[^\s]+')
-    major_version=$(echo "$rustc_version" | cut -d'.' -f1)
-    minor_version=$(echo "$rustc_version" | cut -d'.' -f2)
+    # Only compile if rust version is > 1.63
+    #rust_version=$(rustc --version | awk '{print $2}') # Also works...
+    rust_version=$(rustc --version | grep -oP 'rustc \K[^\s]+')
+    major_version=$(echo "$rust_version" | cut -d'.' -f1)
+    minor_version=$(echo "$rust_version" | cut -d'.' -f2)
+    echo "Rust version: $rust_version"
+    echo "major: $major_version"
+    echo "minor: $minor_version"
 
     if check_dir "eww" "target"; then
-        if [ "$major_version" -gt 1 ] || { [ "$major_version" -eq 1 ] && [ "$minor_version" -gt 7 ]; }; then
-            echo "rustc version is above 1.7"
+        if [ "$major_version" -gt 1 ] || { [ "$major_version" -eq 1 ] && [ "$minor_version" -gt 63 ]; }; then
+            echo "rustc version is above 1.63"
             cargo build --release --no-default-features --features x11
             cd target/release
             chmod +x ./eww
             cd ../../..
         else
-            echo "rustc version is 1.7 or below. Skipping rust project..."
+            echo "rustc version is 1.63 or below. Skipping rust project..."
         fi
     fi
 
     if check_dir "swww" "target"; then
-        if [ "$major_version" -gt 1 ] || { [ "$major_version" -eq 1 ] && [ "$minor_version" -gt 7 ]; }; then
-            echo "rustc version is above 1.7"
+        if [ "$major_version" -gt 1 ] || { [ "$major_version" -eq 1 ] && [ "$minor_version" -gt 63 ]; }; then
+            echo "rustc version is above 1.63"
             cargo build --release
             cd ..
         else
-            echo "rustc version is 1.7 or below. Skipping rust project..."
+            echo "rustc version is 1.63 or below. Skipping rust project..."
         fi
     fi
 
     print_and_cd_to_dir "$HOME/Code2/C" "Compiling"
 
     if check_dir "ioq3"; then
+        cd ..
         make
         cd ..
     fi
 
-    if check_dir "picom-animations"; then
-        cd ..
-        meson --buildtype=release . build
-        ninja -C build
-        cd ..
-    fi
+    #if check_dir "picom-animations"; then
+    #    cd ..
+    #    meson --buildtype=release . build
+    #    ninja -C build
+    #    cd ..
+    #fi
 
     print_and_cd_to_dir "$HOME/Code2/C++" "Compiling"
 
