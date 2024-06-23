@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/bash
 
 # Show wifi 📶 and percent strength or 📡 if none.
 # Show 🌐 if connected to ethernet or ❎ if none.
@@ -14,14 +14,14 @@ case $BLOCK_BUTTON in
 esac
 
 # Check state of wireless interface (w*)
-wifi_state=$(cat /sys/class/net/w*/operstate 2>/dev/null)
+internet_state=$(cat /sys/class/net/w*/operstate 2>/dev/null)
 
 # If wireless state is empty or null, check the state of ethernet interface (e*)
-if [[ -z "$wifi_state" ]]; then
-    wifi_state=$(cat /sys/class/net/e*/operstate 2>/dev/null)
+if [[ -z "$internet_state" ]]; then
+    internet_state=$(cat /sys/class/net/e*/operstate 2>/dev/null)
 fi
 
-case "$wifi_state" in
+case "$internet_state" in
     down) 
         wifiicon="睊 "
         ;;

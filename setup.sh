@@ -455,16 +455,16 @@ compile_projects() {
 
     print_and_cd_to_dir "$HOME/Code/c" "Compiling"
 
-    if check_dir "neovim"; then
-        cd ..
-        #if dpkg -l | grep -qw "neovim"; then
-        #    sudo apt remove neovim -y
-        #fi
-        #git checkout stable
-        #make CMAKE_BUILD_TYPE=RelWithDebInfo
-        #sudo make install
-        cd ..
-    fi
+    #if check_dir "neovim"; then
+    #    cd ..
+    #    if dpkg -l | grep -qw "neovim"; then
+    #        sudo apt remove neovim -y
+    #    fi
+    #    git checkout stable
+    #    make CMAKE_BUILD_TYPE=RelWithDebInfo
+    #    sudo make install
+    #    cd ..
+    #fi
 
     # Note: If the shell has issues with '++', you might need to quote or escape it...
     print_and_cd_to_dir "$HOME/Code/c++" "Compiling"
