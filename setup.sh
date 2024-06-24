@@ -259,8 +259,8 @@ clone_projects() {
         echo "stk-assets already cloned."
     fi
     clone_repo_if_missing "small_games" "https://github.com/ornfelt/small_games" "linux"
-    clone_repo_if_missing "azerothcore-wotlk-with-npcbots" "https://github.com/rewow/AzerothCore-wotlk-with-NPCBots"
-    clone_repo_if_missing "azerothcore-wotlk-with-npcbots/modules/mod-eluna" "https://github.com/azerothcore/mod-eluna"
+    clone_repo_if_missing "AzerothCore-wotlk-with-NPCBots" "https://github.com/rewow/AzerothCore-wotlk-with-NPCBots"
+    clone_repo_if_missing "AzerothCore-wotlk-with-NPCBots/modules/mod-eluna" "https://github.com/azerothcore/mod-eluna"
     clone_repo_if_missing "Trinitycore-3.3.5-with-NPCBots" "https://github.com/rewow/Trinitycore-3.3.5-with-NPCBots" "npcbots_3.3.5"
     clone_repo_if_missing "simc" "https://github.com/ornfelt/simc"
     clone_repo_if_missing "OpenJKDF2" "https://github.com/ornfelt/OpenJKDF2" "linux"
@@ -671,14 +671,14 @@ compile_projects() {
         cd ../../..
     fi
 
-    if check_dir "azerothcore-wotlk"; then
+    if check_dir "AzerothCore-wotlk-with-NPCBots"; then
         cmake ../ -DCMAKE_INSTALL_PREFIX=$HOME/acore/ -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DWITH_WARNINGS=1 -DTOOLS_BUILD=all -DSCRIPTS=static -DMODULES=static -DWITH_COREDEBUG=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo
         make -j$(nproc)
         make install
         cd ../..
     fi
 
-    if check_dir "trinitycore"; then
+    if check_dir "Trinitycore-3.3.5-with-NPCBots"; then
         cmake ../ -DCMAKE_INSTALL_PREFIX=$HOME/tcore/ -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DWITH_WARNINGS=1 -DTOOLS_BUILD=all -DSCRIPTS=static -DMODULES=static -DWITH_COREDEBUG=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo
         make -j$(nproc)
         make install
@@ -695,7 +695,7 @@ compile_projects() {
     if check_dir "OpenJKDF2" "build*"; then
         export CC=clang
         export CXX=clang++
-        ./build_linux64.sh
+        source build_linux64.sh
         cd ..
     fi
 
