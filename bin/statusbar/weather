@@ -46,7 +46,7 @@ if validate_weather "$WEATHER_REPORT"; then
     #echo "$WEATHER_REPORT" | tee "$HOME/.local/share/weatherreport"
     echo "$CITY $WEATHER_REPORT" | tee "$HOME/.local/share/weatherreport"
 else
-    echo "USING FALLBACK"
+    #echo "USING FALLBACK"
     #FALLBACK_OUTPUT=$(python ~/.local/bin/statusbar/weather_py.py)
     #echo "$FALLBACK_OUTPUT" > "$HOME/.local/share/weatherreport"
     #echo "$FALLBACK_OUTPUT"
