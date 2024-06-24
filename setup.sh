@@ -769,36 +769,30 @@ compile_projects() {
     fi
 
     if check_dir "wowser" "node_modules"; then
-        git checkout minimal
+        git checkout new
         npm install
         cd ..
     fi
-
-    #if check_file "wowmapview" "bin/wowmapview"; then
-    #    cd src/stormlib && make -f Makefile.linux
-    #    cd .. && make
-    #    cd ..
-    #fi
-
-    #if check_file "wowmapviewer" "bin/wowmapview"; then
-    #    cd src/stormlib && make -f Makefile.linux
-    #    cd .. && make
-    #    cd ..
-    #fi
 
     if check_dir "wowmapview"; then
         cmake .. && make -j$(nproc)
         cd ..
     fi
 
-    #if check_dir "wowmapviewer/src"; then
-    #    cmake .. && make -j$(nproc)
-    #    cd ../..
-    #fi
+    if check_file "wowmapviewer" "bin/wowmapview"; then
+        #cd src/stormlib && make -f Makefile.linux
+        #cd .. && make
+        #cd ..
+        cd src
+        mkdir build && cd build
+        cmake .. && make -j$(nproc)
+        cd ../../..
+    fi
 
-    #if check_dir "WebWoWViewer"; then
-    #    cd ..
-    #fi
+    if check_dir "WebWoWViewer" "node_modules"; then
+        npm install
+        cd ..
+    fi
 
     if check_dir "WebWowViewerCpp"; then
         cmake .. && make -j$(nproc)
