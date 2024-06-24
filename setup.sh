@@ -260,7 +260,14 @@ clone_projects() {
     fi
     clone_repo_if_missing "small_games" "https://github.com/ornfelt/small_games" "linux"
     clone_repo_if_missing "AzerothCore-wotlk-with-NPCBots" "https://github.com/rewow/AzerothCore-wotlk-with-NPCBots"
-    clone_repo_if_missing "AzerothCore-wotlk-with-NPCBots/modules/mod-eluna" "https://github.com/azerothcore/mod-eluna"
+    ACORE_DIR="AzerothCore-wotlk-with-NPCBots/modules"
+    if [ -d "$ACORE_DIR" ]; then
+        cd "$ACORE_DIR"
+        clone_repo_if_missing "mod-eluna" "https://github.com/azerothcore/mod-eluna"
+        cd ../..
+    else
+        echo "Directory $DIR does not exist."
+    fi
     clone_repo_if_missing "Trinitycore-3.3.5-with-NPCBots" "https://github.com/rewow/Trinitycore-3.3.5-with-NPCBots" "npcbots_3.3.5"
     clone_repo_if_missing "simc" "https://github.com/ornfelt/simc"
     clone_repo_if_missing "OpenJKDF2" "https://github.com/ornfelt/OpenJKDF2" "linux"
@@ -367,17 +374,10 @@ check_dir() {
                     echo "${target_dir} NOT compiled."
                     return 1
                 fi
-                if [[ "$actual_dir_name" == "ioq3" ]]; then
-                    echo "Entering ${actual_dir_name}..."
-                    cd "./${actual_dir_name}"
-                    sleep 1
-                    return 0 # Return true
-                else
-                    echo "Creating and entering ${target_dir}..."
-                    mkdir -p "$target_dir" && cd "$target_dir"
-                    sleep 1
-                    return 0 # Return true
-                fi
+                echo "Entering ${actual_dir_name}..."
+                cd "./${actual_dir_name}"
+                sleep 1
+                return 0 # Return true
             fi
         else
             if [ -d "$target_dir" ]; then
