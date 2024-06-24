@@ -292,10 +292,9 @@ clone_projects() {
     clone_repo_if_missing "BLPConverter" "https://github.com/ornfelt/BLPConverter"
     clone_repo_if_missing "spelunker" "https://github.com/wowserhq/spelunker"
     clone_repo_if_missing "wowser" "https://github.com/ornfelt/wowser"
-    clone_repo_if_missing "wowmapviewer" "https://github.com/ornfelt/wowmapview" "linux"
+    clone_repo_if_missing "wowmapview" "https://github.com/ornfelt/wowmapview" "linux"
     clone_repo_if_missing "wowmapviewer" "https://github.com/ornfelt/wowmapviewer" "linux"
     clone_repo_if_missing "WebWoWViewer" "https://github.com/ornfelt/WebWoWViewer" "new"
-    clone_repo_if_missing "WebWoWViewerCpp" "https://github.com/ornfelt/WebWoWViewerCpp"
 
     architecture=$(uname -m)
     #if grep -q -i 'raspbian\|raspberry pi os' /etc/os-release; then
