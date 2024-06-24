@@ -259,8 +259,9 @@ clone_projects() {
         echo "stk-assets already cloned."
     fi
     clone_repo_if_missing "small_games" "https://github.com/ornfelt/small_games" "linux"
-    clone_repo_if_missing "azerothcore-wotlk" "https://github.com/ornfelt/azerothcore-wotlk"
-    clone_repo_if_missing "trinitycore" "https://github.com/ornfelt/TrinityCore" "3.3.5"
+    clone_repo_if_missing "azerothcore-wotlk-with-npcbots" "https://github.com/rewow/AzerothCore-wotlk-with-NPCBots"
+    clone_repo_if_missing "azerothcore-wotlk-with-npcbots/modules/mod-eluna" "https://github.com/azerothcore/mod-eluna"
+    clone_repo_if_missing "Trinitycore-3.3.5-with-NPCBots" "https://github.com/rewow/Trinitycore-3.3.5-with-NPCBots" "npcbots_3.3.5"
     clone_repo_if_missing "simc" "https://github.com/ornfelt/simc"
     clone_repo_if_missing "OpenJKDF2" "https://github.com/ornfelt/OpenJKDF2" "linux"
     clone_repo_if_missing "devilutionX" "https://github.com/ornfelt/devilutionX"

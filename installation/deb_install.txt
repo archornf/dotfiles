@@ -39,6 +39,12 @@ sudo apt-get install apt-transport-https
 Setup settings in xfce4-power-manager-settings (display should never sleep) 
 install packages from debian notes... use testing_mode and check for installed
 
+lxappearance -> set gruvbox-dark
+thunar:
+view -> show hidden files
+view -> location selector -> buttons style
+bookmarks: docs, down, pics, repos, Code/c++, General, tools
+
 * hmm, which picom to use?
 https://github.com/ornfelt/picom-animations
 https://github.com/pijulius/picom
