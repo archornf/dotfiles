@@ -1202,6 +1202,11 @@ mysql -u root -p auth < auth.sql
 # git clone https://github.com/archornf/acore_db
 # git clone https://github.com/archornf/tcore_db
 
+******************************************
+GRANT ALL PRIVILEGES ON `ac_eluna` . * TO 'acore'@'localhost' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON * . * TO 'acore'@'localhost' WITH GRANT OPTION;
+
+******************************************
 Wine issues:
 rm -rf $HOME/.wine
 wineboot --init
