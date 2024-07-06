@@ -1,4 +1,3 @@
-libxres-dev
 libxtables12
 libxxf86vm-dev
 libxxhash0
@@ -157,6 +156,7 @@ vorbis-tools
 wamerican
 wget
 whiptail
+wine32
 wine64
 wine
 wireless-tools
