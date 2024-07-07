@@ -46,7 +46,7 @@ window:
 
 # Keybindings
 key_bindings:
-  - { key: V, mods: Alt|Shift, action: ToggleViMode }
+  - { key: V, mods: Alt, action: ToggleViMode }
   - { key: C, mods: Alt|Shift, action: Copy }
   - { key: V, mods: Alt|Shift, action: Paste }
   # - { key: A, mods: Control|Shift, action: IncreaseBackgroundOpacity }
