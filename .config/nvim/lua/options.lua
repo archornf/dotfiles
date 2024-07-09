@@ -14,8 +14,7 @@ require'colorizer'.setup()
 
 -- Decrease update time
 o.timeoutlen = 500
---o.updatetime = 200
-o.updatetime = 50
+o.updatetime = 200
 
 -- Number of screen lines to keep above and below the cursor
 o.scrolloff = 8
@@ -53,20 +52,11 @@ o.ignorecase = true
 -- Undo and backup options
 o.backup = false
 o.writebackup = false
+o.undofile = false
+o.swapfile = false
 -- o.backupdir = '/tmp/'
 -- o.directory = '/tmp/'
-o.swapfile = false
-o.undofile = true
-local undodir
-if vim.fn.has('win32') == 1 or vim.fn.has('win64') == 1 then
-    undodir = vim.fn.expand('$USERPROFILE') .. '\\.vim\\undodir'
-else
-    undodir = vim.fn.expand('$HOME') .. '/.vim/undodir'
-end
-if vim.fn.isdirectory(undodir) == 0 then
-    vim.fn.mkdir(undodir, 'p')
-end
-vim.o.undodir = undodir
+-- o.undodir = '/tmp/'
 
 -- Remember 50 items in commandline history
 o.history = 50
@@ -124,7 +114,6 @@ opt.wildmenu = true
 vim.cmd('set nocompatible')
 opt.shiftround = true
 opt.hlsearch = true
-opt.incsearch = true
 opt.autochdir = true
 
 -- Completion settings
