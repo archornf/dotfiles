@@ -158,7 +158,7 @@ fi
 # Variable to control whether to skip prompts and proceed directly
 justDoIt=false
 # Variable to control whether to only inform about missing repos / builds
-justInform=true
+justInform=false
 
 # Helper function
 print_and_cd_to_dir() {
@@ -176,8 +176,11 @@ clone_repo_if_missing() {
     local branch=$3
     local parent_dir="."
 
+    my_repo_dirs=("my_notes" "utils" "my_js" "my_cplusplus")
+
     echo "--------------------------------------------------------"
-    if [[ "${repo_dir,,}" == "my_notes" || "${repo_dir,,}" == "utils" ]]; then
+    if printf '%s\n' "${my_repo_dirs[@]}" | grep -q "^$repo_dir$"; then
+    #if [[ "${repo_dir,,}" == "my_notes" || "${repo_dir,,}" == "utils" ]]; then
         if [ -z "$GITHUB_TOKEN" ]; then
             echo "Error: GITHUB_TOKEN environment variable is not set. Skipping $repo_dir..."
             return 1
@@ -206,7 +209,9 @@ clone_repo_if_missing() {
             clone_cmd="$clone_cmd -b $branch"
         fi
 
-        if [[ "${repo_dir,,}" == "my_notes" || "${repo_dir,,}" == "utils" ]]; then
+        # Check if the lowercase repo_dir exists in the my_repo_dirs array
+        #if [[ "${repo_dir,,}" == "my_notes" || "${repo_dir,,}" == "utils" ]]; then
+        if printf '%s\n' "${my_repo_dirs[@]}" | grep -q "^$repo_dir$"; then
             repo_url="${repo_url/https:\/\//https:\/\/$GITHUB_TOKEN@}"
         fi
 
@@ -218,7 +223,6 @@ clone_repo_if_missing() {
 
 # Clone projects (unless they already exist)
 clone_projects() {
-
     print_and_cd_to_dir "$HOME/Documents" "Cloning"
     clone_repo_if_missing "my_notes" "https://github.com/archornf/my_notes"
 
@@ -275,6 +279,12 @@ clone_projects() {
     clone_repo_if_missing "crispy-doom" "https://github.com/ornfelt/crispy-doom"
     clone_repo_if_missing "dhewm3" "https://github.com/ornfelt/dhewm3"
 
+    clone_repo_if_missing "my_cplusplus" "https://github.com/ornfelt/my_cplusplus"
+    clone_repo_if_missing "japp" "https://github.com/ornfelt/japp"
+    clone_repo_if_missing "mangos-classic" "https://github.com/ornfelt/mangos-classic"
+    clone_repo_if_missing "core" "https://github.com/ornfelt/core"
+    clone_repo_if_missing "server" "https://github.com/ornfelt/server"
+
     print_and_cd_to_dir "$HOME/Code2/General" "Cloning"
     clone_repo_if_missing "Svea-Examples" "https://github.com/ornfelt/Svea-Examples"
     clone_repo_if_missing "1brc" "https://github.com/ornfelt/1brc"
@@ -282,6 +292,9 @@ clone_projects() {
 
     print_and_cd_to_dir "$HOME/Code2/Go" "Cloning"
     clone_repo_if_missing "wotlk-sim" "https://github.com/ornfelt/wotlk-sim"
+
+    print_and_cd_to_dir "$HOME/Code2/Javascript" "Cloning"
+    clone_repo_if_missing "my_js" "https://github.com/ornfelt/my_js"
 
     print_and_cd_to_dir "$HOME/Code2/Python" "Cloning"
     clone_repo_if_missing "wander_nodes_util" "https://github.com/ornfelt/wander_nodes_util"
@@ -342,19 +355,23 @@ install_if_missing() {
     fi
 }
 
-check_dir() {
+ask_for_compile() {
     local dir_name=$1
-    local dir_type=${2:-build} # Default to build
-    echo "--------------------------------------------------------"
 
     read -p "Compile $dir_name? (yes/y to confirm): " user_input
     if [[ "$user_input" =~ ^([yY][eE][sS]|[yY])$ ]]; then
         echo "Proceeding with compilation of $dir_name..."
     else
         echo "Skipping compilation of $dir_name."
-        return 1 # False, exit function
+        return 1 # False
     fi
-    
+}
+
+check_dir() {
+    local dir_name=$1
+    local dir_type=${2:-build} # Default to build
+    echo "--------------------------------------------------------"
+
     # Capture the actual directory name, preserving its case
     #local actual_dir_name=$(find . -maxdepth 1 -type d -iname "${dir_name}" -exec basename {} \; | head -n 1)
     # Use loop instead to get rid of find basename terminated by signal 13...
@@ -377,6 +394,11 @@ check_dir() {
                     echo "${target_dir} NOT compiled."
                     return 1
                 fi
+
+                if ! ask_for_compile "$dir_name"; then
+                    return 1
+                fi
+    
                 echo "Entering ${actual_dir_name}..."
                 cd "./${actual_dir_name}"
                 sleep 1
@@ -391,6 +413,11 @@ check_dir() {
                     echo "${target_dir} NOT compiled."
                     return 1
                 fi
+
+                if ! ask_for_compile "$dir_name"; then
+                    return 1
+                fi
+
                 if [[ "$dir_type" == *"build"* ]]; then
                     echo "Creating and entering ${target_dir}..."
                     mkdir -p "$target_dir" && cd "$target_dir"
@@ -413,14 +440,6 @@ check_file() {
     local file_path=$2
     echo "--------------------------------------------------------"
 
-    read -p "Compile $dir_name? (yes/y to confirm): " user_input
-    if [[ "$user_input" =~ ^([yY][eE][sS]|[yY])$ ]]; then
-        echo "Proceeding with compilation of $dir_name..."
-    else
-        echo "Skipping compilation of $dir_name."
-        return 1 # False, exit function
-    fi
-    
     # Capture the actual directory name, preserving its case
     #local actual_dir_name=$(find . -maxdepth 1 -type d -iname "$dir_name" -exec basename {} \; | head -n 1)
     # Use loop instead to get rid of find basename terminated by signal 13...
@@ -442,6 +461,11 @@ check_file() {
             echo "${dir_name} NOT compiled."
             return 1
         fi
+
+        if ! ask_for_compile "$dir_name"; then
+            return 1
+        fi
+
         echo "Entering ${actual_dir_name}..."
         cd "./${actual_dir_name}"
         return 0 # Return true
@@ -493,11 +517,11 @@ compile_projects() {
             make -j$(nproc)
             sudo make install
             #cd ...
-            cd ../..
+            #cd ../..
         else
             echo "MyGUI is not installed or not found."
-            cd ..
         fi
+        cd "$HOME/Code/c++"
     fi
 
     if check_dir "OpenJK"; then
@@ -505,7 +529,7 @@ compile_projects() {
         cmake -DCMAKE_INSTALL_PREFIX=/home/jonas/.local/share/openjk -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
         make -j$(nproc)
         sudo make install
-        cd ../..
+        cd "$HOME/Code/c++"
     fi
 
     # Compile if NOT arm arch
@@ -514,21 +538,21 @@ compile_projects() {
             cmake -DCMAKE_INSTALL_PREFIX=/home/jonas/Downloads/ja_data -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
             make -j$(nproc)
             sudo make install
-            cd ../..
+            cd "$HOME/Code/c++"
         fi
 
         if check_dir "jk2mv.js" "build_new"; then
             cmake .. CMAKE_BUILD_TYPE=Release
             make -j$(nproc)
             sudo make install
-            cd ../..
+            cd "$HOME/Code/c++"
         fi
 
         if check_dir "Unvanquished"; then
             cd .. && ./download-paks build/pkg && cd -
             cmake .. -DCMAKE_BUILD_TYPE=Release
             make -j$(nproc)
-            cd ../..
+            cd "$HOME/Code/c++"
         fi
     fi
 
@@ -554,7 +578,7 @@ compile_projects() {
             cd build && make help
             make config=release_linux-amd64-librw_gl3_glfw-oal
         fi
-        cd ../..
+        cd "$HOME/Code/c++"
     fi
 
     if check_dir "re3_vice"; then
@@ -568,7 +592,7 @@ compile_projects() {
             cd build && make help
             make config=release_linux-amd64-librw_gl3_glfw-oal
         fi
-        cd ../..
+        cd "$HOME/Code/c++"
     fi
 
     if check_dir "reone"; then
@@ -576,7 +600,7 @@ compile_projects() {
         cmake -B build -S . -DCMAKE_BUILD_TYPE=RelWithDebInfo
         cd build && make -j$(nproc)
         sudo make install
-        cd ../..
+        cd "$HOME/Code/c++"
     fi
 
     print_and_cd_to_dir "$HOME/Code/js" "Compiling"
@@ -585,7 +609,7 @@ compile_projects() {
         npm install
         #npm run webpack:dev-watch
         npm run webpack:dev -- --no-watch # No watch to exit after compile
-        cd ..
+        cd "$HOME/Code/js"
     fi
 
     print_and_cd_to_dir "$HOME/Code/rust" "Compiling"
@@ -605,22 +629,20 @@ compile_projects() {
             cargo build --release --no-default-features --features x11
             cd target/release
             chmod +x ./eww
-            cd ../../..
         else
             echo "rustc version is 1.63 or below. Skipping rust project..."
-            cd ..
         fi
+        cd "$HOME/Code/rust"
     fi
 
     if check_dir "swww" "target"; then
         if [ "$major_version" -gt 1 ] || { [ "$major_version" -eq 1 ] && [ "$minor_version" -gt 63 ]; }; then
             echo "rustc version is above 1.63"
             cargo build --release
-            cd ..
         else
             echo "rustc version is 1.63 or below. Skipping rust project..."
-            cd ..
         fi
+        cd "$HOME/Code/rust"
     fi
 
     print_and_cd_to_dir "$HOME/Code2/C" "Compiling"
@@ -628,78 +650,78 @@ compile_projects() {
     if check_dir "ioq3"; then
         cd ..
         make
-        cd ..
+        cd "$HOME/Code2/C"
     fi
 
     #if check_dir "picom-animations"; then
     #    cd ..
     #    meson --buildtype=release . build
     #    ninja -C build
-    #    cd ..
     #fi
+    cd "$HOME/Code2/C"
 
     print_and_cd_to_dir "$HOME/Code2/C++" "Compiling"
 
     if check_dir "stk-code"; then
         cmake .. -DCMAKE_BUILD_TYPE=Release -DNO_SHADERC=on
         make -j$(nproc)
-        cd ../..
+        cd "$HOME/Code2/C++"
     fi
 
-    # Simply check for Craft binary for this...
-    if check_file "small_games" "Craft/craft"; then
-        cd BirdGame
-        g++ -std=c++17 -g *.cpp -o main -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
-        cp -r BirdGame/graphics ./
-
-        echo "--------------------------------------------------------"
-        cd ../CPP_FightingGame/FightingGameProject
-        cmake . && make -j$(nproc)
-
-        echo "--------------------------------------------------------"
-        cd ../../Craft
+    cd "$HOME/Code2/C++/small_games"
+    if check_file "Craft" "craft"; then
         cmake . && make -j$(nproc)
         gcc -std=c99 -O3 -fPIC -shared -o world -I src -I deps/noise deps/noise/noise.c src/world.c
+    fi
 
-        echo "--------------------------------------------------------"
-        cd ../space-shooter/
+    cd "$HOME/Code2/C++/small_games"
+    if check_file "BirdGame" "main"; then
+        g++ -std=c++17 -g *.cpp -o main -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
+        cp -r BirdGame/graphics ./
+    fi
+
+    cd "$HOME/Code2/C++/small_games/CPP_FightingGame"
+    if check_file "CPPFightingGame" "FightingGameProject"; then
+        cmake . && make -j$(nproc)
+    fi
+
+    if check_dir "space-shooter"; then
         make linux
         #make linux-release
-
-        echo "--------------------------------------------------------"
-        cd ../pacman/
-        mkdir build && cd build
-        cmake ..
-        cmake --build .
-        cd ../../..
     fi
+
+    cd "$HOME/Code2/C++/small_games"
+    if check_dir "pacman"; then
+        cmake .. && cmake --build .
+    fi
+    cd "$HOME/Code2/C++"
 
     if check_dir "AzerothCore-wotlk-with-NPCBots"; then
         cmake ../ -DCMAKE_INSTALL_PREFIX=$HOME/acore/ -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DWITH_WARNINGS=1 -DTOOLS_BUILD=all -DSCRIPTS=static -DMODULES=static -DWITH_COREDEBUG=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo
         make -j$(nproc)
         make install
-        cd ../..
+        cd "$HOME/Code2/C++"
     fi
 
     if check_dir "Trinitycore-3.3.5-with-NPCBots"; then
         cmake ../ -DCMAKE_INSTALL_PREFIX=$HOME/tcore/ -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DWITH_WARNINGS=1 -DTOOLS_BUILD=all -DSCRIPTS=static -DMODULES=static -DWITH_COREDEBUG=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo
         make -j$(nproc)
         make install
-        cd ../..
+        cd "$HOME/Code2/C++"
     fi
 
     if check_dir "simc"; then
         cmake ../ -DCMAKE_BUILD_TYPE=Release
         make -j$(nproc)
         sudo make install
-        cd ../..
+        cd "$HOME/Code2/C++"
     fi
 
     if check_dir "OpenJKDF2" "build*"; then
         export CC=clang
         export CXX=clang++
         source build_linux64.sh
-        cd ..
+        cd "$HOME/Code2/C++"
     fi
 
     if check_dir "devilutionX" "build*"; then
@@ -709,7 +731,6 @@ compile_projects() {
             cd tools
             source build_and_install_smpq.sh
             sudo cp /usr/local/bin/smpq /usr/bin/smpq
-            cd ..
         fi
         if [[ "$architecture" == arm* ]] || [[ "$architecture" == aarch64* ]]; then
             source Packaging/nix/debian-cross-aarch64-prep.sh
@@ -722,27 +743,71 @@ compile_projects() {
             cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
             cmake --build build -j $(getconf _NPROCESSORS_ONLN)
         fi
-        cd ..
+        cd "$HOME/Code2/C++"
     fi
 
     if check_file "crispy-doom" "src/crispy-doom"; then
         autoreconf -fiv
         ./configure
         make -j$(nproc)
-        cd ..
+        cd "$HOME/Code2/C++"
     fi
 
     if check_dir "dhewm3"; then
         cmake ../neo/
         make -j$(nproc)
-        cd ..
+        cd "$HOME/Code2/C++"
     fi
+
+    # TODO:
+    #if check_file "japp" "uix86_64.so"; then
+    #    scons
+    #    cd "$HOME/Code2/C++"
+    #fi
+
+    #if check_dir "mangos-classic"; then
+    #    cmake .. -DCMAKE_INSTALL_PREFIX=~/cmangos/run -DBUILD_EXTRACTORS=ON -DPCH=1 -DDEBUG=0 -DBUILD_PLAYERBOTS=ON
+    #    make -j$(nproc)
+    #    cd "$HOME/Code2/C++"
+    #fi
+
+    #if check_dir "core"; then
+    #    cmake .. -DDEBUG=0 -DSUPPORTED_CLIENT_BUILD=5875 -DUSE_EXTRACTORS=1 -DCMAKE_INSTALL_PREFIX=$HOME/vmangos
+    #    make -j$(nproc)
+    #    cd "$HOME/Code2/C++"
+    #fi
+
+    #if check_dir "server"; then
+    #    #cmake ???
+    #    make -j$(nproc)
+    #    cd "$HOME/Code2/C++"
+    #fi
+
+    cd my_cplusplus/Navigation
+    if check_dir "Pathing"; then
+        cmake .. -DCMAKE_BUILD_TYPE=Release
+        make -j$(nproc)
+    fi
+    cd "$HOME/Code2/C++"
+
+    print_and_cd_to_dir "$HOME/Code2/Javascript" "Compiling"
+
+    cd my_js/three
+    if check_dir "azeroth-web" "node_modules"; then
+        npm install
+    fi
+    cd "$HOME/Code2/Javascript"
+    cd my_js/three
+    if check_dir "azeroth-web-proxy" "node_modules"; then
+        npm install
+    fi
+    cd "$HOME/Code2/Javascript"
 
     print_and_cd_to_dir "$HOME/Code2/Wow/tools" "Compiling"
 
     if check_file "mpq" "gophercraft_mpq_set"; then
         go build github.com/Gophercraft/mpq/cmd/gophercraft_mpq_set
-        cd ..
+        cd "$HOME/Code2/Wow/tools"
     fi
 
     if check_dir "BLPConverter"; then
@@ -750,7 +815,7 @@ compile_projects() {
         sudo make install
         sudo cp /usr/local/lib/libblp.so /usr/lib/
         sudo ldconfig
-        cd ../../
+        cd "$HOME/Code2/Wow/tools"
     fi
 
     if check_dir "StormLib"; then
@@ -758,25 +823,25 @@ compile_projects() {
         sudo make install
         sudo cp /usr/local/lib/libstorm.so /usr/lib/
         sudo ldconfig
-        cd ../../
+        cd "$HOME/Code2/Wow/tools"
     fi
 
     if check_dir "spelunker" "node_modules"; then
         npm install
         cd packages/spelunker-api && npm install && cd -
         cd packages/spelunker-web && npm install && cd -
-        cd ..
+        cd "$HOME/Code2/Wow/tools"
     fi
 
     if check_dir "wowser" "node_modules"; then
         git checkout new
         npm install
-        cd ..
+        cd "$HOME/Code2/Wow/tools"
     fi
 
     if check_dir "wowmapview"; then
         cmake .. && make -j$(nproc)
-        cd ..
+        cd "$HOME/Code2/Wow/tools"
     fi
 
     if check_file "wowmapviewer" "bin/wowmapview"; then
@@ -786,17 +851,17 @@ compile_projects() {
         cd src
         mkdir build && cd build
         cmake .. && make -j$(nproc)
-        cd ../../..
+        cd "$HOME/Code2/Wow/tools"
     fi
 
     if check_dir "WebWoWViewer" "node_modules"; then
         npm install
-        cd ..
+        cd "$HOME/Code2/Wow/tools"
     fi
 
     if check_dir "WebWowViewerCpp"; then
         cmake .. && make -j$(nproc)
-        cd ..
+        cd "$HOME/Code2/Wow/tools"
     fi
 
     cd "$original_dir"
