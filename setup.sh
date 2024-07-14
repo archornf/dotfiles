@@ -681,11 +681,13 @@ compile_projects() {
     fi
 
     cd "$HOME/Code2/C++/small_games/CPP_FightingGame"
-    if check_file "CPPFightingGame" "FightingGameProject"; then
+    if check_file "FightingGameProject" "CPPFightingGame"; then
         cmake . && make -j$(nproc)
     fi
 
+    cd "$HOME/Code2/C++/small_games"
     if check_dir "space-shooter"; then
+        cd ..
         make linux
         #make linux-release
     fi
@@ -759,29 +761,28 @@ compile_projects() {
         cd "$HOME/Code2/C++"
     fi
 
-    # TODO:
-    #if check_file "japp" "uix86_64.so"; then
-    #    scons
-    #    cd "$HOME/Code2/C++"
-    #fi
+    if check_file "japp" "uix86_64.so"; then
+        scons
+        cd "$HOME/Code2/C++"
+    fi
 
-    #if check_dir "mangos-classic"; then
-    #    cmake .. -DCMAKE_INSTALL_PREFIX=~/cmangos/run -DBUILD_EXTRACTORS=ON -DPCH=1 -DDEBUG=0 -DBUILD_PLAYERBOTS=ON
-    #    make -j$(nproc)
-    #    cd "$HOME/Code2/C++"
-    #fi
+    if check_dir "mangos-classic"; then
+        cmake .. -DCMAKE_INSTALL_PREFIX=~/cmangos/run -DBUILD_EXTRACTORS=ON -DPCH=1 -DDEBUG=0 -DBUILD_PLAYERBOTS=ON
+        make -j$(nproc)
+        cd "$HOME/Code2/C++"
+    fi
 
-    #if check_dir "core"; then
-    #    cmake .. -DDEBUG=0 -DSUPPORTED_CLIENT_BUILD=5875 -DUSE_EXTRACTORS=1 -DCMAKE_INSTALL_PREFIX=$HOME/vmangos
-    #    make -j$(nproc)
-    #    cd "$HOME/Code2/C++"
-    #fi
+    if check_dir "core"; then
+        cmake .. -DDEBUG=0 -DSUPPORTED_CLIENT_BUILD=5875 -DUSE_EXTRACTORS=1 -DCMAKE_INSTALL_PREFIX=$HOME/vmangos
+        make -j$(nproc)
+        cd "$HOME/Code2/C++"
+    fi
 
-    #if check_dir "server"; then
-    #    #cmake ???
-    #    make -j$(nproc)
-    #    cd "$HOME/Code2/C++"
-    #fi
+    if check_dir "server"; then
+        #cmake ???
+        make -j$(nproc)
+        cd "$HOME/Code2/C++"
+    fi
 
     cd my_cplusplus/Navigation
     if check_dir "Pathing"; then

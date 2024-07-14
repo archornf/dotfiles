@@ -52,6 +52,19 @@ clone_repo_if_missing() {
 }
 
 
+# if echo "my_notes utils my_js my_cplusplus" | grep -qw "${repo_dir,,}"; then repo_url="${repo_url/https:\/\//https:\/\/$GITHUB_TOKEN@}"; fi
+
+# directories=("my_notes" "utils" "my_js" "my_cplusplus")
+# repo_dir_lower="${repo_dir,,}"
+# 
+# for dir in "${directories[@]}"; do
+#     if [[ "$repo_dir_lower" == "$dir" ]]; then
+#         repo_url="${repo_url/https:\/\//https:\/\/$GITHUB_TOKEN@}"
+#         break
+#     fi
+# done
+
+
 clone_repo_if_missing "my_notes" "https://github.com/archornf/my_notes"
 clone_repo_if_missing "neovim" "https://github.com/neovim/neovim"
 clone_repo_if_missing "vmangos" "https://github.com/ornfelt/vmangos"
