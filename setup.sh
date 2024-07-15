@@ -375,6 +375,7 @@ check_dir() {
     # Capture the actual directory name, preserving its case
     #local actual_dir_name=$(find . -maxdepth 1 -type d -iname "${dir_name}" -exec basename {} \; | head -n 1)
     # Use loop instead to get rid of find basename terminated by signal 13...
+    actual_dir_name=""
     while IFS= read -r path; do
         actual_dir_name=$(basename "$path")
         break
@@ -443,6 +444,7 @@ check_file() {
     # Capture the actual directory name, preserving its case
     #local actual_dir_name=$(find . -maxdepth 1 -type d -iname "$dir_name" -exec basename {} \; | head -n 1)
     # Use loop instead to get rid of find basename terminated by signal 13...
+    actual_dir_name=""
     while IFS= read -r path; do
         actual_dir_name=$(basename "$path")
         break
@@ -953,51 +955,4 @@ else
         fi
     fi
 fi
-
-
-# Kept for reference...
-
-#clone_repo_if_missing() {
-#    local repo_dir=$1
-#    local repo_url=$2
-#    local branch=$3
-#
-#    local parent_dir=$(dirname "$repo_dir")
-#    local target_dir_name=$(basename "$repo_dir")
-#    local target_dir_name_lower=$(echo "$target_dir_name" | tr '[:upper:]' '[:lower:]')
-#    local dir_exists=false
-#
-#    # Might be more robust than the above for directories with a large number
-#    # of files or when dealing with special characters in filenames
-#    if [ -d "$parent_dir" ]; then
-#        while IFS= read -r dir; do
-#            dir_name=$(basename "$dir")
-#            if [ "$(echo "$dir_name" | tr '[:upper:]' '[:lower:]')" = "$target_dir_name_lower" ]; then
-#                dir_exists=true
-#                break
-#            fi
-#        done < <(find "$parent_dir" -maxdepth 1 -type d)
-#    fi
-#
-#    if ! $dir_exists; then
-#        echo "Cloning $repo_dir from $repo_url"
-#
-#        if [[ "$target_dir_name_lower" == "trinitycore" || "$target_dir_name_lower" == "simc" ]]; then
-#            echo "Cloning $repo_dir with --single-branch --depth 1"
-#            if [ -z "$branch" ]; then
-#                git clone --recurse-submodules $repo_url --single-branch --depth 1 "$repo_dir"
-#            else
-#                git clone --recurse-submodules -b $branch $repo_url --single-branch --depth 1 "$repo_dir"
-#            fi
-#        else
-#            if [ -z "$branch" ]; then
-#                git clone --recurse-submodules $repo_url "$repo_dir"
-#            else
-#                git clone --recurse-submodules -b $branch $repo_url "$repo_dir"
-#            fi
-#        fi
-#    else
-#        echo "$repo_dir already cloned."
-#    fi
-#}
 
