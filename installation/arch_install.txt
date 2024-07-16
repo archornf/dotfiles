@@ -9,8 +9,8 @@ station wlan0 connect OWNIT-B1C0
 enter password...
 
 ******************************************
-curl -o install.txt https://raw.githubusercontent.com/archornf/dotfiles/master/installation/install.txt
-wget -O install.txt https://raw.githubusercontent.com/archornf/dotfiles/master/installation/install.txt
+curl -o arch_install.txt https://raw.githubusercontent.com/archornf/dotfiles/master/installation/arch_install.txt
+wget -O arch_install.txt https://raw.githubusercontent.com/archornf/dotfiles/master/installation/arch_install.txt
 ******************************************
 
 # Load the right keys

@@ -67,8 +67,8 @@ Rust version needs fix.
 Fix everything else, like game data files, dotnet and other stuff...
 
 ******************************************
-curl -o install.txt https://raw.githubusercontent.com/archornf/dotfiles/master/installation/install.txt
-wget -O install.txt https://raw.githubusercontent.com/archornf/dotfiles/master/installation/install.txt
+curl -o arch_install.txt https://raw.githubusercontent.com/archornf/dotfiles/master/installation/arch_install.txt
+wget -O arch_install.txt https://raw.githubusercontent.com/archornf/dotfiles/master/installation/arch_install.txt
 
 curl -o deb_install.txt https://raw.githubusercontent.com/archornf/dotfiles/master/installation/deb_install.txt
 wget -O deb_install.txt https://raw.githubusercontent.com/archornf/dotfiles/master/installation/deb_install.txt

@@ -46,7 +46,6 @@ cp bin/lf-select $HOME/.local/bin/
 cp bin/greenclip $HOME/.local/bin/
 
 cp -r installation/ $HOME/Documents/
-cp installation/help.txt $HOME/Documents/
 cp Screenshots/space.jpg $HOME/Pictures/Wallpapers/
 
 cp .bashrc $HOME/.bashrc
