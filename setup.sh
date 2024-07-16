@@ -780,7 +780,7 @@ compile_projects() {
     fi
 
     if check_dir "server"; then
-        #cmake ???
+        cmake -S .. -B ../build/ -DBUILD_MANGOSD=1 -DBUILD_REALMD=1 -DBUILD_TOOLS=1 -DUSE_STORMLIB=1 -DSCRIPT_LIB_ELUNA=1 -DSCRIPT_LIB_SD3=1 -DPLAYERBOTS=1 -DPCH=1
         make -j$(nproc)
         cd "$HOME/Code2/C++"
     fi
