@@ -134,10 +134,21 @@ if omnisharp_path then
     }
 end
 
---require'lspconfig'.powershell_es.setup{
---  bundle_path = 'c:/w/PowerShellEditorServices',
---  shell = 'powershell.exe',
---}
+if vim.fn.has('win32') == 1 then
+    local binary_name = 'powershell.exe'
+    local user_profile = vim.loop.os_getenv("USERPROFILE")
+    local bundle_path = user_profile .. '/Downloads/PowerShellEditorServices'
+
+    local ps_attach_config = {
+        on_attach = on_attach,
+        bundle_path = bundle_path,
+        shell = binary_name,
+    }
+
+    if vim.fn.executable(binary_name) == 1 and vim.fn.isdirectory(bundle_path) == 1 then
+    lspconfig.powershell_es.setup(ps_attach_config)
+    end
+end
 
  -- Setup nvim-cmp.
 local cmp = require'cmp'

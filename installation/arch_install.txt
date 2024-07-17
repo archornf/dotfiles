@@ -245,6 +245,9 @@ joypixels etc...
 
 mono dotnet-sdk jre-openjdk jdk-openjdk rust xfce4-power-manager go lm_sensors
 
+Try installing rust from site instead of through package... rust-analyzer
+compatible? Maybe the binary needs to be downloaded...
+
 zip unzip htop bashtop imagemagick tmux fuse perl ntfs-3g cronie scrot maim visidata cmake qrencode yad
 python-gobject sndio netctl dhcpcd
 sudo systemctl start dhcpcd.service
