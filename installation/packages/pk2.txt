@@ -1,4 +1,3 @@
-mako
 mariadb
 meson
 mono
@@ -93,3 +92,5 @@ texlive-plaingeneric
 texlive-pstricks
 texlive-publishers
 texlive-xetex
+the_silver_searcher
+thunar

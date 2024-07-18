@@ -93,3 +93,4 @@ lxappearance
 m4
 maim
 make
+mako

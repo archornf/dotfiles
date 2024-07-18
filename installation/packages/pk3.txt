@@ -1,5 +1,3 @@
-the_silver_searcher
-thunar
 tinyobjloader
 tk
 tlp
@@ -10,6 +8,7 @@ ttf-icomoon-feather
 ttf-iosevka-nerd
 ttf-jetbrains-mono-nerd
 ttf-joypixels
+ueberzug
 ufw
 unshield
 unzip
