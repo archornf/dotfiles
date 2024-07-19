@@ -446,26 +446,19 @@ vim.api.nvim_set_keymap('n', '<M-S-X>', '<Cmd>!chmod +x %<CR>', { noremap = true
 -- 
 -- Function to execute command under cursor or highlighted text
 function execute_command()
-  -- Get the mode (visual or normal)
   local mode = vim.fn.mode()
-
-  -- Initialize command variable
   local command
 
   if mode == 'v' or mode == 'V' then
-    -- If in visual mode, get the highlighted text
-    vim.cmd('normal! gv"xy')  -- Copy the selected text to register x
+    vim.cmd('normal! gv"xy')
     command = vim.fn.getreg('x')
   else
-    -- If in normal mode, get the current line
     command = vim.fn.getline('.')
   end
 
-  -- Execute the command
   vim.cmd(command)
 end
 
--- Create keybinding for normal and visual mode
 vim.api.nvim_set_keymap('n', '<leader>el', ':lua execute_command()<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('v', '<leader>el', ':lua execute_command()<CR>', { noremap = true, silent = true })
 

@@ -976,3 +976,4 @@ copy_game_data() {
     # /home/jonas/.local/share/OpenJKDF2/openjkdf2
     # Also create dir with mkdir -p to make sure it exists!
 }
+
