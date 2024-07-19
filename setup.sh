@@ -770,18 +770,31 @@ compile_projects() {
     if check_dir "mangos-classic"; then
         cmake .. -DCMAKE_INSTALL_PREFIX=~/cmangos/run -DBUILD_EXTRACTORS=ON -DPCH=1 -DDEBUG=0 -DBUILD_PLAYERBOTS=ON
         make -j$(nproc)
+        sudo make install
         cd "$HOME/Code2/C++"
     fi
 
     if check_dir "core"; then
         cmake .. -DDEBUG=0 -DSUPPORTED_CLIENT_BUILD=5875 -DUSE_EXTRACTORS=1 -DCMAKE_INSTALL_PREFIX=$HOME/vmangos
         make -j$(nproc)
+        sudo make install
+        # git clone https://github.com/brotalnia/database vmangos_db
+        #7z x world_full_14_june_2021.7z
         cd "$HOME/Code2/C++"
     fi
 
     if check_dir "server"; then
-        cmake -S .. -B ../build/ -DBUILD_MANGOSD=1 -DBUILD_REALMD=1 -DBUILD_TOOLS=1 -DUSE_STORMLIB=1 -DSCRIPT_LIB_ELUNA=1 -DSCRIPT_LIB_SD3=1 -DPLAYERBOTS=1 -DPCH=1
+        cmake -S .. -B ./ -DBUILD_MANGOSD=1 -DBUILD_REALMD=1 -DBUILD_TOOLS=1 -DUSE_STORMLIB=1 -DSCRIPT_LIB_ELUNA=1 -DSCRIPT_LIB_SD3=1 -DPLAYERBOTS=1 -DPCH=1 -DCMAKE_INSTALL_PREFIX=$HOME/mangoszero/run
         make -j$(nproc)
+        sudo make install
+        sudo chown -R $USER:$USER $HOME/mangoszero
+        cp aiplayerbot.conf.dist aiplayerbot.conf
+        cp ahbot.conf.dist ahbot.conf
+        cp mangosd.conf.dist mangosd.conf
+        cp realmd.conf.dist realmd.conf
+        # git clone https://github.com/mangoszero/database
+        # TODO: check databases... Create with sql scripts if they don't exist...
+        # mkdir -p openjkdf2... copy and unzip game date if any is missing...
         cd "$HOME/Code2/C++"
     fi
 
@@ -955,3 +968,11 @@ else
     fi
 fi
 
+# Copy game data
+copy_game_data() {
+    # Check mounted hdd path: /media or /media2
+    # First just check if wow exists at given location, otherwise quit and inform.
+    # For every copy, first check that the dir exists, then copy, and unzip correctly if needed...
+    # /home/jonas/.local/share/OpenJKDF2/openjkdf2
+    # Also create dir with mkdir -p to make sure it exists!
+}
