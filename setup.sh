@@ -1024,8 +1024,8 @@ copy_game_data() {
 
     # Directories to copy from 2024
     DIRS=("wow" "wow_classic" "wow_retail" "cata")
-    # Also determine DEST_DIR for wow dirs:
-    # "/mnt/new/2024/wow"
+    # Check in copy_dir_to_target if the dir to be copied exists in
+    # /mnt/new/
     DEST_DIR="$HOME/Downloads"
 
     for dir in "${DIRS[@]}"; do
@@ -1040,11 +1040,94 @@ copy_game_data() {
     # gta and vice, openmw, diablo, stk_addons
     # copy japp stuff?
 
-    # For every copy, first check that the dir exists, then copy, and unzip
-    # correctly if needed...
     mkdir -p $HOME/.local/share/OpenJKDF2/openjkdf2
+    mkdir -p $HOME/acore/bin
+    mkdir -p $HOME/tcore/bin
+    mkdir -p $HOME/vmangos/bin
+    mkdir -p $HOME/cmangos/run/bin
+    mkdir -p $HOME/mangoszero/bin
+    mkdir -p $HOME/.local/share/supertuxkart/addons
     # sudo cp liblua as well for mangoszero (debian, weird...)
 
+    I wish to call copy_dir_to_target
+    for the following sources and target dirs:
+
+    $MEDIA_PATH/2024/acore/Cameras
+    $MEDIA_PATH/2024/acore/dbc
+    $MEDIA_PATH/2024/acore/dbc_old
+    $MEDIA_PATH/2024/acore/lua_scripts # Copy scripts individually instead?
+    $MEDIA_PATH/2024/acore/maps
+    $MEDIA_PATH/2024/acore/mmaps
+    $MEDIA_PATH/2024/acore/vmaps
+
+    Copy all files and directories in $MEDIA_PATH/2024/tcore/
+    to: $HOME/tcore/bin
+
+    $MEDIA_PATH/2024/cmangos/x64_RelWithDebInfo/Cameras
+    $MEDIA_PATH/2024/cmangos/x64_RelWithDebInfo/dbc
+    $MEDIA_PATH/2024/cmangos/x64_RelWithDebInfo/maps
+    $MEDIA_PATH/2024/cmangos/x64_RelWithDebInfo/mmaps
+    $MEDIA_PATH/2024/cmangos/x64_RelWithDebInfo/vmaps
+    to: $HOME/cmangos/run/bin
+
+    $MEDIA_PATH/2024/vmangos/RelWithDebInfo/Cameras
+    $MEDIA_PATH/2024/vmangos/RelWithDebInfo/5875
+    $MEDIA_PATH/2024/vmangos/RelWithDebInfo/maps
+    $MEDIA_PATH/2024/vmangos/RelWithDebInfo/mmaps
+    $MEDIA_PATH/2024/vmangos/RelWithDebInfo/vmaps
+    to: $HOME/vmangos/bin
+
+    $MEDIA_PATH/2024/mangoszero/RelWithDebInfo/dbc
+    $MEDIA_PATH/2024/mangoszero/RelWithDebInfo/maps
+    $MEDIA_PATH/2024/mangoszero/RelWithDebInfo/mmaps
+    $MEDIA_PATH/2024/mangoszero/RelWithDebInfo/vmaps
+    to: $HOME/mangoszero/bin
+
+    $MEDIA_PATH/2024/db_bkp to $HOME/Documents
+
+    Copy all files from dir:
+    $MEDIA_PATH/2024/diasurgical/devilution
+    to:
+    /home/jonas/Code2/C++/devilutionX/build
+
+    unzip doom3_base.zip and copy files into
+    /home/jonas/Code2/C++/dhewm3/build/base
+
+    unzip DOOM.zip and copy files to $HOME/Downloads
+
+    copy GTA3 to $HOME/Downloads but rename it to gta3 (lowercase)
+    copy GTA_VICE to $HOME/Downloads but rename it to gta_vice (lowercase)
+
+    unzip jedi_outcast_gamedata.zip and copy to pk3 files to:
+    $HOME/.local/share/openjk/JediOutcast/base
+
+    unzip JK_JA_GameData.zip and copy pk3 files to:
+    /home/jonas/.local/share/openjk/JediAcademy/base
+    # Not 100% sure aboput JediKnightGalaxies and jk2mv...
+
+    copy $MEDIA_PATH/2024/my_docs to $HOME/Documents/
+
+    Copy Morrowind.zip to $HOME/Downloads and unzip...
+
+    Copy all files and dirs from star_wars_jkdf2 to:
+    /home/jonas/.local/share/OpenJKDF2/openjkdf2
+
+    Copy 'Star Wars - KotOR.zip' to $HOME/Downloads and unzip
+    Copy 'Star Wars - KotOR2.zip' to $HOME/Downloads and unzip
+
+    Copy stk_addons all dirs in $MEDIA_PATH/2024/stk_addons to
+    $HOME/.local/share/supertuxkart/addons
+
+    I would also like to copy all files with ".pk3" file extension from:
+    "$MEDIA_PATH/2024/baseq3/"
+    to: $HOME/Code2/C/ioq3/build/release-linux-x86_64/baseq3/
+
+    # TODO:
+    # cmangos etc to repos...
+    # Copy ollama models?
+    # jar files? jna, jna-platform, mariadb/mysql...
+    # star_wars_ja_mods
+    # star_wars_jo_mods
 }
 
 if $justDoIt; then
