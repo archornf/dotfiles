@@ -517,6 +517,17 @@ compile_projects() {
             cmake .. -DCMAKE_BUILD_TYPE=Release
             make -j$(nproc)
             sudo make install
+            
+            # Note** If you are having undefined reference errors while compiling, 
+            # its possible that you have previously installed a different openscenegraph 
+            # version than what openMW depends on.
+            # To remove it, you can use:
+            # #removes just package
+            # apt-get remove <yourOSGversion>
+            # #or 
+            # #removes configurations as well
+            # apt-get remove --purge <yourOSGversion>
+
             #cd ...
             #cd ../..
         else
@@ -960,6 +971,7 @@ else
 
     if [[ "$answer" == "yes" ]] || [[ "$answer" == "y" ]]; then
         if $justInform; then
+            echo "Checking python packages..."
             check_pip_packages
         else
             echo "Installing python packages..."
@@ -969,11 +981,88 @@ else
 fi
 
 # Copy game data
-copy_game_data() {
-    # Check mounted hdd path: /media or /media2
-    # First just check if wow exists at given location, otherwise quit and inform.
-    # For every copy, first check that the dir exists, then copy, and unzip correctly if needed...
-    # /home/jonas/.local/share/OpenJKDF2/openjkdf2
-    # Also create dir with mkdir -p to make sure it exists!
+copy_dir_to_target() {
+    SRC=$1
+    DEST=$2
+
+    if [ -d "$SRC" ]; then
+        if [ ! -d "$DEST" ]; then
+            #if ! $justInform; then
+            #    echo "Copied $SRC to $DEST"
+            #    return 0
+            #fi
+            $justInform && echo "Copied $SRC to $DEST" && return 0
+
+            cp -r "$SRC" "$DEST"
+            echo "Copied $SRC to $DEST"
+        else
+            echo "$DEST already exists, skipping copy."
+        fi
+    else
+        echo "$SRC does not exist, skipping."
+    fi
 }
+
+copy_game_data() {
+    MEDIA_PATHS=("/media/2024/wow" "/media2/2024/wow")
+    MEDIA_PATH=""
+
+    # Find existing dir
+    for path in "${MEDIA_PATHS[@]}"; do
+        if [ -d "$path" ]; then
+            MEDIA_PATH=$(dirname "$path")
+            break
+        fi
+    done
+
+    # Check if MEDIA_PATH was set
+    if [ -z "$MEDIA_PATH" ]; then
+        echo "The hard drive is not mounted."
+        return 1
+    fi
+    echo "Found mounted hard drive at: $MEDIA_PATH"
+
+    # Directories to copy from 2024
+    DIRS=("wow" "wow_classic" "wow_retail" "cata")
+    # Also determine DEST_DIR for wow dirs:
+    # "/mnt/new/2024/wow"
+    DEST_DIR="$HOME/Downloads"
+
+    for dir in "${DIRS[@]}"; do
+        SRC="$MEDIA_PATH/2024/$dir"
+        DEST="$DEST_DIR/$dir"
+        copy_dir_to_target "$SRC" "$DEST"
+    done
+
+    copy_dir_to_target "$MEDIA_PATH/2024/q3" "$HOME/Code2/C/..."
+    # acore, tcore, vmangos, cmangos, mangoszero
+    # q3, doom, doom3, jo, ja, jkdf2, kotor1/2
+    # gta and vice, openmw, diablo, stk_addons
+    # copy japp stuff?
+
+    # For every copy, first check that the dir exists, then copy, and unzip
+    # correctly if needed...
+    mkdir -p $HOME/.local/share/OpenJKDF2/openjkdf2
+    # sudo cp liblua as well for mangoszero (debian, weird...)
+
+}
+
+if $justDoIt; then
+    echo "Copying game data..."
+    copy_game_data
+else
+    if $justInform; then
+        echo -e "\nDo you want to check game data? (yes/y)"
+    else
+        echo -e "\nDo you want to copy game data? (yes/y)"
+    fi
+    read answer
+    # To lowercase using awk
+    answer=$(echo $answer | awk '{print tolower($0)}')
+
+    if [[ "$answer" == "yes" ]] || [[ "$answer" == "y" ]]; then
+        $justInform && echo "Checking game data..." || echo "Copying game data..."
+        copy_game_data
+    fi
+fi
 
