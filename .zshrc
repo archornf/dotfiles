@@ -158,6 +158,7 @@ alias .openjo_sp='$HOME/.local/share/openjk/JediOutcast/openjo_sp.x86_64'
 alias .japp='$HOME/.local/share/openjk/JediAcademy/openjk.x86_64 +set fs_game "japlus"'
 alias lf='$HOME/.local/bin/lfub'
 alias .acore='cd $HOME/acore/bin; pwd; ls'
+alias .acore_update='cd $HOME/Code2/C++/AzerothCore-wotlk-with-NPCBots && git pull && cd modules/mod-eluna && git pull && cd ../..'
 alias .tcore='cd $HOME/tcore/bin; pwd; ls'
 alias .wow='wine /mnt/new/wow/Wow.exe'
 
@@ -245,6 +246,8 @@ else
     echo "fzf is not installed"
 fi
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
+#export FZF_CTRL_T_COMMAND='ag --hidden --ignore .git -g ""'
+export FZF_CTRL_T_COMMAND='find . -type f -name ".*" -o -type f -name "*"'
 
 precmd() { eval "$PROMPT_COMMAND" }
 export PROMPT_COMMAND="pwd > /tmp/whereami"
@@ -256,14 +259,14 @@ export PATH="${PATH}:${HOME}/.local/bin/my_scripts"
 #export PATH="${PATH}:${HOME}/.local/lib/"
 export PATH="${PATH}:/sbin"
 export PATH="${PATH}:${HOME}/Code/f#/FsAutoComplete/src/FsAutoComplete/bin/Release/net6.0"
-export PATH="${PATH}:/home/jonas/Downloads/lsp/jdtls/bin"
-export PATH="${PATH}:/home/jonas/Downloads/lsp/lua/bin"
+export PATH="${PATH}:$HOME/Downloads/lsp/jdtls/bin"
+export PATH="${PATH}:$HOME/Downloads/lsp/lua/bin"
 export OMNISHARP_PATH="/usr/lib/omnisharp-roslyn/"
+#export PATH="${PATH}:$HOME/.fzf/bin"
 
 export LANG=en_US.UTF-8
 export LANGUAGE=en
 export LC_ALL=en_US.UTF-8 
-#export ALPHAVANTAGE_API_KEY=AOUX3DK05GCWDMZ9
 
 alias f='fuzzyfind'
 bindkey '^ ' autosuggest-accept
@@ -272,3 +275,4 @@ $HOME/.local/bin/my_scripts/hello.sh
 
 source $HOME/.bash_profile
 #source $HOME/.cargo/env
+
