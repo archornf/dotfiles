@@ -804,8 +804,6 @@ compile_projects() {
         cp mangosd.conf.dist mangosd.conf
         cp realmd.conf.dist realmd.conf
         # git clone https://github.com/mangoszero/database
-        # TODO: check databases... Create with sql scripts if they don't exist...
-        # mkdir -p openjkdf2... copy and unzip game date if any is missing...
         cd "$HOME/Code2/C++"
     fi
 
@@ -1128,6 +1126,8 @@ copy_game_data() {
     # jar files? jna, jna-platform, mariadb/mysql...
     # star_wars_ja_mods
     # star_wars_jo_mods
+    # check databases... Create with sql scripts if they don't exist...
+    # sudo cp /usr/bin/python3 /usr/bin/python (IF NEEDED)
 }
 
 if $justDoIt; then
