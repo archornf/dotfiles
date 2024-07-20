@@ -1,4 +1,3 @@
-libxres-dev
 libxtables12
 libxxf86vm-dev
 libxxhash0
@@ -64,7 +63,6 @@ openssh-client
 openssl
 optipng
 os-prober
-p7zip-full
 p7zip
 packages-microsoft-prod
 pamix

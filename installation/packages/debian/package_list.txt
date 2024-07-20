@@ -247,7 +247,6 @@ libkrb5-3
 libkrb5support0
 liblocale-gettext-perl
 liblockfile-bin
-liblua5.2-0
 liblua5.2-dev
 liblua5.3-dev
 libluajit-5.1-dev
@@ -444,7 +443,6 @@ openssh-client
 openssl
 optipng
 os-prober
-p7zip-full
 p7zip
 packages-microsoft-prod
 pamix
