@@ -4,7 +4,7 @@
 mkdir -p $HOME/.config/
 mkdir -p $HOME/.local/bin/
 mkdir -p $HOME/Documents $HOME/Downloads $HOME/Pictures/Wallpapers
-mkdir -p $HOME/Code/c $HOME/Code/c++ $HOME/Code/c# $HOME/Code/js $HOME/Code/python $HOME/Code/rust $HOME/Code2/C $HOME/Code2/C++ $HOME/Code2/C# $HOME/Code2/General $HOME/Code2/Go $HOME/Code2/Python $HOME/Code2/Wow/tools
+mkdir -p $HOME/Code/c $HOME/Code/c++ $HOME/Code/c# $HOME/Code/go $HOME/Code/js $HOME/Code/python $HOME/Code/rust $HOME/Code2/C $HOME/Code2/C++ $HOME/Code2/C# $HOME/Code2/General $HOME/Code2/Go $HOME/Code2/Python $HOME/Code2/Wow/tools
 
 # Copy stuff
 cp -r .config/alacritty/ $HOME/.config/
@@ -292,6 +292,7 @@ clone_projects() {
 
     print_and_cd_to_dir "$HOME/Code2/Go" "Cloning"
     clone_repo_if_missing "wotlk-sim" "https://github.com/ornfelt/wotlk-sim"
+    clone_repo_if_missing "OpenDiablo2" "https://github.com/ornfelt/OpenDiablo2"
 
     print_and_cd_to_dir "$HOME/Code2/Javascript" "Cloning"
     clone_repo_if_missing "my_js" "https://github.com/ornfelt/my_js"
@@ -816,6 +817,38 @@ compile_projects() {
         make -j$(nproc)
     fi
     cd "$HOME/Code2/C++"
+
+    print_and_cd_to_dir "$HOME/Code2/Go" "Compiling"
+
+    if check_dir "wotlk-sim" "node_modules"; then
+        # Check if go version is >= 1.21.1
+        # else:
+        # Don't install dependencies through apt since they are too old for
+        # this repo...
+        curl -O https://dl.google.com/go/go1.21.1.linux-amd64.tar.gz
+        sudo rm -rf /usr/local/go 
+        sudo rm /usr/bin/go
+        sudo tar -C /usr/local -xzf go1.21.1.linux-amd64.tar.gz
+        echo 'export PATH=$PATH:/usr/local/go/bin' >> $HOME/.bashrc
+        echo 'export GOPATH=$HOME/go' >> $HOME/.bashrc
+        echo 'export PATH=$PATH:$GOPATH/bin' >> $HOME/.bashrc
+        source $HOME/.bashrc
+        #sudo apt update && sudo apt upgrade
+        sudo apt install protobuf-compiler
+        go get -u -v google.golang.org/protobuf
+        go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+        npm install
+        #make setup
+        #make test
+        make host
+        cd "$HOME/Code2/Go"
+    fi
+
+    if check_file "OpenDiablo2" "OpenDiablo2"; then
+        source build.sh
+        # sed replace d2 data dir to $HOME/.config/OpenDiablo2/config.json?
+        cd "$HOME/Code2/Go"
+    fi
 
     print_and_cd_to_dir "$HOME/Code2/Javascript" "Compiling"
 
