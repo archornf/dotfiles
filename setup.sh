@@ -822,17 +822,35 @@ compile_projects() {
 
     if check_dir "wotlk-sim" "node_modules"; then
         # Check if go version is >= 1.21.1
-        # else:
-        # Don't install dependencies through apt since they are too old for
-        # this repo...
-        curl -O https://dl.google.com/go/go1.21.1.linux-amd64.tar.gz
-        sudo rm -rf /usr/local/go 
-        sudo rm /usr/bin/go
-        sudo tar -C /usr/local -xzf go1.21.1.linux-amd64.tar.gz
-        echo 'export PATH=$PATH:/usr/local/go/bin' >> $HOME/.bashrc
-        echo 'export GOPATH=$HOME/go' >> $HOME/.bashrc
-        echo 'export PATH=$PATH:$GOPATH/bin' >> $HOME/.bashrc
-        source $HOME/.bashrc
+        GO_VERSION=$(go version 2>/dev/null)
+
+        if [ -z "$GO_VERSION" ]; then
+            echo "Go is not installed..."
+            exit 1
+        fi
+
+        MAJOR_MINOR=$(echo "$GO_VERSION" | grep -oP 'go\d+\.\d+' | grep -oP '\d+\.\d+')
+        IFS='.' read -r MAJOR MINOR PATCH <<< "$MAJOR_MINOR.0" # Adding .0 to handle versions without patch number
+
+        echo "Go version: $MAJOR_MINOR"
+        echo "Go major version: $MAJOR"
+        echo "Go minor version: $MINOR"
+
+        if (( MAJOR < 1 )) || { (( MAJOR == 1 )) && (( MINOR < 21 )); } || { (( MAJOR == 1 )) && (( MINOR == 21 )) && (( PATCH < 1 )); }; then
+            echo "Go version is below 1.21.1. Installing go 1.21.1..."
+            # Don't install dependencies through apt since they are too old for
+            # this repo...
+            curl -O https://dl.google.com/go/go1.21.1.linux-amd64.tar.gz
+            sudo rm -rf /usr/local/go 
+            sudo rm /usr/bin/go
+            sudo tar -C /usr/local -xzf go1.21.1.linux-amd64.tar.gz
+            echo 'export PATH=$PATH:/usr/local/go/bin' >> $HOME/.bashrc
+            echo 'export GOPATH=$HOME/go' >> $HOME/.bashrc
+            echo 'export PATH=$PATH:$GOPATH/bin' >> $HOME/.bashrc
+            source $HOME/.bashrc
+        else
+            echo "Go version is 1.21.1 or higher. Continuing with install..."
+        fi
         #sudo apt update && sudo apt upgrade
         sudo apt install protobuf-compiler
         go get -u -v google.golang.org/protobuf
@@ -846,7 +864,41 @@ compile_projects() {
 
     if check_file "OpenDiablo2" "OpenDiablo2"; then
         source build.sh
-        # sed replace d2 data dir to $HOME/.config/OpenDiablo2/config.json?
+        # Fix config.json if it exists...
+        if [ -f "$HOME/.config/OpenDiablo2/config.json" ]; then
+            DIABLO_DIRS=(
+                "/mnt/new/d2/"
+                "$HOME/Downloads/d2/"
+                #"/media/2024/d2/"
+            )
+
+            NEW_PATH=""
+            # Check each directory and set NEW_PATH to the first one that exists
+            for DIR in "${DIABLO_DIRS[@]}"; do
+                if [ -d "$DIR" ]; then
+                    NEW_PATH="$DIR"
+                    break
+                fi
+            done
+
+            # Check if a new path was found
+            if [ -z "$NEW_PATH" ]; then
+                echo "No valid Diablo 2 directory found."
+            fi
+
+            if [ -n "$NEW_PATH" ]; then
+                NEW_PATH="${NEW_PATH}d2video"
+            fi
+
+            ESCAPED_NEW_PATH=$(echo "$NEW_PATH" | sed 's/\\/\\\\/g')
+
+            # Update config.json file with new path
+            sed -i "s|\"MpqPath\": \".*\"|\"MpqPath\": \"$ESCAPED_NEW_PATH\"|g" $HOME/.config/OpenDiablo2/config.json
+            echo "Updated config.json with new MpqPath path: $NEW_PATH"
+        else
+            echo "$HOME/.config/config.json does not exist yet. OpenDiablo2 has not been run yet..."
+        fi
+
         cd "$HOME/Code2/Go"
     fi
 
@@ -1299,14 +1351,13 @@ copy_game_data() {
     copy_dir_to_target "$MEDIA_PATH/2024/d2" "$HOME/Downloads/d2"
 
     # TODO:
-    # D2 files!!!
     # Copy ollama models?
     # jar files? jna, jna-platform, mariadb/mysql...
     # star_wars_ja_mods
     # star_wars_jo_mods
     # check databases... Create with sql scripts if they don't exist...
     # sudo cp /usr/bin/python3 /usr/bin/python (IF NEEDED)
-    # copy japp stuff?
+    # copy japp stuff? Needed?
 }
 
 if $justDoIt; then
