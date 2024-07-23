@@ -4,7 +4,7 @@
 mkdir -p $HOME/.config/
 mkdir -p $HOME/.local/bin/
 mkdir -p $HOME/Documents $HOME/Downloads $HOME/Pictures/Wallpapers
-mkdir -p $HOME/Code/c $HOME/Code/c++ $HOME/Code/c# $HOME/Code/go $HOME/Code/js $HOME/Code/python $HOME/Code/rust $HOME/Code2/C $HOME/Code2/C++ $HOME/Code2/C# $HOME/Code2/General $HOME/Code2/Go $HOME/Code2/Python $HOME/Code2/Wow/tools
+mkdir -p $HOME/Code/c $HOME/Code/c++ $HOME/Code/c# $HOME/Code/go $HOME/Code/js $HOME/Code/python $HOME/Code/rust $HOME/Code2/C $HOME/Code2/C++ $HOME/Code2/C# $HOME/Code2/General $HOME/Code2/Go $HOME/Code2/Javascript $HOME/Code2/Python $HOME/Code2/Wow/tools
 
 # Copy stuff
 cp -r .config/alacritty/ $HOME/.config/
@@ -1082,14 +1082,20 @@ copy_dir_to_target() {
     SRC=$1
     DEST=$2
     BASE_NAME=$(basename "$SRC")
-    ALT_DEST="/mnt/new/$BASE_NAME"
+    ALT_DEST_MNT="/mnt/new/$BASE_NAME"
+    ALT_DEST_MEDIA="/media/$BASE_NAME"
 
     if [ -d "$SRC" ]; then
         if [ ! -d "$DEST" ]; then
-            if [ -d "$ALT_DEST" ]; then
+
+            if [ -d "$ALT_DEST_MNT" ]; then
                 echo "$BASE_NAME already exists in /mnt/new/, skipping copy."
                 return 0
+            elif [ -d "$ALT_DEST_MEDIA" ]; then
+                echo "$BASE_NAME already exists in /media/, skipping copy."
+                return 0
             fi
+
             $justInform && echo "Copied $SRC to $DEST" && return 0
 
             cp -r "$SRC" "$DEST"
@@ -1124,6 +1130,9 @@ copy_game_data() {
     # Directories to copy from 2024
     DIRS=("wow" "wow_classic" "wow_retail" "cata")
     DEST_DIR="$HOME/Downloads"
+    # Other destination dirs...
+    #DEST_DIR="/mnt/new"
+    #DEST_DIR="/media"
 
     for dir in "${DIRS[@]}"; do
         SRC="$MEDIA_PATH/2024/$dir"
