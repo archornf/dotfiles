@@ -40,11 +40,11 @@ mkdir ~/Downloads
 cd ~/Downloads
 git clone https://github.com/archornf/dotfiles
 Install packages with install.sh
-fetch .batch_profile from drive with firefox
-run setup.sh to setup stuff and clone projects
-compile neovim and picom manually?
+Run setup.sh to setup stuff and clone projects
+compile neovim and picom manually
 Do PackerInstall...
-proceed with compiling rest...
+Fetch .batch_profile from drive with firefox:
+Proceed with compiling rest with setup.sh
 
 Setup settings in xfce4-power-manager-settings (display should never sleep) 
 
@@ -60,7 +60,7 @@ https://github.com/pijulius/picom
 https://github.com/FT-Labs/picom
 
 firefox:
-imagus, vimium, adblock, js-injector?
+imagus, vimium, adblock, js-injector
 
 Fix everything else, like game data files, dotnet and other stuff...
 
