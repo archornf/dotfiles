@@ -480,11 +480,33 @@ check_file() {
         return 0 # Return true
     fi
 }
+fix_ownerships() {
+    local CURRENT_USER=$(whoami)
+    local NPM_PREFIX=$(npm config get prefix)
+    mkdir -p "$NPM_PREFIX/lib/node_modules"
+
+    # Check ownership and change only if necessary
+    for dir in "$NPM_PREFIX/lib/node_modules" "$NPM_PREFIX/bin" "$NPM_PREFIX/share"; do
+        if [ -d "$dir" ]; then
+            # Get owner of dir
+            local DIR_OWNER=$(stat -c '%U' "$dir")
+            if [ "$DIR_OWNER" != "$CURRENT_USER" ]; then
+                sudo chown -R "$CURRENT_USER" "$dir"
+                echo "Changed ownership of $dir to $CURRENT_USER"
+            else
+                echo "Ownership of $dir is already set to $CURRENT_USER, skipping chown"
+            fi
+        fi
+    done
+
+    # chown in local/share/openjk and other dirs?
+}
 
 # Compile projects (unless already done)
 compile_projects() {
     architecture=$(uname -m)
     echo -e "Identified architecture: $architecture\n"
+    fix_ownerships
 
     echo "Compiling projects in $HOME/.config..."
     install_if_missing dwm dwm
@@ -655,6 +677,7 @@ compile_projects() {
             cd target/release
             chmod +x ./eww
         else
+            cd ..
             echo "rustc version is 1.63 or below. Skipping rust project..."
         fi
         cd "$HOME/Code/rust"
@@ -665,6 +688,7 @@ compile_projects() {
             echo "rustc version is above 1.63"
             cargo build --release
         else
+            cd ..
             echo "rustc version is 1.63 or below. Skipping rust project..."
         fi
         cd "$HOME/Code/rust"
@@ -745,10 +769,14 @@ compile_projects() {
     fi
 
     if check_dir "OpenJKDF2" "build*"; then
-        export CC=clang
-        export CXX=clang++
-        source build_linux64.sh
-        cd "$HOME/Code2/C++"
+        if ! python3 -c "import cogapp" &> /dev/null; then
+            echo "The Python package 'cogapp' needs to be installed for compiling OpenJKDF2..."
+        else
+            export CC=clang
+            export CXX=clang++
+            source build_linux64.sh
+            cd "$HOME/Code2/C++"
+        fi
     fi
 
     if check_dir "devilutionX" "build*"; then
@@ -758,6 +786,7 @@ compile_projects() {
             cd tools
             source build_and_install_smpq.sh
             sudo cp /usr/local/bin/smpq /usr/bin/smpq
+            cd ..
         fi
         if [[ "$architecture" == arm* ]] || [[ "$architecture" == aarch64* ]]; then
             source Packaging/nix/debian-cross-aarch64-prep.sh
