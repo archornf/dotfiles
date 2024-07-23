@@ -775,8 +775,8 @@ compile_projects() {
             export CC=clang
             export CXX=clang++
             source build_linux64.sh
-            cd "$HOME/Code2/C++"
         fi
+        cd "$HOME/Code2/C++"
     fi
 
     if check_dir "devilutionX" "build*"; then
