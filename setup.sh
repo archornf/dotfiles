@@ -506,7 +506,8 @@ compile_projects() {
             cd ..
         fi
     else
-        echo "Skipping neovim check (only for Debian or Raspbian architectures)"
+        OS_ID=$(grep "^ID=" /etc/os-release | cut -d'=' -f2)
+        echo "Skipping neovim check (only for Debian or Raspbian architectures). Found architecture: $OS_ID"
     fi
 
     # Note: If the shell has issues with '++', you might need to quote or escape it...
