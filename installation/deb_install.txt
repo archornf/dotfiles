@@ -11,7 +11,7 @@ usermod -aG sudo jonas
 Also do: usermod -aG audio,video,input jonas
 sudo nmcli device wifi connect OWNIT-B1C0 password XXX
 *OBS! If intel wifi, then you might have to:
-sudo apt install iwlwifi and reboot...
+sudo apt install iwlwifi (firmware-iwlwifi?) and reboot...
 
 EDITOR=nvim visudo
 At the end of the /etc/sudoers file add this line: 
@@ -36,6 +36,16 @@ it's not already installed:
 
 sudo apt-get install apt-transport-https
 
+mkdir ~/Downloads
+cd ~/Downloads
+git clone https://github.com/archornf/dotfiles
+Install packages with install.sh
+fetch .batch_profile from drive with firefox
+run setup.sh to setup stuff and clone projects
+compile neovim and picom manually?
+Do PackerInstall...
+proceed with compiling rest...
+
 Setup settings in xfce4-power-manager-settings (display should never sleep) 
 
 lxappearance -> set gruvbox-dark
@@ -51,18 +61,6 @@ https://github.com/FT-Labs/picom
 
 firefox:
 imagus, vimium, adblock, js-injector?
-
-Clone dotfiles to Downloads dir
-git clone https://github.com/archornf/dotfiles
-Install packages with install.sh
-install dwm, dwmblocks (compile.sh), dmenu, st.
-fetch .batch_profile from drive with firefox
-run setup.sh to setup stuff and clone projects
-compile neovim and picom manually...
-Do PackerInstall...
-proceed with compiling rest...
-Rust version needs fix.
-* Update deb packages from other pc, qt5web was missing...
 
 Fix everything else, like game data files, dotnet and other stuff...
 

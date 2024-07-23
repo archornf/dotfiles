@@ -349,7 +349,13 @@ install_if_missing() {
         fi
         echo "installing: $binary"
         cd $HOME/.config/$directory || exit
-        sudo make clean install
+
+        if [ "$binary" == "dwmblocks" ]; then
+            ./compile.sh
+        else
+            sudo make clean install
+        fi
+
         cd - || exit # Return to previous directory
     else
         echo "$binary exists, skipping installation."
@@ -488,16 +494,20 @@ compile_projects() {
 
     print_and_cd_to_dir "$HOME/Code/c" "Compiling"
 
-    #if check_dir "neovim"; then
-    #    cd ..
-    #    if dpkg -l | grep -qw "neovim"; then
-    #        sudo apt remove neovim -y
-    #    fi
-    #    git checkout stable
-    #    make CMAKE_BUILD_TYPE=RelWithDebInfo
-    #    sudo make install
-    #    cd ..
-    #fi
+    if grep -q -E "Debian|Raspbian" /etc/os-release; then
+        if check_dir "neovim"; then
+            cd ..
+            if dpkg -l | grep -qw "neovim"; then
+                sudo apt remove neovim -y
+            fi
+            git checkout stable
+            make CMAKE_BUILD_TYPE=RelWithDebInfo
+            sudo make install
+            cd ..
+        fi
+    else
+        echo "Skipping neovim check (only for Debian or Raspbian architectures)"
+    fi
 
     # Note: If the shell has issues with '++', you might need to quote or escape it...
     print_and_cd_to_dir "$HOME/Code/c++" "Compiling"
@@ -667,11 +677,10 @@ compile_projects() {
         cd "$HOME/Code2/C"
     fi
 
-    #if check_dir "picom-animations"; then
-    #    cd ..
-    #    meson --buildtype=release . build
-    #    ninja -C build
-    #fi
+    if check_file "picom-animations" "bin/picom-trans"; then
+        meson --buildtype=release . build
+        ninja -C build
+    fi
     cd "$HOME/Code2/C"
 
     print_and_cd_to_dir "$HOME/Code2/C++" "Compiling"
