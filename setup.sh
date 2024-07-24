@@ -1505,22 +1505,39 @@ fix_other_files() {
     fi
 
     # japp aka japlus
-    cp $HOME/Code2/C++/japp/*.so $HOME/.local/share/openjk/japlus/
+    #cp $HOME/Code2/C++/japp/*.so $HOME/.local/share/openjk/japlus/
+    SRC_DIR="$HOME/Code2/C++/japp"
+    DEST_DIR="$HOME/.local/share/openjk/japlus"
+
+    for file in "$SRC_DIR"/*.so; do
+        if [ -f "$file" ]; then
+            dest_file="$DEST_DIR/$(basename "$file")"
+            if [ ! -f "$dest_file" ]; then
+                cp "$file" "$dest_file"
+                printf "Copied %s to %s\n" "$(basename "$file")" "$DEST_DIR"
+            else
+                printf "%s already exists in %s, skipping copy.\n" "$(basename "$file")" "$DEST_DIR"
+            fi
+        fi
+    done
+    
+    # Python
+    if [ ! -f /usr/bin/python ]; then
+        sudo cp /usr/bin/python3 /usr/bin/python
+        echo "Copied /usr/bin/python3 to /usr/bin/python"
+    else
+        echo "/usr/bin/python already exists, skipping copy."
+    fi
 
     # TODO:
     # check databases... Create with sql scripts if they don't exist...
-    # sudo cp /usr/bin/python3 /usr/bin/python (IF NEEDED)
 }
 
 if $justDoIt; then
     echo "Fixing other files..."
     fix_other_files
 else
-    if $justInform; then
-        echo -e "\nDo you want to check other files? (yes/y)"
-    else
-        echo -e "\nDo you want to fix other files? (yes/y)"
-    fi
+    $justInform && echo "\nDo you want to check other files? (yes/y)" || echo "\nDo you want to fix other files? (yes/y)"
     read answer
     # To lowercase using awk
     answer=$(echo $answer | awk '{print tolower($0)}')
@@ -1530,6 +1547,4 @@ else
         fix_other_files
     fi
 fi
-
-fix_other_files
 
