@@ -1107,13 +1107,14 @@ copy_dir_to_target() {
 }
 
 copy_game_data() {
-    MEDIA_PATHS=("/media/2024/wow" "/media2/2024/wow")
+    MEDIA_PATHS=("/media" "/media2")
     MEDIA_PATH=""
 
     # Find existing dir
     for path in "${MEDIA_PATHS[@]}"; do
-        if [ -d "$path" ]; then
-            MEDIA_PATH=$(dirname "$path")
+        if [ -d "$path/2024/wow" ]; then
+            MEDIA_PATH="$path"
+            echo "Found mounted hard drive at: $MEDIA_PATH"
             break
         fi
     done
@@ -1123,7 +1124,6 @@ copy_game_data() {
         echo "The hard drive is not mounted."
         return 1
     fi
-    echo "Found mounted hard drive at: $MEDIA_PATH"
 
     # Directories to copy from 2024
     DIRS=("wow" "wow_classic" "wow_retail" "cata")
