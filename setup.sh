@@ -1522,11 +1522,16 @@ fix_other_files() {
     done
     
     # Python
-    if [ ! -f /usr/bin/python ]; then
-        sudo cp /usr/bin/python3 /usr/bin/python
-        echo "Copied /usr/bin/python3 to /usr/bin/python"
+    if grep -qEi 'debian|raspbian' /etc/os-release; then
+        if [ ! -f /usr/bin/python ]; then
+            sudo cp /usr/bin/python3 /usr/bin/python
+            echo "Copied /usr/bin/python3 to /usr/bin/python"
+        else
+            echo "/usr/bin/python already exists, skipping copy."
+        fi
     else
-        echo "/usr/bin/python already exists, skipping copy."
+        OS_ID=$(grep "^ID=" /etc/os-release | cut -d'=' -f2)
+        echo "Skipping copy of python binary (only for Debian or Raspbian architectures). Found architecture: $OS_ID"
     fi
 
     # TODO:
