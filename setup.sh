@@ -824,6 +824,7 @@ compile_projects() {
         cmake .. -DCMAKE_INSTALL_PREFIX=~/cmangos/run -DBUILD_EXTRACTORS=ON -DPCH=1 -DDEBUG=0 -DBUILD_PLAYERBOTS=ON
         make -j$(nproc)
         sudo make install
+        # TODO: confs
         cd "$HOME/Code2/C++"
     fi
 
@@ -831,6 +832,7 @@ compile_projects() {
         cmake .. -DDEBUG=0 -DSUPPORTED_CLIENT_BUILD=5875 -DUSE_EXTRACTORS=1 -DCMAKE_INSTALL_PREFIX=$HOME/vmangos
         make -j$(nproc)
         sudo make install
+        # TODO: confs
         # git clone https://github.com/brotalnia/database vmangos_db
         #7z x world_full_14_june_2021.7z
         cd "$HOME/Code2/C++"
@@ -841,10 +843,11 @@ compile_projects() {
         make -j$(nproc)
         sudo make install
         sudo chown -R $USER:$USER $HOME/mangoszero
-        cp aiplayerbot.conf.dist aiplayerbot.conf
-        cp ahbot.conf.dist ahbot.conf
-        cp mangosd.conf.dist mangosd.conf
-        cp realmd.conf.dist realmd.conf
+        # TODO: Do this in update_confs script instead...
+        cp $HOME/mangoszero/etc/aiplayerbot.conf.dist $HOME/mangoszero/etc/aiplayerbot.conf
+        cp $HOME/mangoszero/etc/ahbot.conf.dist $HOME/mangoszero/etc/ahbot.conf
+        cp $HOME/mangoszero/etc/mangosd.conf.dist $HOME/mangoszero/etc/mangosd.conf
+        cp $HOME/mangoszero/etc/realmd.conf.dist $HOME/mangoszero/etc/realmd.conf
         # git clone https://github.com/mangoszero/database
         # Do this if needed (debian)...
         # sudo cp /usr/lib/x86_64-linux-gnu/liblua5.2.so /usr/lib/x86_64-linux-gnu/liblua52.so
@@ -1158,10 +1161,11 @@ copy_game_data() {
 
     # Directories to copy from 2024
     DIRS=("wow" "wow_classic" "wow_retail" "cata")
-    DEST_DIR="$HOME/Downloads"
-    # Other destination dirs...
-    #DEST_DIR="/mnt/new"
-    #DEST_DIR="/media"
+    if [ -d "/mnt/new/other" ]; then
+        DEST_DIR="/mnt/new"
+    else
+        DEST_DIR="$HOME/Downloads"
+    fi
 
     for dir in "${DIRS[@]}"; do
         SRC="$MEDIA_PATH/2024/$dir"
@@ -1269,8 +1273,7 @@ copy_game_data() {
         echo "$SRC_DIABLO does not exist, skipping."
     fi
 
-    #if $HOME/Downloads/doom3/ does not exist, then:
-    #copy "$MEDIA_PATH/2024/doom3_base.zip" to $HOME/Downloads, unzip it into $HOME/Downloads/doom3/
+    # doom3
     if [ ! -d "$HOME/Downloads/doom3" ]; then
         cp "$MEDIA_PATH/2024/doom3_base.zip" "$HOME/Downloads"
         unzip "$HOME/Downloads/doom3_base.zip" -d "$HOME/Downloads/doom3"
@@ -1279,9 +1282,7 @@ copy_game_data() {
         echo "$HOME/Downloads/doom3 already exists, skipping copy and unzip."
     fi
 
-    #if $HOME/Downloads/doom/ does not exist, then:
-    #unzip DOOM.zip and copy files to $HOME/Downloads
-    #copy "$MEDIA_PATH/2024/DOOM.zip" to $HOME/Downloads, unzip it into $HOME/Downloads/doom/
+    # doom
     if [ ! -d "$HOME/Downloads/doom" ]; then
         unzip DOOM.zip -d "$HOME/Downloads"
         cp "$MEDIA_PATH/2024/DOOM.zip" "$HOME/Downloads"
@@ -1294,11 +1295,7 @@ copy_game_data() {
     copy_dir_to_target "$MEDIA_PATH/2024/GTA3" "$HOME/Downloads/gta3"
     copy_dir_to_target "$MEDIA_PATH/2024/GTA_VICE" "$HOME/Downloads/gta_vice"
 
-    #if the file assets0.pk3 does not exist in $HOME/.local/share/openjk/JediOutcast/base/
-    #then:
-    #copy "$MEDIA_PATH/2024/jedi_outcast_gamedata.zip to $HOME/Downloads
-    #unzip it and copy all "*.pk3" files to:
-    #$HOME/.local/share/openjk/JediOutcast/base/
+    # jo
     if [ ! -f "$HOME/.local/share/openjk/JediOutcast/base/assets0.pk3" ]; then
         cp "$MEDIA_PATH/2024/jedi_outcast_gamedata.zip" "$HOME/Downloads"
         unzip "$HOME/Downloads/jedi_outcast_gamedata.zip" -d "$HOME/Downloads"
@@ -1308,11 +1305,7 @@ copy_game_data() {
         echo "assets0.pk3 already exists in $HOME/.local/share/openjk/JediOutcast/base/, skipping copy and unzip."
     fi
 
-    #if the file assets0.pk3 does not exist in $HOME/.local/share/openjk/JediAcademy/base/
-    #or in $HOME/.local/share/openjk/base
-    #copy "$MEDIA_PATH/2024/JK_JA_GameData.zip to $HOME/Downloads
-    #unzip it and copy all "*.pk3" files to:
-    #$HOME/.local/share/openjk/JediAcademy/base
+    # ja
     # Not 100% sure about JediKnightGalaxies and jk2mv...
     if [ ! -f "$HOME/.local/share/openjk/JediAcademy/base/assets0.pk3" ] && [ ! -f "$HOME/.local/share/openjk/base/assets0.pk3" ]; then
         cp "$MEDIA_PATH/2024/JK_JA_GameData.zip" "$HOME/Downloads"
@@ -1326,8 +1319,7 @@ copy_game_data() {
     # my_docs
     copy_dir_to_target "$MEDIA_PATH/2024/my_docs" "$HOME/Documents/my_docs"
 
-    #if $HOME/Downloads/Morrowind/ or /mnt/new/openmw_gamedata does not exist, then:
-    #Copy Morrowind.zip to $HOME/Downloads and unzip it to $HOME/Downloads/Morrowind
+    # openmw
     if [ ! -d "$HOME/Downloads/Morrowind" ] && [ ! -d "/mnt/new/openmw_gamedata" ]; then
         cp "$MEDIA_PATH/2024/Morrowind.zip" "$HOME/Downloads"
         unzip "$HOME/Downloads/Morrowind.zip" -d "$HOME/Downloads/Morrowind"
@@ -1336,9 +1328,7 @@ copy_game_data() {
         echo "$HOME/Downloads/Morrowind or /mnt/new/openmw_gamedata already exists, skipping copy and unzip."
     fi
 
-    #if the directory Episode does not exist in $HOME/.local/share/OpenJKDF2/openjkdf2
-    #Copy all files and dirs from star_wars_jkdf2 to:
-    #$HOME/.local/share/OpenJKDF2/openjkdf2
+    # openjkdf2
     if [ ! -d "$HOME/.local/share/OpenJKDF2/openjkdf2/Episode" ]; then
         cp -r "$MEDIA_PATH/2024/star_wars_jkdf2/"* "$HOME/.local/share/OpenJKDF2/openjkdf2"
         echo "Copied all files and directories from star_wars_jkdf2 to $HOME/.local/share/OpenJKDF2/openjkdf2"
@@ -1346,8 +1336,7 @@ copy_game_data() {
         echo "Episode directory already exists in $HOME/.local/share/OpenJKDF2/openjkdf2, skipping copy."
     fi
 
-    #if $HOME/Downloads/kotor doesnt exist:
-    #Copy 'Star Wars - KotOR.zip' to $HOME/Downloads and unzip to $HOME/Downloads/kotor
+    # kotor
     if [ ! -d "$HOME/Downloads/kotor" ]; then
         cp "$MEDIA_PATH/2024/Star Wars - KotOR.zip" "$HOME/Downloads"
         unzip "$HOME/Downloads/Star Wars - KotOR.zip" -d "$HOME/Downloads/kotor"
@@ -1356,8 +1345,7 @@ copy_game_data() {
         echo "$HOME/Downloads/kotor already exists, skipping copy and unzip."
     fi
 
-    #if $HOME/Downloads/kotor2 doesnt exist:
-    #Copy 'Star Wars - KotOR2.zip' to $HOME/Downloads and unzip to $HOME/Downloads/kotor2
+    # kotor2
     if [ ! -d "$HOME/Downloads/kotor2" ]; then
         cp "$MEDIA_PATH/2024/Star Wars - KotOR2.zip" "$HOME/Downloads"
         unzip "$HOME/Downloads/Star Wars - KotOR2.zip" -d "$HOME/Downloads/kotor2"
@@ -1366,8 +1354,7 @@ copy_game_data() {
         echo "$HOME/Downloads/kotor2 already exists, skipping copy and unzip."
     fi
 
-    #Copy all dirs in $MEDIA_PATH/2024/stk_addons to
-    #$HOME/.local/share/supertuxkart/addons (if they dont exist)
+    # stk addons
     for dir in "$MEDIA_PATH/2024/stk_addons"/*; do
         if [ -d "$dir" ]; then
             dest_dir="$HOME/.local/share/supertuxkart/addons/$(basename "$dir")"
@@ -1380,9 +1367,7 @@ copy_game_data() {
         fi
     done
 
-    #Copy all files with ".pk3" file extension from:
-    #"$MEDIA_PATH/2024/baseq3/"
-    #to: $HOME/Code2/C/ioq3/build/release-linux-x86_64/baseq3/ (if they don't already exist)
+    # ioq3
     for file in "$MEDIA_PATH/2024/baseq3/"*.pk3; do
         if [ -f "$file" ]; then
             dest_file="$HOME/Code2/C/ioq3/build/release-linux-x86_64/baseq3/$(basename "$file")"
@@ -1396,7 +1381,6 @@ copy_game_data() {
     done
 
     # Diablo 2
-    # Configure: /home/jonas/.config/OpenDiablo2/config.json
     copy_dir_to_target "$MEDIA_PATH/2024/d2" "$HOME/Downloads/d2"
 
     # TODO:
