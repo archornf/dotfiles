@@ -1147,6 +1147,17 @@ copy_game_data() {
     printf "\n***** Copying game data! *****\n\n"
     fix_ownerships
 
+    # Create dirs
+    mkdir -p $HOME/.local/share/supertuxkart/addons
+    mkdir -p $HOME/.local/share/OpenJKDF2/openjkdf2
+    mkdir -p $HOME/.local/share/openjk/JediOutcast/base
+    mkdir -p $HOME/.local/share/openjk/japlus
+    mkdir -p $HOME/acore/bin
+    mkdir -p $HOME/tcore/bin
+    mkdir -p $HOME/vmangos/bin
+    mkdir -p $HOME/cmangos/run/bin
+    mkdir -p $HOME/mangoszero/bin
+
     MEDIA_PATHS=("/media" "/media2")
     MEDIA_PATH=""
 
@@ -1179,16 +1190,6 @@ copy_game_data() {
         DEST="$DOWNLOADS_DIR/$dir"
         copy_dir_to_target "$SRC" "$DEST"
     done
-
-    # Create dirs
-    mkdir -p $HOME/.local/share/supertuxkart/addons
-    mkdir -p $HOME/.local/share/OpenJKDF2/openjkdf2
-    mkdir -p $HOME/.local/share/openjk/JediOutcast/base
-    mkdir -p $HOME/acore/bin
-    mkdir -p $HOME/tcore/bin
-    mkdir -p $HOME/vmangos/bin
-    mkdir -p $HOME/cmangos/run/bin
-    mkdir -p $HOME/mangoszero/bin
 
     # AzerothCore
     DEST_DIR="$HOME/acore/bin"
@@ -1438,6 +1439,36 @@ copy_game_data() {
     echo -e "\n***Copying d2 files to $DOWNLOADS_DIR***"
     copy_dir_to_target "$MEDIA_PATH/2024/d2" "$DOWNLOADS_DIR/d2"
 
+    # TODO:
+    # Copy ollama models?
+    # jar files? jna, jna-platform, mariadb/mysql...
+    # star_wars_ja_mods
+    # star_wars_jo_mods
+}
+
+if $justDoIt; then
+    echo "Copying game data..."
+    copy_game_data
+else
+    if $justInform; then
+        echo -e "\nDo you want to check game data? (yes/y)"
+    else
+        echo -e "\nDo you want to copy game data? (yes/y)"
+    fi
+    read answer
+    # To lowercase using awk
+    answer=$(echo $answer | awk '{print tolower($0)}')
+
+    if [[ "$answer" == "yes" ]] || [[ "$answer" == "y" ]]; then
+        $justInform && echo "Checking game data..." || echo "Copying game data..."
+        copy_game_data
+    fi
+fi
+
+# Fix conf files etc.
+fix_other_files() {
+    printf "\n***** Fixing other files! *****\n\n"
+
     # Fix OpenDiablo2 config.json if it exists
     if [ -f "$HOME/.config/OpenDiablo2/config.json" ]; then
         DIABLO_DIRS=(
@@ -1473,34 +1504,32 @@ copy_game_data() {
         echo "$HOME/.config/config.json does not exist yet. OpenDiablo2 has not been run yet..."
     fi
 
-    # Copy all .so files to $HOME/.local/share/openjk/japlus/
+    # japp aka japlus
+    cp $HOME/Code2/C++/japp/*.so $HOME/.local/share/openjk/japlus/
 
     # TODO:
-    # Copy ollama models?
-    # jar files? jna, jna-platform, mariadb/mysql...
-    # star_wars_ja_mods
-    # star_wars_jo_mods
     # check databases... Create with sql scripts if they don't exist...
     # sudo cp /usr/bin/python3 /usr/bin/python (IF NEEDED)
-    # copy japp stuff? Needed?
 }
 
 if $justDoIt; then
-    echo "Copying game data..."
-    copy_game_data
+    echo "Fixing other files..."
+    fix_other_files
 else
     if $justInform; then
-        echo -e "\nDo you want to check game data? (yes/y)"
+        echo -e "\nDo you want to check other files? (yes/y)"
     else
-        echo -e "\nDo you want to copy game data? (yes/y)"
+        echo -e "\nDo you want to fix other files? (yes/y)"
     fi
     read answer
     # To lowercase using awk
     answer=$(echo $answer | awk '{print tolower($0)}')
 
     if [[ "$answer" == "yes" ]] || [[ "$answer" == "y" ]]; then
-        $justInform && echo "Checking game data..." || echo "Copying game data..."
-        copy_game_data
+        $justInform && echo "Checking other files..." || echo "Fixing other files..."
+        fix_other_files
     fi
 fi
+
+fix_other_files
 

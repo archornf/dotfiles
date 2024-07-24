@@ -80,6 +80,9 @@ sudo DEBIAN_FRONTEND=noninteractive dpkg -i /tmp/mysql-apt-config_all.deb
 sudo update-alternatives --install /usr/bin/cc cc /usr/bin/clang 100
 sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang 100
 
+******************************************
+# Python configuration
+
 python3 -m venv .venv
 source .venv/bin/activate
 Then:
@@ -89,11 +92,13 @@ Or:
 pip install xyz --break-system-packages
 
 Or (use this):
-Add this to your ~/.config/pip/pip.conf file:
+mkdir -p ~/.config/pip/
+vim ~/.config/pip/pip.conf
+Add this:
 [global]
 break-system-packages = true
 
-pip3 install bs4 requests ocrspace pytesseract pynvim i3ipc pyperclip
+pip3 install bs4 requests ocrspace pytesseract pynvim i3ipc pyperclip cogapp
 
 ******************************************
 # Other stuff
