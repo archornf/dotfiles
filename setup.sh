@@ -1,6 +1,6 @@
 #!/bin/bash
 
-printf "\n***** Setting up config files! *****\n"
+printf "\n***** Setting up config files! *****\n\n"
 
 # Setup required dirs
 mkdir -p $HOME/.config/
@@ -46,7 +46,7 @@ cp -r bin/widgets $HOME/.local/bin/
 cp -r bin/xyz $HOME/.local/bin/
 cp bin/lfub $HOME/.local/bin/
 cp bin/lf-select $HOME/.local/bin/
-cp bin/greenclip $HOME/.local/bin/
+cp bin/greenclip $HOME/.local/bin/ 2>/dev/null
 
 cp -r installation/ $HOME/Documents/
 cp Screenshots/space.jpg $HOME/Pictures/Wallpapers/
@@ -225,7 +225,7 @@ clone_repo_if_missing() {
 
 # Clone projects (unless they already exist)
 clone_projects() {
-    printf "\n***** Cloning projects! *****\n"
+    printf "\n***** Cloning projects! *****\n\n"
 
     print_and_cd_to_dir "$HOME/Documents" "Cloning"
     clone_repo_if_missing "my_notes" "https://github.com/archornf/my_notes"
@@ -498,7 +498,7 @@ change_ownership_if_exists() {
 fix_ownerships() {
     local CURRENT_USER=$(whoami)
     local NPM_PREFIX=$(npm config get prefix)
-    mkdir -p "$NPM_PREFIX/lib/node_modules"
+    sudo mkdir -p "$NPM_PREFIX/lib/node_modules"
 
     # Check ownership and change only if necessary
     for dir in "$NPM_PREFIX/lib/node_modules" "$NPM_PREFIX/bin" "$NPM_PREFIX/share"; do
@@ -534,13 +534,11 @@ fix_ownerships() {
     for dir in "${directories[@]}"; do
         change_ownership_if_exists "$dir"
     done
-
-    echo -e "\n"
 }
 
 # Compile projects (unless already done)
 compile_projects() {
-    printf "\n***** Compiling projects! *****\n"
+    printf "\n***** Compiling projects! *****\n\n"
     architecture=$(uname -m)
     echo -e "Identified architecture: $architecture\n"
     fix_ownerships
@@ -1043,6 +1041,7 @@ else
 fi
 
 check_pip_packages() {
+    printf "\n***** Checking pip packages! *****\n\n"
     requirements_path="$HOME/Documents/installation/requirements.txt"
 
     # Extract package names from requirements.txt, ignoring versions
@@ -1077,6 +1076,7 @@ check_pip_packages() {
 }
 
 install_pip_packages() {
+    printf "\n***** Installing pip packages! *****\n\n"
     #pip3 install -r $HOME/Documents/installation/requirements.txt
     requirements_path="$HOME/Documents/installation/requirements.txt"
 
@@ -1144,7 +1144,7 @@ copy_dir_to_target() {
 }
 
 copy_game_data() {
-    printf "\n***** Copying game data! *****\n"
+    printf "\n***** Copying game data! *****\n\n"
     fix_ownerships
 
     MEDIA_PATHS=("/media" "/media2")
@@ -1173,7 +1173,7 @@ copy_game_data() {
         DOWNLOADS_DIR="$HOME/Downloads"
     fi
 
-    echo -e "\n***Copying wow, wow_classic, wow_retail and cata to $DEST_DIR***"
+    echo -e "\n***Copying wow, wow_classic, wow_retail and cata to $DOWNLOADS_DIR***"
     for dir in "${DIRS[@]}"; do
         SRC="$MEDIA_PATH/2024/$dir"
         DEST="$DOWNLOADS_DIR/$dir"
@@ -1181,13 +1181,14 @@ copy_game_data() {
     done
 
     # Create dirs
+    mkdir -p $HOME/.local/share/supertuxkart/addons
     mkdir -p $HOME/.local/share/OpenJKDF2/openjkdf2
+    mkdir -p $HOME/.local/share/openjk/JediOutcast/base
     mkdir -p $HOME/acore/bin
     mkdir -p $HOME/tcore/bin
     mkdir -p $HOME/vmangos/bin
     mkdir -p $HOME/cmangos/run/bin
     mkdir -p $HOME/mangoszero/bin
-    mkdir -p $HOME/.local/share/supertuxkart/addons
 
     # AzerothCore
     DEST_DIR="$HOME/acore/bin"
@@ -1344,7 +1345,7 @@ copy_game_data() {
     if [ ! -f "$HOME/.local/share/openjk/JediOutcast/base/assets0.pk3" ]; then
         cp "$MEDIA_PATH/2024/jedi_outcast_gamedata.zip" "$DOWNLOADS_DIR"
         unzip "$DOWNLOADS_DIR/jedi_outcast_gamedata.zip" -d "$DOWNLOADS_DIR/jedi_outcast_gamedata"
-        cp "$DOWNLOADS_DIR/jedi_outcast_gamedata"/*.pk3 "$HOME/.local/share/openjk/JediOutcast/base/"
+        cp "$DOWNLOADS_DIR/jedi_outcast_gamedata/base"/*.pk3 "$HOME/.local/share/openjk/JediOutcast/base/"
         echo "Copied and unzipped jedi_outcast_gamedata.zip and moved *.pk3 files to $HOME/.local/share/openjk/JediOutcast/base/"
     else
         echo "assets0.pk3 already exists in $HOME/.local/share/openjk/JediOutcast/base/, skipping copy and unzip."
@@ -1356,7 +1357,7 @@ copy_game_data() {
     if [ ! -f "$HOME/.local/share/openjk/JediAcademy/base/assets0.pk3" ] && [ ! -f "$HOME/.local/share/openjk/base/assets0.pk3" ]; then
         cp "$MEDIA_PATH/2024/JK_JA_GameData.zip" "$DOWNLOADS_DIR"
         unzip "$DOWNLOADS_DIR/JK_JA_GameData.zip" -d "$DOWNLOADS_DIR/JK_JA_GameData"
-        cp "$DOWNLOADS_DIR/JK_JA_GameData"/*.pk3 "$HOME/.local/share/openjk/JediAcademy/base"
+        cp "$DOWNLOADS_DIR/JK_JA_GameData/base"/*.pk3 "$HOME/.local/share/openjk/JediAcademy/base"
         echo "Copied and unzipped JK_JA_GameData.zip and moved *.pk3 files to $HOME/.local/share/openjk/JediAcademy/base"
     else
         echo "assets0.pk3 already exists in $HOME/.local/share/openjk/JediAcademy/base or $HOME/.local/share/openjk/base, skipping copy and unzip."
@@ -1471,6 +1472,8 @@ copy_game_data() {
     else
         echo "$HOME/.config/config.json does not exist yet. OpenDiablo2 has not been run yet..."
     fi
+
+    # Copy all .so files to $HOME/.local/share/openjk/japlus/
 
     # TODO:
     # Copy ollama models?

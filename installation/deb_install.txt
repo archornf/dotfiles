@@ -161,14 +161,22 @@ And change scripts to /usr/bin/bash and /usr/bin/python3...
 
 ******************************************
 # wine
+sudo dpkg --add-architecture i386 && sudo apt-get update && sudo apt-get install wine32:i386
 
 https://wiki.debian.org/Wine
 
+Do this if needed:
 rm -rf $HOME/.wine
 wineboot --init
 
+******************************************
+# rust
+
 https://www.rust-lang.org/tools/install
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+******************************************
+# dotnet
 
 https://learn.microsoft.com/en-us/dotnet/core/install/linux-debian
 
@@ -187,15 +195,7 @@ sudo apt-get update && \
 
 sudo apt-get install -y dotnet-runtime-8.0
 
-******************************************
-Greenclip:
-
-wget https://github.com/erebe/greenclip/releases/download/v4.2/greenclip -O ~/.local/bin/greenclip
-
-* OBS: now included in dotfiles repo...
-
-******************************************
-# dotnet
+Old notes:
 
 See: https://learn.microsoft.com/en-us/dotnet/core/install/linux-debian
 Do this for Debian 12:
@@ -213,6 +213,13 @@ wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh
 chmod +x ./dotnet-install.sh
 ./dotnet-install.sh --version latest
 ./dotnet-install.sh --version latest --runtime aspnetcore
+
+******************************************
+Greenclip:
+
+wget https://github.com/erebe/greenclip/releases/download/v4.2/greenclip -O ~/.local/bin/greenclip
+
+* OBS: now included in dotfiles repo...
 
 ******************************************
 # docker
