@@ -480,6 +480,17 @@ check_file() {
         return 0 # Return true
     fi
 }
+
+change_ownership_if_exists() {
+    local dir=$1
+    if [ -d "$dir" ]; then
+        sudo chown -R $USER:$USER "$dir"
+        echo "Changed ownership of $dir to $USER"
+    else
+        echo "Directory $dir does not exist, skipping."
+    fi
+}
+
 fix_ownerships() {
     local CURRENT_USER=$(whoami)
     local NPM_PREFIX=$(npm config get prefix)
@@ -499,7 +510,24 @@ fix_ownerships() {
         fi
     done
 
-    # chown in local/share/openjk and other dirs?
+    directories=(
+        "$HOME/Code/c++/openmw"
+        "$HOME/Code/c++/OpenJK"
+        "$HOME/Code/c++/JediKnightGalaxies"
+        "$HOME/Code/c++/jk2mv"
+        "$HOME/Code/c++/reone"
+        "$HOME/Code2/C++/simc"
+        "$HOME/Code2/C++/mangos-classic"
+        "$HOME/Code2/C++/core"
+        "$HOME/Code2/C++/server"
+        "$HOME/Code2/Wow/tools/BLPConverter"
+        "$HOME/Code2/Wow/tools/StormLib"
+        "$HOME/.local/share/openjk"
+    )
+
+    for dir in "${directories[@]}"; do
+        change_ownership_if_exists "$dir"
+    done
 }
 
 # Compile projects (unless already done)
@@ -1107,6 +1135,8 @@ copy_dir_to_target() {
 }
 
 copy_game_data() {
+    fix_ownerships
+
     MEDIA_PATHS=("/media" "/media2")
     MEDIA_PATH=""
 
@@ -1133,6 +1163,7 @@ copy_game_data() {
         DEST_DIR="$HOME/Downloads"
     fi
 
+    echo -e "\n***Copying wow, wow_classic, wow_retail and cata to $DEST_DIR***"
     for dir in "${DIRS[@]}"; do
         SRC="$MEDIA_PATH/2024/$dir"
         DEST="$DEST_DIR/$dir"
@@ -1150,6 +1181,7 @@ copy_game_data() {
 
     # AzerothCore
     DEST_DIR="$HOME/acore/bin"
+    echo -e "\n***Copying acore files to $DEST_DIR***"
     copy_dir_to_target "$MEDIA_PATH/2024/acore/Cameras" "$DEST_DIR/Cameras"
     copy_dir_to_target "$MEDIA_PATH/2024/acore/dbc" "$DEST_DIR/dbc"
     copy_dir_to_target "$MEDIA_PATH/2024/acore/dbc_old" "$DEST_DIR/dbc_old"
@@ -1158,17 +1190,43 @@ copy_game_data() {
     copy_dir_to_target "$MEDIA_PATH/2024/acore/vmaps" "$DEST_DIR/vmaps"
 
     # Handle copying individual scripts from lua_scripts
-    LUA_SRC="$MEDIA_PATH/2024/acore/lua_scripts"
+    #LUA_SRC="$MEDIA_PATH/2024/acore/lua_scripts"
+    #if [ -d "$LUA_SRC" ]; then
+    #    mkdir -p "$DEST_DIR/lua_scripts"
+    #    for script in "$LUA_SRC"/*.lua; do # Only copy lua files
+    #        script_name=$(basename "$script")
+    #        if [ ! -f "$DEST_DIR/lua_scripts/$script_name" ]; then
+    #            cp "$script" "$DEST_DIR/lua_scripts/$script_name"
+    #            echo "Copied $script to $DEST_DIR/lua_scripts/$script_name"
+    #        else
+    #            echo "$DEST_DIR/lua_scripts/$script_name already exists, skipping copy."
+    #        fi
+    #    done
+    #else
+    #    echo "$LUA_SRC does not exist, skipping."
+    #fi
     if [ -d "$LUA_SRC" ]; then
         mkdir -p "$DEST_DIR/lua_scripts"
-        for script in "$LUA_SRC"/*; do
-        #for script in "$LUA_SRC"/*.lua; do # Only copy lua files
-            script_name=$(basename "$script")
-            if [ ! -f "$DEST_DIR/lua_scripts/$script_name" ]; then
-                cp "$script" "$DEST_DIR/lua_scripts/$script_name"
-                echo "Copied $script to $DEST_DIR/lua_scripts/$script_name"
-            else
-                echo "$DEST_DIR/lua_scripts/$script_name already exists, skipping copy."
+        for item in "$LUA_SRC"/*; do
+            item_name=$(basename "$item")
+            if [ "$item_name" != "extensions" ]; then
+                if [ -d "$item" ]; then
+                    # Copy the subdirectory recursively
+                    if [ ! -d "$DEST_DIR/lua_scripts/$item_name" ]; then
+                        cp -r "$item" "$DEST_DIR/lua_scripts/$item_name"
+                        echo "Copied directory $item to $DEST_DIR/lua_scripts/$item_name"
+                    else
+                        echo "Directory $DEST_DIR/lua_scripts/$item_name already exists, skipping copy."
+                    fi
+                else
+                    # Copy the file
+                    if [ ! -f "$DEST_DIR/lua_scripts/$item_name" ]; then
+                        cp "$item" "$DEST_DIR/lua_scripts/$item_name"
+                        echo "Copied file $item to $DEST_DIR/lua_scripts/$item_name"
+                    else
+                        echo "File $DEST_DIR/lua_scripts/$item_name already exists, skipping copy."
+                    fi
+                fi
             fi
         done
     else
@@ -1177,6 +1235,7 @@ copy_game_data() {
 
     # TrinityCore
     DEST_DIR="$HOME/tcore/bin"
+    echo -e "\n***Copying tcore files to $DEST_DIR***"
     #cp -r "$MEDIA_PATH/2024/tcore/"* "$HOME/tcore/bin"
     copy_dir_to_target "$MEDIA_PATH/2024/tcore/Cameras" "$DEST_DIR/Cameras"
     copy_dir_to_target "$MEDIA_PATH/2024/tcore/dbc" "$DEST_DIR/dbc"
@@ -1197,6 +1256,7 @@ copy_game_data() {
 
     # Cmangos
     DEST_DIR="$HOME/cmangos/run/bin"
+    echo -e "\n***Copying cmangos files to $DEST_DIR***"
     copy_dir_to_target "$MEDIA_PATH/2024/cmangos/x64_RelWithDebInfo/Cameras" "$DEST_DIR/Cameras"
     copy_dir_to_target "$MEDIA_PATH/2024/cmangos/x64_RelWithDebInfo/dbc" "$DEST_DIR/dbc"
     copy_dir_to_target "$MEDIA_PATH/2024/cmangos/x64_RelWithDebInfo/maps" "$DEST_DIR/maps"
@@ -1205,6 +1265,7 @@ copy_game_data() {
 
     # Vmangos
     DEST_DIR="$HOME/vmangos/bin"
+    echo -e "\n***Copying vmangos files to $DEST_DIR***"
     copy_dir_to_target "$MEDIA_PATH/2024/vmangos/RelWithDebInfo/Cameras" "$DEST_DIR/Cameras"
     copy_dir_to_target "$MEDIA_PATH/2024/vmangos/RelWithDebInfo/5875" "$DEST_DIR/5875"
     copy_dir_to_target "$MEDIA_PATH/2024/vmangos/RelWithDebInfo/maps" "$DEST_DIR/maps"
@@ -1213,17 +1274,20 @@ copy_game_data() {
 
     # Mangoszero
     DEST_DIR="$HOME/mangoszero/bin"
+    echo -e "\n***Copying mangoszero files to $DEST_DIR***"
     copy_dir_to_target "$MEDIA_PATH/2024/mangoszero/RelWithDebInfo/dbc" "$DEST_DIR/dbc"
     copy_dir_to_target "$MEDIA_PATH/2024/mangoszero/RelWithDebInfo/maps" "$DEST_DIR/maps"
     copy_dir_to_target "$MEDIA_PATH/2024/mangoszero/RelWithDebInfo/mmaps" "$DEST_DIR/mmaps"
     copy_dir_to_target "$MEDIA_PATH/2024/mangoszero/RelWithDebInfo/vmaps" "$DEST_DIR/vmaps"
     
     # db backups
+    echo -e "\n***Copying db_bkp files to $HOME/Documents***"
     copy_dir_to_target "$MEDIA_PATH/2024/db_bkp" "$HOME/Documents/db_bkp"
 
     # Diablo
     SRC_DIABLO="$MEDIA_PATH/2024/diasurgical/devilution"
     DEST_DIR_DIABLO="/home/jonas/Code2/C++/devilutionX/build"
+    echo -e "\n***Copying diablo files to $DEST_DIR_DIABLO***"
     if [ -d "$SRC_DIABLO" ]; then
         mkdir -p "$DEST_DIR_DIABLO"
         for file in "$SRC_DIABLO"/*; do
@@ -1240,6 +1304,7 @@ copy_game_data() {
     fi
 
     # doom3
+    echo -e "\n***Copying doom3 files to $HOME/Downloads***"
     if [ ! -d "$HOME/Downloads/doom3" ]; then
         cp "$MEDIA_PATH/2024/doom3_base.zip" "$HOME/Downloads"
         unzip "$HOME/Downloads/doom3_base.zip" -d "$HOME/Downloads/doom3"
@@ -1249,6 +1314,7 @@ copy_game_data() {
     fi
 
     # doom
+    echo -e "\n***Copying doom files to $HOME/Downloads***"
     if [ ! -d "$HOME/Downloads/doom" ]; then
         unzip DOOM.zip -d "$HOME/Downloads"
         cp "$MEDIA_PATH/2024/DOOM.zip" "$HOME/Downloads"
@@ -1258,10 +1324,13 @@ copy_game_data() {
         echo "$HOME/Downloads/doom already exists, skipping copy and unzip."
     fi
 
+    echo -e "\n***Copying GTA3 files to $HOME/Downloads***"
     copy_dir_to_target "$MEDIA_PATH/2024/GTA3" "$HOME/Downloads/gta3"
+    echo -e "\n***Copying GTA_VICE files to $HOME/Downloads***"
     copy_dir_to_target "$MEDIA_PATH/2024/GTA_VICE" "$HOME/Downloads/gta_vice"
 
     # jo
+    echo -e "\n***Copying JediOutcast files to $HOME/.local/share/openjk/JediOutcast/base***"
     if [ ! -f "$HOME/.local/share/openjk/JediOutcast/base/assets0.pk3" ]; then
         cp "$MEDIA_PATH/2024/jedi_outcast_gamedata.zip" "$HOME/Downloads"
         unzip "$HOME/Downloads/jedi_outcast_gamedata.zip" -d "$HOME/Downloads"
@@ -1272,6 +1341,7 @@ copy_game_data() {
     fi
 
     # ja
+    echo -e "\n***Copying JediAcademy files to $HOME/.local/share/openjk/JediAcademy/base***"
     # Not 100% sure about JediKnightGalaxies and jk2mv...
     if [ ! -f "$HOME/.local/share/openjk/JediAcademy/base/assets0.pk3" ] && [ ! -f "$HOME/.local/share/openjk/base/assets0.pk3" ]; then
         cp "$MEDIA_PATH/2024/JK_JA_GameData.zip" "$HOME/Downloads"
@@ -1283,9 +1353,11 @@ copy_game_data() {
     fi
 
     # my_docs
+    echo -e "\n***Copying my_docs files to $HOME/Documents***"
     copy_dir_to_target "$MEDIA_PATH/2024/my_docs" "$HOME/Documents/my_docs"
 
     # openmw
+    echo -e "\n***Copying openmw files to $HOME/Downloads***"
     if [ ! -d "$HOME/Downloads/Morrowind" ] && [ ! -d "/mnt/new/openmw_gamedata" ]; then
         cp "$MEDIA_PATH/2024/Morrowind.zip" "$HOME/Downloads"
         unzip "$HOME/Downloads/Morrowind.zip" -d "$HOME/Downloads/Morrowind"
@@ -1295,6 +1367,7 @@ copy_game_data() {
     fi
 
     # openjkdf2
+    echo -e "\n***Copying openjkdf2 files to $HOME/.local/share/OpenJKDF2/openjkdf2***"
     if [ ! -d "$HOME/.local/share/OpenJKDF2/openjkdf2/Episode" ]; then
         cp -r "$MEDIA_PATH/2024/star_wars_jkdf2/"* "$HOME/.local/share/OpenJKDF2/openjkdf2"
         echo "Copied all files and directories from star_wars_jkdf2 to $HOME/.local/share/OpenJKDF2/openjkdf2"
@@ -1303,6 +1376,7 @@ copy_game_data() {
     fi
 
     # kotor
+    echo -e "\n***Copying kotor files to $HOME/Downloads***"
     if [ ! -d "$HOME/Downloads/kotor" ]; then
         cp "$MEDIA_PATH/2024/Star Wars - KotOR.zip" "$HOME/Downloads"
         unzip "$HOME/Downloads/Star Wars - KotOR.zip" -d "$HOME/Downloads/kotor"
@@ -1312,6 +1386,7 @@ copy_game_data() {
     fi
 
     # kotor2
+    echo -e "\n***Copying kotor2 files to $HOME/Downloads***"
     if [ ! -d "$HOME/Downloads/kotor2" ]; then
         cp "$MEDIA_PATH/2024/Star Wars - KotOR2.zip" "$HOME/Downloads"
         unzip "$HOME/Downloads/Star Wars - KotOR2.zip" -d "$HOME/Downloads/kotor2"
@@ -1321,6 +1396,7 @@ copy_game_data() {
     fi
 
     # stk addons
+    echo -e "\n***Copying stk addon files to $HOME/.local/share/supertuxkart/addons***"
     for dir in "$MEDIA_PATH/2024/stk_addons"/*; do
         if [ -d "$dir" ]; then
             dest_dir="$HOME/.local/share/supertuxkart/addons/$(basename "$dir")"
@@ -1334,6 +1410,7 @@ copy_game_data() {
     done
 
     # ioq3
+    echo -e "\n***Copying ioq3 files to $HOME/Code2/C/ioq3/build/release-linux-x86_64/baseq3/***"
     for file in "$MEDIA_PATH/2024/baseq3/"*.pk3; do
         if [ -f "$file" ]; then
             dest_file="$HOME/Code2/C/ioq3/build/release-linux-x86_64/baseq3/$(basename "$file")"
@@ -1347,9 +1424,10 @@ copy_game_data() {
     done
 
     # Diablo 2
+    echo -e "\n***Copying d2 files to $HOME/Downloads***"
     copy_dir_to_target "$MEDIA_PATH/2024/d2" "$HOME/Downloads/d2"
 
-    # Fix OpenDiablo2 config.json if it exists...
+    # Fix OpenDiablo2 config.json if it exists
     if [ -f "$HOME/.config/OpenDiablo2/config.json" ]; then
         DIABLO_DIRS=(
             "/mnt/new/d2/"
