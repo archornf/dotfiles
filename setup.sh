@@ -901,7 +901,8 @@ compile_projects() {
         npm install
         #make setup
         #make test
-        make host
+        #make host
+        make wowsimwotlk
         cd "$HOME/Code2/Go"
     fi
 
