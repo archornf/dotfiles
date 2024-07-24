@@ -1,5 +1,7 @@
 #!/bin/bash
 
+printf "\n***** Setting up config files! *****\n"
+
 # Setup required dirs
 mkdir -p $HOME/.config/
 mkdir -p $HOME/.local/bin/
@@ -223,6 +225,8 @@ clone_repo_if_missing() {
 
 # Clone projects (unless they already exist)
 clone_projects() {
+    printf "\n***** Cloning projects! *****\n"
+
     print_and_cd_to_dir "$HOME/Documents" "Cloning"
     clone_repo_if_missing "my_notes" "https://github.com/archornf/my_notes"
 
@@ -530,10 +534,13 @@ fix_ownerships() {
     for dir in "${directories[@]}"; do
         change_ownership_if_exists "$dir"
     done
+
+    echo -e "\n"
 }
 
 # Compile projects (unless already done)
 compile_projects() {
+    printf "\n***** Compiling projects! *****\n"
     architecture=$(uname -m)
     echo -e "Identified architecture: $architecture\n"
     fix_ownerships
@@ -1137,6 +1144,7 @@ copy_dir_to_target() {
 }
 
 copy_game_data() {
+    printf "\n***** Copying game data! *****\n"
     fix_ownerships
 
     MEDIA_PATHS=("/media" "/media2")
@@ -1160,15 +1168,15 @@ copy_game_data() {
     # Directories to copy from 2024
     DIRS=("wow" "wow_classic" "wow_retail" "cata")
     if [ -d "/mnt/new/other" ]; then
-        DEST_DIR="/mnt/new"
+        DOWNLOADS_DIR="/mnt/new"
     else
-        DEST_DIR="$HOME/Downloads"
+        DOWNLOADS_DIR="$HOME/Downloads"
     fi
 
     echo -e "\n***Copying wow, wow_classic, wow_retail and cata to $DEST_DIR***"
     for dir in "${DIRS[@]}"; do
         SRC="$MEDIA_PATH/2024/$dir"
-        DEST="$DEST_DIR/$dir"
+        DEST="$DOWNLOADS_DIR/$dir"
         copy_dir_to_target "$SRC" "$DEST"
     done
 
@@ -1306,37 +1314,37 @@ copy_game_data() {
     fi
 
     # doom3
-    echo -e "\n***Copying doom3 files to $HOME/Downloads***"
-    if [ ! -d "$HOME/Downloads/doom3" ]; then
-        cp "$MEDIA_PATH/2024/doom3_base.zip" "$HOME/Downloads"
-        unzip "$HOME/Downloads/doom3_base.zip" -d "$HOME/Downloads/doom3"
-        echo "Copied and unzipped doom3_base.zip to $HOME/Downloads/doom3"
+    echo -e "\n***Copying doom3 files to $DOWNLOADS_DIR***"
+    if [ ! -d "$DOWNLOADS_DIR/doom3" ]; then
+        cp "$MEDIA_PATH/2024/doom3_base.zip" "$DOWNLOADS_DIR"
+        unzip "$DOWNLOADS_DIR/doom3_base.zip" -d "$DOWNLOADS_DIR/doom3"
+        echo "Copied and unzipped doom3_base.zip to $DOWNLOADS_DIR/doom3"
     else
-        echo "$HOME/Downloads/doom3 already exists, skipping copy and unzip."
+        echo "$DOWNLOADS_DIR/doom3 already exists, skipping copy and unzip."
     fi
 
     # doom
-    echo -e "\n***Copying doom files to $HOME/Downloads***"
-    if [ ! -d "$HOME/Downloads/doom" ]; then
-        unzip DOOM.zip -d "$HOME/Downloads"
-        cp "$MEDIA_PATH/2024/DOOM.zip" "$HOME/Downloads"
-        unzip "$HOME/Downloads/DOOM.zip" -d "$HOME/Downloads/doom"
-        echo "Copied and unzipped DOOM.zip to $HOME/Downloads/doom"
+    echo -e "\n***Copying doom files to $DOWNLOADS_DIR***"
+    if [ ! -d "$DOWNLOADS_DIR/doom" ]; then
+        unzip DOOM.zip -d "$DOWNLOADS_DIR"
+        cp "$MEDIA_PATH/2024/DOOM.zip" "$DOWNLOADS_DIR"
+        unzip "$DOWNLOADS_DIR/DOOM.zip" -d "$DOWNLOADS_DIR/doom"
+        echo "Copied and unzipped DOOM.zip to $DOWNLOADS_DIR/doom"
     else
-        echo "$HOME/Downloads/doom already exists, skipping copy and unzip."
+        echo "$DOWNLOADS_DIR/doom already exists, skipping copy and unzip."
     fi
 
-    echo -e "\n***Copying GTA3 files to $HOME/Downloads***"
-    copy_dir_to_target "$MEDIA_PATH/2024/GTA3" "$HOME/Downloads/gta3"
-    echo -e "\n***Copying GTA_VICE files to $HOME/Downloads***"
-    copy_dir_to_target "$MEDIA_PATH/2024/GTA_VICE" "$HOME/Downloads/gta_vice"
+    echo -e "\n***Copying GTA3 files to $DOWNLOADS_DIR***"
+    copy_dir_to_target "$MEDIA_PATH/2024/GTA3" "$DOWNLOADS_DIR/gta3"
+    echo -e "\n***Copying GTA_VICE files to $DOWNLOADS_DIR***"
+    copy_dir_to_target "$MEDIA_PATH/2024/GTA_VICE" "$DOWNLOADS_DIR/gta_vice"
 
     # jo
     echo -e "\n***Copying JediOutcast files to $HOME/.local/share/openjk/JediOutcast/base***"
     if [ ! -f "$HOME/.local/share/openjk/JediOutcast/base/assets0.pk3" ]; then
-        cp "$MEDIA_PATH/2024/jedi_outcast_gamedata.zip" "$HOME/Downloads"
-        unzip "$HOME/Downloads/jedi_outcast_gamedata.zip" -d "$HOME/Downloads"
-        cp "$HOME/Downloads"/*.pk3 "$HOME/.local/share/openjk/JediOutcast/base/"
+        cp "$MEDIA_PATH/2024/jedi_outcast_gamedata.zip" "$DOWNLOADS_DIR"
+        unzip "$DOWNLOADS_DIR/jedi_outcast_gamedata.zip" -d "$DOWNLOADS_DIR/jedi_outcast_gamedata"
+        cp "$DOWNLOADS_DIR/jedi_outcast_gamedata"/*.pk3 "$HOME/.local/share/openjk/JediOutcast/base/"
         echo "Copied and unzipped jedi_outcast_gamedata.zip and moved *.pk3 files to $HOME/.local/share/openjk/JediOutcast/base/"
     else
         echo "assets0.pk3 already exists in $HOME/.local/share/openjk/JediOutcast/base/, skipping copy and unzip."
@@ -1346,9 +1354,9 @@ copy_game_data() {
     echo -e "\n***Copying JediAcademy files to $HOME/.local/share/openjk/JediAcademy/base***"
     # Not 100% sure about JediKnightGalaxies and jk2mv...
     if [ ! -f "$HOME/.local/share/openjk/JediAcademy/base/assets0.pk3" ] && [ ! -f "$HOME/.local/share/openjk/base/assets0.pk3" ]; then
-        cp "$MEDIA_PATH/2024/JK_JA_GameData.zip" "$HOME/Downloads"
-        unzip "$HOME/Downloads/JK_JA_GameData.zip" -d "$HOME/Downloads"
-        cp "$HOME/Downloads"/*.pk3 "$HOME/.local/share/openjk/JediAcademy/base"
+        cp "$MEDIA_PATH/2024/JK_JA_GameData.zip" "$DOWNLOADS_DIR"
+        unzip "$DOWNLOADS_DIR/JK_JA_GameData.zip" -d "$DOWNLOADS_DIR/JK_JA_GameData"
+        cp "$DOWNLOADS_DIR/JK_JA_GameData"/*.pk3 "$HOME/.local/share/openjk/JediAcademy/base"
         echo "Copied and unzipped JK_JA_GameData.zip and moved *.pk3 files to $HOME/.local/share/openjk/JediAcademy/base"
     else
         echo "assets0.pk3 already exists in $HOME/.local/share/openjk/JediAcademy/base or $HOME/.local/share/openjk/base, skipping copy and unzip."
@@ -1359,13 +1367,13 @@ copy_game_data() {
     copy_dir_to_target "$MEDIA_PATH/2024/my_docs" "$HOME/Documents/my_docs"
 
     # openmw
-    echo -e "\n***Copying openmw files to $HOME/Downloads***"
-    if [ ! -d "$HOME/Downloads/Morrowind" ] && [ ! -d "/mnt/new/openmw_gamedata" ]; then
-        cp "$MEDIA_PATH/2024/Morrowind.zip" "$HOME/Downloads"
-        unzip "$HOME/Downloads/Morrowind.zip" -d "$HOME/Downloads/Morrowind"
-        echo "Copied and unzipped Morrowind.zip to $HOME/Downloads/Morrowind"
+    echo -e "\n***Copying openmw files to $DOWNLOADS_DIR***"
+    if [ ! -d "$DOWNLOADS_DIR/Morrowind" ] && [ ! -d "/mnt/new/openmw_gamedata" ]; then
+        cp "$MEDIA_PATH/2024/Morrowind.zip" "$DOWNLOADS_DIR"
+        unzip "$DOWNLOADS_DIR/Morrowind.zip" -d "$DOWNLOADS_DIR/Morrowind"
+        echo "Copied and unzipped Morrowind.zip to $DOWNLOADS_DIR/Morrowind"
     else
-        echo "$HOME/Downloads/Morrowind or /mnt/new/openmw_gamedata already exists, skipping copy and unzip."
+        echo "$DOWNLOADS_DIR/Morrowind or /mnt/new/openmw_gamedata already exists, skipping copy and unzip."
     fi
 
     # openjkdf2
@@ -1378,23 +1386,23 @@ copy_game_data() {
     fi
 
     # kotor
-    echo -e "\n***Copying kotor files to $HOME/Downloads***"
-    if [ ! -d "$HOME/Downloads/kotor" ]; then
-        cp "$MEDIA_PATH/2024/Star Wars - KotOR.zip" "$HOME/Downloads"
-        unzip "$HOME/Downloads/Star Wars - KotOR.zip" -d "$HOME/Downloads/kotor"
-        echo "Copied and unzipped 'Star Wars - KotOR.zip' to $HOME/Downloads/kotor"
+    echo -e "\n***Copying kotor files to $DOWNLOADS_DIR***"
+    if [ ! -d "$DOWNLOADS_DIR/kotor" ]; then
+        cp "$MEDIA_PATH/2024/Star Wars - KotOR.zip" "$DOWNLOADS_DIR"
+        unzip "$DOWNLOADS_DIR/Star Wars - KotOR.zip" -d "$DOWNLOADS_DIR/kotor"
+        echo "Copied and unzipped 'Star Wars - KotOR.zip' to $DOWNLOADS_DIR/kotor"
     else
-        echo "$HOME/Downloads/kotor already exists, skipping copy and unzip."
+        echo "$DOWNLOADS_DIR/kotor already exists, skipping copy and unzip."
     fi
 
     # kotor2
-    echo -e "\n***Copying kotor2 files to $HOME/Downloads***"
-    if [ ! -d "$HOME/Downloads/kotor2" ]; then
-        cp "$MEDIA_PATH/2024/Star Wars - KotOR2.zip" "$HOME/Downloads"
-        unzip "$HOME/Downloads/Star Wars - KotOR2.zip" -d "$HOME/Downloads/kotor2"
-        echo "Copied and unzipped 'Star Wars - KotOR2.zip' to $HOME/Downloads/kotor2"
+    echo -e "\n***Copying kotor2 files to $DOWNLOADS_DIR***"
+    if [ ! -d "$DOWNLOADS_DIR/kotor2" ]; then
+        cp "$MEDIA_PATH/2024/Star Wars - KotOR2.zip" "$DOWNLOADS_DIR"
+        unzip "$DOWNLOADS_DIR/Star Wars - KotOR2.zip" -d "$DOWNLOADS_DIR/kotor2"
+        echo "Copied and unzipped 'Star Wars - KotOR2.zip' to $DOWNLOADS_DIR/kotor2"
     else
-        echo "$HOME/Downloads/kotor2 already exists, skipping copy and unzip."
+        echo "$DOWNLOADS_DIR/kotor2 already exists, skipping copy and unzip."
     fi
 
     # stk addons
@@ -1418,16 +1426,16 @@ copy_game_data() {
             dest_file="$HOME/Code2/C/ioq3/build/release-linux-x86_64/baseq3/$(basename "$file")"
             if [ ! -f "$dest_file" ]; then
                 cp "$file" "$dest_file"
-                echo 'Copied $(basename "$file") to $HOME/Code2/C/ioq3/build/release-linux-x86_64/baseq3/'
+                echo "Copied $(basename "$file") to $HOME/Code2/C/ioq3/build/release-linux-x86_64/baseq3/"
             else
-                echo '$(basename "$file") already exists in $HOME/Code2/C/ioq3/build/release-linux-x86_64/baseq3/, skipping copy.'
+                echo "$(basename "$file") already exists in $HOME/Code2/C/ioq3/build/release-linux-x86_64/baseq3/, skipping copy."
             fi
         fi
     done
 
     # Diablo 2
-    echo -e "\n***Copying d2 files to $HOME/Downloads***"
-    copy_dir_to_target "$MEDIA_PATH/2024/d2" "$HOME/Downloads/d2"
+    echo -e "\n***Copying d2 files to $DOWNLOADS_DIR***"
+    copy_dir_to_target "$MEDIA_PATH/2024/d2" "$DOWNLOADS_DIR/d2"
 
     # Fix OpenDiablo2 config.json if it exists
     if [ -f "$HOME/.config/OpenDiablo2/config.json" ]; then
