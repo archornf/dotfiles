@@ -183,6 +183,15 @@ vim.keymap.set("n", "<leader>t", "<cmd>silent !tmux neww tmux-sessionizer<CR>") 
 vim.keymap.set('n', '<leader>df', '<cmd>lua vim.diagnostic.open_float()<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>db', '<cmd>lua vim.diagnostic.setqflist()<CR>', { noremap = true, silent = true })
 
+function ReplaceQuotes()
+  vim.cmd([[
+    %s/[‘’]/'/g
+    %s/[“”]/"/g
+  ]])
+end
+
+vim.api.nvim_set_keymap('n', '<leader>wr', ':lua ReplaceQuotes()<CR>', { noremap = true, silent = true })
+
 local function PythonCommand()
     local code_root_dir = os.getenv("code_root_dir") or "~/"
     code_root_dir = code_root_dir:gsub(" ", '" "')
@@ -441,8 +450,8 @@ vim.api.nvim_set_keymap('n', '<M-x>', '<Cmd>lua compile_run()<CR>', { noremap = 
 vim.api.nvim_set_keymap('n', '<M-S-X>', '<Cmd>!chmod +x %<CR>', { noremap = true, silent = true })
 
 -- " Execute line under the cursor
--- nnoremap <leader>el yy:@"<CR>
---vim.api.nvim_set_keymap('n', '<leader>el', 'yy:@"<CR>', { noremap = true, silent = true })
+-- nnoremap <leader>w yy:@"<CR>
+--vim.api.nvim_set_keymap('n', '<leader>w', 'yy:@"<CR>', { noremap = true, silent = true })
 --
 -- Function to execute command under cursor or highlighted text
 function execute_command()
@@ -459,6 +468,6 @@ function execute_command()
   vim.cmd(command)
 end
 
-vim.api.nvim_set_keymap('n', '<leader>el', ':lua execute_command()<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('v', '<leader>el', ':lua execute_command()<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>w', ':lua execute_command()<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<leader>w', ':lua execute_command()<CR>', { noremap = true, silent = true })
 
