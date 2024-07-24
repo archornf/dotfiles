@@ -523,6 +523,8 @@ fix_ownerships() {
         "$HOME/Code2/Wow/tools/BLPConverter"
         "$HOME/Code2/Wow/tools/StormLib"
         "$HOME/.local/share/openjk"
+        "$HOME/cmangos"
+        "$HOME/vmangos"
     )
 
     for dir in "${directories[@]}"; do
@@ -1190,7 +1192,7 @@ copy_game_data() {
     copy_dir_to_target "$MEDIA_PATH/2024/acore/vmaps" "$DEST_DIR/vmaps"
 
     # Handle copying individual scripts from lua_scripts
-    #LUA_SRC="$MEDIA_PATH/2024/acore/lua_scripts"
+    LUA_SRC="$MEDIA_PATH/2024/acore/lua_scripts"
     #if [ -d "$LUA_SRC" ]; then
     #    mkdir -p "$DEST_DIR/lua_scripts"
     #    for script in "$LUA_SRC"/*.lua; do # Only copy lua files
