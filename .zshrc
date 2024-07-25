@@ -252,6 +252,7 @@ export FZF_CTRL_T_COMMAND='find . -type f -name ".*" -o -type f -name "*"'
 precmd() { eval "$PROMPT_COMMAND" }
 export PROMPT_COMMAND="pwd > /tmp/whereami"
 export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:/usr/local/bin
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 export PATH="${PATH}:${HOME}/.local/bin/"

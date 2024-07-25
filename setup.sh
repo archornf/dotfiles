@@ -564,7 +564,7 @@ compile_projects() {
     #    fi
     #else
     #    OS_ID=$(grep "^ID=" /etc/os-release | cut -d'=' -f2)
-    #    echo "Skipping neovim check (only for Debian or Raspbian architectures). Found architecture: $OS_ID"
+    #    echo "Skipping neovim check (only for Debian or Raspbian architectures). Found os: $OS_ID"
     #fi
 
     # Note: If the shell has issues with '++', you might need to quote or escape it...
@@ -705,28 +705,33 @@ compile_projects() {
     echo "major: $major_version"
     echo "minor: $minor_version"
 
-    if check_dir "eww" "target"; then
-        if [ "$major_version" -gt 1 ] || { [ "$major_version" -eq 1 ] && [ "$minor_version" -gt 63 ]; }; then
-            echo "rustc version is above 1.63"
-            cargo build --release --no-default-features --features x11
-            cd target/release
-            chmod +x ./eww
-        else
-            cd ..
-            echo "rustc version is 1.63 or below. Skipping rust project..."
+    if grep -qEi 'arch' /etc/os-release; then
+        if check_dir "eww" "target"; then
+            if [ "$major_version" -gt 1 ] || { [ "$major_version" -eq 1 ] && [ "$minor_version" -gt 63 ]; }; then
+                echo "rustc version is above 1.63"
+                cargo build --release --no-default-features --features x11
+                cd target/release
+                chmod +x ./eww
+            else
+                cd ..
+                echo "rustc version is 1.63 or below. Skipping rust project..."
+            fi
+            cd "$HOME/Code/rust"
         fi
-        cd "$HOME/Code/rust"
-    fi
 
-    if check_dir "swww" "target"; then
-        if [ "$major_version" -gt 1 ] || { [ "$major_version" -eq 1 ] && [ "$minor_version" -gt 63 ]; }; then
-            echo "rustc version is above 1.63"
-            cargo build --release
-        else
-            cd ..
-            echo "rustc version is 1.63 or below. Skipping rust project..."
+        if check_dir "swww" "target"; then
+            if [ "$major_version" -gt 1 ] || { [ "$major_version" -eq 1 ] && [ "$minor_version" -gt 63 ]; }; then
+                echo "rustc version is above 1.63"
+                cargo build --release
+            else
+                cd ..
+                echo "rustc version is 1.63 or below. Skipping rust project..."
+            fi
+            cd "$HOME/Code/rust"
         fi
-        cd "$HOME/Code/rust"
+    else
+        OS_ID=$(grep "^ID=" /etc/os-release | cut -d'=' -f2)
+        echo "Skipping compilation of eww and swww (only for Arch). Found os: $OS_ID"
     fi
 
     print_and_cd_to_dir "$HOME/Code2/C" "Compiling"
@@ -898,7 +903,8 @@ compile_projects() {
 
     print_and_cd_to_dir "$HOME/Code2/Go" "Compiling"
 
-    if check_dir "wotlk-sim" "node_modules"; then
+    #if check_dir "wotlk-sim" "node_modules"; then
+    if check_file "wotlk-sim" "wowsimwotlk"; then
         # Check if go version is >= 1.21.1
         GO_VERSION=$(go version 2>/dev/null)
 
@@ -1444,6 +1450,7 @@ copy_game_data() {
     # jar files? jna, jna-platform, mariadb/mysql...
     # star_wars_ja_mods
     # star_wars_jo_mods
+    # cp openjkdf2 /home/jonas/.local/share/OpenJKDF2/openjkdf2/
 }
 
 if $justDoIt; then
@@ -1531,11 +1538,12 @@ fix_other_files() {
         fi
     else
         OS_ID=$(grep "^ID=" /etc/os-release | cut -d'=' -f2)
-        echo "Skipping copy of python binary (only for Debian or Raspbian architectures). Found architecture: $OS_ID"
+        echo "Skipping copy of python binary (only for Debian or Raspbian architectures). Found os: $OS_ID"
     fi
 
     # TODO:
     # check databases... Create with sql scripts if they don't exist...
+    # japp-assets, baby-yoda...
 }
 
 if $justDoIt; then
@@ -1552,4 +1560,106 @@ else
         fix_other_files
     fi
 fi
+
+
+# To test:
+  #openmw
+  # run from: /usr/local/bin (should be in path)
+
+  #OpenJK
+  #.openjk
+
+  #re3
+  # cp /home/jonas/Code/c++/re3/bin/linux-amd64-librw_gl3_glfw-oal/Release/re3 to $DOWNLOADS_DIR/gta3/
+  #re3_vice
+  # cp /home/jonas/Code/c++/re3_vice/bin/linux-amd64-librw_gl3_glfw-oal/Release/reVC to $DOWNLOADS_DIR/gta_vice
+
+  #ioq3
+  # .ioq3
+
+  #stk
+  # .stk
+
+  #OpenJKDF2
+  # cp openjkdf2 /home/jonas/.local/share/OpenJKDF2/openjkdf2/
+  # Run in /home/jonas/.local/share/OpenJKDF2/openjkdf2/
+
+  #japp
+  # .japp
+
+  #
+  #reone
+
+  #JediKnightGalaxies
+  #copy base dir to:
+  #/home/jonas/Downloads/ja_data/JediAcademy
+  #then copy: cp JKGalaxies/JKG_Defaults.cfg /home/jonas/Downloads/ja_data/JediAcademy
+
+  #jk2mv, not compiled??? source build-and-install.sh
+  # Copy pk3 (jo) to $HOME/Code/c++/jk2mv/build/Linux-x86_64-install/out/Release
+  # run from: /usr/local/bin (should be in path)
+
+  #Unvanquished
+  #/home/jonas/Code/c++/Unvanquished/build
+
+  #KotOR
+  #/home/jonas/Code/js/KotOR.js
+
+  #small_games
+  #/home/jonas/Code2/C++/small_games/BirdGame
+  #/home/jonas/Code2/C++/small_games/CPP_FightingGame/FightingGameProject
+  #/home/jonas/Code2/C++/small_games/Craft
+  #/home/jonas/Code2/C++/small_games/pacman/build
+  #/home/jonas/Code2/C++/small_games/space-shooter/build
+
+  #devilutionX
+  #/home/jonas/Code2/C++/devilutionX/build
+
+  #crispy:
+  #/home/jonas/Code2/C++/crispy-doom/src
+
+  #dhewm3
+  #/home/jonas/Code2/C++/dhewm3/build
+
+  #simc
+  #/home/jonas/Code2/C++/simc/build/qt
+  #or:
+  #/home/jonas/Code2/C++/simc/build
+  #* TODO wotlk-simulationscraft compile and test!
+
+  #In jediknightgalaxies?
+  #sudo chown -R jonas:jonas $(pwd)
+
+  #AzerothCore
+  #Trinitycore
+
+  #mangos
+  #core
+  #server
+
+  #Svea
+  #utils
+
+  #wotlk-sim
+  # /home/jonas/Code2/Go/wotlk-sim
+  # ./wowsimwotlk
+  # Mabe also do: Make host
+
+  #OpenDiablo2
+  # /home/jonas/Code2/Go/OpenDiablo2
+
+  #my_js
+  #/home/jonas/Code2/Javascript/my_js/Testing/mysql
+  #/home/jonas/Code2/Javascript/my_js/Testing/navigation/ffi-napi
+
+  #wander_nodes_util
+  #Compile wander nodes!
+
+  #mpq
+  #spelunker
+  #wowser
+  #wowmapview
+  #wowmapviewer
+  #WebWoWViewer
+  #WebWoWViewercpp
 
