@@ -866,7 +866,7 @@ compile_projects() {
         make -j$(nproc)
         sudo make install
 
-        # TODO: but db and conf fixing in fix_other_files...
+        # TODO: put db and conf fixing in fix_other_files...
 
         # git clone --recurse-submodules https://github.com/cmangos/classic-db
         # /home/jonas/Documents/my_notes/sql/wow
@@ -890,44 +890,38 @@ compile_projects() {
         cp $HOME/cmangos/run/etc/mangosd.conf.dist $HOME/cmangos/run/etc/mangosd.conf
         cp $HOME/cmangos/run/etc/realmd.conf.dist $HOME/cmangos/run/etc/realmd.conf
 
-        realmd.conf:
+        # realmd.conf:
+        # LoginDatabaseInfo = "127.0.0.1;3306;mangos;mangos;classicrealmd"
+        # ->
+        # LoginDatabaseInfo = "127.0.0.1;3306;cmangos;cmangos;classicrealmd"
 
-# LoginDatabaseInfo = "127.0.0.1;3306;mangos;mangos;classicrealmd"
-# ->
-# LoginDatabaseInfo = "127.0.0.1;3306;cmangos;cmangos;classicrealmd"
+        # aiplayerbot.conf:
+        # AiPlayerbot.RandomBotAutoJoinBG = 0
+        # AiPlayerbot.RandomBotAutoJoinBG = 1
+        # 
+        # AiPlayerbot.MinRandomBots = 1000
+        # AiPlayerbot.MaxRandomBots = 1000
+        # 
+        # AiPlayerbot.MinRandomBots = 1000
+        # AiPlayerbot.MaxRandomBots = 1000
+        # 
+        # AiPlayerbot.MinRandomBots = 100
+        # AiPlayerbot.MaxRandomBots = 200
+        # 
+        # mangosd.conf:
+        # LoginDatabaseInfo     = "127.0.0.1;3306;mangos;mangos;classicrealmd"
+        # WorldDatabaseInfo     = "127.0.0.1;3306;mangos;mangos;classicmangos"
+        # CharacterDatabaseInfo = "127.0.0.1;3306;mangos;mangos;classiccharacters"
+        # LogsDatabaseInfo      = "127.0.0.1;3306;mangos;mangos;classiclogs"
+        # # ->
+        # LoginDatabaseInfo     = "127.0.0.1;3306;cmangos;cmangos;classicrealmd"
+        # WorldDatabaseInfo     = "127.0.0.1;3306;cmangos;cmangos;classicmangos"
+        # CharacterDatabaseInfo = "127.0.0.1;3306;cmangos;cmangos;classiccharacters"
+        # LogsDatabaseInfo      = "127.0.0.1;3306;cmangos;cmangos;classiclogs"
 
-aiplayerbot.conf:
+        # account create cmangos 123
+        # account set gmlevel cmangos 3
 
-AiPlayerbot.RandomBotAutoJoinBG = 0
-AiPlayerbot.RandomBotAutoJoinBG = 1
-
-AiPlayerbot.MinRandomBots = 1000
-AiPlayerbot.MaxRandomBots = 1000
-
-AiPlayerbot.MinRandomBots = 1000
-AiPlayerbot.MaxRandomBots = 1000
-
-AiPlayerbot.MinRandomBots = 100
-AiPlayerbot.MaxRandomBots = 200
-
-mangosd.conf:
-
-
-LoginDatabaseInfo     = "127.0.0.1;3306;mangos;mangos;classicrealmd"
-WorldDatabaseInfo     = "127.0.0.1;3306;mangos;mangos;classicmangos"
-CharacterDatabaseInfo = "127.0.0.1;3306;mangos;mangos;classiccharacters"
-LogsDatabaseInfo      = "127.0.0.1;3306;mangos;mangos;classiclogs"
-
-# ->
-LoginDatabaseInfo     = "127.0.0.1;3306;cmangos;cmangos;classicrealmd"
-WorldDatabaseInfo     = "127.0.0.1;3306;cmangos;cmangos;classicmangos"
-CharacterDatabaseInfo = "127.0.0.1;3306;cmangos;cmangos;classiccharacters"
-LogsDatabaseInfo      = "127.0.0.1;3306;cmangos;cmangos;classiclogs"
-
-# account create cmangos 123
-# account set gmlevel cmangos 3
-
-        # TODO: confs
         cd "$HOME/Code2/C++"
     fi
 
@@ -975,7 +969,6 @@ LogsDatabaseInfo      = "127.0.0.1;3306;cmangos;cmangos;classiclogs"
 
         cp $HOME/vmangos/etc/mangosd.conf.dist $HOME/vmangos/etc/mangosd.conf
         cp $HOME/vmangos/etc/realmd.conf.dist $HOME/vmangos/etc/realmd.conf
-
 
         # LoginDatabase.Info              = "127.0.0.1;3306;mangos;mangos;realmd"
         # WorldDatabase.Info              = "127.0.0.1;3306;mangos;mangos;mangos"
@@ -1250,7 +1243,7 @@ check_pip_packages() {
     for pkg in $requirements_packages; do reqs["$pkg"]=1; done
     for pkg in $installed_packages; do installed["$pkg"]=1; done
 
-    # Compare: Find packages in requirements.txt not installed
+    # Compare: find packages in requirements.txt not installed
     echo -e "\nPackages in requirements.txt but not installed:\n"
     for pkg in "${!reqs[@]}"; do
         if [[ ! ${installed["$pkg"]} ]]; then
@@ -1258,7 +1251,7 @@ check_pip_packages() {
         fi
     done
 
-    # Compare: Find installed packages not in requirements.txt
+    # Compare: find installed packages not in requirements.txt
     echo -e "\nInstalled packages not in requirements.txt:\n"
     for pkg in "${!installed[@]}"; do
         if [[ ! ${reqs["$pkg"]} ]]; then
@@ -1730,6 +1723,7 @@ fix_other_files() {
     # TODO:
     # check databases... Create with sql scripts if they don't exist...
     # japp-assets, baby-yoda...
+    # Check and inform if mpq files exists...
 }
 
 if $justDoIt; then
@@ -1747,163 +1741,180 @@ else
     fi
 fi
 
-
+###
 # To test:
-  #openmw
-  # run from: /usr/local/bin (should be in path)
+###
 
-  #OpenJK
-  #.openjk
+#openmw
+# run from: /usr/local/bin (should be in path)
 
-  #re3
-  # cp /home/jonas/Code/c++/re3/bin/linux-amd64-librw_gl3_glfw-oal/Release/re3 to $DOWNLOADS_DIR/gta3/
-  #re3_vice
-  # cp /home/jonas/Code/c++/re3_vice/bin/linux-amd64-librw_gl3_glfw-oal/Release/reVC to $DOWNLOADS_DIR/gta_vice
+#OpenJK
+#.openjk
 
-  #ioq3
-  # .ioq3
+#re3
+# cp /home/jonas/Code/c++/re3/bin/linux-amd64-librw_gl3_glfw-oal/Release/re3 to $DOWNLOADS_DIR/gta3/
+#re3_vice
+# cp /home/jonas/Code/c++/re3_vice/bin/linux-amd64-librw_gl3_glfw-oal/Release/reVC to $DOWNLOADS_DIR/gta_vice
 
-  #stk
-  # .stk
+#ioq3
+# .ioq3
 
-  #OpenJKDF2
-  # cp openjkdf2 /home/jonas/.local/share/OpenJKDF2/openjkdf2/
-  # Run in /home/jonas/.local/share/OpenJKDF2/openjkdf2/
+#stk
+# .stk
 
-  #japp
-  # .japp
+#OpenJKDF2
+# cp openjkdf2 /home/jonas/.local/share/OpenJKDF2/openjkdf2/
+# Run in /home/jonas/.local/share/OpenJKDF2/openjkdf2/
 
-  #
-  #reone
+#japp
+# .japp
 
-  #JediKnightGalaxies
-  #copy base dir to:
-  #/home/jonas/Downloads/ja_data/JediAcademy
-  #then copy: cp JKGalaxies/JKG_Defaults.cfg /home/jonas/Downloads/ja_data/JediAcademy
+#
+#reone
 
-  #jk2mv, not compiled??? source build-and-install.sh
-  # Copy pk3 (jo) to $HOME/Code/c++/jk2mv/build/Linux-x86_64-install/out/Release
-  # run from: /usr/local/bin (should be in path)
+#JediKnightGalaxies
+#copy base dir to:
+#/home/jonas/Downloads/ja_data/JediAcademy
+#then copy: cp JKGalaxies/JKG_Defaults.cfg /home/jonas/Downloads/ja_data/JediAcademy
 
-  #Unvanquished
-  #/home/jonas/Code/c++/Unvanquished/build
+#jk2mv, not compiled??? source build-and-install.sh
+# Copy pk3 (jo) to $HOME/Code/c++/jk2mv/build/Linux-x86_64-install/out/Release
+# run from: /usr/local/bin (should be in path)
 
-  #KotOR
-  #/home/jonas/Code/js/KotOR.js
+#Unvanquished
+#/home/jonas/Code/c++/Unvanquished/build
 
-  #small_games
-  #/home/jonas/Code2/C++/small_games/BirdGame
-  #/home/jonas/Code2/C++/small_games/CPP_FightingGame/FightingGameProject
-  #/home/jonas/Code2/C++/small_games/Craft
-  #/home/jonas/Code2/C++/small_games/pacman/build
-  #/home/jonas/Code2/C++/small_games/space-shooter/build
+#KotOR
+#/home/jonas/Code/js/KotOR.js
 
-  #devilutionX
-  #/home/jonas/Code2/C++/devilutionX/build
+#small_games
+#/home/jonas/Code2/C++/small_games/BirdGame
+#/home/jonas/Code2/C++/small_games/CPP_FightingGame/FightingGameProject
+#/home/jonas/Code2/C++/small_games/Craft
+#/home/jonas/Code2/C++/small_games/pacman/build
+#/home/jonas/Code2/C++/small_games/space-shooter/build
 
-  #crispy:
-  #/home/jonas/Code2/C++/crispy-doom/src
+#devilutionX
+#/home/jonas/Code2/C++/devilutionX/build
 
-  #dhewm3
-  #/home/jonas/Code2/C++/dhewm3/build
+#crispy:
+#/home/jonas/Code2/C++/crispy-doom/src
 
-  #simc
-  #/home/jonas/Code2/C++/simc/build/qt
-  #or:
-  #/home/jonas/Code2/C++/simc/build
-  #* TODO wotlk-simulationscraft compile and test!
+#dhewm3
+#/home/jonas/Code2/C++/dhewm3/build
 
-  #In jediknightgalaxies?
-  #sudo chown -R jonas:jonas $(pwd)
+#simc
+#/home/jonas/Code2/C++/simc/build/qt
+#or:
+#/home/jonas/Code2/C++/simc/build
+#* TODO wotlk-simulationscraft compile and test!
 
-  #AzerothCore
+#In jediknightgalaxies?
+#sudo chown -R jonas:jonas $(pwd)
+
+#mangos
+#core
+#server
+
+#Svea
+#utils
+
+#wotlk-sim
+# /home/jonas/Code2/Go/wotlk-sim
+# ./wowsimwotlk
+# Mabe also do: Make host
+
+#OpenDiablo2
+# /home/jonas/Code2/Go/OpenDiablo2
+
+#my_js
+#/home/jonas/Code2/Javascript/my_js/Testing/mysql
+#/home/jonas/Code2/Javascript/my_js/Testing/navigation/ffi-napi
+
+#wander_nodes_util
+#Compile wander nodes!
+
+#mpq
+#spelunker
+#wowser
+#wowmapview
+#wowmapviewer
+#WebWoWViewer
+#WebWoWViewercpp
+
+#Trinitycore
+#Download latest 3.3.5 db from:
+# https://github.com/TrinityCore/TrinityCore/releases
+# Place in ~/tcore/bin
+# source create_mysql.sl in $HOME/Code2/C++/Trinitycore-3.3.5-with-NPCBots/sql/create
+# cp authserver.conf.dist authserver.conf
+# cp worldserver.conf.dist worldserver.conf
+# start worldserver
+
+# mkdir -p $HOME/Code2/Wow/general
+# cd $HOME/Code2/Wow/general
+# git clone --recurse-submodules https://github.com/trickerer/Trinity-Bots
+# cd $HOME/Code2/Wow/general/Trinity-Bots/SQL
+
+# wow_classic: prevent message about restore default settings...
+# Also fix one wow startup script and call classic / 3.3.5 depending on server...
+
+# Bot setup:
+
+# mysql -u root -p
+# use world
+# source 1_world_bot_appearance.sql
+# source 2_world_bot_extras.sql
+# source 3_world_bots.sql
+# source 4_world_generate_bot_equips.sql
+# source 5_world_botgiver.sql
+# use characters
+# source characters_bots.sql
+# 
+# chmod +x merge_sqls_world_unix.sh
+# ./merge_sqls_world_unix.sh
+# 
+# chmod +x merge_sqls_characters_unix.sh
+# ./merge_sqls_characters_unix.sh
+# 
+# chmod +x merge_sqls_auth_unix.sh
+# ./merge_sqls_auth_unix.sh
+# 
+# mysql -u root -p
+# use world
+# source ALL_word.sql
+# 
+# use characters
+# source ALL_characters.sql
+# 
+# use auth
+# source ALL_auth.sql
+# 
+# Some updates were missing from trinity-bots repo so I had to install the two updates (1 character and 1 world) in rewow repo updates...). Source the ones later than 2024_03_19...
+# 
+# Fix:
+# 
+# NpcBot.WanderingBots.Classes.SeaWitch.Enable          = 1
+# NpcBot.WanderingBots.Classes.CryptLord.Enable         = 1
+# etc.
+
+##
+# Script that takes two dir paths and compares (diff) all files recursively in
+# it and prints files that differ.
+##
 
 
-  #mangos
-  #core
-  #server
+###
+# AzerothCore
+###
+# cd $HOME/Code2/C++/AzerothCore-wotlk-with-NPCBots/data/sql/create
+# mysql -u root -p
+# source create_mysql.sql
+# cp authserver.conf.dist authserver.conf
+# cp worldserver.conf.dist worldserver.conf
+# Run worldserver...
 
-  #Svea
-  #utils
-
-  #wotlk-sim
-  # /home/jonas/Code2/Go/wotlk-sim
-  # ./wowsimwotlk
-  # Mabe also do: Make host
-
-  #OpenDiablo2
-  # /home/jonas/Code2/Go/OpenDiablo2
-
-  #my_js
-  #/home/jonas/Code2/Javascript/my_js/Testing/mysql
-  #/home/jonas/Code2/Javascript/my_js/Testing/navigation/ffi-napi
-
-  #wander_nodes_util
-  #Compile wander nodes!
-
-  #mpq
-  #spelunker
-  #wowser
-  #wowmapview
-  #wowmapviewer
-  #WebWoWViewer
-  #WebWoWViewercpp
-
-
-
-  #Trinitycore
-  #Download latest 3.3.5 db from:
-  # https://github.com/TrinityCore/TrinityCore/releases
-  # Place in ~/tcore/bin
-  # source create_mysql.sl in $HOME/Code2/C++/Trinitycore-3.3.5-with-NPCBots/sql/create
-  # cp authserver.conf.dist authserver.conf
-  # cp worldserver.conf.dist worldserver.conf
-  # start worldserver
-
-  # mkdir -p $HOME/Code2/Wow/general
-  # cd $HOME/Code2/Wow/general
-  # git clone --recurse-submodules https://github.com/trickerer/Trinity-Bots
-  # cd $HOME/Code2/Wow/general/Trinity-Bots/SQL
-
-  # wow_classic: prevent message about restore default settings...
-  # Also fix one wow startup script and call classic / 3.3.5 depending on server...
-
-  # Bot setup:
-
-mysql -u root -p
-use world
-source 1_world_bot_appearance.sql
-source 2_world_bot_extras.sql
-source 3_world_bots.sql
-source 4_world_generate_bot_equips.sql
-source 5_world_botgiver.sql
-use characters
-source characters_bots.sql
-
-chmod +x merge_sqls_world_unix.sh
-./merge_sqls_world_unix.sh
-
-chmod +x merge_sqls_characters_unix.sh
-./merge_sqls_characters_unix.sh
-
-chmod +x merge_sqls_auth_unix.sh
-./merge_sqls_auth_unix.sh
-
-mysql -u root -p
-use world
-source ALL_word.sql
-
-use characters
-source ALL_characters.sql
-
-use auth
-source ALL_auth.sql
-
-Some updates were missing from trinity-bots repo so I had to install the two updates (1 character and 1 world) in rewow repo updates...). Source the ones later than 2024_03_19...
-
-Fix:
-
-NpcBot.WanderingBots.Classes.SeaWitch.Enable          = 1
-NpcBot.WanderingBots.Classes.CryptLord.Enable         = 1
-etc.
+# Copy overwrite script to acore and tcore!
+# Also copy gdb conf file...
+# Apply customworldboss sql (https://github.com/ornfelt/azerothcore_lua_scripts/blob/master/Acore_eventScripts/database/world/customWorldboss.sql)
 

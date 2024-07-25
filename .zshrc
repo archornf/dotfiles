@@ -160,7 +160,7 @@ alias .japp='$HOME/.local/share/openjk/JediAcademy/openjk.x86_64 +set fs_game "j
 alias .acore='cd $HOME/acore/bin; pwd; ls'
 alias .acore_update='cd $HOME/Code2/C++/AzerothCore-wotlk-with-NPCBots && git pull && cd modules/mod-eluna && git pull && cd ../..'
 alias .tcore='cd $HOME/tcore/bin; pwd; ls'
-alias .wow='wine /mnt/new/wow/Wow.exe'
+alias .wow='sh $HOME/.local/bin/my_scripts/wow.sh'
 
 playermap ()
 {

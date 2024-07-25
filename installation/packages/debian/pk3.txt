@@ -64,6 +64,7 @@ openssh-client
 openssl
 optipng
 os-prober
+p7zip-full
 p7zip
 packages-microsoft-prod
 pamix

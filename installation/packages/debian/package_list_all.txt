@@ -2850,6 +2850,7 @@ openssl
 optipng
 os-prober
 p7zip
+p7zip-full
 packagekit
 packagekit-tools
 packages-microsoft-prod
