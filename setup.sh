@@ -1835,12 +1835,35 @@ fi
 #Compile wander nodes!
 
 #mpq
+
+# azeroth-web
+# Run script in my_notes
+# proxy: npm start
+# web: npm install -g typescript
+# npm run dev
+
 #spelunker
+# Run script in my_notes
+# start file server
+
 #wowser
+# Run script in my_notes
+# npm run serve
+# npm run web-dev
+
 #wowmapview
+# ./wowmapview -gamepath /mnt/new/wow_classic/
+
 #wowmapviewer
+# ./wowmapview -gamepath /mnt/new/cata/Data/
+# TODO: Did the check_dir / check_file fail here???
+
 #WebWoWViewer
+# start file server
+# npm run start
+
 #WebWoWViewercpp
+# ./AWebWoWViewerCpp
 
 #Trinitycore
 #Download latest 3.3.5 db from:
