@@ -103,8 +103,16 @@ use check_dbs for checking databases
 # npm run dev
 
 #spelunker
-# Run script in my_notes
-# start file server
+# Run $HOME/Documents/my_notes/scripts/wow/spelunker/setup.sh
+# TODO::::
+# Fix check for mpq and server command to account for correct file server path.
+fix tiles in file_server script as well... Maybe also just copy file_paths and
+spells from my_notes...
+* Fix spelunker spells?
+* Does python server have json data display???
+# start file server and do:
+source ../../.envrc && npm start
+in both spelunker-api and spelunker-web
 
 #wowser
 # Run script in my_notes
