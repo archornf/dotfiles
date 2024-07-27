@@ -1,0 +1,127 @@
+TODOs:
+
+# Fix acore/tcore and classic characters! Drop and import from other sql
+# files, issue with updates then? Would be so nice if I could just import
+# all characters instead for all servers... sql diff somehow?
+# FIX wow_classic config.wtf etc if needed...
+
+use check_dbs for checking databases
+
+###
+# To test after compilations
+###
+
+#openmw
+# ./openmw-launcher and select game data path
+# run ./openmw from: /usr/local/bin (should be in path)
+
+#OpenJK
+#.openjk
+
+#re3
+# cp $HOME/Code/c++/re3/bin/linux-amd64-librw_gl3_glfw-oal/Release/re3 to $DOWNLOADS_DIR/gta3/
+#re3_vice
+# cp $HOME/Code/c++/re3_vice/bin/linux-amd64-librw_gl3_glfw-oal/Release/reVC to $DOWNLOADS_DIR/gta_vice
+
+#ioq3
+# .ioq3
+
+#stk
+# .stk
+
+#OpenJKDF2
+# cp openjkdf2 $HOME/.local/share/OpenJKDF2/openjkdf2/
+# Run in $HOME/.local/share/OpenJKDF2/openjkdf2/
+
+#japp
+# .japp
+
+#reone
+
+#JediKnightGalaxies
+#copy base dir to:
+#$HOME/Downloads/ja_data/JediAcademy
+#then copy: cp JKGalaxies/JKG_Defaults.cfg $HOME/Downloads/ja_data/JediAcademy
+
+#jk2mv, not compiled??? source build-and-install.sh
+# Copy pk3 (jo) to $HOME/Code/c++/jk2mv/build/Linux-x86_64-install/out/Release
+# run from: /usr/local/bin (should be in path)
+
+#Unvanquished
+#$HOME/Code/c++/Unvanquished/build
+
+#KotOR
+#$HOME/Code/js/KotOR.js
+
+#small_games
+#$HOME/Code2/C++/small_games/BirdGame
+#$HOME/Code2/C++/small_games/CPP_FightingGame/FightingGameProject
+#$HOME/Code2/C++/small_games/Craft
+#$HOME/Code2/C++/small_games/pacman/build
+#$HOME/Code2/C++/small_games/space-shooter/build
+
+#devilutionX
+#$HOME/Code2/C++/devilutionX/build
+
+#crispy:
+#$HOME/Code2/C++/crispy-doom/src
+
+#dhewm3
+#$HOME/Code2/C++/dhewm3/build
+
+#simc
+#$HOME/Code2/C++/simc/build/qt
+#or:
+#$HOME/Code2/C++/simc/build
+#* TODO wotlk-simulationscraft compile and test!
+
+#In jediknightgalaxies?
+#sudo chown -R jonas:jonas $(pwd)
+
+#Svea
+#utils
+
+#wotlk-sim
+# $HOME/Code2/Go/wotlk-sim
+# ./wowsimwotlk
+# Mabe also do: Make host
+
+#OpenDiablo2
+# $HOME/Code2/Go/OpenDiablo2
+
+#my_js
+# $HOME/Code2/Javascript/my_js/Testing/mysql
+# $HOME/Code2/Javascript/my_js/Testing/navigation/ffi-napi
+
+#wander_nodes_util
+#Compile wander nodes!
+
+# azeroth-web
+# Run script in my_notes
+# proxy: npm start
+# web: npm install -g typescript
+# npm run dev
+
+#spelunker
+# Run script in my_notes
+# start file server
+
+#wowser
+# Run script in my_notes
+# npm run serve
+# npm run web-dev
+
+#wowmapview
+# ./wowmapview -gamepath /mnt/new/wow_classic/
+
+#wowmapviewer
+# ./wowmapview -gamepath /mnt/new/cata/Data/
+# TODO: Did the check_dir / check_file fail here due to binary already existing
+# on fresh clone?
+
+#WebWoWViewer
+# start file server
+# npm run start
+
+#WebWoWViewercpp
+# ./AWebWoWViewerCpp

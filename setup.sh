@@ -609,7 +609,7 @@ compile_projects() {
 
     if check_dir "OpenJK"; then
         sed -i '/option(BuildJK2SPEngine /s/OFF)/ON)/; /option(BuildJK2SPGame /s/OFF)/ON)/; /option(BuildJK2SPRdVanilla /s/OFF)/ON)/' ../CMakeLists.txt
-        cmake -DCMAKE_INSTALL_PREFIX=/home/jonas/.local/share/openjk -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
+        cmake -DCMAKE_INSTALL_PREFIX=$HOME/.local/share/openjk -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
         make -j$(nproc)
         sudo make install
         cd "$HOME/Code/c++"
@@ -618,7 +618,7 @@ compile_projects() {
     # Compile if NOT arm arch
     if ! [[ "$architecture" == arm* ]] && ! [[ "$architecture" == aarch64* ]]; then
         if check_dir "JediKnightGalaxies"; then
-            cmake -DCMAKE_INSTALL_PREFIX=/home/jonas/Downloads/ja_data -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
+            cmake -DCMAKE_INSTALL_PREFIX=$HOME/Downloads/ja_data -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
             make -j$(nproc)
             sudo make install
             cd "$HOME/Code/c++"
@@ -1294,7 +1294,7 @@ copy_game_data() {
 
     # Diablo
     SRC_DIABLO="$MEDIA_PATH/2024/diasurgical/devilution"
-    DEST_DIR_DIABLO="/home/jonas/Code2/C++/devilutionX/build"
+    DEST_DIR_DIABLO="$HOME/Code2/C++/devilutionX/build"
     echo -e "\n***Copying diablo files to $DEST_DIR_DIABLO***"
     if [ -d "$SRC_DIABLO" ]; then
         mkdir -p "$DEST_DIR_DIABLO"
@@ -1440,7 +1440,7 @@ copy_game_data() {
     # jar files? jna, jna-platform, mariadb/mysql...
     # star_wars_ja_mods
     # star_wars_jo_mods
-    # cp openjkdf2 /home/jonas/.local/share/OpenJKDF2/openjkdf2/
+    # cp openjkdf2 $HOME/.local/share/OpenJKDF2/openjkdf2/
 }
 
 if $justDoIt; then
@@ -1531,6 +1531,164 @@ fix_other_files() {
         echo "Skipping copy of python binary (only for Debian or Raspbian architectures). Found os: $OS_ID"
     fi
 
+    # vmangos
+    print_and_cd_to_dir "$HOME/Code2/C++" "Cloning"
+    clone_repo_if_missing "vmangos_db" "https://github.com/brotalnia/database"
+
+    echo -e "\nSetting up vmangos conf files\n"
+    #cp $HOME/vmangos/etc/mangosd.conf.dist $HOME/vmangos/etc/mangosd.conf
+    #cp $HOME/vmangos/etc/realmd.conf.dist $HOME/vmangos/etc/realmd.conf
+    python3 $HOME/Documents/my_notes/scripts/wow/update_conf_classic "vmangos"
+
+    # Now do this:
+    # cd $HOME/Documents/my_notes/sql/wow
+    # mysql -u root -p
+    # source vmangos.sql
+
+    # cd $HOME/Code2/C++/core/sql
+    # mysql -u root -p
+    # use vmangos_logs
+    # source logs.sql
+
+    # use vmangos_characters
+    # source characters.sql
+
+    # use vmangos_realmd
+    # source logon.sql
+
+    # exit and cd to $HOME/Code2/C++/vmangos_db
+    # sudo apt-get install p7zip-full
+    # 7z x world_full_14_june_2021.7z
+    # use vmangos_mangos
+    # source world_full_14_june_2021.sql
+
+    # cd $HOME/Code2/C++/core/sql/migrations
+    # run merge.sh
+
+    # Then do:
+    # use vmangos_logs
+    # source logs_db_updates.sql
+
+    # use vmangos_characters
+    # source characters_db_updates.sql
+
+    # use vmangos_realmd
+    # source logon_db_updates.sql
+
+    # use vmangos_mangos
+    # source world_db_updates.sql
+
+    # Also execute this in vmangos_realmd:
+    # INSERT INTO realmlist (name, address) VALUES ('vmangos', '127.0.0.1');
+
+    # account create vmangos 123
+    # account set gmlevel vmangos 6
+
+    # cmangos
+    print_and_cd_to_dir "$HOME/Code2/C++" "Cloning"
+    clone_repo_if_missing "classic-db" "https://github.com/cmangos/classic-db"
+    # cd $HOME/Documents/my_notes/sql/wow
+    # source cmangos_create.sql
+
+    # cd $HOME/Code2/C++/classic-db
+    # run ./InstallFullDB.sh once and quit to generate config
+
+    # Edit config with this:
+    # MYSQL_USERNAME="cmangos"
+    # MYSQL_PASSWORD="cmangos"
+    # AHBOT="YES"
+    # PLAYERBOTS_DB="YES"
+
+    # run ./InstallFullDB.sh again and press 4. enter root and pass
+    # press 1 (Full default...)
+
+    echo -e "\nSetting up cmangos conf files\n"
+    #cp $HOME/cmangos/run/etc/aiplayerbot.conf.dist $HOME/cmangos/run/etc/aiplayerbot.conf
+    #cp $HOME/cmangos/run/etc/ahbot.conf.dist $HOME/cmangos/run/etc/ahbot.conf
+    #cp $HOME/cmangos/run/etc/mangosd.conf.dist $HOME/cmangos/run/etc/mangosd.conf
+    #cp $HOME/cmangos/run/etc/realmd.conf.dist $HOME/cmangos/run/etc/realmd.conf
+    python3 $HOME/Documents/my_notes/scripts/wow/update_conf_classic "cmangos"
+
+    # account create cmangos 123
+    # account set gmlevel cmangos 3
+
+    # mangoszero
+    print_and_cd_to_dir "$HOME/Code2/C++" "Cloning"
+    clone_repo_if_missing "mangoszero_db" "https://github.com/mangoszero/database"
+
+    src_dir="$HOME/Documents/my_notes/sql/wow/mangoszero"
+    dest_dir="$HOME/Code2/C++/mangoszero_db"
+    if [ -d "$src_dir" ]; then
+        if [ -d "$dest_dir" ]; then
+            cp -r "$src_dir"/* "$dest_dir"
+            echo "All files copied from $src_dir to $dest_dir."
+        fi
+    else
+        echo "$src_dir does not exist. Can't copy mangoszero sql files from it..."
+    fi
+
+    # When running install script in mangoszero_db, press n at start and then
+    # only change password default
+
+    # account create mangoszero 123
+    # account set gmlevel mangoszero 3
+
+    # Check if $HOME/mangoszero/run/bin exists
+    if [ -d "$HOME/mangoszero/run/bin" ]; then
+        echo "$HOME/mangoszero/run/bin exists."
+
+        if [ ! -d "$HOME/mangoszero/run/etc" ]; then
+            echo "$HOME/mangoszero/run/etc does not exist."
+
+            if [ -d "$HOME/mangoszero/etc" ]; then
+                echo "$HOME/mangoszero/etc exists. Moving it to $HOME/mangoszero/run/"
+                mv "$HOME/mangoszero/etc" "$HOME/mangoszero/run/"
+            fi
+        fi
+
+        echo -e "\nSetting up mangoszero conf files\n"
+        #cp "$HOME/mangoszero/run/etc/aiplayerbot.conf.dist" "$HOME/mangoszero/run/etc/aiplayerbot.conf"
+        #cp "$HOME/mangoszero/run/etc/ahbot.conf.dist" "$HOME/mangoszero/run/etc/ahbot.conf"
+        #cp "$HOME/mangoszero/run/etc/mangosd.conf.dist" "$HOME/mangoszero/run/etc/mangosd.conf"
+        #cp "$HOME/mangoszero/run/etc/realmd.conf.dist" "$HOME/mangoszero/run/etc/realmd.conf"
+        python3 $HOME/Documents/my_notes/scripts/wow/update_conf_classic "mangoszero"
+    else
+        echo "$HOME/mangoszero/run/bin does not exist. Skipping."
+    fi
+
+    if grep -qEi 'debian|raspbian' /etc/os-release; then
+        if [ -f "/usr/lib/x86_64-linux-gnu/liblua5.2.so" ]; then
+            echo "/usr/lib/x86_64-linux-gnu/liblua5.2.so exists."
+
+            if [ ! -f "/usr/lib/x86_64-linux-gnu/liblua52.so" ]; then
+                echo "/usr/lib/x86_64-linux-gnu/liblua52.so does not exist. Copying it."
+                sudo cp /usr/lib/x86_64-linux-gnu/liblua5.2.so /usr/lib/x86_64-linux-gnu/liblua52.so
+            else
+                echo "/usr/lib/x86_64-linux-gnu/liblua52.so already exists."
+            fi
+        else
+            echo "/usr/lib/x86_64-linux-gnu/liblua5.2.so does not exist. Skipping."
+        fi
+    fi
+
+    # Check mpq exports
+    if [ -d "$HOME/Code2/wow/tools/mpq" ]; then
+        echo "$HOME/Code2/wow/tools/mpq exists."
+
+        dir_to_use="$HOME/Code2/wow/tools"
+        if [ -d "/mnt/new/wow" ]; then
+            dir_to_use="/mnt/new"
+        fi
+
+        if [ ! -d "$dir_to_use/mpq/Export" ]; then
+            printf "./gophercraft_mpq_set export --chain-json docs/wotlk-chain.json --working-directory \"%s/wow/Data\" --export-directory \"%s/mpq/Export\"\n" "$dir_to_use" "$dir_to_use"
+        else
+            echo "$dir_to_use/mpq/Export already exists. All good!"
+        fi
+    else
+        echo "$HOME/Code2/wow/tools/mpq does not exist. Skipping."
+    fi
+
     # TODO:
     # check databases... Create with sql scripts if they don't exist...
     # japp-assets, baby-yoda...
@@ -1552,218 +1710,10 @@ else
     fi
 fi
 
-
 ###
-# cmangos
+# TrinityCore (manual installation)
 ###
-# git clone --recurse-submodules https://github.com/cmangos/classic-db
-# /home/jonas/Documents/my_notes/sql/wow
-# source cmangos_create.sql
-
-# cd /home/jonas/Code2/C++/classic-db
-# run ./InstallFullDB.sh once and quit to generate config
-
-# Edit config with this:
-# MYSQL_USERNAME="cmangos"
-# MYSQL_PASSWORD="cmangos"
-# AHBOT="YES"
-# PLAYERBOTS_DB="YES"
-
-# run ./InstallFullDB.sh again and press 4. enter root and pass
-# press 1 (Full default...)
-
-#cp $HOME/cmangos/run/etc/aiplayerbot.conf.dist $HOME/cmangos/run/etc/aiplayerbot.conf
-#cp $HOME/cmangos/run/etc/ahbot.conf.dist $HOME/cmangos/run/etc/ahbot.conf
-#cp $HOME/cmangos/run/etc/mangosd.conf.dist $HOME/cmangos/run/etc/mangosd.conf
-#cp $HOME/cmangos/run/etc/realmd.conf.dist $HOME/cmangos/run/etc/realmd.conf
-
-# realmd.conf:
-# LoginDatabaseInfo = "127.0.0.1;3306;mangos;mangos;classicrealmd"
-# ->
-# LoginDatabaseInfo = "127.0.0.1;3306;cmangos;cmangos;classicrealmd"
-
-# aiplayerbot.conf:
-# AiPlayerbot.RandomBotAutoJoinBG = 0
-# AiPlayerbot.RandomBotAutoJoinBG = 1
-# 
-# AiPlayerbot.MinRandomBots = 1000
-# AiPlayerbot.MaxRandomBots = 1000
-# 
-# AiPlayerbot.MinRandomBots = 1000
-# AiPlayerbot.MaxRandomBots = 1000
-# 
-# AiPlayerbot.MinRandomBots = 100
-# AiPlayerbot.MaxRandomBots = 200
-# 
-# mangosd.conf:
-# LoginDatabaseInfo     = "127.0.0.1;3306;mangos;mangos;classicrealmd"
-# WorldDatabaseInfo     = "127.0.0.1;3306;mangos;mangos;classicmangos"
-# CharacterDatabaseInfo = "127.0.0.1;3306;mangos;mangos;classiccharacters"
-# LogsDatabaseInfo      = "127.0.0.1;3306;mangos;mangos;classiclogs"
-# # ->
-# LoginDatabaseInfo     = "127.0.0.1;3306;cmangos;cmangos;classicrealmd"
-# WorldDatabaseInfo     = "127.0.0.1;3306;cmangos;cmangos;classicmangos"
-# CharacterDatabaseInfo = "127.0.0.1;3306;cmangos;cmangos;classiccharacters"
-# LogsDatabaseInfo      = "127.0.0.1;3306;cmangos;cmangos;classiclogs"
-
-# account create cmangos 123
-# account set gmlevel cmangos 3
-
-
-
-###
-# vmangos
-###
-# git clone https://github.com/brotalnia/database vmangos_db
-# sudo apt-get install p7zip-full
-# 7z x world_full_14_june_2021.7z
-# run /home/jonas/Documents/my_notes/sql/wow/vmangos.sql
-# cd /home/jonas/Code2/C++/core/sql
-# mysql -u root -p
-
-# use vmangos_logs
-# source logs.sql
-
-# use vmangos_characters
-# source characters.sql
-
-# use vmangos_realmd
-# source logon.sql
-
-# exit and cd to /home/jonas/Code2/C++/vmangos_db
-# use vmangos_mangos
-# source world_full_14_june_2021.sql
-
-# cd back to /home/jonas/Code2/C++/core/sql/migrations
-# run merge.sh
-
-# Then do:
-
-# use vmangos_logs
-# source logs_db_updates.sql
-
-# use vmangos_characters
-# source characters_db_updates.sql
-
-# use vmangos_realmd
-# source logon_db_updates.sql
-
-# use vmangos_mangos
-# source world_db_updates.sql
-
-# cp $HOME/vmangos/etc/mangosd.conf.dist $HOME/vmangos/etc/mangosd.conf
-# cp $HOME/vmangos/etc/realmd.conf.dist $HOME/vmangos/etc/realmd.conf
-
-# LoginDatabase.Info              = "127.0.0.1;3306;mangos;mangos;realmd"
-# WorldDatabase.Info              = "127.0.0.1;3306;mangos;mangos;mangos"
-# CharacterDatabase.Info          = "127.0.0.1;3306;mangos;mangos;characters"
-# LogsDatabase.Info               = "127.0.0.1;3306;mangos;mangos;logs"
-# ->
-# LoginDatabase.Info              = "127.0.0.1;3306;vmangos;vmangos;vmangos_realmd"
-# WorldDatabase.Info              = "127.0.0.1;3306;vmangos;vmangos;vmangos_mangos"
-# CharacterDatabase.Info          = "127.0.0.1;3306;vmangos;vmangos;vmangos_characters"
-# LogsDatabase.Info               = "127.0.0.1;3306;vmangos;vmangos;vmangos_logs"
-
-# This maybe needs some configuration before working?
-# AHBot.Enable = 0
-# ->
-# AHBot.Enable = 1
-# 
-# BattleBot.AutoJoin = 0
-# BattleBot.AutoJoin = 1
-# 
-# RandomBot.Enable = 0
-# RandomBot.Enable = 1
-# 
-# RandomBot.MinBots = 0
-# RandomBot.MaxBots = 0
-# 
-# RandomBot.MinBots = 50
-# RandomBot.MaxBots = 150
-
-# PlayerBot.ShowInWhoList = 0
-# ->
-# PlayerBot.ShowInWhoList = 1
-
-# FIX wow_classic config.wtf etc if needed...
-
-# realmd.conf:
-# LoginDatabaseInfo = "127.0.0.1;3306;mangos;mangos;realmd"
-# ->
-# LoginDatabaseInfo = "127.0.0.1;3306;vmangos;vmangos;vmangos_realmd"
-
-# Execute this in vmangos_realmd:
-# INSERT INTO realmlist (name, address) VALUES ('vmangos', '127.0.0.1');
-
-# account create vmangos 123
-# account set gmlevel vmangos 6
-
-
-
-###
-# mangoszero
-###
-# git clone --recurse-submodules https://github.com/mangoszero/database  mangoszero_db
-# cp $HOME/Documents/my_notes/sql/wow/mangoszero/* /home/jonas/Code2/C++/mangoszero_db
-# When running install script, press n at start and then only change password default
-
-# Run update_conf_classic,py
-
-# account create mangoszero 123
-# account set gmlevel mangoszero 3
-
-# Fix characters! Drop and import from other sql files, issue with updates then?
-# Would be so nice if I could just import all characters instead for all servers...
-# sql diff somehow?
-
-# Check if $HOME/mangoszero/run/bin exists
-if [ -d "$HOME/mangoszero/run/bin" ]; then
-    echo "$HOME/mangoszero/run/bin exists."
-
-    # Check if $HOME/mangoszero/run/etc exists
-    if [ ! -d "$HOME/mangoszero/run/etc" ]; then
-        echo "$HOME/mangoszero/run/etc does not exist."
-
-        # Check if $HOME/mangoszero/etc exists
-        if [ -d "$HOME/mangoszero/etc" ]; then
-            echo "$HOME/mangoszero/etc exists. Moving it to $HOME/mangoszero/run/"
-            mv "$HOME/mangoszero/etc" "$HOME/mangoszero/run/"
-        fi
-    fi
-
-    # Perform the copy commands
-    echo "Performing copy commands..."
-    cp "$HOME/mangoszero/run/etc/aiplayerbot.conf.dist" "$HOME/mangoszero/run/etc/aiplayerbot.conf"
-    cp "$HOME/mangoszero/run/etc/ahbot.conf.dist" "$HOME/mangoszero/run/etc/ahbot.conf"
-    cp "$HOME/mangoszero/run/etc/mangosd.conf.dist" "$HOME/mangoszero/run/etc/mangosd.conf"
-    cp "$HOME/mangoszero/run/etc/realmd.conf.dist" "$HOME/mangoszero/run/etc/realmd.conf"
-else
-    echo "$HOME/mangoszero/run/bin does not exist. Skipping."
-fi
-
-if grep -qEi 'debian|raspbian' /etc/os-release; then
-    if [ -f "/usr/lib/x86_64-linux-gnu/liblua5.2.so" ]; then
-        echo "/usr/lib/x86_64-linux-gnu/liblua5.2.so exists."
-
-        if [ ! -f "/usr/lib/x86_64-linux-gnu/liblua52.so" ]; then
-            echo "/usr/lib/x86_64-linux-gnu/liblua52.so does not exist. Copying it."
-            sudo cp /usr/lib/x86_64-linux-gnu/liblua5.2.so /usr/lib/x86_64-linux-gnu/liblua52.so
-        else
-            echo "/usr/lib/x86_64-linux-gnu/liblua52.so already exists."
-        fi
-    else
-        echo "/usr/lib/x86_64-linux-gnu/liblua5.2.so does not exist. Exiting."
-        exit 1
-    fi
-fi
-
-
-
-###
-#Trinitycore
-###
-#Download latest 3.3.5 db from:
-# https://github.com/TrinityCore/TrinityCore/releases
+# Download latest 3.3.5 db from: https://github.com/TrinityCore/TrinityCore/releases
 # Place in ~/tcore/bin
 # source create_mysql.sl in $HOME/Code2/C++/Trinitycore-3.3.5-with-NPCBots/sql/create
 # cp authserver.conf.dist authserver.conf
@@ -1778,8 +1728,7 @@ fi
 # wow_classic: prevent message about restore default settings...
 # Also fix one wow startup script and call classic / 3.3.5 depending on server...
 
-# Bot setup:
-
+# Trinity-Bots setup:
 # mysql -u root -p
 # use world
 # source 1_world_bot_appearance.sql
@@ -1812,17 +1761,10 @@ fi
 # Some updates were missing from trinity-bots repo so I had to install the two
 # updates (1 character and 1 world) in rewow repo updates...). Source the ones
 # later than 2024_03_19...
-# 
-# Fix:
-# 
-# NpcBot.WanderingBots.Classes.SeaWitch.Enable          = 1
-# NpcBot.WanderingBots.Classes.CryptLord.Enable         = 1
-# etc.
-
-
+# Copy overwrite.py and gdb.conf to $HOME/tcore/bin
 
 ###
-# AzerothCore
+# AzerothCore (manual installation)
 ###
 # cd $HOME/Code2/C++/AzerothCore-wotlk-with-NPCBots/data/sql/create
 # mysql -u root -p
@@ -1831,134 +1773,6 @@ fi
 # cp worldserver.conf.dist worldserver.conf
 # Run worldserver...
 
-# Copy overwrite script to acore and tcore!
-# Also copy gdb conf file...
-# Apply customworldboss sql (https://github.com/ornfelt/azerothcore_lua_scripts/blob/master/Acore_eventScripts/database/world/customWorldboss.sql)
-
-
-
-###
-# To test after compilations
-###
-
-#openmw
-# ./openmw-launcher and select game data path
-# run ./openmw from: /usr/local/bin (should be in path)
-
-#OpenJK
-#.openjk
-
-#re3
-# cp /home/jonas/Code/c++/re3/bin/linux-amd64-librw_gl3_glfw-oal/Release/re3 to $DOWNLOADS_DIR/gta3/
-#re3_vice
-# cp /home/jonas/Code/c++/re3_vice/bin/linux-amd64-librw_gl3_glfw-oal/Release/reVC to $DOWNLOADS_DIR/gta_vice
-
-#ioq3
-# .ioq3
-
-#stk
-# .stk
-
-#OpenJKDF2
-# cp openjkdf2 /home/jonas/.local/share/OpenJKDF2/openjkdf2/
-# Run in /home/jonas/.local/share/OpenJKDF2/openjkdf2/
-
-#japp
-# .japp
-
-#
-#reone
-
-#JediKnightGalaxies
-#copy base dir to:
-#/home/jonas/Downloads/ja_data/JediAcademy
-#then copy: cp JKGalaxies/JKG_Defaults.cfg /home/jonas/Downloads/ja_data/JediAcademy
-
-#jk2mv, not compiled??? source build-and-install.sh
-# Copy pk3 (jo) to $HOME/Code/c++/jk2mv/build/Linux-x86_64-install/out/Release
-# run from: /usr/local/bin (should be in path)
-
-#Unvanquished
-#/home/jonas/Code/c++/Unvanquished/build
-
-#KotOR
-#/home/jonas/Code/js/KotOR.js
-
-#small_games
-#/home/jonas/Code2/C++/small_games/BirdGame
-#/home/jonas/Code2/C++/small_games/CPP_FightingGame/FightingGameProject
-#/home/jonas/Code2/C++/small_games/Craft
-#/home/jonas/Code2/C++/small_games/pacman/build
-#/home/jonas/Code2/C++/small_games/space-shooter/build
-
-#devilutionX
-#/home/jonas/Code2/C++/devilutionX/build
-
-#crispy:
-#/home/jonas/Code2/C++/crispy-doom/src
-
-#dhewm3
-#/home/jonas/Code2/C++/dhewm3/build
-
-#simc
-#/home/jonas/Code2/C++/simc/build/qt
-#or:
-#/home/jonas/Code2/C++/simc/build
-#* TODO wotlk-simulationscraft compile and test!
-
-#In jediknightgalaxies?
-#sudo chown -R jonas:jonas $(pwd)
-
-#mangos
-#core
-#server
-
-#Svea
-#utils
-
-#wotlk-sim
-# /home/jonas/Code2/Go/wotlk-sim
-# ./wowsimwotlk
-# Mabe also do: Make host
-
-#OpenDiablo2
-# /home/jonas/Code2/Go/OpenDiablo2
-
-#my_js
-#/home/jonas/Code2/Javascript/my_js/Testing/mysql
-#/home/jonas/Code2/Javascript/my_js/Testing/navigation/ffi-napi
-
-#wander_nodes_util
-#Compile wander nodes!
-
-#mpq
-
-# azeroth-web
-# Run script in my_notes
-# proxy: npm start
-# web: npm install -g typescript
-# npm run dev
-
-#spelunker
-# Run script in my_notes
-# start file server
-
-#wowser
-# Run script in my_notes
-# npm run serve
-# npm run web-dev
-
-#wowmapview
-# ./wowmapview -gamepath /mnt/new/wow_classic/
-
-#wowmapviewer
-# ./wowmapview -gamepath /mnt/new/cata/Data/
-# TODO: Did the check_dir / check_file fail here???
-
-#WebWoWViewer
-# start file server
-# npm run start
-
-#WebWoWViewercpp
-# ./AWebWoWViewerCpp
+# Copy overwrite.py and gdb.conf to $HOME/acore/bin
+# Apply customworldboss sql ($HOME/Code2/Wow/lua/azerothcore_lua_scripts/Acore_eventScripts/database/world/customWorldboss.sql)
 
