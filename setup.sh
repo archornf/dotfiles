@@ -1703,40 +1703,11 @@ fi
 ###
 # mangoszero
 ###
-# cp $HOME/mangoszero/etc/aiplayerbot.conf.dist $HOME/mangoszero/etc/aiplayerbot.conf
-# cp $HOME/mangoszero/etc/ahbot.conf.dist $HOME/mangoszero/etc/ahbot.conf
-# cp $HOME/mangoszero/etc/mangosd.conf.dist $HOME/mangoszero/etc/mangosd.conf
-# cp $HOME/mangoszero/etc/realmd.conf.dist $HOME/mangoszero/etc/realmd.conf
 # git clone --recurse-submodules https://github.com/mangoszero/database  mangoszero_db
 # cp $HOME/Documents/my_notes/sql/wow/mangoszero/* /home/jonas/Code2/C++/mangoszero_db
 # When running install script, press n at start and then only change password default
-# 
-#realmd:
-# LoginDatabaseInfo      = "127.0.0.1;3306;root;mangos;realmd"
-# ->
-# LoginDatabaseInfo      = "127.0.0.1;3306;mangos;mangos;realmd"
 
-#AiPlayerbot.MinRandomBots = 50
-#AiPlayerbot.MaxRandomBots = 200
-# ->
-#AiPlayerbot.MinRandomBots = 50
-#AiPlayerbot.MaxRandomBots = 150
-
-# AuctionHouseBot.Buyer.Enabled = 0
-# ->
-# AuctionHouseBot.Buyer.Enabled = 1
-
-# LoginDatabaseInfo            = "127.0.0.1;3306;root;mangos;realmd"
-# WorldDatabaseInfo            = "127.0.0.1;3306;root;mangos;mangos0"
-# CharacterDatabaseInfo        = "127.0.0.1;3306;root;mangos;character0"
-# ->
-# LoginDatabaseInfo            = "127.0.0.1;3306;mangos;mangos;realmd"
-# WorldDatabaseInfo            = "127.0.0.1;3306;mangos;mangos;mangos0"
-# CharacterDatabaseInfo        = "127.0.0.1;3306;mangos;mangos;character0"
-
-# LogLevel                     = 3
-# ->
-# LogLevel                     = 1
+# Run update_conf_classic,py
 
 # account create mangoszero 123
 # account set gmlevel mangoszero 3
@@ -1744,11 +1715,47 @@ fi
 # Fix characters! Drop and import from other sql files, issue with updates then?
 # Would be so nice if I could just import all characters instead for all servers...
 # sql diff somehow?
-# game data should be placed in: $HOME/mangoszero/run/etc
-# etc was placed in $HOME/mangoszero/etc and I needed to move it...
 
-# Do this if it doesnt exist (debian)...
-# sudo cp /usr/lib/x86_64-linux-gnu/liblua5.2.so /usr/lib/x86_64-linux-gnu/liblua52.so
+# Check if $HOME/mangoszero/run/bin exists
+if [ -d "$HOME/mangoszero/run/bin" ]; then
+    echo "$HOME/mangoszero/run/bin exists."
+
+    # Check if $HOME/mangoszero/run/etc exists
+    if [ ! -d "$HOME/mangoszero/run/etc" ]; then
+        echo "$HOME/mangoszero/run/etc does not exist."
+
+        # Check if $HOME/mangoszero/etc exists
+        if [ -d "$HOME/mangoszero/etc" ]; then
+            echo "$HOME/mangoszero/etc exists. Moving it to $HOME/mangoszero/run/"
+            mv "$HOME/mangoszero/etc" "$HOME/mangoszero/run/"
+        fi
+    fi
+
+    # Perform the copy commands
+    echo "Performing copy commands..."
+    cp "$HOME/mangoszero/run/etc/aiplayerbot.conf.dist" "$HOME/mangoszero/run/etc/aiplayerbot.conf"
+    cp "$HOME/mangoszero/run/etc/ahbot.conf.dist" "$HOME/mangoszero/run/etc/ahbot.conf"
+    cp "$HOME/mangoszero/run/etc/mangosd.conf.dist" "$HOME/mangoszero/run/etc/mangosd.conf"
+    cp "$HOME/mangoszero/run/etc/realmd.conf.dist" "$HOME/mangoszero/run/etc/realmd.conf"
+else
+    echo "$HOME/mangoszero/run/bin does not exist. Skipping."
+fi
+
+if grep -qEi 'debian|raspbian' /etc/os-release; then
+    if [ -f "/usr/lib/x86_64-linux-gnu/liblua5.2.so" ]; then
+        echo "/usr/lib/x86_64-linux-gnu/liblua5.2.so exists."
+
+        if [ ! -f "/usr/lib/x86_64-linux-gnu/liblua52.so" ]; then
+            echo "/usr/lib/x86_64-linux-gnu/liblua52.so does not exist. Copying it."
+            sudo cp /usr/lib/x86_64-linux-gnu/liblua5.2.so /usr/lib/x86_64-linux-gnu/liblua52.so
+        else
+            echo "/usr/lib/x86_64-linux-gnu/liblua52.so already exists."
+        fi
+    else
+        echo "/usr/lib/x86_64-linux-gnu/liblua5.2.so does not exist. Exiting."
+        exit 1
+    fi
+fi
 
 
 
@@ -1831,7 +1838,7 @@ fi
 
 
 ###
-# To test:
+# To test after compilations
 ###
 
 #openmw
