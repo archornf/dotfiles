@@ -159,7 +159,7 @@ fi
 
 # Variable to control whether to skip prompts and proceed directly
 justDoIt=false
-# Variable to control whether to only inform about missing repos / builds
+# Variable to control whether to only inform about missing repos / builds etc.
 justInform=false
 
 # Helper function
@@ -567,7 +567,8 @@ compile_projects() {
     #    echo "Skipping neovim check (only for Debian or Raspbian architectures). Found os: $OS_ID"
     #fi
 
-    # Note: If the shell has issues with '++', you might need to quote or escape it...
+    # Note: If the shell has issues with '++', you might need to quote or
+    # escape it...
     print_and_cd_to_dir "$HOME/Code/c++" "Compiling"
 
     if check_dir "openmw"; then
@@ -588,9 +589,9 @@ compile_projects() {
             make -j$(nproc)
             sudo make install
             
-            # Note** If you are having undefined reference errors while compiling, 
-            # its possible that you have previously installed a different openscenegraph 
-            # version than what openMW depends on.
+            # Note** If you are having undefined reference errors while
+            # compiling, its possible that you have previously installed a
+            # different openscenegraph version than what openMW depends on.
             # To remove it, you can use:
             # #removes just package
             # apt-get remove <yourOSGversion>
@@ -865,63 +866,6 @@ compile_projects() {
         cmake .. -DCMAKE_INSTALL_PREFIX=~/cmangos/run -DBUILD_EXTRACTORS=ON -DPCH=1 -DDEBUG=0 -DBUILD_PLAYERBOTS=ON
         make -j$(nproc)
         sudo make install
-
-        # TODO: put db and conf fixing in fix_other_files...
-
-        # git clone --recurse-submodules https://github.com/cmangos/classic-db
-        # /home/jonas/Documents/my_notes/sql/wow
-
-        # source cmangos_create.sql
-
-        # cd /home/jonas/Code2/C++/classic-db
-        # run ./InstallFullDB.sh once and quit to generate config
-
-        # Edit config with this:
-        # MYSQL_USERNAME="cmangos"
-        # MYSQL_PASSWORD="cmangos"
-        # AHBOT="YES"
-        # PLAYERBOTS_DB="YES"
-
-        # run ./InstallFullDB.sh again and press 4. enter root and pass
-        # press 1 (Full default...)
-
-        cp $HOME/cmangos/run/etc/aiplayerbot.conf.dist $HOME/cmangos/run/etc/aiplayerbot.conf
-        cp $HOME/cmangos/run/etc/ahbot.conf.dist $HOME/cmangos/run/etc/ahbot.conf
-        cp $HOME/cmangos/run/etc/mangosd.conf.dist $HOME/cmangos/run/etc/mangosd.conf
-        cp $HOME/cmangos/run/etc/realmd.conf.dist $HOME/cmangos/run/etc/realmd.conf
-
-        # realmd.conf:
-        # LoginDatabaseInfo = "127.0.0.1;3306;mangos;mangos;classicrealmd"
-        # ->
-        # LoginDatabaseInfo = "127.0.0.1;3306;cmangos;cmangos;classicrealmd"
-
-        # aiplayerbot.conf:
-        # AiPlayerbot.RandomBotAutoJoinBG = 0
-        # AiPlayerbot.RandomBotAutoJoinBG = 1
-        # 
-        # AiPlayerbot.MinRandomBots = 1000
-        # AiPlayerbot.MaxRandomBots = 1000
-        # 
-        # AiPlayerbot.MinRandomBots = 1000
-        # AiPlayerbot.MaxRandomBots = 1000
-        # 
-        # AiPlayerbot.MinRandomBots = 100
-        # AiPlayerbot.MaxRandomBots = 200
-        # 
-        # mangosd.conf:
-        # LoginDatabaseInfo     = "127.0.0.1;3306;mangos;mangos;classicrealmd"
-        # WorldDatabaseInfo     = "127.0.0.1;3306;mangos;mangos;classicmangos"
-        # CharacterDatabaseInfo = "127.0.0.1;3306;mangos;mangos;classiccharacters"
-        # LogsDatabaseInfo      = "127.0.0.1;3306;mangos;mangos;classiclogs"
-        # # ->
-        # LoginDatabaseInfo     = "127.0.0.1;3306;cmangos;cmangos;classicrealmd"
-        # WorldDatabaseInfo     = "127.0.0.1;3306;cmangos;cmangos;classicmangos"
-        # CharacterDatabaseInfo = "127.0.0.1;3306;cmangos;cmangos;classiccharacters"
-        # LogsDatabaseInfo      = "127.0.0.1;3306;cmangos;cmangos;classiclogs"
-
-        # account create cmangos 123
-        # account set gmlevel cmangos 3
-
         cd "$HOME/Code2/C++"
     fi
 
@@ -929,91 +873,6 @@ compile_projects() {
         cmake .. -DDEBUG=0 -DSUPPORTED_CLIENT_BUILD=5875 -DUSE_EXTRACTORS=1 -DCMAKE_INSTALL_PREFIX=$HOME/vmangos
         make -j$(nproc)
         sudo make install
-        # TODO: confs
-        # git clone https://github.com/brotalnia/database vmangos_db
-        # sudo apt-get install p7zip-full
-        # 7z x world_full_14_june_2021.7z
-        # run /home/jonas/Documents/my_notes/sql/wow/vmangos.sql
-        # cd /home/jonas/Code2/C++/core/sql
-        # mysql -u root -p
-
-        # use vmangos_logs
-        # source logs.sql
-
-        # use vmangos_characters
-        # source characters.sql
-
-        # use vmangos_realmd
-        # source logon.sql
-
-        # exit and cd to /home/jonas/Code2/C++/vmangos_db
-        # use vmangos_mangos
-        # source world_full_14_june_2021.sql
-
-        # cd back to /home/jonas/Code2/C++/core/sql/migrations
-        # run merge.sh
-
-        # Then do:
-
-        # use vmangos_logs
-        # source logs_db_updates.sql
-
-        # use vmangos_characters
-        # source characters_db_updates.sql
-
-        # use vmangos_realmd
-        # source logon_db_updates.sql
-        
-        # use vmangos_mangos
-        # source world_db_updates.sql
-
-        cp $HOME/vmangos/etc/mangosd.conf.dist $HOME/vmangos/etc/mangosd.conf
-        cp $HOME/vmangos/etc/realmd.conf.dist $HOME/vmangos/etc/realmd.conf
-
-        # LoginDatabase.Info              = "127.0.0.1;3306;mangos;mangos;realmd"
-        # WorldDatabase.Info              = "127.0.0.1;3306;mangos;mangos;mangos"
-        # CharacterDatabase.Info          = "127.0.0.1;3306;mangos;mangos;characters"
-        # LogsDatabase.Info               = "127.0.0.1;3306;mangos;mangos;logs"
-        # ->
-        # LoginDatabase.Info              = "127.0.0.1;3306;vmangos;vmangos;vmangos_realmd"
-        # WorldDatabase.Info              = "127.0.0.1;3306;vmangos;vmangos;vmangos_mangos"
-        # CharacterDatabase.Info          = "127.0.0.1;3306;vmangos;vmangos;vmangos_characters"
-        # LogsDatabase.Info               = "127.0.0.1;3306;vmangos;vmangos;vmangos_logs"
-
-        # This maybe needs some configuration before working?
-        # AHBot.Enable = 0
-        # ->
-        # AHBot.Enable = 1
-        # 
-        # BattleBot.AutoJoin = 0
-        # BattleBot.AutoJoin = 1
-        # 
-        # RandomBot.Enable = 0
-        # RandomBot.Enable = 1
-        # 
-        # RandomBot.MinBots = 0
-        # RandomBot.MaxBots = 0
-        # 
-        # RandomBot.MinBots = 50
-        # RandomBot.MaxBots = 150
-
-        # PlayerBot.ShowInWhoList = 0
-        # ->
-        # PlayerBot.ShowInWhoList = 1
-
-        # FIX wow_classic config.wtf etc if needed...
-
-        # realmd.conf:
-        # LoginDatabaseInfo = "127.0.0.1;3306;mangos;mangos;realmd"
-        # ->
-        # LoginDatabaseInfo = "127.0.0.1;3306;vmangos;vmangos;vmangos_realmd"
-
-        # Execute this in vmangos_realmd:
-        # INSERT INTO realmlist (name, address) VALUES ('vmangos', '127.0.0.1');
-
-        # account create vmangos 123
-        # account set gmlevel vmangos 6
-
         cd "$HOME/Code2/C++"
     fi
 
@@ -1022,54 +881,6 @@ compile_projects() {
         make -j$(nproc)
         sudo make install
         sudo chown -R $USER:$USER $HOME/mangoszero
-        # TODO: Do this in update_confs script instead...
-        cp $HOME/mangoszero/etc/aiplayerbot.conf.dist $HOME/mangoszero/etc/aiplayerbot.conf
-        cp $HOME/mangoszero/etc/ahbot.conf.dist $HOME/mangoszero/etc/ahbot.conf
-        cp $HOME/mangoszero/etc/mangosd.conf.dist $HOME/mangoszero/etc/mangosd.conf
-        cp $HOME/mangoszero/etc/realmd.conf.dist $HOME/mangoszero/etc/realmd.conf
-        # git clone --recurse-submodules https://github.com/mangoszero/database  mangoszero_db
-        # cp $HOME/Documents/my_notes/sql/wow/mangoszero/* /home/jonas/Code2/C++/mangoszero_db
-        # When running install script, press n at start and then only change password default
-        # 
-        #realmd:
-        # LoginDatabaseInfo      = "127.0.0.1;3306;root;mangos;realmd"
-        # ->
-        # LoginDatabaseInfo      = "127.0.0.1;3306;mangos;mangos;realmd"
-
-        #AiPlayerbot.MinRandomBots = 50
-        #AiPlayerbot.MaxRandomBots = 200
-        # ->
-        #AiPlayerbot.MinRandomBots = 50
-        #AiPlayerbot.MaxRandomBots = 150
-
-        # AuctionHouseBot.Buyer.Enabled = 0
-        # ->
-        # AuctionHouseBot.Buyer.Enabled = 1
-
-        # LoginDatabaseInfo            = "127.0.0.1;3306;root;mangos;realmd"
-        # WorldDatabaseInfo            = "127.0.0.1;3306;root;mangos;mangos0"
-        # CharacterDatabaseInfo        = "127.0.0.1;3306;root;mangos;character0"
-        # ->
-        # LoginDatabaseInfo            = "127.0.0.1;3306;mangos;mangos;realmd"
-        # WorldDatabaseInfo            = "127.0.0.1;3306;mangos;mangos;mangos0"
-        # CharacterDatabaseInfo        = "127.0.0.1;3306;mangos;mangos;character0"
-
-        # LogLevel                     = 3
-        # ->
-        # LogLevel                     = 1
-
-        # account create mangoszero 123
-        # account set gmlevel mangoszero 3
-
-        # Fix characters! Drop and import from other sql files, issue with updates then?
-        # Would be so nice if I could just import all characters instead for all servers...
-        # sql diff somehow?
-        # game data should be placed in: $HOME/mangoszero/run/etc
-        # etc was placed in $HOME/mangoszero/etc and I needed to move it...
- 
-        # Do this if needed (debian)...
-        # sudo cp /usr/lib/x86_64-linux-gnu/liblua5.2.so /usr/lib/x86_64-linux-gnu/liblua52.so
-
         cd "$HOME/Code2/C++"
     fi
 
@@ -1741,12 +1552,291 @@ else
     fi
 fi
 
+
+###
+# cmangos
+###
+# git clone --recurse-submodules https://github.com/cmangos/classic-db
+# /home/jonas/Documents/my_notes/sql/wow
+# source cmangos_create.sql
+
+# cd /home/jonas/Code2/C++/classic-db
+# run ./InstallFullDB.sh once and quit to generate config
+
+# Edit config with this:
+# MYSQL_USERNAME="cmangos"
+# MYSQL_PASSWORD="cmangos"
+# AHBOT="YES"
+# PLAYERBOTS_DB="YES"
+
+# run ./InstallFullDB.sh again and press 4. enter root and pass
+# press 1 (Full default...)
+
+#cp $HOME/cmangos/run/etc/aiplayerbot.conf.dist $HOME/cmangos/run/etc/aiplayerbot.conf
+#cp $HOME/cmangos/run/etc/ahbot.conf.dist $HOME/cmangos/run/etc/ahbot.conf
+#cp $HOME/cmangos/run/etc/mangosd.conf.dist $HOME/cmangos/run/etc/mangosd.conf
+#cp $HOME/cmangos/run/etc/realmd.conf.dist $HOME/cmangos/run/etc/realmd.conf
+
+# realmd.conf:
+# LoginDatabaseInfo = "127.0.0.1;3306;mangos;mangos;classicrealmd"
+# ->
+# LoginDatabaseInfo = "127.0.0.1;3306;cmangos;cmangos;classicrealmd"
+
+# aiplayerbot.conf:
+# AiPlayerbot.RandomBotAutoJoinBG = 0
+# AiPlayerbot.RandomBotAutoJoinBG = 1
+# 
+# AiPlayerbot.MinRandomBots = 1000
+# AiPlayerbot.MaxRandomBots = 1000
+# 
+# AiPlayerbot.MinRandomBots = 1000
+# AiPlayerbot.MaxRandomBots = 1000
+# 
+# AiPlayerbot.MinRandomBots = 100
+# AiPlayerbot.MaxRandomBots = 200
+# 
+# mangosd.conf:
+# LoginDatabaseInfo     = "127.0.0.1;3306;mangos;mangos;classicrealmd"
+# WorldDatabaseInfo     = "127.0.0.1;3306;mangos;mangos;classicmangos"
+# CharacterDatabaseInfo = "127.0.0.1;3306;mangos;mangos;classiccharacters"
+# LogsDatabaseInfo      = "127.0.0.1;3306;mangos;mangos;classiclogs"
+# # ->
+# LoginDatabaseInfo     = "127.0.0.1;3306;cmangos;cmangos;classicrealmd"
+# WorldDatabaseInfo     = "127.0.0.1;3306;cmangos;cmangos;classicmangos"
+# CharacterDatabaseInfo = "127.0.0.1;3306;cmangos;cmangos;classiccharacters"
+# LogsDatabaseInfo      = "127.0.0.1;3306;cmangos;cmangos;classiclogs"
+
+# account create cmangos 123
+# account set gmlevel cmangos 3
+
+
+
+###
+# vmangos
+###
+# git clone https://github.com/brotalnia/database vmangos_db
+# sudo apt-get install p7zip-full
+# 7z x world_full_14_june_2021.7z
+# run /home/jonas/Documents/my_notes/sql/wow/vmangos.sql
+# cd /home/jonas/Code2/C++/core/sql
+# mysql -u root -p
+
+# use vmangos_logs
+# source logs.sql
+
+# use vmangos_characters
+# source characters.sql
+
+# use vmangos_realmd
+# source logon.sql
+
+# exit and cd to /home/jonas/Code2/C++/vmangos_db
+# use vmangos_mangos
+# source world_full_14_june_2021.sql
+
+# cd back to /home/jonas/Code2/C++/core/sql/migrations
+# run merge.sh
+
+# Then do:
+
+# use vmangos_logs
+# source logs_db_updates.sql
+
+# use vmangos_characters
+# source characters_db_updates.sql
+
+# use vmangos_realmd
+# source logon_db_updates.sql
+
+# use vmangos_mangos
+# source world_db_updates.sql
+
+# cp $HOME/vmangos/etc/mangosd.conf.dist $HOME/vmangos/etc/mangosd.conf
+# cp $HOME/vmangos/etc/realmd.conf.dist $HOME/vmangos/etc/realmd.conf
+
+# LoginDatabase.Info              = "127.0.0.1;3306;mangos;mangos;realmd"
+# WorldDatabase.Info              = "127.0.0.1;3306;mangos;mangos;mangos"
+# CharacterDatabase.Info          = "127.0.0.1;3306;mangos;mangos;characters"
+# LogsDatabase.Info               = "127.0.0.1;3306;mangos;mangos;logs"
+# ->
+# LoginDatabase.Info              = "127.0.0.1;3306;vmangos;vmangos;vmangos_realmd"
+# WorldDatabase.Info              = "127.0.0.1;3306;vmangos;vmangos;vmangos_mangos"
+# CharacterDatabase.Info          = "127.0.0.1;3306;vmangos;vmangos;vmangos_characters"
+# LogsDatabase.Info               = "127.0.0.1;3306;vmangos;vmangos;vmangos_logs"
+
+# This maybe needs some configuration before working?
+# AHBot.Enable = 0
+# ->
+# AHBot.Enable = 1
+# 
+# BattleBot.AutoJoin = 0
+# BattleBot.AutoJoin = 1
+# 
+# RandomBot.Enable = 0
+# RandomBot.Enable = 1
+# 
+# RandomBot.MinBots = 0
+# RandomBot.MaxBots = 0
+# 
+# RandomBot.MinBots = 50
+# RandomBot.MaxBots = 150
+
+# PlayerBot.ShowInWhoList = 0
+# ->
+# PlayerBot.ShowInWhoList = 1
+
+# FIX wow_classic config.wtf etc if needed...
+
+# realmd.conf:
+# LoginDatabaseInfo = "127.0.0.1;3306;mangos;mangos;realmd"
+# ->
+# LoginDatabaseInfo = "127.0.0.1;3306;vmangos;vmangos;vmangos_realmd"
+
+# Execute this in vmangos_realmd:
+# INSERT INTO realmlist (name, address) VALUES ('vmangos', '127.0.0.1');
+
+# account create vmangos 123
+# account set gmlevel vmangos 6
+
+
+
+###
+# mangoszero
+###
+# cp $HOME/mangoszero/etc/aiplayerbot.conf.dist $HOME/mangoszero/etc/aiplayerbot.conf
+# cp $HOME/mangoszero/etc/ahbot.conf.dist $HOME/mangoszero/etc/ahbot.conf
+# cp $HOME/mangoszero/etc/mangosd.conf.dist $HOME/mangoszero/etc/mangosd.conf
+# cp $HOME/mangoszero/etc/realmd.conf.dist $HOME/mangoszero/etc/realmd.conf
+# git clone --recurse-submodules https://github.com/mangoszero/database  mangoszero_db
+# cp $HOME/Documents/my_notes/sql/wow/mangoszero/* /home/jonas/Code2/C++/mangoszero_db
+# When running install script, press n at start and then only change password default
+# 
+#realmd:
+# LoginDatabaseInfo      = "127.0.0.1;3306;root;mangos;realmd"
+# ->
+# LoginDatabaseInfo      = "127.0.0.1;3306;mangos;mangos;realmd"
+
+#AiPlayerbot.MinRandomBots = 50
+#AiPlayerbot.MaxRandomBots = 200
+# ->
+#AiPlayerbot.MinRandomBots = 50
+#AiPlayerbot.MaxRandomBots = 150
+
+# AuctionHouseBot.Buyer.Enabled = 0
+# ->
+# AuctionHouseBot.Buyer.Enabled = 1
+
+# LoginDatabaseInfo            = "127.0.0.1;3306;root;mangos;realmd"
+# WorldDatabaseInfo            = "127.0.0.1;3306;root;mangos;mangos0"
+# CharacterDatabaseInfo        = "127.0.0.1;3306;root;mangos;character0"
+# ->
+# LoginDatabaseInfo            = "127.0.0.1;3306;mangos;mangos;realmd"
+# WorldDatabaseInfo            = "127.0.0.1;3306;mangos;mangos;mangos0"
+# CharacterDatabaseInfo        = "127.0.0.1;3306;mangos;mangos;character0"
+
+# LogLevel                     = 3
+# ->
+# LogLevel                     = 1
+
+# account create mangoszero 123
+# account set gmlevel mangoszero 3
+
+# Fix characters! Drop and import from other sql files, issue with updates then?
+# Would be so nice if I could just import all characters instead for all servers...
+# sql diff somehow?
+# game data should be placed in: $HOME/mangoszero/run/etc
+# etc was placed in $HOME/mangoszero/etc and I needed to move it...
+
+# Do this if it doesnt exist (debian)...
+# sudo cp /usr/lib/x86_64-linux-gnu/liblua5.2.so /usr/lib/x86_64-linux-gnu/liblua52.so
+
+
+
+###
+#Trinitycore
+###
+#Download latest 3.3.5 db from:
+# https://github.com/TrinityCore/TrinityCore/releases
+# Place in ~/tcore/bin
+# source create_mysql.sl in $HOME/Code2/C++/Trinitycore-3.3.5-with-NPCBots/sql/create
+# cp authserver.conf.dist authserver.conf
+# cp worldserver.conf.dist worldserver.conf
+# start worldserver
+
+# mkdir -p $HOME/Code2/Wow/general
+# cd $HOME/Code2/Wow/general
+# git clone --recurse-submodules https://github.com/trickerer/Trinity-Bots
+# cd $HOME/Code2/Wow/general/Trinity-Bots/SQL
+
+# wow_classic: prevent message about restore default settings...
+# Also fix one wow startup script and call classic / 3.3.5 depending on server...
+
+# Bot setup:
+
+# mysql -u root -p
+# use world
+# source 1_world_bot_appearance.sql
+# source 2_world_bot_extras.sql
+# source 3_world_bots.sql
+# source 4_world_generate_bot_equips.sql
+# source 5_world_botgiver.sql
+# use characters
+# source characters_bots.sql
+# 
+# chmod +x merge_sqls_world_unix.sh
+# ./merge_sqls_world_unix.sh
+# 
+# chmod +x merge_sqls_characters_unix.sh
+# ./merge_sqls_characters_unix.sh
+# 
+# chmod +x merge_sqls_auth_unix.sh
+# ./merge_sqls_auth_unix.sh
+# 
+# mysql -u root -p
+# use world
+# source ALL_word.sql
+# 
+# use characters
+# source ALL_characters.sql
+# 
+# use auth
+# source ALL_auth.sql
+# 
+# Some updates were missing from trinity-bots repo so I had to install the two
+# updates (1 character and 1 world) in rewow repo updates...). Source the ones
+# later than 2024_03_19...
+# 
+# Fix:
+# 
+# NpcBot.WanderingBots.Classes.SeaWitch.Enable          = 1
+# NpcBot.WanderingBots.Classes.CryptLord.Enable         = 1
+# etc.
+
+
+
+###
+# AzerothCore
+###
+# cd $HOME/Code2/C++/AzerothCore-wotlk-with-NPCBots/data/sql/create
+# mysql -u root -p
+# source create_mysql.sql
+# cp authserver.conf.dist authserver.conf
+# cp worldserver.conf.dist worldserver.conf
+# Run worldserver...
+
+# Copy overwrite script to acore and tcore!
+# Also copy gdb conf file...
+# Apply customworldboss sql (https://github.com/ornfelt/azerothcore_lua_scripts/blob/master/Acore_eventScripts/database/world/customWorldboss.sql)
+
+
+
 ###
 # To test:
 ###
 
 #openmw
-# run from: /usr/local/bin (should be in path)
+# ./openmw-launcher and select game data path
+# run ./openmw from: /usr/local/bin (should be in path)
 
 #OpenJK
 #.openjk
@@ -1864,80 +1954,4 @@ fi
 
 #WebWoWViewercpp
 # ./AWebWoWViewerCpp
-
-#Trinitycore
-#Download latest 3.3.5 db from:
-# https://github.com/TrinityCore/TrinityCore/releases
-# Place in ~/tcore/bin
-# source create_mysql.sl in $HOME/Code2/C++/Trinitycore-3.3.5-with-NPCBots/sql/create
-# cp authserver.conf.dist authserver.conf
-# cp worldserver.conf.dist worldserver.conf
-# start worldserver
-
-# mkdir -p $HOME/Code2/Wow/general
-# cd $HOME/Code2/Wow/general
-# git clone --recurse-submodules https://github.com/trickerer/Trinity-Bots
-# cd $HOME/Code2/Wow/general/Trinity-Bots/SQL
-
-# wow_classic: prevent message about restore default settings...
-# Also fix one wow startup script and call classic / 3.3.5 depending on server...
-
-# Bot setup:
-
-# mysql -u root -p
-# use world
-# source 1_world_bot_appearance.sql
-# source 2_world_bot_extras.sql
-# source 3_world_bots.sql
-# source 4_world_generate_bot_equips.sql
-# source 5_world_botgiver.sql
-# use characters
-# source characters_bots.sql
-# 
-# chmod +x merge_sqls_world_unix.sh
-# ./merge_sqls_world_unix.sh
-# 
-# chmod +x merge_sqls_characters_unix.sh
-# ./merge_sqls_characters_unix.sh
-# 
-# chmod +x merge_sqls_auth_unix.sh
-# ./merge_sqls_auth_unix.sh
-# 
-# mysql -u root -p
-# use world
-# source ALL_word.sql
-# 
-# use characters
-# source ALL_characters.sql
-# 
-# use auth
-# source ALL_auth.sql
-# 
-# Some updates were missing from trinity-bots repo so I had to install the two updates (1 character and 1 world) in rewow repo updates...). Source the ones later than 2024_03_19...
-# 
-# Fix:
-# 
-# NpcBot.WanderingBots.Classes.SeaWitch.Enable          = 1
-# NpcBot.WanderingBots.Classes.CryptLord.Enable         = 1
-# etc.
-
-##
-# Script that takes two dir paths and compares (diff) all files recursively in
-# it and prints files that differ.
-##
-
-
-###
-# AzerothCore
-###
-# cd $HOME/Code2/C++/AzerothCore-wotlk-with-NPCBots/data/sql/create
-# mysql -u root -p
-# source create_mysql.sql
-# cp authserver.conf.dist authserver.conf
-# cp worldserver.conf.dist worldserver.conf
-# Run worldserver...
-
-# Copy overwrite script to acore and tcore!
-# Also copy gdb conf file...
-# Apply customworldboss sql (https://github.com/ornfelt/azerothcore_lua_scripts/blob/master/Acore_eventScripts/database/world/customWorldboss.sql)
 
