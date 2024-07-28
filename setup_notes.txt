@@ -4,6 +4,8 @@ TODOs:
 # files, issue with updates then? Would be so nice if I could just import
 # all characters instead for all servers... sql diff somehow?
 # FIX wow_classic config.wtf etc if needed...
+print echo "setting up conf files for..."
+update_conf acore tcore...
 
 use check_dbs for checking databases
 
