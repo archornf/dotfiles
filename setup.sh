@@ -1435,12 +1435,16 @@ copy_game_data() {
     echo -e "\n***Copying d2 files to $DOWNLOADS_DIR***"
     copy_dir_to_target "$MEDIA_PATH/2024/d2" "$DOWNLOADS_DIR/d2"
 
+    # Jar files
+    echo -e "\n***Copying jar files to $DOWNLOADS_DIR***"
+    copy_dir_to_target "$MEDIA_PATH/2024/jar_files" "$DOWNLOADS_DIR/jar_files"
+
     # TODO:
     # Copy ollama models?
+    # baby-yoda and other joja mods...
     # jar files? jna, jna-platform, mariadb/mysql...
     # star_wars_ja_mods
     # star_wars_jo_mods
-    # cp openjkdf2 $HOME/.local/share/OpenJKDF2/openjkdf2/
 }
 
 if $justDoIt; then
@@ -1587,68 +1591,11 @@ fix_other_files() {
     #cp $HOME/vmangos/etc/mangosd.conf.dist $HOME/vmangos/etc/mangosd.conf
     #cp $HOME/vmangos/etc/realmd.conf.dist $HOME/vmangos/etc/realmd.conf
     python3 $HOME/Documents/my_notes/scripts/wow/update_conf_classic "vmangos"
-
-    # Now do this:
-    # cd $HOME/Documents/my_notes/sql/wow
-    # mysql -u root -p
-    # source vmangos.sql
-
-    # cd $HOME/Code2/C++/core/sql
-    # mysql -u root -p
-    # use vmangos_logs
-    # source logs.sql
-
-    # use vmangos_characters
-    # source characters.sql
-
-    # use vmangos_realmd
-    # source logon.sql
-
-    # exit and cd to $HOME/Code2/C++/vmangos_db
-    # sudo apt-get install p7zip-full
-    # 7z x world_full_14_june_2021.7z
-    # use vmangos_mangos
-    # source world_full_14_june_2021.sql
-
-    # cd $HOME/Code2/C++/core/sql/migrations
-    # run merge.sh
-
-    # Then do:
-    # use vmangos_logs
-    # source logs_db_updates.sql
-
-    # use vmangos_characters
-    # source characters_db_updates.sql
-
-    # use vmangos_realmd
-    # source logon_db_updates.sql
-
-    # use vmangos_mangos
-    # source world_db_updates.sql
-
-    # Also execute this in vmangos_realmd:
-    # INSERT INTO realmlist (name, address) VALUES ('vmangos', '127.0.0.1');
-
-    # account create vmangos 123
-    # account set gmlevel vmangos 6
+    # Follow vmangos install notes from setup_notes.txt...
 
     # cmangos
     print_and_cd_to_dir "$HOME/Code2/C++" "Cloning"
     clone_repo_if_missing "classic-db" "https://github.com/cmangos/classic-db"
-    # cd $HOME/Documents/my_notes/sql/wow
-    # source cmangos_create.sql
-
-    # cd $HOME/Code2/C++/classic-db
-    # run ./InstallFullDB.sh once and quit to generate config
-
-    # Edit config with this:
-    # MYSQL_USERNAME="cmangos"
-    # MYSQL_PASSWORD="cmangos"
-    # AHBOT="YES"
-    # PLAYERBOTS_DB="YES"
-
-    # run ./InstallFullDB.sh again and press 4. enter root and pass
-    # press 1 (Full default...)
 
     echo -e "\nSetting up cmangos conf files\n"
     #cp $HOME/cmangos/run/etc/aiplayerbot.conf.dist $HOME/cmangos/run/etc/aiplayerbot.conf
@@ -1656,9 +1603,7 @@ fix_other_files() {
     #cp $HOME/cmangos/run/etc/mangosd.conf.dist $HOME/cmangos/run/etc/mangosd.conf
     #cp $HOME/cmangos/run/etc/realmd.conf.dist $HOME/cmangos/run/etc/realmd.conf
     python3 $HOME/Documents/my_notes/scripts/wow/update_conf_classic "cmangos"
-
-    # account create cmangos 123
-    # account set gmlevel cmangos 3
+    # Follow cmangos install notes from setup_notes.txt...
 
     # mangoszero
     print_and_cd_to_dir "$HOME/Code2/C++" "Cloning"
@@ -1675,11 +1620,21 @@ fix_other_files() {
         echo "$src_dir does NOT exist. Can't copy mangoszero sql files from it..."
     fi
 
-    # When running install script in mangoszero_db, press n at start and then
-    # only change password default
+    # Fix liblua...
+    if grep -qEi 'debian|raspbian' /etc/os-release; then
+        if [ -f "/usr/lib/x86_64-linux-gnu/liblua5.2.so" ]; then
+            echo "/usr/lib/x86_64-linux-gnu/liblua5.2.so exists."
 
-    # account create mangoszero 123
-    # account set gmlevel mangoszero 3
+            if [ ! -f "/usr/lib/x86_64-linux-gnu/liblua52.so" ]; then
+                echo "/usr/lib/x86_64-linux-gnu/liblua52.so does NOT exist. Copying it."
+                sudo cp /usr/lib/x86_64-linux-gnu/liblua5.2.so /usr/lib/x86_64-linux-gnu/liblua52.so
+            else
+                echo "/usr/lib/x86_64-linux-gnu/liblua52.so already exists."
+            fi
+        else
+            echo "/usr/lib/x86_64-linux-gnu/liblua5.2.so does NOT exist. Skipping."
+        fi
+    fi
 
     # Check if $HOME/mangoszero/run/bin exists
     if [ -d "$HOME/mangoszero/run/bin" ]; then
@@ -1700,23 +1655,9 @@ fix_other_files() {
         #cp "$HOME/mangoszero/run/etc/mangosd.conf.dist" "$HOME/mangoszero/run/etc/mangosd.conf"
         #cp "$HOME/mangoszero/run/etc/realmd.conf.dist" "$HOME/mangoszero/run/etc/realmd.conf"
         python3 $HOME/Documents/my_notes/scripts/wow/update_conf_classic "mangoszero"
+        # Follow mangoszero install notes from setup_notes.txt...
     else
         echo "$HOME/mangoszero/run/bin does NOT exist. Skipping."
-    fi
-
-    if grep -qEi 'debian|raspbian' /etc/os-release; then
-        if [ -f "/usr/lib/x86_64-linux-gnu/liblua5.2.so" ]; then
-            echo "/usr/lib/x86_64-linux-gnu/liblua5.2.so exists."
-
-            if [ ! -f "/usr/lib/x86_64-linux-gnu/liblua52.so" ]; then
-                echo "/usr/lib/x86_64-linux-gnu/liblua52.so does NOT exist. Copying it."
-                sudo cp /usr/lib/x86_64-linux-gnu/liblua5.2.so /usr/lib/x86_64-linux-gnu/liblua52.so
-            else
-                echo "/usr/lib/x86_64-linux-gnu/liblua52.so already exists."
-            fi
-        else
-            echo "/usr/lib/x86_64-linux-gnu/liblua5.2.so does NOT exist. Skipping."
-        fi
     fi
 
     # Check mpq exports
@@ -1767,10 +1708,11 @@ fix_other_files() {
     python3 $HOME/Documents/my_notes/scripts/wow/update_conf "acore"
     echo -e "\nSetting up TrinityCore conf files\n"
     python3 $HOME/Documents/my_notes/scripts/wow/update_conf "tcore"
+    # Follow acore / tcore install notes in setup_notes.txt or setup db from
+    # existing dbs in db_bkp
 
     # TODO:
-    # japp-assets, baby-yoda...
-    # Check and inform if mpq files exists...
+    # japp-assets from cloned repo...
 
     echo -e "\nChecking databases...\n"
     check_dbs
