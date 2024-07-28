@@ -130,7 +130,7 @@ check_font_exists() {
     if ls $HOME/.local/share/fonts/*JetBrainsMonoNerdFont*.ttf 1> /dev/null 2>&1 || ls $HOME/.fonts/*JetBrainsMonoNerdFont*.ttf 1> /dev/null 2>&1; then
         return 0 # Font exists
     else
-        return 1 # Font does not exist
+        return 1 # Font does NOT exist
     fi
 }
 
@@ -274,7 +274,7 @@ clone_projects() {
         clone_repo_if_missing "mod-eluna" "https://github.com/azerothcore/mod-eluna"
         cd ../..
     else
-        echo "Directory $DIR does not exist."
+        echo "Directory $DIR does NOT exist."
     fi
     clone_repo_if_missing "Trinitycore-3.3.5-with-NPCBots" "https://github.com/rewow/Trinitycore-3.3.5-with-NPCBots" "npcbots_3.3.5"
     clone_repo_if_missing "simc" "https://github.com/ornfelt/simc"
@@ -442,7 +442,7 @@ check_dir() {
             fi
         fi
     else
-        echo "Directory $dir_name does not exist."
+        echo "Directory $dir_name does NOT exist."
         return 1 # Return false
     fi
 }
@@ -469,7 +469,7 @@ check_file() {
         echo "${dir_name} already compiled."
         return 1 # Return false
     else
-        echo "File ${file_path} in ${dir_name} does not exist."
+        echo "File ${file_path} in ${dir_name} does NOT exist."
         if $justInform; then
             echo "${dir_name} NOT compiled."
             return 1
@@ -491,7 +491,7 @@ change_ownership_if_exists() {
         sudo chown -R $USER:$USER "$dir"
         echo "Changed ownership of $dir to $USER"
     else
-        echo "Directory $dir does not exist, skipping."
+        echo "Directory $dir does NOT exist, skipping."
     fi
 }
 
@@ -1135,7 +1135,7 @@ copy_dir_to_target() {
             echo "$DEST already exists, skipping copy."
         fi
     else
-        echo "$SRC does not exist, skipping."
+        echo "$SRC does NOT exist, skipping."
     fi
 }
 
@@ -1211,7 +1211,7 @@ copy_game_data() {
     #        fi
     #    done
     #else
-    #    echo "$LUA_SRC does not exist, skipping."
+    #    echo "$LUA_SRC does NOT exist, skipping."
     #fi
     if [ -d "$LUA_SRC" ]; then
         mkdir -p "$DEST_DIR/lua_scripts"
@@ -1238,7 +1238,7 @@ copy_game_data() {
             fi
         done
     else
-        echo "$LUA_SRC does not exist, skipping."
+        echo "$LUA_SRC does NOT exist, skipping."
     fi
 
     # TrinityCore
@@ -1308,7 +1308,7 @@ copy_game_data() {
             fi
         done
     else
-        echo "$SRC_DIABLO does not exist, skipping."
+        echo "$SRC_DIABLO does NOT exist, skipping."
     fi
 
     # doom3
@@ -1469,7 +1469,7 @@ check_database_exists() {
     if [[ "$result" == *"$db_name"* ]]; then
         echo "Database $db_name exists."
     else
-        echo "Database $db_name does not exist."
+        echo "Database $db_name does NOT exist."
     fi
 }
 
@@ -1495,7 +1495,14 @@ check_dbs() {
     MYSQL_HOST="localhost"
     MYSQL_PORT=3306
 
-    databases=("acore_world" "world" "vmangos_mangos")
+    # Check vmangos, cmangos, mangoszero, acore and tcore databases
+    databases=(
+        "vmangos_realmd" "vmangos_mangos" "vmangos_characters" "vmangos_logs"
+        "classicrealmd" "classicmangos" "classiccharacters" "classiclogs"
+        "realmd" "mangos0" "character0"
+        "acore_auth" "acore_world" "acore_characters" "ac_eluna"
+        "auth" "world" "characters"
+    )
 
     # Create with sql scripts if they don't exist?
     for db in "${databases[@]}"; do
@@ -1539,7 +1546,7 @@ fix_other_files() {
         sed -i "s|\"MpqPath\": \".*\"|\"MpqPath\": \"$ESCAPED_NEW_PATH\"|g" $HOME/.config/OpenDiablo2/config.json
         echo "Updated config.json with new MpqPath path: $NEW_PATH"
     else
-        echo "$HOME/.config/config.json does not exist yet. OpenDiablo2 has not been run yet..."
+        echo "$HOME/.config/config.json does NOT exist yet. OpenDiablo2 has not been run yet..."
     fi
 
     # japp aka japlus
@@ -1665,7 +1672,7 @@ fix_other_files() {
             echo "All files copied from $src_dir to $dest_dir."
         fi
     else
-        echo "$src_dir does not exist. Can't copy mangoszero sql files from it..."
+        echo "$src_dir does NOT exist. Can't copy mangoszero sql files from it..."
     fi
 
     # When running install script in mangoszero_db, press n at start and then
@@ -1679,7 +1686,7 @@ fix_other_files() {
         echo "$HOME/mangoszero/run/bin exists."
 
         if [ ! -d "$HOME/mangoszero/run/etc" ]; then
-            echo "$HOME/mangoszero/run/etc does not exist."
+            echo "$HOME/mangoszero/run/etc does NOT exist."
 
             if [ -d "$HOME/mangoszero/etc" ]; then
                 echo "$HOME/mangoszero/etc exists. Moving it to $HOME/mangoszero/run/"
@@ -1694,7 +1701,7 @@ fix_other_files() {
         #cp "$HOME/mangoszero/run/etc/realmd.conf.dist" "$HOME/mangoszero/run/etc/realmd.conf"
         python3 $HOME/Documents/my_notes/scripts/wow/update_conf_classic "mangoszero"
     else
-        echo "$HOME/mangoszero/run/bin does not exist. Skipping."
+        echo "$HOME/mangoszero/run/bin does NOT exist. Skipping."
     fi
 
     if grep -qEi 'debian|raspbian' /etc/os-release; then
@@ -1702,13 +1709,13 @@ fix_other_files() {
             echo "/usr/lib/x86_64-linux-gnu/liblua5.2.so exists."
 
             if [ ! -f "/usr/lib/x86_64-linux-gnu/liblua52.so" ]; then
-                echo "/usr/lib/x86_64-linux-gnu/liblua52.so does not exist. Copying it."
+                echo "/usr/lib/x86_64-linux-gnu/liblua52.so does NOT exist. Copying it."
                 sudo cp /usr/lib/x86_64-linux-gnu/liblua5.2.so /usr/lib/x86_64-linux-gnu/liblua52.so
             else
                 echo "/usr/lib/x86_64-linux-gnu/liblua52.so already exists."
             fi
         else
-            echo "/usr/lib/x86_64-linux-gnu/liblua5.2.so does not exist. Skipping."
+            echo "/usr/lib/x86_64-linux-gnu/liblua5.2.so does NOT exist. Skipping."
         fi
     fi
 
@@ -1727,7 +1734,7 @@ fix_other_files() {
             echo "$dir_to_use/mpq/Export already exists. All good!"
         fi
     else
-        echo "$HOME/Code2/wow/tools/mpq does not exist. Skipping."
+        echo "$HOME/Code2/wow/tools/mpq does NOT exist. Skipping."
     fi
 
     # AzerothCore and TrinityCore
@@ -1783,68 +1790,4 @@ else
         fix_other_files
     fi
 fi
-
-###
-# TrinityCore (manual installation)
-###
-# Download latest 3.3.5 db from: https://github.com/TrinityCore/TrinityCore/releases
-# Place in ~/tcore/bin
-# source create_mysql.sl in $HOME/Code2/C++/Trinitycore-3.3.5-with-NPCBots/sql/create
-# cp authserver.conf.dist authserver.conf
-# cp worldserver.conf.dist worldserver.conf
-# start worldserver
-
-# mkdir -p $HOME/Code2/Wow/general
-# cd $HOME/Code2/Wow/general
-# git clone --recurse-submodules https://github.com/trickerer/Trinity-Bots
-# cd $HOME/Code2/Wow/general/Trinity-Bots/SQL
-
-# wow_classic: prevent message about restore default settings...
-# Also fix one wow startup script and call classic / 3.3.5 depending on server...
-
-# Trinity-Bots setup:
-# mysql -u root -p
-# use world
-# source 1_world_bot_appearance.sql
-# source 2_world_bot_extras.sql
-# source 3_world_bots.sql
-# source 4_world_generate_bot_equips.sql
-# source 5_world_botgiver.sql
-# use characters
-# source characters_bots.sql
-# 
-# chmod +x merge_sqls_world_unix.sh
-# ./merge_sqls_world_unix.sh
-# 
-# chmod +x merge_sqls_characters_unix.sh
-# ./merge_sqls_characters_unix.sh
-# 
-# chmod +x merge_sqls_auth_unix.sh
-# ./merge_sqls_auth_unix.sh
-# 
-# mysql -u root -p
-# use world
-# source ALL_word.sql
-# 
-# use characters
-# source ALL_characters.sql
-# 
-# use auth
-# source ALL_auth.sql
-# 
-# Some updates were missing from trinity-bots repo so I had to install the two
-# updates (1 character and 1 world) in rewow repo updates...). Source the ones
-# later than 2024_03_19...
-# Copy overwrite.py and gdb.conf to $HOME/tcore/bin
-
-###
-# AzerothCore (manual installation)
-###
-# cd $HOME/Code2/C++/AzerothCore-wotlk-with-NPCBots/data/sql/create
-# mysql -u root -p
-# source create_mysql.sql
-# cp authserver.conf.dist authserver.conf
-# cp worldserver.conf.dist worldserver.conf
-# Run worldserver...
-# Apply customworldboss sql ($HOME/Code2/Wow/lua/azerothcore_lua_scripts/Acore_eventScripts/database/world/customWorldboss.sql)
 
