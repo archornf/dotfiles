@@ -1462,6 +1462,47 @@ else
     fi
 fi
 
+# Check if database exists
+check_database_exists() {
+    local db_name=$1
+    result=$(mysql -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" -h"$MYSQL_HOST" -P"$MYSQL_PORT" -e "SHOW DATABASES LIKE '$db_name';" 2>/dev/null)
+    if [[ "$result" == *"$db_name"* ]]; then
+        echo "Database $db_name exists."
+    else
+        echo "Database $db_name does not exist."
+    fi
+}
+
+# Check specified databases
+check_dbs() {
+    # Get MYSQL info via input
+    #read -p "Enter MySQL user: " MYSQL_USER
+    #read -sp "Enter MySQL password: " MYSQL_PASSWORD
+    #echo ""
+    #read -p "Enter MySQL host (default: localhost): " MYSQL_HOST
+    #MYSQL_HOST=${MYSQL_HOST:-localhost}
+    #read -p "Enter MySQL port (default: 3306): " MYSQL_PORT
+    #MYSQL_PORT=${MYSQL_PORT:-3306}
+
+    # Get MSQL info from set values
+    if [ -z "$MYSQL_ROOT_PWD" ]; then
+        echo "Error: MYSQL_ROOT_PWD environment variable is not set. Exiting."
+        exit 1
+    fi
+
+    MYSQL_USER="root"
+    MYSQL_PASSWORD="$MYSQL_ROOT_PWD"
+    MYSQL_HOST="localhost"
+    MYSQL_PORT=3306
+
+    databases=("acore_world" "world" "vmangos_mangos")
+
+    # Create with sql scripts if they don't exist?
+    for db in "${databases[@]}"; do
+        check_database_exists "$db"
+    done
+}
+
 # Fix conf files etc.
 fix_other_files() {
     printf "\n***** Fixing other files! *****\n\n"
@@ -1681,7 +1722,7 @@ fix_other_files() {
         fi
 
         if [ ! -d "$dir_to_use/mpq/Export" ]; then
-            printf "./gophercraft_mpq_set export --chain-json docs/wotlk-chain.json --working-directory \"%s/wow/Data\" --export-directory \"%s/mpq/Export\"\n" "$dir_to_use" "$dir_to_use"
+            printf "You should run: ./gophercraft_mpq_set export --chain-json docs/wotlk-chain.json --working-directory \"%s/wow/Data\" --export-directory \"%s/mpq/Export\"\n" "$dir_to_use" "$dir_to_use"
         else
             echo "$dir_to_use/mpq/Export already exists. All good!"
         fi
@@ -1689,12 +1730,43 @@ fix_other_files() {
         echo "$HOME/Code2/wow/tools/mpq does not exist. Skipping."
     fi
 
+    # AzerothCore and TrinityCore
+    SOURCE_FILES=(
+        "$HOME/Documents/my_notes/scripts/wow/overwrite.py"
+        "$HOME/Documents/my_notes/scripts/wow/gdb.conf"
+    )
+
+    TARGET_DIRS=(
+        "$HOME/acore/bin"
+        "$HOME/tcore/bin"
+    )
+
+    # Copy files if they don't already exist in target dirs
+    for target_dir in "${TARGET_DIRS[@]}"; do
+        for source_file in "${SOURCE_FILES[@]}"; do
+            file_name=$(basename "$source_file")
+            target_file="$target_dir/$file_name"
+
+            if [ ! -f "$target_file" ]; then
+                cp "$source_file" "$target_file"
+                echo "Copied $source_file to $target_file"
+            else
+                echo "$target_file already exists. Skipping."
+            fi
+        done
+    done
+
+    echo -e "\nSetting up AzerothCore conf files\n"
+    python3 $HOME/Documents/my_notes/scripts/wow/update_conf "acore"
+    echo -e "\nSetting up TrinityCore conf files\n"
+    python3 $HOME/Documents/my_notes/scripts/wow/update_conf "tcore"
+
     # TODO:
-    # run update_conf for acore and tcore
-    # Copy overwrite.py and gdb.conf to $HOME/acore/bin
-    # check databases... Create with sql scripts if they don't exist...
     # japp-assets, baby-yoda...
     # Check and inform if mpq files exists...
+
+    echo -e "\nChecking databases...\n"
+    check_dbs
 }
 
 if $justDoIt; then
@@ -1774,7 +1846,5 @@ fi
 # cp authserver.conf.dist authserver.conf
 # cp worldserver.conf.dist worldserver.conf
 # Run worldserver...
-
-# Copy overwrite.py and gdb.conf to $HOME/acore/bin
 # Apply customworldboss sql ($HOME/Code2/Wow/lua/azerothcore_lua_scripts/Acore_eventScripts/database/world/customWorldboss.sql)
 
