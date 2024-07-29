@@ -1442,7 +1442,6 @@ copy_game_data() {
     # TODO:
     # Copy ollama models?
     # baby-yoda and other joja mods...
-    # jar files? jna, jna-platform, mariadb/mysql...
     # star_wars_ja_mods
     # star_wars_jo_mods
 }
@@ -1569,6 +1568,7 @@ fix_other_files() {
             fi
         fi
     done
+    # TODO: japp-assets to my_lua, clone and copy here...
     
     # Python
     if grep -qEi 'debian|raspbian' /etc/os-release; then
@@ -1710,9 +1710,6 @@ fix_other_files() {
     python3 $HOME/Documents/my_notes/scripts/wow/update_conf "tcore"
     # Follow acore / tcore install notes in setup_notes.txt or setup db from
     # existing dbs in db_bkp
-
-    # TODO:
-    # japp-assets from cloned repo...
 
     echo -e "\nChecking databases...\n"
     check_dbs
