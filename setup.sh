@@ -1719,7 +1719,7 @@ if $justDoIt; then
     echo "Fixing other files..."
     fix_other_files
 else
-    $justInform && echo "\nDo you want to check other files? (yes/y)" || echo "\nDo you want to fix other files? (yes/y)"
+    $justInform && echo -e "\nDo you want to check other files? (yes/y)" || echo -e "\nDo you want to fix other files? (yes/y)"
     read answer
     # To lowercase using awk
     answer=$(echo $answer | awk '{print tolower($0)}')
