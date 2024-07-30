@@ -55,6 +55,6 @@ esac
 #date "+%a %d %b %I:%M%p (%V)"
 #date "+%a %d %b %I:%M%p (%V) "
 
-#date -d "+4 minutes" "+%a %d %b %I:%M%p (%V) "
-echo " $(date -d "+4 minutes" "+%a %d %b %I:%M%p (%V) ")"
+date -d "+4 minutes" "+%a %d %b %I:%M%p (%V) "
+#echo " $(date -d "+4 minutes" "+%a %d %b %I:%M%p (%V) ")"
 

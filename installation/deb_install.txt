@@ -260,7 +260,26 @@ Start picom with picom --animations
 
 https://wiki.debian.org/Eclipse
 
-Android studio:
+Download eclipse installer,
+tar -zxvf eclipse-inst-jre-linux64.tar.gz
+then:
+cd eclipse-installer && ./eclipse-inst
+https://wiki.debian.org/Eclipse
+
+Install path for binary is automatically:
+/home/jonas/eclipse/java-2024-06/eclipse
+And working dir:
+/home/jonas/eclipse-workspace
+
+Change to dark mode:
+Window -> Preferences -> General -> Appearance -> Theme: Dark
+
+Install vim:
+Help -> Eclipse marketplace
+Vrapper (vim)
+
+******************************************
+# Android studio
 https://wiki.debian.org/AndroidStudio
 
 Steam:
