@@ -278,6 +278,50 @@ Install vim:
 Help -> Eclipse marketplace
 Vrapper (vim)
 
+* Note on running jar files:
+When creating a runnable jar file in eclipse you might need to use the same
+java version as eclipse uses...
+since java --version is too low... See 'which java'.
+See: /home/jonas/eclipse/java-2024-06/eclipse/eclipse.ini
+
+which looks like this:
+
+-startup
+plugins/org.eclipse.equinox.launcher_1.6.800.v20240513-1750.jar
+--launcher.library
+/home/jonas/.p2/pool/plugins/org.eclipse.equinox.launcher.gtk.linux.x86_64_1.2.1000.v20240506-2123
+-product
+org.eclipse.epp.package.java.product
+-showsplash
+/home/jonas/.p2/pool/plugins/org.eclipse.epp.package.common_4.32.0.20240606-1231
+--launcher.defaultAction
+openFile
+--launcher.appendVmargs
+-vm
+/home/jonas/.p2/pool/plugins/org.eclipse.justj.openjdk.hotspot.jre.full.linux.x86_64_22.0.1.v20240426-1149/jre/bin/java
+-vmargs
+-Dorg.eclipse.ecf.provider.filetransfer.excludeContributors=org.eclipse.ecf.provider.filetransfer.httpclientjava
+-Dosgi.requiredJavaVersion=21
+-Dosgi.instance.area.default=@user.home/eclipse-workspace
+-Dosgi.dataAreaRequiresExplicitInit=true
+-Dorg.eclipse.swt.graphics.Resource.reportNonDisposed=true
+-Declipse.e4.inject.javax.warning=false
+-Dsun.java.command=Eclipse
+-Xms256m
+-Xmx2048m
+-XX:+UseG1GC
+-XX:+UseStringDeduplication
+--add-modules=ALL-SYSTEM
+-Djava.security.manager=allow
+-Declipse.p2.max.threads=10
+-Doomph.update.url=https://download.eclipse.org/oomph/updates/milestone/latest
+-Doomph.redirection.index.redirection=index:/->https://raw.githubusercontent.com/eclipse-oomph/oomph/master/setups/
+--add-opens=java.base/java.lang=ALL-UNNAMED
+
+Then to run wowbot for example:
+
+/home/jonas/.p2/pool/plugins/org.eclipse.justj.openjdk.hotspot.jre.full.linux.x86_64_22.0.1.v20240426-1149/jre/bin/java -jar wowbot.jar 1 1 "0,80"
+
 ******************************************
 # Android studio
 https://wiki.debian.org/AndroidStudio
