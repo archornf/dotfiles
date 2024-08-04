@@ -238,7 +238,7 @@ TODO...
 # wotlk-sim
 $HOME/Code2/Go/wotlk-sim
 ./wowsimwotlk
-Mabe also do: Make host
+Maybe also do: Make host
 
 # OpenDiablo2
 $HOME/Code2/Go/OpenDiablo2

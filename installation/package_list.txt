@@ -82,6 +82,7 @@ jq
 jupyter-notebook
 lf
 lib32-libpulse
+libb64
 libcurl-openssl-1.0
 libmad
 light
@@ -115,6 +116,7 @@ obs-studio
 omnisharp-roslyn
 onetbb
 openal
+opencv
 openscenegraph
 optipng
 os-prober
