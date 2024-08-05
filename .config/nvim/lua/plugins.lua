@@ -22,7 +22,15 @@ return require('packer').startup(function()
   -- Productivity --
   use 'vimwiki/vimwiki'
   use 'tpope/vim-surround'
+
   use 'junegunn/fzf'
+  --use { "ibhagwan/fzf-lua"
+  -- optional for icon support
+  --requires = { "nvim-tree/nvim-web-devicons" }
+  -- or if using mini.icons/mini.nvim
+  -- requires = { "echasnovski/mini.icons" }
+  --}
+
   use 'tpope/vim-commentary'
   -- use 'junegunn/goyo.vim'
   -- use 'junegunn/limelight.vim'
@@ -84,4 +92,7 @@ return require('packer').startup(function()
   --        shortcuts might be setup here (see Usage > Shortcuts in Readme)
   --    end,
   --})
+
+  use 'nanotee/sqls.nvim'
+
 end)

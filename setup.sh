@@ -6,7 +6,7 @@ printf "\n***** Setting up config files! *****\n\n"
 mkdir -p $HOME/.config/
 mkdir -p $HOME/.local/bin/
 mkdir -p $HOME/Documents $HOME/Downloads $HOME/Pictures/Wallpapers
-mkdir -p $HOME/Code/c $HOME/Code/c++ $HOME/Code/c# $HOME/Code/go $HOME/Code/js $HOME/Code/python $HOME/Code/rust $HOME/Code2/C $HOME/Code2/C++ $HOME/Code2/C# $HOME/Code2/General $HOME/Code2/Go $HOME/Code2/Javascript $HOME/Code2/Python $HOME/Code2/Wow/tools
+mkdir -p $HOME/Code/c $HOME/Code/c++ $HOME/Code/c# $HOME/Code/go $HOME/Code/js $HOME/Code/python $HOME/Code/rust $HOME/Code2/C $HOME/Code2/C++ $HOME/Code2/C# $HOME/Code2/General $HOME/Code2/Go $HOME/Code2/Javascript $HOME/Code2/Lua $HOME/Code2/Python $HOME/Code2/Wow/tools
 
 # Copy stuff
 cp -r .config/alacritty/ $HOME/.config/
@@ -178,7 +178,7 @@ clone_repo_if_missing() {
     local branch=$3
     local parent_dir="."
 
-    my_repo_dirs=("my_notes" "utils" "my_js" "my_cplusplus")
+    my_repo_dirs=("my_notes" "utils" "my_js" "my_cplusplus" "my_lua")
 
     echo "--------------------------------------------------------"
     if printf '%s\n' "${my_repo_dirs[@]}" | grep -q "^$repo_dir$"; then
@@ -300,6 +300,9 @@ clone_projects() {
 
     print_and_cd_to_dir "$HOME/Code2/Javascript" "Cloning"
     clone_repo_if_missing "my_js" "https://github.com/ornfelt/my_js"
+
+    print_and_cd_to_dir "$HOME/Code2/Lua" "Cloning"
+    clone_repo_if_missing "my_lua" "https://github.com/ornfelt/my_lua"
 
     print_and_cd_to_dir "$HOME/Code2/Python" "Cloning"
     clone_repo_if_missing "wander_nodes_util" "https://github.com/ornfelt/wander_nodes_util"
@@ -1444,6 +1447,7 @@ copy_game_data() {
     # baby-yoda and other joja mods...
     # star_wars_ja_mods
     # star_wars_jo_mods
+    # Maybe check storage based on DOWNLOADS_DIR and only continue if over x gb?
 }
 
 if $justDoIt; then
@@ -1489,7 +1493,12 @@ check_dbs() {
 
     # Get MSQL info from set values
     if [ -z "$MYSQL_ROOT_PWD" ]; then
-        echo "Error: MYSQL_ROOT_PWD environment variable is not set. Exiting."
+        echo "Error: MYSQL_ROOT_PWD environment variable is not set. Exiting..."
+        exit 1
+    fi
+
+    if ! command -v mysql &> /dev/null; then
+        echo "mysql command not found. Please install MySQL client. Exiting..."
         exit 1
     fi
 
@@ -1557,18 +1566,41 @@ fix_other_files() {
     SRC_DIR="$HOME/Code2/C++/japp"
     DEST_DIR="$HOME/.local/share/openjk/japlus"
 
-    for file in "$SRC_DIR"/*.so; do
-        if [ -f "$file" ]; then
-            dest_file="$DEST_DIR/$(basename "$file")"
-            if [ ! -f "$dest_file" ]; then
-                cp "$file" "$dest_file"
-                printf "Copied %s to %s\n" "$(basename "$file")" "$DEST_DIR"
-            else
-                printf "%s already exists in %s, skipping copy.\n" "$(basename "$file")" "$DEST_DIR"
+    if [ -d "$SRC_DIR" ] && [ -d "$DEST_DIR" ]; then
+        for file in "$SRC_DIR"/*.so; do
+            if [ -f "$file" ]; then
+                dest_file="$DEST_DIR/$(basename "$file")"
+                if [ ! -f "$dest_file" ]; then
+                    cp "$file" "$dest_file"
+                    printf "Copied %s to %s\n" "$(basename "$file")" "$DEST_DIR"
+                else
+                    printf "%s already exists in %s, skipping copy.\n" "$(basename "$file")" "$DEST_DIR"
+                fi
             fi
-        fi
-    done
-    # TODO: japp-assets to my_lua, clone and copy here...
+        done
+    else
+        echo "Either source directory ($SRC_DIR) or destination directory ($DEST_DIR) does not exist. Skipping copy of japlus lib files..."
+    fi
+
+    # Copy japp-assets to japlus dir
+    SRC_DIR="$HOME/Code2/Lua/my_lua/my_stuff/japp-assets"
+    DEST_DIR="$HOME/.local/share/openjk/japlus"
+    # Use rsync to copy only files and directories that don't already exist in the destination
+    #rsync -av --ignore-existing "$SRC_DIR/" "$DEST_DIR/"
+    if [ -d "$SRC_DIR" ] && [ -d "$DEST_DIR" ]; then
+        for item in "$SRC_DIR"/*; do
+            base_item=$(basename "$item")
+            
+            if [ ! -e "$DEST_DIR/$base_item" ]; then
+                cp -r "$item" "$DEST_DIR"
+                echo "Copied $item to $DEST_DIR"
+            else
+                echo "$DEST_DIR/$base_item already exists, skipping"
+            fi
+        done
+    else
+        echo "Either source directory ($SRC_DIR) or destination directory ($DEST_DIR) does not exist. Skipping copy of japp-assets..."
+    fi
     
     # Python
     if grep -qEi 'debian|raspbian' /etc/os-release; then

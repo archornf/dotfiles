@@ -23,6 +23,7 @@ cava
 cglm
 chafa
 chromium
+cjson
 clang
 cmake
 conky
@@ -93,4 +94,3 @@ luarocks
 lxappearance
 m4
 maim
-make
