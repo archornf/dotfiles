@@ -490,9 +490,17 @@ check_file() {
 
 change_ownership_if_exists() {
     local dir=$1
+    local CURRENT_USER=$(whoami)
+
     if [ -d "$dir" ]; then
-        sudo chown -R $USER:$USER "$dir"
-        echo "Changed ownership of $dir to $USER"
+        # Get owner of dir
+        local DIR_OWNER=$(stat -c '%U' "$dir")
+        if [ "$DIR_OWNER" != "$CURRENT_USER" ]; then
+            sudo chown -R $USER:$USER "$dir"
+            echo "Changed ownership of $dir to $USER"
+        else
+            echo "Ownership of $dir is already set to $CURRENT_USER, skipping chown"
+        fi
     else
         echo "Directory $dir does NOT exist, skipping."
     fi
@@ -546,7 +554,7 @@ compile_projects() {
     echo -e "Identified architecture: $architecture\n"
     fix_ownerships
 
-    echo "Compiling projects in $HOME/.config..."
+    echo -e "\nCompiling projects in $HOME/.config..."
     install_if_missing dwm dwm
     install_if_missing dwmblocks dwmblocks
     install_if_missing dmenu dmenu
@@ -1284,7 +1292,7 @@ copy_game_data() {
     copy_dir_to_target "$MEDIA_PATH/2024/vmangos/RelWithDebInfo/vmaps" "$DEST_DIR/vmaps"
 
     # Mangoszero
-    DEST_DIR="$HOME/mangoszero/bin"
+    DEST_DIR="$HOME/mangoszero/run/etc"
     echo -e "\n***Copying mangoszero files to $DEST_DIR***"
     copy_dir_to_target "$MEDIA_PATH/2024/mangoszero/RelWithDebInfo/dbc" "$DEST_DIR/dbc"
     copy_dir_to_target "$MEDIA_PATH/2024/mangoszero/RelWithDebInfo/maps" "$DEST_DIR/maps"
@@ -1563,6 +1571,7 @@ fix_other_files() {
 
     # japp aka japlus
     #cp $HOME/Code2/C++/japp/*.so $HOME/.local/share/openjk/japlus/
+    echo -e "\n"
     SRC_DIR="$HOME/Code2/C++/japp"
     DEST_DIR="$HOME/.local/share/openjk/japlus"
 
@@ -1583,6 +1592,7 @@ fix_other_files() {
     fi
 
     # Copy japp-assets to japlus dir
+    echo -e "\n"
     SRC_DIR="$HOME/Code2/Lua/my_lua/my_stuff/japp-assets"
     DEST_DIR="$HOME/.local/share/openjk/japlus"
     # Use rsync to copy only files and directories that don't already exist in the destination
@@ -1603,6 +1613,7 @@ fix_other_files() {
     fi
     
     # Python
+    echo -e "\n"
     if grep -qEi 'debian|raspbian' /etc/os-release; then
         if [ ! -f /usr/bin/python ]; then
             sudo cp /usr/bin/python3 /usr/bin/python
@@ -1622,7 +1633,7 @@ fix_other_files() {
     echo -e "\nSetting up vmangos conf files\n"
     #cp $HOME/vmangos/etc/mangosd.conf.dist $HOME/vmangos/etc/mangosd.conf
     #cp $HOME/vmangos/etc/realmd.conf.dist $HOME/vmangos/etc/realmd.conf
-    python3 $HOME/Documents/my_notes/scripts/wow/update_conf_classic "vmangos"
+    python3 $HOME/Documents/my_notes/scripts/wow/update_conf_classic.py "vmangos"
     # Follow vmangos install notes from setup_notes.txt...
 
     # cmangos
@@ -1634,7 +1645,7 @@ fix_other_files() {
     #cp $HOME/cmangos/run/etc/ahbot.conf.dist $HOME/cmangos/run/etc/ahbot.conf
     #cp $HOME/cmangos/run/etc/mangosd.conf.dist $HOME/cmangos/run/etc/mangosd.conf
     #cp $HOME/cmangos/run/etc/realmd.conf.dist $HOME/cmangos/run/etc/realmd.conf
-    python3 $HOME/Documents/my_notes/scripts/wow/update_conf_classic "cmangos"
+    python3 $HOME/Documents/my_notes/scripts/wow/update_conf_classic.py "cmangos"
     # Follow cmangos install notes from setup_notes.txt...
 
     # mangoszero
@@ -1686,7 +1697,7 @@ fix_other_files() {
         #cp "$HOME/mangoszero/run/etc/ahbot.conf.dist" "$HOME/mangoszero/run/etc/ahbot.conf"
         #cp "$HOME/mangoszero/run/etc/mangosd.conf.dist" "$HOME/mangoszero/run/etc/mangosd.conf"
         #cp "$HOME/mangoszero/run/etc/realmd.conf.dist" "$HOME/mangoszero/run/etc/realmd.conf"
-        python3 $HOME/Documents/my_notes/scripts/wow/update_conf_classic "mangoszero"
+        python3 $HOME/Documents/my_notes/scripts/wow/update_conf_classic.py "mangoszero"
         # Follow mangoszero install notes from setup_notes.txt...
     else
         echo "$HOME/mangoszero/run/bin does NOT exist. Skipping."
@@ -1737,9 +1748,9 @@ fix_other_files() {
     done
 
     echo -e "\nSetting up AzerothCore conf files\n"
-    python3 $HOME/Documents/my_notes/scripts/wow/update_conf "acore"
+    python3 $HOME/Documents/my_notes/scripts/wow/update_conf.py "acore"
     echo -e "\nSetting up TrinityCore conf files\n"
-    python3 $HOME/Documents/my_notes/scripts/wow/update_conf "tcore"
+    python3 $HOME/Documents/my_notes/scripts/wow/update_conf.py "tcore"
     # Follow acore / tcore install notes in setup_notes.txt or setup db from
     # existing dbs in db_bkp
 
