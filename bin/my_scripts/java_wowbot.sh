@@ -37,6 +37,7 @@ JAVA_COMMAND="$java_path -jar $HOME/Code2/C#/WowBot/java/wowbot.jar 1 1"
 # When running in bash script, directly running the jar doesn't seem to work...
 # Run compiled classes instead:
 cd "$HOME/Code2/C#/WowBot/java"
+javac -d . -cp /home/jonas/Downloads/jar_files/jna-5.13.0.jar:/home/jonas/Downloads/jar_files/jna-platform-5.13.0.jar:/home/jonas/Downloads/jar_files/sql-jars/mariadb-java-client-3.2.0.jar:/home/jonas/Downloads/jar_files/mysql/mysql-connector-j-9.0.0/mysql-connector-j-9.0.0.jar $(find . -name "*.java" ! -name "WowTabFinder_windows.java")
 JAVA_COMMAND="$java_path -cp .:$CLASSPATH wowbot.Main 1 1"
 
 # Copy run command instead?
