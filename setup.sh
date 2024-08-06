@@ -9,7 +9,6 @@ mkdir -p $HOME/Documents $HOME/Downloads $HOME/Pictures/Wallpapers
 mkdir -p $HOME/Code/c $HOME/Code/c++ $HOME/Code/c# $HOME/Code/go $HOME/Code/js $HOME/Code/python $HOME/Code/rust $HOME/Code2/C $HOME/Code2/C++ $HOME/Code2/C# $HOME/Code2/General $HOME/Code2/Go $HOME/Code2/Javascript $HOME/Code2/Lua $HOME/Code2/Python $HOME/Code2/Wow/tools
 
 # Copy stuff
-cp -r .config/alacritty/ $HOME/.config/
 cp -r .config/awesome/ $HOME/.config/
 cp -r .config/cava/ $HOME/.config/
 cp -r .config/conky/ $HOME/.config/
@@ -57,6 +56,30 @@ cp .xinitrc $HOME/.xinitrc
 cp .Xresources $HOME/.Xresources
 cp .Xresources_cat $HOME/.Xresources_cat
 cp .zshrc $HOME/.zshrc
+
+# Update alacritty, preserving custom font size (if any)
+DEFAULT_FONT_SIZE="7.0"
+CURRENT_FONT_SIZE=$(grep -oP 'size:\s*\K[0-9.]*' "$HOME/.config/alacritty/alacritty.yml")
+
+update_font_size() {
+  local file=$1
+  local new_size=$2
+  [[ $file == *.toml ]] && sed -i "s/size = .*/size = $new_size/" "$file" || sed -i "s/size: .*/size: $new_size/" "$file"
+}
+
+if [ "$CURRENT_FONT_SIZE" != "$DEFAULT_FONT_SIZE" ]; then
+  echo "Current font size is $CURRENT_FONT_SIZE. Updating to $CURRENT_FONT_SIZE in source configuration before copying alacritty files."
+  update_font_size ".config/alacritty/alacritty.yml" "$CURRENT_FONT_SIZE"
+  update_font_size ".config/alacritty/alacritty.toml" "$CURRENT_FONT_SIZE"
+fi
+
+cp -r ".config/alacritty" "$HOME/.config/"
+
+if [ "$CURRENT_FONT_SIZE" != "$DEFAULT_FONT_SIZE" ]; then
+  echo "Reverting font size in alacritty configs to default size $DEFAULT_FONT_SIZE."
+  update_font_size ".config/alacritty/alacritty.yml" "$DEFAULT_FONT_SIZE"
+  update_font_size ".config/alacritty/alacritty.toml" "$DEFAULT_FONT_SIZE"
+fi
 
 if [ ! -f $HOME/.bash_profile ]; then
     cp -r .bash_profile $HOME/.bash_profile
