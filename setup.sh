@@ -657,7 +657,7 @@ compile_projects() {
             cd "$HOME/Code/c++"
         fi
 
-        if check_dir "jk2mv.js" "build_new"; then
+        if check_dir "jk2mv" "build_new"; then
             cmake .. CMAKE_BUILD_TYPE=Release
             make -j$(nproc)
             sudo make install
@@ -711,13 +711,13 @@ compile_projects() {
         cd "$HOME/Code/c++"
     fi
 
-    if check_dir "reone"; then
-        cd ..
-        cmake -B build -S . -DCMAKE_BUILD_TYPE=RelWithDebInfo
-        cd build && make -j$(nproc)
-        sudo make install
-        cd "$HOME/Code/c++"
-    fi
+    #if check_dir "reone"; then
+    #    cd ..
+    #    cmake -B build -S . -DCMAKE_BUILD_TYPE=RelWithDebInfo
+    #    cd build && make -j$(nproc)
+    #    sudo make install
+    #    cd "$HOME/Code/c++"
+    #fi
 
     print_and_cd_to_dir "$HOME/Code/js" "Compiling"
 
