@@ -66,8 +66,7 @@ update_font_size() {
   local new_size=$2
   [[ $file == *.toml ]] && sed -i "s/size = .*/size = $new_size/" "$file" || sed -i "s/size: .*/size: $new_size/" "$file"
 }
-
-if [ "$CURRENT_FONT_SIZE" != "$DEFAULT_FONT_SIZE" ]; then
+if [ -n "$CURRENT_FONT_SIZE" ] && [ "$CURRENT_FONT_SIZE" != "$DEFAULT_FONT_SIZE" ]; then
   echo "Current font size is $CURRENT_FONT_SIZE. Updating to $CURRENT_FONT_SIZE in source configuration before copying alacritty files."
   update_font_size ".config/alacritty/alacritty.yml" "$CURRENT_FONT_SIZE"
   update_font_size ".config/alacritty/alacritty.toml" "$CURRENT_FONT_SIZE"
@@ -75,7 +74,7 @@ fi
 
 cp -r ".config/alacritty" "$HOME/.config/"
 
-if [ "$CURRENT_FONT_SIZE" != "$DEFAULT_FONT_SIZE" ]; then
+if [ -n "$CURRENT_FONT_SIZE" ] && [ "$CURRENT_FONT_SIZE" != "$DEFAULT_FONT_SIZE" ]; then
   echo "Reverting font size in alacritty configs to default size $DEFAULT_FONT_SIZE."
   update_font_size ".config/alacritty/alacritty.yml" "$DEFAULT_FONT_SIZE"
   update_font_size ".config/alacritty/alacritty.toml" "$DEFAULT_FONT_SIZE"

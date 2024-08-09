@@ -40,10 +40,8 @@ rm -rf .config/rofi
 rm -rf .config/st
 rm -rf .config/st_git
 rm -rf .config/zathura
-
 rm -rf .dwm
 rm -rf bin
-
 rm .bashrc
 rm .tmux.conf
 rm .xinitrc
@@ -131,6 +129,45 @@ if ! grep -q "size = $DEFAULT_FONT_SIZE" "$HOME/.config/alacritty/alacritty.toml
   echo "Reverting font size in alacritty.toml to default size $DEFAULT_FONT_SIZE."
   update_font_size ".config/alacritty/alacritty.toml" "$DEFAULT_FONT_SIZE"
 fi
+
+# bash_profile
+keys=(
+  "GITHUB_TOKEN"
+  "ALT_GITHUB_TOKEN"
+  "OPENAI_API_KEY"
+  "GOOGLE_API_KEY"
+  "MISTRAL_API_KEY"
+  "OPENWEATHERMAP_KEY"
+  "SYSTEMET_KEY"
+  "GOOGLE_MAPS_KEY"
+  "MYSQL_ROOT_PWD"
+)
+
+# Overwrite content of ./bash_profile (shouldn't be copied)
+{
+  echo "#"
+  echo "# ~/.bash_profile"
+  echo "#"
+  for key in "${keys[@]}"; do
+    echo "export $key=\"\""
+  done
+
+  echo ''
+  echo '[[ -f ~/.bashrc ]] && . ~/.bashrc'
+  echo ''
+  echo '. "$HOME/.cargo/env"'
+} > ./.bash_profile
+
+# Double check that all keys don't have any values (they should be empty "")
+for key in "${keys[@]}"; do
+  if grep -qE "export $key=\"[^\"]+\"" ./.bash_profile; then
+    echo "Key $key contains a value. Deleting ./bash_profile."
+    rm -f ./.bash_profile
+    exit 0
+  fi
+done
+
+echo "All keys are empty. ./bash_profile is intact."
 
 printf "\nCopied latest files...\n"
 
