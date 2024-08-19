@@ -562,6 +562,9 @@ fix_ownerships() {
         "$HOME/.local/share/openjk"
         "$HOME/cmangos"
         "$HOME/vmangos"
+        "$HOME/mangoszero"
+        "$HOME/acore"
+        "$HOME/tcore"
     )
 
     for dir in "${directories[@]}"; do
@@ -1173,18 +1176,19 @@ copy_dir_to_target() {
 }
 
 check_space() {
-  local dir=$1
-  local min_space_gb=40
-  local available_space_kb=$(df "$dir" --output=avail | tail -n 1)
-  local available_space_gb=$((available_space_kb / 1024 / 1024))
+    printf "Checking disk space...\n"
+    local dir=$1
+    local min_space_gb=40
+    local available_space_kb=$(df "$dir" --output=avail | tail -n 1)
+    local available_space_gb=$((available_space_kb / 1024 / 1024))
 
-  if (( available_space_gb > min_space_gb )); then
-    echo "Disk at $dir has more than $min_space_gb GB available. Space left: $available_space_gb GB"
-    return 0
-  else
-    echo "Disk at $dir does not have more than $min_space_gb GB available. Space left: $available_space_gb GB"
-    return 1
-  fi
+    if (( available_space_gb > min_space_gb )); then
+        echo "Disk at $dir has more than $min_space_gb GB available. Space left: $available_space_gb GB"
+        return 0
+    else
+        echo "Disk at $dir does not have more than $min_space_gb GB available. Space left: $available_space_gb GB"
+        return 1
+    fi
 }
 
 copy_game_data() {
@@ -1209,7 +1213,7 @@ copy_game_data() {
     for path in "${MEDIA_PATHS[@]}"; do
         if [ -d "$path/2024/wow" ]; then
             MEDIA_PATH="$path"
-            echo "Found mounted hard drive at: $MEDIA_PATH"
+            echo -e "\nFound mounted hard drive at: $MEDIA_PATH\n"
             break
         fi
     done
@@ -1706,10 +1710,10 @@ fix_other_files() {
     if [ -d "$src_dir" ]; then
         if [ -d "$dest_dir" ]; then
             cp -r "$src_dir"/* "$dest_dir"
-            echo "All files copied from $src_dir to $dest_dir."
+            echo -e "\nAll files copied from $src_dir to $dest_dir."
         fi
     else
-        echo "$src_dir does NOT exist. Can't copy mangoszero sql files from it..."
+        echo -e "\n$src_dir does NOT exist. Can't copy mangoszero sql files from it..."
     fi
 
     # Fix liblua...
@@ -1718,13 +1722,13 @@ fix_other_files() {
             echo "/usr/lib/x86_64-linux-gnu/liblua5.2.so exists."
 
             if [ ! -f "/usr/lib/x86_64-linux-gnu/liblua52.so" ]; then
-                echo "/usr/lib/x86_64-linux-gnu/liblua52.so does NOT exist. Copying it."
+                echo -e "\n/usr/lib/x86_64-linux-gnu/liblua52.so does NOT exist. Copying it."
                 sudo cp /usr/lib/x86_64-linux-gnu/liblua5.2.so /usr/lib/x86_64-linux-gnu/liblua52.so
             else
-                echo "/usr/lib/x86_64-linux-gnu/liblua52.so already exists."
+                echo -e "\n/usr/lib/x86_64-linux-gnu/liblua52.so already exists."
             fi
         else
-            echo "/usr/lib/x86_64-linux-gnu/liblua5.2.so does NOT exist. Skipping."
+            echo -e "\n/usr/lib/x86_64-linux-gnu/liblua5.2.so does NOT exist. Skipping."
         fi
     fi
 
@@ -1788,7 +1792,7 @@ fix_other_files() {
             target_file="$target_dir/$file_name"
 
             if [ ! -f "$target_file" ]; then
-                cp "$source_file" "$target_file"
+                sudo cp "$source_file" "$target_file"
                 echo "Copied $source_file to $target_file"
             else
                 echo "$target_file already exists. Skipping."
