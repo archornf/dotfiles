@@ -5,9 +5,7 @@ TODOs:
 # all characters instead for all servers... sql diff somehow?
 # Fix wow_classic config.wtf etc if needed...
 
-# wotlk-simulationscraft compile and test!
-# Did the check_dir / check_file fail for wowmapviewer here due to binary
-already existing # on fresh clone?
+# wotlk-simulationscraft (MY) compile and test!
 
 ******************************************
 TODO:
