@@ -12,8 +12,8 @@ return require('packer').startup(function()
   }
 
   use 'preservim/nerdtree'
-  --use 'stevearc/oil.nvim'
-  --use 'echasnovski/mini.files'
+  -- use 'stevearc/oil.nvim'
+  -- use 'echasnovski/mini.files'
 
   use 'vimwiki/vimwiki'
   use 'tpope/vim-surround'

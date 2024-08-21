@@ -65,23 +65,34 @@ map('n', '<leader>3', '"3p')
 map('n', '<leader>4', '"4p')
 map('n', '<leader>5', '"5p')
 
--- NERDTree
--- map('n', '<M-w>', ':NERDTreeToggle ~/<CR>')
--- map('n', '<M-e>', ':NERDTreeToggle %:p<CR>')
-map('n', '<M-w>', ':silent! NERDTreeToggle ~/<CR>')
---map('n', '<M-e>', ':silent! NERDTreeToggle %:p<CR>')
-
-function toggle_nerdtree()
-  local filepath = (vim.fn.expand('%:p') == '' and '~/' or vim.fn.expand('%:p'))
-  vim.cmd('silent! NERDTreeToggle ' .. filepath)
+local function is_plugin_installed(plugin_name)
+    return vim.fn.exists(':' .. plugin_name) ~= 0
 end
 
-map('n', '<M-e>', ':lua toggle_nerdtree()<CR>')
+-- NERDTree
+-- map('n', '<M-w>', ':NERDTreeToggle ~/<CR>')
+--map('n', '<M-e>', ':silent! NERDTreeToggle %:p<CR>')
+map('n', '<M-w>', ':silent! NERDTreeToggle ~/<CR>')
 
---require("oil").setup()
---map('n', '<M-e>', ':Oil<CR>')
---require('mini.files').setup()
---map('n', '<M-e>', ':lua MiniFiles.open()<CR>')
+function toggle_filetree()
+    if is_plugin_installed('NERDTreeToggle') then
+        -- Toggle NERDTree
+        local filepath = (vim.fn.expand('%:p') == '' and '~/' or vim.fn.expand('%:p'))
+        vim.cmd('silent! NERDTreeToggle ' .. filepath)
+    elseif pcall(require, 'mini.files') then
+        -- Toggle MiniFiles
+        require('mini.files').open()
+    else
+        print("No file tree plugin installed (NERDTree or MiniFiles).")
+    end
+end
+
+map('n', '<M-e>', ':lua toggle_filetree()<CR>')
+
+-- require("oil").setup()
+-- map('n', '<M-e>', ':Oil<CR>')
+-- require('mini.files').setup()
+-- map('n', '<M-e>', ':lua MiniFiles.open()<CR>')
 
 -- NERDCommenter
 map('n', '<C-k>', ':call nerdcommenter#Comment(0, "toggle")<CR>')
