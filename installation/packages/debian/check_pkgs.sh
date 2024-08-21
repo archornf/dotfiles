@@ -38,15 +38,16 @@ else
     done
 
     # Ask if the user wants to install the missing packages
-    read -p "Do you want to install the missing packages? (y/n) " response
-    if [[ "$response" =~ ^[Yy]$ ]]; then
-        # Install the missing packages
-        sudo apt-get update
-        for pkg in "${missing_packages[@]}"; do
-            sudo apt-get install -y "$pkg"
-        done
-    else
-        echo "No packages were installed."
-    fi
+    # Doesn't work that well...
+    #read -p "Do you want to install the missing packages? (y/n) " response
+    #if [[ "$response" =~ ^[Yy]$ ]]; then
+    #    # Install the missing packages
+    #    sudo apt-get update
+    #    for pkg in "${missing_packages[@]}"; do
+    #        sudo apt-get install -y "$pkg"
+    #    done
+    #else
+    #    echo "No packages were installed."
+    #fi
 fi
 
