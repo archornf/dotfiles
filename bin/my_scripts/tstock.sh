@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-export ALPHAVANTAGE_API_KEY=X5JHFXWJ4OTINV2B
 tsla=$(tstock tsla -b 1 | sed -n -e 's/^.*change://p' | sed -r 's/\s+//g')
 evo=$(tstock evo -b 1 | sed -n -e 's/^.*change://p' | sed -r 's/\s+//g')
 
