@@ -14,8 +14,7 @@ missing_packages=()
 # Loop through each package in the file
 while IFS= read -r package; do
     # Check if the package is installed
-    if ! dpkg-query -W -f='${Status}' "$package" 2>/dev/null | grep -q "install ok installed"; then
-    if ! dpkg -l | grep -qw "^ii  $package"; then
+    if ! dpkg -l | grep -q "^ii  $package "; then
         # If not installed, add to the missing packages array
         missing_packages+=("$package")
     fi
