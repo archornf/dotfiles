@@ -11,33 +11,7 @@ already existing # on fresh clone?
 
 ******************************************
 TODO:
-sudo apt remove rustc
-sudo apt-get install libsdl2-mixer-dev
-
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-
-mkdir -p ~/.config/pip/
-vim ~/.config/pip/pip.conf
-Add this:
-[global]
-break-system-packages = true
-
-pip3 install cogapp
-
-curl https://sh.rustup.rs -sSf | sh -s
-git clone --depth=1 --branch=main --recursive https://github.com/wez/wezterm.git
-cd wezterm
-git submodule update --init --recursive
-./get-deps
-cargo build --release
-cargo run --release --bin wezterm -- start
-
-cargo build --release --no-default-features --features vendored-fonts
-
 blpconverter, wowmapview broken compiles?...
-
-See and update:
-./installation/packages/debian/deb_pkgs.txt
 
 ###############################################################
 ###

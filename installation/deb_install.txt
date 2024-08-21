@@ -16,6 +16,7 @@ sudo apt install iwlwifi (firmware-iwlwifi?) and reboot...
 EDITOR=nvim visudo
 At the end of the /etc/sudoers file add this line: 
 jonas     ALL=(ALL) NOPASSWD:ALL
+* Important - add this as last line (but probably above @includedir ...)
 exit
 reboot
 
@@ -35,6 +36,29 @@ Some sources might require HTTPS. Install the apt-transport-https package if
 it's not already installed:
 
 sudo apt-get install apt-transport-https
+
+Install latest rust:
+sudo apt remove rustc
+sudo apt-get install libsdl2-mixer-dev
+
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+###curl https://sh.rustup.rs -sSf | sh -s
+git clone --depth=1 --branch=main --recursive https://github.com/wez/wezterm.git
+cd wezterm
+git submodule update --init --recursive
+./get-deps
+cargo build --release
+Running:
+cargo run --release --bin wezterm -- start
+use wezterm alias instead...
+
+cargo build --release --no-default-features --features vendored-fonts
+
+Fix python config and packages!
+
+Install potentially missing packages via:
+./installation/packages/debian/deb_pkgs.txt
 
 mkdir ~/Downloads
 cd ~/Downloads

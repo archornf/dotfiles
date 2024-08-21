@@ -539,10 +539,18 @@ function open_files_from_list()
   --vim.fn['fzf#run']({
   --  source = files,
   --  sink = function(selected)
-  --    --vim.cmd('edit ' .. selected)
-  --    vim.cmd('tabedit ' .. selected)
+  --    vim.cmd('edit ' .. selected)
   --  end,
-  --  options = '--multi --prompt "Select a file to open> "'
+  --  options = '--multi --prompt "Select a file to open> " --expect=ctrl-t',
+  --  sinklist = function(selected)
+  --    local key = selected[1]
+  --    local file = selected[2]
+  --    if key == "ctrl-t" then
+  --      vim.cmd('tabedit ' .. file)
+  --    else
+  --      vim.cmd('edit ' .. file)
+  --    end
+  --  end
   --})
 
   ---- Use fzf-lua file picker to display file paths
@@ -621,4 +629,8 @@ function print_current_file_path()
 end
 
 vim.api.nvim_set_keymap('n', '<leader>-', ':lua print_current_file_path()<CR>', { noremap = true, silent = true })
+
+vim.keymap.set('n', '<leader>gl', function()
+    require('gitgraph').draw({}, { all = true, max_count = 5000 })
+end, { desc = "GitGraph - Draw" })
 
