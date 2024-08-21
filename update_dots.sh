@@ -44,6 +44,7 @@ rm -rf .dwm
 rm -rf bin
 rm .bashrc
 rm .tmux.conf
+rm .wezterm.lua
 rm .xinitrc
 rm .Xresources
 rm .Xresources_cat
@@ -94,6 +95,7 @@ cp -r $HOME/.local/bin/greenclip bin/
 
 cp -r $HOME/.bashrc .bashrc
 cp -r $HOME/.tmux.conf .tmux.conf
+cp -r $HOME/.wezterm.lua .wezterm.lua
 cp -r $HOME/.xinitrc .xinitrc
 cp -r $HOME/.Xresources .Xresources
 cp -r $HOME/.Xresources_cat .Xresources_cat

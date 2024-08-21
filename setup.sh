@@ -4,6 +4,7 @@ printf "\n***** Setting up config files! *****\n\n"
 
 # Setup required dirs
 mkdir -p $HOME/.config/
+mkdir -p $HOME/.config/wezterm
 mkdir -p $HOME/.local/bin/
 mkdir -p $HOME/Documents $HOME/Downloads $HOME/Pictures/Wallpapers
 mkdir -p $HOME/Code/c $HOME/Code/c++ $HOME/Code/c# $HOME/Code/go $HOME/Code/js $HOME/Code/python $HOME/Code/rust $HOME/Code2/C $HOME/Code2/C++ $HOME/Code2/C# $HOME/Code2/General $HOME/Code2/Go $HOME/Code2/Javascript $HOME/Code2/Lua $HOME/Code2/Python $HOME/Code2/Wow/tools
@@ -52,6 +53,7 @@ cp Screenshots/space.jpg $HOME/Pictures/Wallpapers/
 
 cp .bashrc $HOME/.bashrc
 cp .tmux.conf $HOME/.tmux.conf
+cp .wezterm.lua $HOME/.wezterm.lua
 cp .xinitrc $HOME/.xinitrc
 cp .Xresources $HOME/.Xresources
 cp .Xresources_cat $HOME/.Xresources_cat
@@ -145,6 +147,14 @@ if [ ! -d "$HOME/.local/share/nvim/site/pack/packer/start/packer.nvim/.git" ]; t
     echo "Packer installed! Now open vim and do :PackerInstall and then move temp.lua to init.lua in $HOME/.config/nvim"
 else
     echo "packer already installed."
+fi
+
+# wezterm session manager
+if [ ! -d "$HOME/.config/wezterm/wezterm-session-manager" ]; then
+    git clone https://github.com/danielcopper/wezterm-session-manager.git $HOME/.config/wezterm/wezterm-session-manager
+    echo "wezterm-session-manager installed!"
+else
+    echo "wezterm-session-manager already installed."
 fi
 
 # jetbrains nerd fonts
