@@ -13,6 +13,7 @@ missing_packages=()
 
 # Loop through each package in the file
 while IFS= read -r package; do
+    trimmed_package="$(echo -e "${package}" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
     # Check if the package is installed
     #if ! dpkg -l | grep -q "^ii  $package[: ]"; then
     if ! dpkg -l | grep -q "^ii[[:space:]]\+$package[:[:space:]]"; then
