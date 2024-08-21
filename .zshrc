@@ -175,6 +175,10 @@ playermap ()
 }
 alias .playermap='playermap'
 
+if grep -qEi 'debian|raspbian' /etc/os-release; then
+    alias wezterm='cd ~/Code2/Rust/wezterm && cargo run --release --bin wezterm -- start'
+fi
+
 # use the vi navigation keys in menu completion
 #bindkey -M menuselect 'h' vi-backward-char
 #bindkey -M menuselect 'k' vi-up-line-or-history
@@ -263,6 +267,8 @@ export PATH="${PATH}:${HOME}/Code/f#/FsAutoComplete/src/FsAutoComplete/bin/Relea
 export PATH="${PATH}:$HOME/Downloads/lsp/jdtls/bin"
 export PATH="${PATH}:$HOME/Downloads/lsp/lua/bin"
 export OMNISHARP_PATH="/usr/lib/omnisharp-roslyn/"
+export my_notes_path="$HOME/Documents/my_notes"
+export code_root_dir="$HOME"
 #export PATH="${PATH}:$HOME/.fzf/bin"
 
 export LANG=en_US.UTF-8
