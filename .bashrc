@@ -22,4 +22,7 @@ export EDITOR=nvim;
 export PATH=$PATH:/usr/local/go/bin
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
-. "$HOME/.cargo/env"
+export PATH="${PATH}:$code_root_dir/Code2/Rust/wezterm/target/release"
+if [ -f "$HOME/.cargo/env" ]; then
+    . "$HOME/.cargo/env"
+fi

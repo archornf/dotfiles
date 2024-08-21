@@ -119,7 +119,12 @@ DEFAULT_FONT_SIZE="7.0"
 update_font_size() {
   local file=$1
   local new_size=$2
-  [[ $file == *.toml ]] && sed -i "s/size = .*/size = $new_size/" "$file" || sed -i "s/size: .*/size: $new_size/" "$file"
+  #[[ $file == *.toml ]] && sed -i "s/size = .*/size = $new_size/" "$file" || sed -i "s/size: .*/size: $new_size/" "$file"
+  if [ "${file##*.}" = "toml" ]; then
+      sed -i "s/size = .*/size = $new_size/" "$file"
+  else
+      sed -i "s/size: .*/size: $new_size/" "$file"
+  fi
 }
 
 if ! grep -q "size: $DEFAULT_FONT_SIZE" "$HOME/.config/alacritty/alacritty.yml"; then

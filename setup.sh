@@ -66,7 +66,12 @@ CURRENT_FONT_SIZE=$(grep -oP 'size:\s*\K[0-9.]*' "$HOME/.config/alacritty/alacri
 update_font_size() {
   local file=$1
   local new_size=$2
-  [[ $file == *.toml ]] && sed -i "s/size = .*/size = $new_size/" "$file" || sed -i "s/size: .*/size: $new_size/" "$file"
+  #[[ $file == *.toml ]] && sed -i "s/size = .*/size = $new_size/" "$file" || sed -i "s/size: .*/size: $new_size/" "$file"
+  if [ "${file##*.}" = "toml" ]; then
+      sed -i "s/size = .*/size = $new_size/" "$file"
+  else
+      sed -i "s/size: .*/size: $new_size/" "$file"
+  fi
 }
 if [ -n "$CURRENT_FONT_SIZE" ] && [ "$CURRENT_FONT_SIZE" != "$DEFAULT_FONT_SIZE" ]; then
   echo "Current font size is $CURRENT_FONT_SIZE. Updating to $CURRENT_FONT_SIZE in source configuration before copying alacritty files."
