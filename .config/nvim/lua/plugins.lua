@@ -60,7 +60,7 @@ return require('packer').startup(function()
       }
   })
 
-  --use("robitx/gp.nvim")
+  use("robitx/gp.nvim")
   --use({
   --    "robitx/gp.nvim",
   --    config = function()

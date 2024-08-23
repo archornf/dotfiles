@@ -49,10 +49,10 @@ if wezterm.target_triple == 'x86_64-pc-windows-msvc' or wezterm.target_triple ==
     }
 else
     config.window_padding = {
-        left = 5,
+        left = 10,
         right = -3,
-        top = 5,
-        bottom = 3,
+        top = 10,
+        bottom = 0,
     }
 end
 
