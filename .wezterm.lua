@@ -40,12 +40,21 @@ config.warn_about_missing_glyphs = false
 --config.window_decorations = 'TITLE | RESIZE'
 --config.window_decorations = 'NONE'
 config.window_decorations = 'RESIZE'
-config.window_padding = {
-    left = 15,
-    right = 5,
-    top = 20,
-    bottom = 10,
-}
+if wezterm.target_triple == 'x86_64-pc-windows-msvc' or wezterm.target_triple == 'x86_64-pc-windows-gnu' then
+    config.window_padding = {
+        left = 15,
+        right = 5,
+        top = 20,
+        bottom = 10,
+    }
+else
+    config.window_padding = {
+        left = 5,
+        right = -3,
+        top = 5,
+        bottom = 3,
+    }
+end
 
 -- Tab bar
 --config.use_fancy_tab_bar = true
