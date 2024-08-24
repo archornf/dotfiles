@@ -71,6 +71,8 @@ return require('packer').startup(function()
   --    end,
   --})
 
+  use 'gsuuon/model.nvim'
+
   use {
     "aznhe21/actions-preview.nvim",
     config = function()
