@@ -32,12 +32,12 @@ map('n', '<leader>b', togglebar) -- Toggle lualine
 -- map('n', 'N', 'Nzz')
 
 -- Mimic shell movements
-map('i', '<C-E>', '<ESC>A')
-map('i', '<C-A>', '<ESC>I')
-map('i', '<C-v>', '<Esc>"+p')
-map('i', '<C-a>', '<Esc>gg"yG') -- Copy everything from file into clipboard
-map('i', '<C-BS>', '<C-W>a') -- Copy everything from file into clipboard
-map('i', '<S-Tab>', '<BS>')
+-- map('i', '<C-E>', '<ESC>A')
+-- map('i', '<C-A>', '<ESC>I')
+-- map('i', '<C-v>', '<Esc>"+p')
+-- map('i', '<C-a>', '<Esc>gg"yG') -- Copy everything from file into clipboard
+-- map('i', '<C-BS>', '<C-W>a') -- Copy everything from file into clipboard
+-- map('i', '<S-Tab>', '<BS>')
 -- Undo break points
 -- map('i', ',', ',<c-g>u')
 -- map('i', '.', '.<c-g>u')
@@ -59,11 +59,16 @@ map('n', '<leader>d', '"_d') -- Delete to void
 map('v', '<leader>d', '"_d') -- Delete to void
 
 -- Paste from previous registers
-map('n', '<leader>1', '"1p')
-map('n', '<leader>2', '"2p')
-map('n', '<leader>3', '"3p')
-map('n', '<leader>4', '"4p')
-map('n', '<leader>5', '"5p')
+map('n', '<leader>1', '"0p')
+map('n', '<leader>2', '"1p')
+map('n', '<leader>3', ':reg<CR>')
+map('n', '<leader>4', ':put a<CR>')
+map('n', '<leader>5', '"ay$')
+map('v', '<leader>1', '"0p')
+map('v', '<leader>2', '"1p')
+map('v', '<leader>3', ':reg<CR>')
+map('v', '<leader>4', ':put a<CR>')
+map('v', '<leader>5', '"ay$')
 
 -- Helper functions
 local function is_vim_plugin_installed(plugin_name)
@@ -279,8 +284,8 @@ vim.keymap.set('n', '<leader>db', '<cmd>lua vim.diagnostic.setqflist()<CR>', { n
 
 function ReplaceQuotes()
   vim.cmd([[
-    %s/[‘’]/'/g
-    %s/[“”]/"/g
+    silent! %s/[’‘’]/'/g
+    silent! %s/[“”]/"/g
   ]])
 end
 

@@ -78,6 +78,8 @@ config.unix_domains = {
   },
 }
 
+config.disable_default_key_bindings = true,
+
 -- Session manager
 wezterm.on("save_session", function(window) session_manager.save_state(window) end)
 wezterm.on("load_session", function(window) session_manager.load_state(window) end)
@@ -85,6 +87,9 @@ wezterm.on("restore_session", function(window) session_manager.restore_state(win
 
 -- Custom key bindings
 config.keys = {
+    -- Leader is defined as Ctrl-A but this allows it to be sent to programs like vim when pressed twice
+    { key = 'a', mods = 'LEADER|CTRL', action = wezterm.action.SendKey { key = 'a', mods = 'CTRL' }, },
+
     -- Copy/vim mode
     { key = 'v', mods = 'LEADER', action = act.ActivateCopyMode, },
     { key = 'f', mods = 'LEADER', action = wezterm.action.Search {CaseInSensitiveString = 'test' } },
