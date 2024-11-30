@@ -130,8 +130,8 @@ end
 map('n', '<M-e>', ':lua toggle_filetree()<CR>')
 
 -- NERDCommenter
-map('n', '<C-k>', ':call nerdcommenter#Comment(0, "toggle")<CR>')
-map('v', '<C-k>', '<Plug>NERDCommenterToggle')
+-- map('n', '<C-k>', ':call nerdcommenter#Comment(0, "toggle")<CR>')
+-- map('v', '<C-k>', '<Plug>NERDCommenterToggle')
 
 -- fzf
 local fzf_vim_installed = pcall(function() return vim.fn['fzf#run'] end)
@@ -1285,8 +1285,8 @@ end
 local function is_prioritized_filetype(filetype)
     local prioritized_filetypes = {
         'c', 'cpp', 'cs', 'css', 'go', 'h', 'hpp', 'html',
-        'java', 'js', 'jsx', 'lua', 'php', 'py', 'rs',
-        'ts', 'tsx', 'zig'
+        'java', 'js', 'jsx', 'lua', 'php', 'py', 'python',
+        'rs', 'ts', 'tsx', 'zig'
     }
 
     for _, ft in ipairs(prioritized_filetypes) do
@@ -2080,6 +2080,8 @@ vim.keymap.set('n', '<leader><leader>', function()
         { label = "Reload Configuration", cmd = "lua vim.cmd('source ' .. vim.env.MYVIMRC)" },
         { label = "Inspect Current Line", cmd = "lua print(vim.inspect(vim.api.nvim_get_current_line()))" },
         { label = "List Buffers", cmd = "lua print(vim.inspect(vim.api.nvim_list_bufs()))" },
+        { label = "Buffers", cmd = "buffers" },
+        { label = "undolist", cmd = "undolist" },
         { label = "Toggle Relative Numbers", cmd = "lua vim.o.relativenumber = not vim.o.relativenumber" },
         { label = "Neovim Log", cmd = "lua vim.cmd('tabedit ' .. vim.fn.stdpath('state') .. '/log')" },
         { label = "Check Health", cmd = "lua vim.cmd('checkhealth')" },
