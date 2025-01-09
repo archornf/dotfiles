@@ -70,18 +70,13 @@ desc = "cd to /etc"
 
 [[manager.prepend_keymap]]
 on = ["g", "u"]
-run = [ '''cd /home''' ]
-desc = "cd to /home"
+run = [ '''cd /usr''' ]
+desc = "cd to /usr"
 
 [[manager.prepend_keymap]]
 on = ["g", "h"]
 run = [ '''cd /home/jonas''' ]
 desc = "cd to /home/jonas"
-
-[[manager.prepend_keymap]]
-on = ["g", "u"]
-run = [ '''cd /usr''' ]
-desc = "cd to /usr"
 
 [[manager.prepend_keymap]]
 on = ["g", "l"]
