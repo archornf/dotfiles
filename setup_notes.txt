@@ -7,6 +7,125 @@ TODOs:
 
 # wotlk-simulationscraft (MY) compile and test!
 
+alacritty conf (only do if alacritty config dir exists)
+craft glfw cmake fix. Comment this:
+#cmake_policy(SET CMP0042 OLD)
+in file:
+{code_root_dir}/Code2/C++/small_games/Craft/deps/glfw/CMakeLists.txt
+
+to fix wowser npm install:
+yay -S nvm
+nvm install 16
+npm install...
+
+Fix blpconverter:
+{code_root_dir}/Code2/Wow/tools/BLPConverter/dependencies/FreeImage/CMakeLists.txt
+
+After:
+add_compile_options(-Wno-narrowing)
+add:
+add_compile_options(-w -fPIC -Wno-incompatible-pointer-types)
+
+For arch, use nwg-look (via aur) instead of lxappearance...
+fix check of /mnt/new and maybe just check if its mounted / exists? 
+fix dwmblocks...
+
+alias for all games and some alias for listing all available aliases
+(categorize by game etc). Could add a universal cmake like cmake_run or similar
+that will run appropriate cmake depending on dir and print some info... If arg
+(like git_push/pull), just informative print!
+
+TODO: wc, my_wow, my_web_wow or do them manually?
+llama.cpp
+
+fix pip conf:
+~/.config/pip/pip.conf
+fix mysql extension in:
+/etc/php/php.ini
+
+yazi urls:
+https://github.com/yazi-rs/plugins/tree/main/smart-enter.yazi
+https://github.com/dedukun/bookmarks.yazi
+https://gitee.com/DreamMaoMao/fg.yazi
+
+https://github.com/Gophercraft/mpq/blob/master/docs/mopaq.md
+
+https://www.azerothcore.org/wiki/linux-core-installation
+https://github.com/rewow/AzerothCore-wotlk-with-NPCBots
+https://github.com/trickerer/Trinity-Bots?tab=readme-ov-file#introduction
+https://trinitycore.info/install/Database-Installation
+
+https://github.com/archornf/acore_db
+https://github.com/archornf/tcore_db
+
+playermap:
+http://192.168.1.114:8000/
+
+for tcore 7z:
+sudo pacman -S p7zip
+7z x file.7z
+
+Power manager fixes:
+ps -ef | grep power
+
+run xfce4-power-manager in debug mode:
+xfce4-power-manager -q
+xfce4-power-manager --debug
+
+Better:
+xset q
+xset s off
+
+source:
+https://wiki.archlinux.org/title/Display_Power_Management_Signaling
+
+******************************************
+# mysql setup
+
+sudo pacman -S mariadb
+
+Setup the data directory:
+sudo mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+
+Start mariadb.service
+systemctl start mariadb.service
+systemctl enable mariadb.service
+
+Add user
+In the below example, the user monty with some~pass~ as password is being
+created, then granted full permissions to the database mydb:
+sudo mysql -u root -p
+MariaDB> CREATE USER 'monty'@'localhost' IDENTIFIED BY 'some_pass';
+MariaDB> GRANT ALL PRIVILEGES ON mydb.* TO 'monty'@'localhost';
+MariaDB> FLUSH PRIVILEGES;
+MariaDB> quit
+
+Do this instead (to allow mysql root without sudo):
+sudo mysql -u root -p
+ALTER USER 'root'@'localhost' IDENTIFIED BY '...';
+FLUSH PRIVILEGES;
+
+then:
+mysql -u root -p
+...
+
+Debug:
+Check authentication plugin
+Ensure the root user is using the mysql_native_password or
+caching_sha2_password plugin (instead of unix_socket):
+SELECT user, host, plugin FROM mysql.user;
+
+If you see unix_socket for root, update it:
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '...';
+FLUSH PRIVILEGES;
+
+To suppress or prevent the mysql/mariadb deprecation warning:
+Option 1: Use mariadb directly:
+mariadb -u root -p
+Or:
+alias mysql='mariadb'
+Add to ~/.bashrc or ~/.zshrc...
+
 ******************************************
 TODO:
 blpconverter, wowmapview broken compiles?...

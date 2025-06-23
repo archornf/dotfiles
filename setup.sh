@@ -28,6 +28,7 @@ cp -r .config/polybar/ $HOME/.config/
 cp -r .config/ranger/ $HOME/.config/
 cp -r .config/rofi/ $HOME/.config/
 cp -r .config/st/ $HOME/.config/
+cp -r .config/yazi/ $HOME/.config/
 cp -r .config/zathura/ $HOME/.config/
 cp .config/mimeapps.list $HOME/.config/
 
@@ -272,8 +273,12 @@ clone_projects() {
     clone_repo_if_missing "JediKnightGalaxies" "https://github.com/JKGDevs/JediKnightGalaxies"
     clone_repo_if_missing "jk2mv" "https://github.com/mvdevs/jk2mv"
     clone_repo_if_missing "Unvanquished" "https://github.com/Unvanquished/Unvanquished"
-    clone_repo_if_missing "re3" "https://github.com/halpz/re3"
-    clone_repo_if_missing "re3_vice" "https://github.com/halpz/re3" "miami"
+    # Copy via hdd instead of cloning these:
+    #clone_repo_if_missing "re3" "https://github.com/halpz/re3"
+    #clone_repo_if_missing "re3_vice" "https://github.com/halpz/re3" "miami"
+    # cd /media2/2025
+    # cp -r re3 ~/Code/c++
+    # cp -r re3_vice ~/Code/c++
     clone_repo_if_missing "reone" "https://github.com/seedhartha/reone"
 
     print_and_cd_to_dir "$HOME/Code/js" "Cloning"
@@ -303,6 +308,12 @@ clone_projects() {
     ACORE_DIR="AzerothCore-wotlk-with-NPCBots/modules"
     if [ -d "$ACORE_DIR" ]; then
         cd "$ACORE_DIR"
+
+        if [ -f /etc/arch-release ]; then
+            echo "Arch Linux detected, checking out 'linux' branch..."
+            git checkout linux || { echo "Failed to checkout linux branch"; exit 1; }
+        fi
+
         clone_repo_if_missing "mod-eluna" "https://github.com/azerothcore/mod-eluna"
         cd ../..
     else
@@ -596,6 +607,8 @@ compile_projects() {
     install_if_missing dmenu dmenu
     install_if_missing st st
 
+    export CMAKE_POLICY_VERSION_MINIMUM=3.5
+
     print_and_cd_to_dir "$HOME/Code/c" "Compiling"
 
     #if grep -q -E "Debian|Raspbian" /etc/os-release; then
@@ -620,18 +633,32 @@ compile_projects() {
 
     if check_dir "openmw"; then
         # Check MyGUI version
-        mygui_version=$(dpkg -l | grep mygui | awk '{print $3}')
+        if [ -f /etc/arch-release ]; then
+            # For Arch Linux using pacman
+            mygui_version=$(pacman -Q mygui 2>/dev/null | awk '{print $2}')
+        elif [ -f /etc/debian_version ]; then
+            # For Debian based systems using dpkg
+            mygui_version=$(dpkg -l | grep mygui | awk '{print $3}')
+        else
+            echo "Unsupported Linux distribution."
+            exit 1
+        fi
+
         if [ ! -z "$mygui_version" ]; then
             echo "MyGUI version detected: $mygui_version"
-            if [[ "$mygui_version" == "3.4.2"* ]]; then
-                echo "MyGUI version is 3.4.2"
-                git checkout 1c2f92cac9
-            elif [[ "$mygui_version" == "3.4.1"* ]]; then
-                echo "MyGUI version is 3.4.1"
-                git checkout abb71eeb
-            else
-                echo "MyGUI version is: $mygui_version"
+
+            if [ -f /etc/debian_version ]; then
+                if [[ "$mygui_version" == "3.4.2"* ]]; then
+                    echo "MyGUI version is 3.4.2"
+                    git checkout 1c2f92cac9
+                elif [[ "$mygui_version" == "3.4.1"* ]]; then
+                    echo "MyGUI version is 3.4.1"
+                    git checkout abb71eeb
+                else
+                    echo "MyGUI version is: $mygui_version"
+                fi
             fi
+            #cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_POLICY_VERSION_MINIMUM=3.5
             cmake .. -DCMAKE_BUILD_TYPE=Release
             make -j$(nproc)
             sudo make install
@@ -744,42 +771,46 @@ compile_projects() {
 
     print_and_cd_to_dir "$HOME/Code/rust" "Compiling"
 
-    # Only compile if rust version is > 1.63
-    #rust_version=$(rustc --version | awk '{print $2}') # Also works...
-    rust_version=$(rustc --version | grep -oP 'rustc \K[^\s]+')
-    major_version=$(echo "$rust_version" | cut -d'.' -f1)
-    minor_version=$(echo "$rust_version" | cut -d'.' -f2)
-    echo "Rust version: $rust_version"
-    echo "major: $major_version"
-    echo "minor: $minor_version"
-
-    if grep -qEi 'arch' /etc/os-release; then
-        if check_dir "eww" "target"; then
-            if [ "$major_version" -gt 1 ] || { [ "$major_version" -eq 1 ] && [ "$minor_version" -gt 63 ]; }; then
-                echo "rustc version is above 1.63"
-                cargo build --release --no-default-features --features x11
-                cd target/release
-                chmod +x ./eww
-            else
-                cd ..
-                echo "rustc version is 1.63 or below. Skipping rust project..."
-            fi
-            cd "$HOME/Code/rust"
-        fi
-
-        if check_dir "swww" "target"; then
-            if [ "$major_version" -gt 1 ] || { [ "$major_version" -eq 1 ] && [ "$minor_version" -gt 63 ]; }; then
-                echo "rustc version is above 1.63"
-                cargo build --release
-            else
-                cd ..
-                echo "rustc version is 1.63 or below. Skipping rust project..."
-            fi
-            cd "$HOME/Code/rust"
-        fi
+    if ! command -v rustc &>/dev/null; then
+        echo "rustc is not installed. Skipping rust projects..."
     else
-        OS_ID=$(grep "^ID=" /etc/os-release | cut -d'=' -f2)
-        echo "Skipping compilation of eww and swww (only for Arch). Found os: $OS_ID"
+        # Only compile if rust version is > 1.63
+        #rust_version=$(rustc --version | awk '{print $2}') # Also works...
+        rust_version=$(rustc --version | grep -oP 'rustc \K[^\s]+')
+        major_version=$(echo "$rust_version" | cut -d'.' -f1)
+        minor_version=$(echo "$rust_version" | cut -d'.' -f2)
+        echo "Rust version: $rust_version"
+        echo "major: $major_version"
+        echo "minor: $minor_version"
+
+        if grep -qEi 'arch' /etc/os-release; then
+            if check_dir "eww" "target"; then
+                if [ "$major_version" -gt 1 ] || { [ "$major_version" -eq 1 ] && [ "$minor_version" -gt 63 ]; }; then
+                    echo "rustc version is above 1.63"
+                    cargo build --release --no-default-features --features x11
+                    cd target/release
+                    chmod +x ./eww
+                else
+                    cd ..
+                    echo "rustc version is 1.63 or below. Skipping rust project..."
+                fi
+                cd "$HOME/Code/rust"
+            fi
+
+            if check_dir "swww" "target"; then
+                if [ "$major_version" -gt 1 ] || { [ "$major_version" -eq 1 ] && [ "$minor_version" -gt 63 ]; }; then
+                    echo "rustc version is above 1.63"
+                    cargo build --release
+                else
+                    cd ..
+                    echo "rustc version is 1.63 or below. Skipping rust project..."
+                fi
+                cd "$HOME/Code/rust"
+            fi
+        else
+            OS_ID=$(grep "^ID=" /etc/os-release | cut -d'=' -f2)
+            echo "Skipping compilation of eww and swww (only for Arch). Found os: $OS_ID"
+        fi
     fi
 
     print_and_cd_to_dir "$HOME/Code2/C" "Compiling"
@@ -837,14 +868,18 @@ compile_projects() {
     cd "$HOME/Code2/C++"
 
     if check_dir "AzerothCore-wotlk-with-NPCBots"; then
+        #cmake ../ -DCMAKE_INSTALL_PREFIX=$HOME/acore/ -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DWITH_WARNINGS=1 -DTOOLS_BUILD=all -DSCRIPTS=static -DMODULES=static -DWITH_COREDEBUG=1 -DCMAKE_BUILD_TYPE=Debug
         cmake ../ -DCMAKE_INSTALL_PREFIX=$HOME/acore/ -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DWITH_WARNINGS=1 -DTOOLS_BUILD=all -DSCRIPTS=static -DMODULES=static -DWITH_COREDEBUG=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo
+        #cmake ../ -DCMAKE_INSTALL_PREFIX=$HOME/acore/ -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DWITH_WARNINGS=1 -DTOOLS_BUILD=all -DSCRIPTS=static -DMODULES=static -DWITH_COREDEBUG=0 -DCMAKE_BUILD_TYPE=Release
         make -j$(nproc)
         make install
         cd "$HOME/Code2/C++"
     fi
 
     if check_dir "Trinitycore-3.3.5-with-NPCBots"; then
+        #cmake ../ -DCMAKE_INSTALL_PREFIX=$HOME/tcore/ -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DWITH_WARNINGS=1 -DTOOLS_BUILD=all -DSCRIPTS=static -DMODULES=static -DWITH_COREDEBUG=1 -DCMAKE_BUILD_TYPE=Debug
         cmake ../ -DCMAKE_INSTALL_PREFIX=$HOME/tcore/ -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DWITH_WARNINGS=1 -DTOOLS_BUILD=all -DSCRIPTS=static -DMODULES=static -DWITH_COREDEBUG=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo
+        #cmake ../ -DCMAKE_INSTALL_PREFIX=$HOME/tcore/ -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DWITH_WARNINGS=1 -DTOOLS_BUILD=all -DSCRIPTS=static -DMODULES=static -DWITH_COREDEBUG=0 -DCMAKE_BUILD_TYPE=Release
         make -j$(nproc)
         make install
         cd "$HOME/Code2/C++"
@@ -1004,8 +1039,10 @@ compile_projects() {
 
     print_and_cd_to_dir "$HOME/Code2/Wow/tools" "Compiling"
 
-    if check_file "mpq" "gophercraft_mpq_set"; then
-        go build github.com/Gophercraft/mpq/cmd/gophercraft_mpq_set
+    #if check_file "mpq" "gophercraft_mpq_set"; then
+    if check_file "mpq" "mopaq"; then
+        #go build github.com/Gophercraft/mpq/cmd/gophercraft_mpq_set
+        go build github.com/Gophercraft/mpq/cmd/mopaq
         cd "$HOME/Code2/Wow/tools"
     fi
 
@@ -1815,13 +1852,20 @@ fix_other_files() {
         fi
 
         if [ ! -d "$HOME/Code2/Wow/tools/mpq/Export" ]; then
-            printf "You should run: cd $HOME/Code2/Wow/tools/mpq && ./gophercraft_mpq_set export --chain-json docs/wotlk-chain.json --working-directory \"%s/wow/Data\" --export-directory \"%s/Export\"\n" "$dir_to_use" "$export_dir"
+            #printf "You should run: cd $HOME/Code2/Wow/tools/mpq && ./gophercraft_mpq_set export --chain-json docs/wotlk-chain.json --working-directory \"%s/wow/Data\" --export-directory \"%s/Export\"\n" "$dir_to_use" "$export_dir"
+            printf "You should run: cd $HOME/Code2/Wow/tools/mpq && ./mopaq export --chain-json docs/wotlk-chain.json --working-directory \"%s/wow/Data\" --export-directory \"%s/Export\"\n" "$dir_to_use" "$export_dir"
         else
             echo "$HOME/Code2/Wow/tools/mpq/Export already exists. All good!"
         fi
     else
         echo "$HOME/Code2/Wow/tools/mpq does NOT exist. Skipping."
     fi
+
+    # Note: also copy go-extracted mpq files and classic/tbc via:
+    # cd /media2/2025
+    # cp -r mpq /mnt/new/my_files
+    # cp -r tbc /mnt/new/my_files/mpq_tbc
+    # cp -r classic /mnt/new/my_files/mpq_classic
 
     echo -e "\nChecking databases...\n"
     check_dbs
