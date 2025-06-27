@@ -969,6 +969,9 @@ compile_projects() {
     # cd .. && rm -rf libace
     # See:
     # https://github.com/vmangos/wiki/wiki/Compiling-on-Linux
+    # Or, better:
+    # yay -S ace
+    # Also change CXX version from 14 -> 17... Possibly only for arch
     if check_dir "core"; then
         cmake .. -DDEBUG=0 -DSUPPORTED_CLIENT_BUILD=5875 -DUSE_EXTRACTORS=1 -DCMAKE_INSTALL_PREFIX=$HOME/vmangos
         make -j$(nproc)
