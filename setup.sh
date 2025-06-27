@@ -961,6 +961,14 @@ compile_projects() {
         cd "$HOME/Code2/C++"
     fi
 
+    # Note, on arch this requires:
+    # mkdir libace && cd libace
+    # curl -L -O https://aur.archlinux.org/cgit/aur.git/snapshot/ace.tar.gz
+    # tar -xvzf ace.tar.gz
+    # makepkg -si
+    # cd .. && rm -rf libace
+    # See:
+    # https://github.com/vmangos/wiki/wiki/Compiling-on-Linux
     if check_dir "core"; then
         cmake .. -DDEBUG=0 -DSUPPORTED_CLIENT_BUILD=5875 -DUSE_EXTRACTORS=1 -DCMAKE_INSTALL_PREFIX=$HOME/vmangos
         make -j$(nproc)
