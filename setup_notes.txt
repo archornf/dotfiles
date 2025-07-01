@@ -8,7 +8,11 @@ TODOs:
 # star_wars_jo_mods
 # wezterm compile for deb...
 
-* try jkmv and galaxies!
+jk2mv works fine! just copy *.pk3 from $HOME/Downloads/jedi_outcast_gamedata/base into:
+/home/jonas/Code/c++/jk2mv/build_new/out/Release
+then run with:
+./jk2mvmp
+(or see jk2mv notes further down)...
 
 * Fix nvm in bashrc/ zshrc? Possibly do nvm version check and install 16 if
   needed before installing node packages...
@@ -256,8 +260,7 @@ pre-patched branch, then just do:
 cd /home/jonas/Code2/C++/Trinitycore-3.3.5-with-NPCBots/sql/Bots
 and:
 chmod +x ./*.sh 
-
-
+then source sql files similar to below...
 
 wow_classic: prevent message about restore default settings...
 Also fix one wow startup script and call classic / 3.3.5 depending on server...
@@ -334,9 +337,13 @@ run ./openmw from: /usr/local/bin (should be in path)
 
 # re3
 cp $HOME/Code/c++/re3/bin/linux-amd64-librw_gl3_glfw-oal/Release/re3 to $DOWNLOADS_DIR/gta3/
+like:
+cp $HOME/Code/c++/re3/bin/linux-amd64-librw_gl3_glfw-oal/Release/re3 $HOME/Downloads/gta3/
 
 # re3_vice
 cp $HOME/Code/c++/re3_vice/bin/linux-amd64-librw_gl3_glfw-oal/Release/reVC to $DOWNLOADS_DIR/gta_vice
+like:
+cp $HOME/Code/c++/re3_vice/bin/linux-amd64-librw_gl3_glfw-oal/Release/reVC $HOME/Downloads/gta_vice
 
 # ioq3
 .ioq3
@@ -382,9 +389,11 @@ $HOME/Code2/C++/devilutionX/build
 
 # crispy:
 $HOME/Code2/C++/crispy-doom/src
+./crispy-doom -iwad /home/jonas/Downloads/doom/DOOM/DOOM.WAD 
 
 # dhewm3
 $HOME/Code2/C++/dhewm3/build
+copy doom3 files to build dir or dhewm3 files to downloads dir...
 
 # simc
 $HOME/Code2/C++/simc/build/qt
