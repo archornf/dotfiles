@@ -374,6 +374,7 @@ clone_projects() {
 
     print_and_cd_to_dir "$HOME/Documents" "Cloning"
     clone_repo_if_missing "my_notes" "https://github.com/archornf/my_notes"
+    clone_repo_if_missing "windows_dots" "https://github.com/ornfelt/windows_dots"
 
     print_and_cd_to_dir "$HOME/Code/c" "Cloning"
     clone_repo_if_missing "neovim" "https://github.com/neovim/neovim"
