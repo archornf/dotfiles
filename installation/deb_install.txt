@@ -125,7 +125,7 @@ cd yazi
 cargo build --release --locked
 
 then:
-mv target/release/yazi target/release/ya /usr/local/bin/
+sudo mv target/release/yazi target/release/ya /usr/local/bin/
 
 ******************************************
 Fix python config and packages!
