@@ -35,6 +35,7 @@ cp -r .config/ranger/ $HOME/.config/
 cp -r .config/rofi/ $HOME/.config/
 cp -r .config/st/ $HOME/.config/
 cp -r .config/zathura/ $HOME/.config/
+cp -r .config/zsh/ $HOME/.config/
 cp .config/mimeapps.list $HOME/.config/
 cp .config/gtk-3.0/bookmarks $HOME/.config/gtk-3.0/
 
