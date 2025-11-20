@@ -103,12 +103,22 @@ else
     setopt CORRECT                  # Spelling correction
     setopt CDABLE_VARS              # Change directory to a path stored in a variable.
     setopt EXTENDED_GLOB            # Use extended globbing syntax.
-    # History opts
+
+    # History settings
+    HISTFILE=$HOME/.zsh_history
+    # How many commands to keep in memory and on disk
+    HISTSIZE=100000
+    SAVEHIST=100000
+
+    setopt APPEND_HISTORY          # append to the history file, don't overwrite
+    setopt SHARE_HISTORY           # share history across all sessions
+    setopt INC_APPEND_HISTORY      # write each command to $HISTFILE as it's run
+    #setopt INC_APPEND_HISTORY_TIME # store timestamps
     setopt EXTENDED_HISTORY         # Write the history file in the ':start:elapsed;command' format.
-    setopt SHARE_HISTORY            # Share history between all sessions.
     setopt HIST_EXPIRE_DUPS_FIRST   # Expire a duplicate event first when trimming history.
     setopt HIST_IGNORE_DUPS         # Do not record an event that was just recorded again.
     setopt HIST_IGNORE_ALL_DUPS     # Delete an old recorded event if a new event is a duplicate.
+    #setopt HIST_REDUCE_BLANKS       # trim extra spaces
     setopt HIST_FIND_NO_DUPS        # Do not display a previously found event.
     setopt HIST_IGNORE_SPACE        # Do not record an event starting with a space.
     setopt HIST_SAVE_NO_DUPS        # Do not write a duplicate event to the history file.
@@ -117,6 +127,8 @@ else
     if [ -f ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
         source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
     fi
+
+    ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
     if [ -f ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
         source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -144,6 +156,9 @@ else
     fpath=($HOME/.config/zsh $fpath)
     #source $HOME/.config/zsh/prompt
     source $HOME/.config/zsh/prompt_alt
+
+    alias d='dirs -v'
+    for index ({1..9}) alias "$index"="cd +${index}"; unset index
 
     source $HOME/.config/zsh/completion.zsh
 
