@@ -13,12 +13,19 @@ CYAN='\033[36m'
 DARKGRAY='\033[90m'
 
 # Logging helpers
-log_ok()    { printf "%b[ok]%b %b\n"   "$CYAN"   "$RESET" "$*"; }
-log_warn()  { printf "%b[warn]%b %b\n" "$YELLOW" "$RESET" "$*"; }
-log_err()   { printf "%b[err]%b %b\n"  "$RED"    "$RESET" "$*"; }
-log_info()  { printf "%b[i]%b %b\n"    "$DARKGRAY" "$RESET" "$*"; }
-log_step()  { printf "\n%b==>%b %b\n"  "$BLUE"   "$RESET" "$*"; }
-log_sep()   { log_info "--------------------------------------------------------"; }
+#log_ok()    { printf "%b[ok]%b %b\n"   "$CYAN"   "$RESET" "$*"; }
+#log_warn()  { printf "%b[warn]%b %b\n" "$YELLOW" "$RESET" "$*"; }
+#log_err()   { printf "%b[err]%b %b\n"  "$RED"    "$RESET" "$*"; }
+#log_info()  { printf "%b[i]%b %b\n"    "$DARKGRAY" "$RESET" "$*"; }
+#log_step()  { printf "\n%b==>%b %b\n"  "$BLUE"   "$RESET" "$*"; }
+#log_sep()   { log_info "--------------------------------------------------------"; }
+# color the entire line
+log_ok()    { printf "%b[ok] %b%b\n"   "$CYAN"    "$*" "$RESET"; }
+log_warn()  { printf "%b[warn] %b%b\n" "$YELLOW"  "$*" "$RESET"; }
+log_err()   { printf "%b[err] %b%b\n"  "$RED"     "$*" "$RESET"; }
+log_info()  { printf "%b[i] %b%b\n"    "$DARKGRAY" "$*" "$RESET"; }
+log_step()  { printf "\n%b==> %b%b\n"  "$BLUE"    "$*" "$RESET"; }
+log_q()     { printf "\n%b[q] %b%b\n"  "$MAGENTA" "$*" "$RESET"; }
 
 say()       { printf "%b\n" "$*"; }
 die()       { log_err "$*"; exit 1; }
@@ -174,7 +181,7 @@ for dir in "${dirs[@]}"; do
         log_info "Removing $dir"
         rm -rf "$dir"
     else
-        log_warn "$dir does not exist, skipping."
+        log_info "$dir does not exist, skipping."
     fi
 done
 
