@@ -835,7 +835,6 @@ show_js_help() {
   printf "\n"
   printf "%bDo this:%b\n" "$YELLOW" "$RESET"
   write_code_line "node main.js"
-  printf "\n"
   printf "%bOr:%b\n" "$YELLOW" "$RESET"
   write_code_line "npm init -y"
   printf "%b# fix package.json (add \"start\" script, etc.)%b\n" "$DARKGRAY" "$RESET"
