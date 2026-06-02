@@ -70,7 +70,8 @@ Chart commands (require Python 3 + a chart backend):
   proc.sh stats [-C pie|top|tree] [-m cpu|memory|io|threads|fds] [-n N]
   proc.sh monitor <name1> [name2 ...] [-m cpu|memory|io|threads|fds]
   proc.sh monitor -i <pid1> [-i <pid2>] [-m cpu|memory|io|threads|fds]
-  proc.sh tree  [-m cpu|memory|io|threads|fds] [-n N]
+  proc.sh live   [-m cpu|memory|io|threads|fds] [-n N] [--interval S]
+  proc.sh tree   [-m cpu|memory|io|threads|fds] [-n N]
 
 Flags:
   -h, --help            Show this help
@@ -114,6 +115,9 @@ Chart examples:
   proc.sh monitor python -m io --interval 1            # IO tracking every 1s
   proc.sh monitor node --duration 60 -m cpu            # CPU for 60 seconds then stop
   proc.sh monitor chrome -b termplotlib -t light       # Monitor with termplotlib, light theme
+  proc.sh live                                         # Live top-10 CPU bar chart, refreshing
+  proc.sh live -m memory -n 20 --interval 1            # Live top-20 memory, 1s refresh
+  proc.sh live -m io --duration 60                     # Live IO for 60 seconds
   proc.sh tree -m memory -n 20                         # Shortcut for stats -C tree
 EOF
 }
@@ -529,9 +533,8 @@ get_proc_stats_script() {
         write_err "Environment variable 'my_notes_path' is not set."
         return 1
     fi
-    local script="${my_notes_path}/scripts/stats/proc_stats.py"
-    #local script="${my_notes_path}/scripts/stats/proc_stats_linux.py"
-    #local script="${my_notes_path}/scripts/stats/proc_stats_linux_v2.py"
+    #local script="${my_notes_path}/scripts/stats/proc_stats.py"
+    local script="${my_notes_path}/scripts/stats/proc_stats_linux.py"
     if [[ ! -f "$script" ]]; then
         write_err "Python script not found: $script"
         return 1
@@ -614,6 +617,21 @@ invoke_tree() {
     invoke_proc_stats "${py_args[@]}"
 }
 
+invoke_live() {
+    local py_args=(
+        --backend  "$BACKEND"
+        --theme    "$THEME"
+        --width    "$PLOT_WIDTH"
+        --height   "$PLOT_HEIGHT"
+        live
+        --metric   "$METRIC"
+        --top      "$TOP_N"
+        --interval "$INTERVAL"
+        --duration "$DURATION"
+    )
+    invoke_proc_stats "${py_args[@]}"
+}
+
 # --- main dispatch ---------------------------------------------------------
 
 parse_args "$@"
@@ -657,6 +675,7 @@ case "${ACTION,,}" in
     export) export_processes ;;
     stats)   invoke_stats ;;
     monitor) invoke_monitor ;;
+    live)    invoke_live ;;
     tree)    invoke_tree ;;
     *)
         write_err "Unknown action: '$ACTION'"
