@@ -924,27 +924,35 @@ change_ownership_if_exists() {
 
 fix_ownerships() {
     local CURRENT_USER=$(whoami)
-    local NPM_PREFIX=$(npm config get prefix)
+    local NPM_PREFIX=""
+    if command -v npm &>/dev/null; then
+        NPM_PREFIX=$(npm config get prefix)
+    fi
 
-    sudo mkdir -p "$NPM_PREFIX/lib/node_modules" || die "Failed to mkdir $NPM_PREFIX/lib/node_modules"
+    # Without npm the prefix is empty and this would create /lib/node_modules as root
+    if [ -n "$NPM_PREFIX" ]; then
+        sudo mkdir -p "$NPM_PREFIX/lib/node_modules" || die "Failed to mkdir $NPM_PREFIX/lib/node_modules"
 
-    # Check ownership and change only if necessary
-    #for dir in "$NPM_PREFIX/lib/node_modules" "$NPM_PREFIX/bin" "$NPM_PREFIX/share"; do
-    for dir in "$NPM_PREFIX/lib/node_modules"; do
-        if [ -d "$dir" ]; then
-            # Get owner of dir
-            local DIR_OWNER=$(stat -c '%U' "$dir")
-            if [ "$DIR_OWNER" != "$CURRENT_USER" ]; then
-                if sudo chown -R "$CURRENT_USER" "$dir"; then
-                    log_ok "Changed ownership of $dir to $CURRENT_USER"
+        # Check ownership and change only if necessary
+        #for dir in "$NPM_PREFIX/lib/node_modules" "$NPM_PREFIX/bin" "$NPM_PREFIX/share"; do
+        for dir in "$NPM_PREFIX/lib/node_modules"; do
+            if [ -d "$dir" ]; then
+                # Get owner of dir
+                local DIR_OWNER=$(stat -c '%U' "$dir")
+                if [ "$DIR_OWNER" != "$CURRENT_USER" ]; then
+                    if sudo chown -R "$CURRENT_USER" "$dir"; then
+                        log_ok "Changed ownership of $dir to $CURRENT_USER"
+                    else
+                        log_err "Failed to chown $dir"
+                    fi
                 else
-                    log_err "Failed to chown $dir"
+                    log_ok "Ownership of $dir is already set to $CURRENT_USER, skipping chown"
                 fi
-            else
-                log_ok "Ownership of $dir is already set to $CURRENT_USER, skipping chown"
             fi
-        fi
-    done
+        done
+    else
+        log_warn "npm not found, skipping node_modules ownership fix."
+    fi
 
     directories=(
         "$HOME/Code/c++/openmw"
