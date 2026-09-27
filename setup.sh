@@ -114,8 +114,8 @@ if [[ -f "$HOME/.xinitrc" ]]; then
 else
   log_warn "No ~/.xinitrc to chown, skipping."
 fi
+# chown above lets cp overwrite a root-owned ~/.xinitrc; the copy is then user-owned
 cp .xinitrc $HOME/.xinitrc
-sudo chown "$USER:$USER" "$HOME/.xinitrc"
 cp .Xresources $HOME/.Xresources
 cp .Xresources_cat $HOME/.Xresources_cat
 cp .zshrc $HOME/.zshrc
