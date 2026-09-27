@@ -1487,10 +1487,14 @@ compile_projects() {
         cd "$HOME/Code2/C++"
     fi
 
-    cd my_cplusplus/Navigation
-    if check_dir "Pathing"; then
-        cmake .. -DCMAKE_BUILD_TYPE=Release
-        make -j$(nproc)
+    # my_cplusplus is private and not cloned without GITHUB_TOKEN
+    if cd my_cplusplus/Navigation 2>/dev/null; then
+        if check_dir "Pathing"; then
+            cmake .. -DCMAKE_BUILD_TYPE=Release
+            make -j$(nproc)
+        fi
+    else
+        log_warn "my_cplusplus/Navigation does NOT exist, skipping Pathing."
     fi
     cd "$HOME/Code2/C++"
 
