@@ -1510,11 +1510,10 @@ compile_projects() {
             sudo rm /usr/bin/go
             sudo tar -C /usr/local -xzf go1.21.1.linux-amd64.tar.gz
 
-            log_info "Updating PATH/GOPATH in ~/.bashrc"
-            echo 'export PATH=$PATH:/usr/local/go/bin' >> $HOME/.bashrc
-            echo 'export GOPATH=$HOME/go' >> $HOME/.bashrc
-            echo 'export PATH=$PATH:$GOPATH/bin' >> $HOME/.bashrc
-            source $HOME/.bashrc
+            # .bashrc/.zshrc from these dotfiles already add go to PATH, so only
+            # update PATH for the rest of this script
+            export GOPATH="$HOME/go"
+            export PATH="/usr/local/go/bin:$PATH:$GOPATH/bin"
         else
             log_ok "Go version is 1.21.1 or higher. Continuing..."
         fi
