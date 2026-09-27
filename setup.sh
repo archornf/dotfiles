@@ -2256,28 +2256,7 @@ copy_game_data() {
         done
     fi
 
-    # local config file
-    if [ ! -f "$HOME/Documents/local/config.txt" ]; then
-        mkdir -p "$HOME/Documents/local"
-        if [ -f "$MEDIA_PATH/my_files/my_docs/local/config_home_pc.txt" ]; then
-            cp "$MEDIA_PATH/my_files/my_docs/local/config_home_pc.txt" "$HOME/Documents/local/config.txt"
-            log_info "Copied config file -> $HOME/Documents/local/config.txt"
-            windows_path="C:/Users/jonas/OneDrive/Documents/Code2/c#/BloogBot/Bot/db.db"
-            #unix_path="$HOME/Code2/C#/BloogBot/Bot/db.db"
-            unix_path="${HOME}/Code2/C#/BloogBot/Bot/db.db"
-            if grep -Fq "$windows_path" "$HOME/Documents/local/config.txt"; then
-                # Use double quotes around the sed delimiters to expand HOME
-                sed -i "s|$windows_path|$unix_path|g" "$HOME/Documents/local/config.txt"
-                log_ok "Updated database path in config file."
-            fi
-        else
-            log_warn "Source config file not found: $MEDIA_PATH/my_files/my_docs/local/config_home_pc.txt"
-        fi
-    else
-        log_ok "Config file already exists at $HOME/Documents/local/config.txt"
-    fi
-
-    # Copy config.txt if missing
+    # Copy config.txt if missing (the BloogBot path is fixed below)
     if [ ! -f "$HOME/Documents/local/config.txt" ]; then
         mkdir -p "$HOME/Documents/local"
         if [ -f "$MEDIA_PATH/my_files/my_docs/local/config_home_pc.txt" ]; then
