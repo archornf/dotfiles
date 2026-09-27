@@ -469,7 +469,7 @@ clone_repo_if_missing() {
         # Clone based on specific cases
         local clone_cmd="git clone --recurse-submodules"
 
-        if [[ "${repo_dir,,}" == "trinitycore" || "${repo_dir,,}" == "simc" ]]; then
+        if [[ "${repo_dir,,}" == trinitycore* || "${repo_dir,,}" == "simc" ]]; then
             clone_cmd="$clone_cmd --single-branch --depth 1"
         fi
 
