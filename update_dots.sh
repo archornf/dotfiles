@@ -131,21 +131,21 @@ sync_dir "$HOME/.claude/hooks" ".claude/hooks"
 
 log_ok "Synced files..."
 
-rm --f .config/dmenu/dmenu
-rm --f .config/dmenu/stest
-rm --f .config/dwm/dwm
-rm --f .config/dwmblocks/dwmblocks
-rm --f .config/st/st
-rm --f installation/packages/log.txt
+rm -f .config/dmenu/dmenu
+rm -f .config/dmenu/stest
+rm -f .config/dwm/dwm
+rm -f .config/dwmblocks/dwmblocks
+rm -f .config/st/st
+rm -f installation/packages/log.txt
 
-rm --f .config/dmenu/*.o
-rm --f .config/dwm/*.o
-rm --f .config/dwmblocks/*.o
-rm --f .config/st/*.o
+rm -f .config/dmenu/*.o
+rm -f .config/dwm/*.o
+rm -f .config/dwmblocks/*.o
+rm -f .config/st/*.o
 
-sudo rm -r --f .config/dwmblocks/build
-sudo rm -r --f .config/awesome/.git
-sudo rm -r --f .config/somewm/.git
+sudo rm -rf .config/dwmblocks/build
+sudo rm -rf .config/awesome/.git
+sudo rm -rf .config/somewm/.git
 
 # Remove .git dirs from dmenu, dwm and st
 dirs=(
