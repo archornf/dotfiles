@@ -1806,6 +1806,14 @@ else
     fi
 fi
 
+# Returns 1 with a warning when a source on the hard drive is missing
+require_src() {
+    if [ ! -e "$1" ]; then
+        log_warn "$1 does NOT exist, skipping."
+        return 1
+    fi
+}
+
 # Copy game data
 copy_dir_to_target() {
     SRC=$1
@@ -2094,9 +2102,11 @@ copy_game_data() {
     # doom3
     log_step "Copying doom3 -> $DOWNLOADS_DIR"
     if [ ! -d "$DOWNLOADS_DIR/doom3" ]; then
-        cp "$MEDIA_PATH/2024/doom3_base.zip" "$DOWNLOADS_DIR"
-        unzip "$DOWNLOADS_DIR/doom3_base.zip" -d "$DOWNLOADS_DIR/doom3"
-        log_info "Copied and unzipped doom3_base.zip -> $DOWNLOADS_DIR/doom3"
+        if require_src "$MEDIA_PATH/2024/doom3_base.zip"; then
+            cp "$MEDIA_PATH/2024/doom3_base.zip" "$DOWNLOADS_DIR"
+            unzip "$DOWNLOADS_DIR/doom3_base.zip" -d "$DOWNLOADS_DIR/doom3"
+            log_info "Copied and unzipped doom3_base.zip -> $DOWNLOADS_DIR/doom3"
+        fi
     else
         log_ok "$DOWNLOADS_DIR/doom3 exists, skipping."
     fi
@@ -2104,9 +2114,11 @@ copy_game_data() {
     # doom
     log_step "Copying doom files -> $DOWNLOADS_DIR"
     if [ ! -d "$DOWNLOADS_DIR/doom" ]; then
-        cp "$MEDIA_PATH/2024/DOOM.zip" "$DOWNLOADS_DIR"
-        unzip "$DOWNLOADS_DIR/DOOM.zip" -d "$DOWNLOADS_DIR/doom"
-        log_info "Copied and unzipped DOOM.zip -> $DOWNLOADS_DIR/doom"
+        if require_src "$MEDIA_PATH/2024/DOOM.zip"; then
+            cp "$MEDIA_PATH/2024/DOOM.zip" "$DOWNLOADS_DIR"
+            unzip "$DOWNLOADS_DIR/DOOM.zip" -d "$DOWNLOADS_DIR/doom"
+            log_info "Copied and unzipped DOOM.zip -> $DOWNLOADS_DIR/doom"
+        fi
     else
         log_ok "$DOWNLOADS_DIR/doom exists, skipping."
     fi
@@ -2120,10 +2132,12 @@ copy_game_data() {
     # jo
     log_step "Copying JediOutcast files -> $HOME/.local/share/openjk/JediOutcast/base"
     if [ ! -f "$HOME/.local/share/openjk/JediOutcast/base/assets0.pk3" ]; then
-        cp "$MEDIA_PATH/2024/jedi_outcast_gamedata.zip" "$DOWNLOADS_DIR"
-        unzip "$DOWNLOADS_DIR/jedi_outcast_gamedata.zip" -d "$DOWNLOADS_DIR/jedi_outcast_gamedata"
-        cp "$DOWNLOADS_DIR/jedi_outcast_gamedata/base"/*.pk3 "$HOME/.local/share/openjk/JediOutcast/base/"
-        log_info "Copied and unzipped jedi_outcast_gamedata.zip and moved *.pk3 -> $HOME/.local/share/openjk/JediOutcast/base/"
+        if require_src "$MEDIA_PATH/2024/jedi_outcast_gamedata.zip"; then
+            cp "$MEDIA_PATH/2024/jedi_outcast_gamedata.zip" "$DOWNLOADS_DIR"
+            unzip "$DOWNLOADS_DIR/jedi_outcast_gamedata.zip" -d "$DOWNLOADS_DIR/jedi_outcast_gamedata"
+            cp "$DOWNLOADS_DIR/jedi_outcast_gamedata/base"/*.pk3 "$HOME/.local/share/openjk/JediOutcast/base/"
+            log_info "Copied and unzipped jedi_outcast_gamedata.zip and moved *.pk3 -> $HOME/.local/share/openjk/JediOutcast/base/"
+        fi
     else
         log_ok "assets0.pk3 already exists in $HOME/.local/share/openjk/JediOutcast/base/, skipping."
     fi
@@ -2132,10 +2146,12 @@ copy_game_data() {
     log_step "Copying JediAcademy files -> $HOME/.local/share/openjk/JediAcademy/base"
     # Not 100% sure about JediKnightGalaxies and jk2mv...
     if [ ! -f "$HOME/.local/share/openjk/JediAcademy/base/assets0.pk3" ] && [ ! -f "$HOME/.local/share/openjk/base/assets0.pk3" ]; then
-        cp "$MEDIA_PATH/2024/JK_JA_GameData.zip" "$DOWNLOADS_DIR"
-        unzip "$DOWNLOADS_DIR/JK_JA_GameData.zip" -d "$DOWNLOADS_DIR/JK_JA_GameData"
-        cp "$DOWNLOADS_DIR/JK_JA_GameData/base"/*.pk3 "$HOME/.local/share/openjk/JediAcademy/base"
-        log_info "Copied and unzipped JK_JA_GameData.zip and moved *.pk3 -> $HOME/.local/share/openjk/JediAcademy/base"
+        if require_src "$MEDIA_PATH/2024/JK_JA_GameData.zip"; then
+            cp "$MEDIA_PATH/2024/JK_JA_GameData.zip" "$DOWNLOADS_DIR"
+            unzip "$DOWNLOADS_DIR/JK_JA_GameData.zip" -d "$DOWNLOADS_DIR/JK_JA_GameData"
+            cp "$DOWNLOADS_DIR/JK_JA_GameData/base"/*.pk3 "$HOME/.local/share/openjk/JediAcademy/base"
+            log_info "Copied and unzipped JK_JA_GameData.zip and moved *.pk3 -> $HOME/.local/share/openjk/JediAcademy/base"
+        fi
     else
         log_ok "assets0.pk3 already exists in JediAcademy base or openjk base, skipping."
     fi
@@ -2147,9 +2163,11 @@ copy_game_data() {
     # openmw
     log_step "Copying openmw files -> $DOWNLOADS_DIR"
     if [ ! -d "$DOWNLOADS_DIR/Morrowind" ] && [ ! -d "/mnt/new/openmw_gamedata" ]; then
-        cp "$MEDIA_PATH/2024/Morrowind.zip" "$DOWNLOADS_DIR"
-        unzip "$DOWNLOADS_DIR/Morrowind.zip" -d "$DOWNLOADS_DIR/Morrowind"
-        log_info "Copied and unzipped Morrowind.zip -> $DOWNLOADS_DIR/Morrowind"
+        if require_src "$MEDIA_PATH/2024/Morrowind.zip"; then
+            cp "$MEDIA_PATH/2024/Morrowind.zip" "$DOWNLOADS_DIR"
+            unzip "$DOWNLOADS_DIR/Morrowind.zip" -d "$DOWNLOADS_DIR/Morrowind"
+            log_info "Copied and unzipped Morrowind.zip -> $DOWNLOADS_DIR/Morrowind"
+        fi
     else
         log_ok "$DOWNLOADS_DIR/Morrowind or /mnt/new/openmw_gamedata already exists, skipping."
     fi
@@ -2157,8 +2175,10 @@ copy_game_data() {
     # openjkdf2
     log_step "Copying openjkdf2 files -> $HOME/.local/share/OpenJKDF2/openjkdf2"
     if [ ! -d "$HOME/.local/share/OpenJKDF2/openjkdf2/Episode" ]; then
-        cp -r "$MEDIA_PATH/2024/star_wars_jkdf2/"* "$HOME/.local/share/OpenJKDF2/openjkdf2"
-        log_info "Copied star_wars_jkdf2 -> $HOME/.local/share/OpenJKDF2/openjkdf2"
+        if require_src "$MEDIA_PATH/2024/star_wars_jkdf2"; then
+            cp -r "$MEDIA_PATH/2024/star_wars_jkdf2/"* "$HOME/.local/share/OpenJKDF2/openjkdf2"
+            log_info "Copied star_wars_jkdf2 -> $HOME/.local/share/OpenJKDF2/openjkdf2"
+        fi
     else
         log_ok "Episode directory already exists in OpenJKDF2, skipping."
     fi
@@ -2166,9 +2186,11 @@ copy_game_data() {
     # kotor
     log_step "Copying kotor files -> $DOWNLOADS_DIR"
     if [ ! -d "$DOWNLOADS_DIR/kotor" ]; then
-        cp "$MEDIA_PATH/2024/Star Wars - KotOR.zip" "$DOWNLOADS_DIR"
-        unzip "$DOWNLOADS_DIR/Star Wars - KotOR.zip" -d "$DOWNLOADS_DIR/kotor"
-        log_info "Copied and unzipped 'Star Wars - KotOR.zip' -> $DOWNLOADS_DIR/kotor"
+        if require_src "$MEDIA_PATH/2024/Star Wars - KotOR.zip"; then
+            cp "$MEDIA_PATH/2024/Star Wars - KotOR.zip" "$DOWNLOADS_DIR"
+            unzip "$DOWNLOADS_DIR/Star Wars - KotOR.zip" -d "$DOWNLOADS_DIR/kotor"
+            log_info "Copied and unzipped 'Star Wars - KotOR.zip' -> $DOWNLOADS_DIR/kotor"
+        fi
     else
         log_ok "$DOWNLOADS_DIR/kotor already exists, skipping."
     fi
@@ -2176,9 +2198,11 @@ copy_game_data() {
     # kotor2
     log_step "Copying kotor2 files -> $DOWNLOADS_DIR"
     if [ ! -d "$DOWNLOADS_DIR/kotor2" ]; then
-        cp "$MEDIA_PATH/2024/Star Wars - KotOR2.zip" "$DOWNLOADS_DIR"
-        unzip "$DOWNLOADS_DIR/Star Wars - KotOR2.zip" -d "$DOWNLOADS_DIR/kotor2"
-        log_info "Copied and unzipped 'Star Wars - KotOR2.zip' -> $DOWNLOADS_DIR/kotor2"
+        if require_src "$MEDIA_PATH/2024/Star Wars - KotOR2.zip"; then
+            cp "$MEDIA_PATH/2024/Star Wars - KotOR2.zip" "$DOWNLOADS_DIR"
+            unzip "$DOWNLOADS_DIR/Star Wars - KotOR2.zip" -d "$DOWNLOADS_DIR/kotor2"
+            log_info "Copied and unzipped 'Star Wars - KotOR2.zip' -> $DOWNLOADS_DIR/kotor2"
+        fi
     else
         log_ok "$DOWNLOADS_DIR/kotor2 already exists, skipping."
     fi
