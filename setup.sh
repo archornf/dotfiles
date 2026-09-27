@@ -33,6 +33,9 @@ log_sep() { log_info "--------------------------------------------------------";
 say()       { printf "%b\n" "$*"; }
 die()       { log_err "$*"; exit 1; }
 
+# Run from the dotfiles dir so the relative copies below work from anywhere
+cd "$(dirname "$(readlink -f "$0")")" || die "Failed to cd to the script dir"
+
 log_step "Setting up config files!"
 
 CURRENT_DIR="$PWD"
