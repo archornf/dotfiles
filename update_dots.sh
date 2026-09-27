@@ -238,6 +238,22 @@ done
 
 log_ok "All keys are empty. ./bash_profile is intact."
 
+# The files synced from $HOME could also carry a key: KEY=value, KEY="value" or "KEY": "value".
+# Put the repo version back so the value never sits in the working tree, then stop.
+secret_files=(.bashrc .zshrc .zshenv .claude/settings.json)
+for file in "${secret_files[@]}"; do
+  [ -f "$file" ] || continue
+  for key in "${keys[@]}"; do
+    if grep -qE "\b$key=[\"']?[^\"'[:space:]]|\"$key\"[[:space:]]*:[[:space:]]*\"[^\"]" "$file"; then
+      log_err "$file sets $key to a value. Restoring the repo version of $file."
+      git restore -- "$file" 2>/dev/null || rm -f "$file"
+      die "Remove $key from \$HOME/$file (or move it to ~/.bash_profile) and rerun."
+    fi
+  done
+done
+
+log_ok "No keys found in synced shell/Claude config."
+
 # Restore Claude settings if the only change is effortLevel
 RESTORE_CLAUDE_EFFORT_ONLY=true
 
