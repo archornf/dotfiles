@@ -1861,6 +1861,7 @@ copy_game_data() {
     mkdir -p $HOME/tcore/bin
     mkdir -p $HOME/vmangos/bin
     mkdir -p $HOME/cmangos/run/bin
+    mkdir -p $HOME/cmangos-tbc/run/bin
     mkdir -p $HOME/mangoszero/run/bin
     # mangoszero reads data from run/etc (DataDir = "../etc" in mangosd.conf)
     mkdir -p $HOME/mangoszero/run/etc
