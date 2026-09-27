@@ -178,12 +178,14 @@ update_font_size() {
   fi
 }
 
-if ! grep -q "size: $DEFAULT_FONT_SIZE" "$HOME/.config/alacritty/alacritty.yml"; then
+if [ -f "$HOME/.config/alacritty/alacritty.yml" ] && [ -f ".config/alacritty/alacritty.yml" ] &&
+   ! grep -q "size: $DEFAULT_FONT_SIZE" "$HOME/.config/alacritty/alacritty.yml"; then
   log_info "Reverting font size in alacritty.yml to default size $DEFAULT_FONT_SIZE."
   update_font_size ".config/alacritty/alacritty.yml" "$DEFAULT_FONT_SIZE"
 fi
 
-if ! grep -q "size = $DEFAULT_FONT_SIZE" "$HOME/.config/alacritty/alacritty.toml"; then
+if [ -f "$HOME/.config/alacritty/alacritty.toml" ] && [ -f ".config/alacritty/alacritty.toml" ] &&
+   ! grep -q "size = $DEFAULT_FONT_SIZE" "$HOME/.config/alacritty/alacritty.toml"; then
   log_info "Reverting font size in alacritty.toml to default size $DEFAULT_FONT_SIZE."
   update_font_size ".config/alacritty/alacritty.toml" "$DEFAULT_FONT_SIZE"
 fi
