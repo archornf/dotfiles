@@ -407,7 +407,7 @@ install_jetbrains_mono() {
     cd $HOME/Downloads && wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip
     
     log_info "Installing JetBrains Mono font..."
-    mkdir -p $HOME/.local/share/fonts/ && unzip JetBrainsMono.zip -d $HOME/.local/share/fonts/
+    mkdir -p $HOME/.local/share/fonts/ && unzip -o JetBrainsMono.zip -d $HOME/.local/share/fonts/
     
     log_info "Updating font cache..."
     fc-cache -fv
