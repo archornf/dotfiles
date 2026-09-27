@@ -144,24 +144,12 @@ rm -f .config/dwmblocks/*.o
 rm -f .config/st/*.o
 
 rm -rf .config/dwmblocks/build
-rm -rf .config/awesome/.git
-rm -rf .config/somewm/.git
 
-# Remove .git dirs from dmenu, dwm and st
-dirs=(
-    ".config/dmenu/.git"
-    ".config/dwm/.git"
-    ".config/dwmblocks/.git"
-    ".config/st/.git"
-)
-
-for dir in "${dirs[@]}"; do
-    if [ -d "$dir" ]; then
-        log_info "Removing $dir"
-        rm -rf "$dir"
-    else
-        log_info "$dir does not exist, skipping."
-    fi
+# Remove nested .git dirs (dmenu, dwm, st, awesome, any cloned plugin, ...) so they
+# aren't committed as broken embedded repos; the repo's own ./.git is skipped
+find . -path ./.git -prune -o -name .git -prune -print | while IFS= read -r dir; do
+    log_info "Removing $dir"
+    rm -rf "$dir"
 done
 
 # Update alacritty, preserving custom font size (if any)
