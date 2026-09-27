@@ -482,6 +482,7 @@ clone_repo_if_missing() {
 
         # Check if the lowercase repo_dir exists in the my_repo_dirs array
         #if [[ "${repo_dir,,}" == "my_notes" || "${repo_dir,,}" == "utils" ]]; then
+        local clean_url="$repo_url"
         if printf '%s\n' "${my_repo_dirs[@]}" | grep -q "^$repo_dir$"; then
             repo_url="${repo_url/https:\/\//https:\/\/$GITHUB_TOKEN@}"
         fi
@@ -493,6 +494,10 @@ clone_repo_if_missing() {
         #return $?
         # check success/failure
         if eval "$clone_cmd"; then
+            # Don't leave the token in plain text in .git/config
+            if [ "$repo_url" != "$clean_url" ]; then
+                git -C "$repo_dir" remote set-url origin "$clean_url"
+            fi
             log_ok "Cloned $repo_dir"
             return 0
         else
