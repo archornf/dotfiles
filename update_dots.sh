@@ -54,7 +54,8 @@ if [ $# -eq 0 ]; then
         die "Script $INSTALL_SCRIPT does not exist... Exiting."
     fi
 
-    cd "$INSTALL_DOCS_DIR" && ./update.sh && cd - > /dev/null
+    # Subshell so a failing update.sh can't leave us in $INSTALL_DOCS_DIR for the rm -rf's below
+    (cd "$INSTALL_DOCS_DIR" && ./update.sh) || die "$INSTALL_SCRIPT failed. Exiting."
     rm -rf installation
     cp -r $HOME/Documents/installation installation/
     log_ok "Updated installation docs."
