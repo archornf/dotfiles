@@ -2067,7 +2067,6 @@ copy_game_data() {
     # doom
     log_step "Copying doom files -> $DOWNLOADS_DIR"
     if [ ! -d "$DOWNLOADS_DIR/doom" ]; then
-        unzip DOOM.zip -d "$DOWNLOADS_DIR"
         cp "$MEDIA_PATH/2024/DOOM.zip" "$DOWNLOADS_DIR"
         unzip "$DOWNLOADS_DIR/DOOM.zip" -d "$DOWNLOADS_DIR/doom"
         log_info "Copied and unzipped DOOM.zip -> $DOWNLOADS_DIR/doom"
