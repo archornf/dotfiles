@@ -67,133 +67,69 @@ else
     fi
 fi
 
-rm -rf .config/alacritty
-rm -rf .config/awesome
-rm -rf .config/somewm
-rm -rf .config/cava
-rm -rf .config/conky
-rm -rf .config/dmenu
-rm -rf .config/dunst
-rm -rf .config/dwm
-rm -rf .config/dwmblocks
-rm -rf .config/dwmr
-rm -rf .config/dwmblocksr
-rm -rf .config/dwmc
-rm -rf .config/dwmblocksc
-rm -rf .config/eww
-rm -rf .config/hypr
-rm -rf .config/i3
-rm -rf .config/kitty
-rm -rf .config/lf
-rm -rf .config/neofetch
-rm -rf .config/nvim
-rm -rf .config/picom
-rm -rf .config/pip
-rm -rf .config/polybar
-rm -rf .config/ranger
-rm -rf .config/wezterm
-rm -rf .config/zsh
+# Replace the repo copy only when the source exists, so a config that is missing on
+# this machine isn't deleted from the repo (and then from the next commit)
+sync_dir() {
+    local src=$1
+    local dest=$2
+    if [ -d "$src" ]; then
+        rm -rf "$dest"
+        mkdir -p "$(dirname "$dest")"
+        cp -r "$src" "$dest"
+    else
+        log_warn "$src does not exist. Keeping repo copy of $dest."
+    fi
+}
+
+sync_file() {
+    local src=$1
+    local dest=$2
+    if [ -f "$src" ]; then
+        mkdir -p "$(dirname "$dest")"
+        cp "$src" "$dest"
+    else
+        log_warn "$src does not exist. Keeping repo copy of $dest."
+    fi
+}
+
+config_dirs=(
+    alacritty awesome somewm cava conky dmenu dunst dwm dwmblocks dwmr dwmblocksr
+    dwmc dwmblocksc eww hypr i3 kitty lf neofetch nvim picom pip polybar ranger
+    wezterm zsh rofi st zathura
+)
+for dir in "${config_dirs[@]}"; do
+    sync_dir "$HOME/.config/$dir" ".config/$dir"
+done
 
 if [[ -d "$HOME/.config/yazi/plugins" ]]; then
-    rm -rf .config/yazi
+    sync_dir "$HOME/.config/yazi" ".config/yazi"
 else
     log_warn "Directory $HOME/.config/yazi/plugins does not exist. Skipping copy."
 fi
 
-rm -rf .config/rofi
-rm -rf .config/st
-rm -rf .config/zathura
-rm -rf .dwm
-rm -rf .claude
-rm -rf bin
-rm .bashrc
-rm .tmux.conf
-rm .wezterm.lua
-rm .xinitrc
-rm .Xresources
-rm .Xresources_cat
-rm .zshrc
-rm .zshenv
+sync_file "$HOME/.config/mimeapps.list" ".config/mimeapps.list"
+sync_file "$HOME/.config/gtk-3.0/bookmarks" ".config/gtk-3.0/bookmarks"
+sync_file "$HOME/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml" \
+    ".config/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml"
 
-log_ok "Removed files..."
-sleep 0.5
+sync_dir "$HOME/.dwm" ".dwm"
 
-cp -r $HOME/.config/awesome .config/awesome/
-cp -r $HOME/.config/somewm .config/somewm/
-cp -r $HOME/.config/alacritty .config/alacritty/
-cp -r $HOME/.config/cava .config/cava/
-cp -r $HOME/.config/conky .config/conky/
-cp -r $HOME/.config/dmenu .config/dmenu/
-cp -r $HOME/.config/dunst .config/dunst/
-cp -r $HOME/.config/dwm .config/dwm/
-cp -r $HOME/.config/dwmblocks .config/dwmblocks/
-cp -r $HOME/.config/dwmr .config/dwmr/
-cp -r $HOME/.config/dwmblocksr .config/dwmblocksr/
-cp -r $HOME/.config/dwmc .config/dwmc/
-cp -r $HOME/.config/dwmblocksc .config/dwmblocksc/
-cp -r $HOME/.config/eww .config/eww/
-cp -r $HOME/.config/hypr .config/hypr/
-cp -r $HOME/.config/i3 .config/i3/
-cp -r $HOME/.config/kitty .config/kitty/
-cp -r $HOME/.config/lf .config/lf/
-cp -r $HOME/.config/neofetch .config/neofetch/
-cp -r $HOME/.config/nvim .config/nvim/
-cp -r $HOME/.config/picom .config/picom/
-cp -r $HOME/.config/pip .config/pip/
-cp -r $HOME/.config/polybar .config/polybar/
-cp -r $HOME/.config/ranger .config/ranger/
-cp -r $HOME/.config/wezterm .config/wezterm/
-cp -r $HOME/.config/zsh .config/zsh/
+for dir in cron dwm_keybinds i3-used-keybinds my_scripts statusbar widgets xyz; do
+    sync_dir "$HOME/.local/bin/$dir" "bin/$dir"
+done
+for file in lfub lf-select greenclip; do
+    sync_file "$HOME/.local/bin/$file" "bin/$file"
+done
 
-if [[ -d "$HOME/.config/yazi/plugins" ]]; then
-    cp -r $HOME/.config/yazi .config/yazi/
-else
-    log_warn "Directory $HOME/.config/yazi/plugins does not exist. Skipping copy."
-fi
-
-cp -r $HOME/.config/rofi .config/rofi/
-cp -r $HOME/.config/st .config/st/
-cp -r $HOME/.config/zathura .config/zathura/
-cp $HOME/.config/mimeapps.list .config/
-cp $HOME/.config/gtk-3.0/bookmarks .config/gtk-3.0/
-mkdir -p .config/xfce4/xfconf/xfce-perchannel-xml
-cp $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml .config/xfce4/xfconf/xfce-perchannel-xml/
-
-cp -r $HOME/.dwm .dwm/
-mkdir -p bin
-cp -r $HOME/.local/bin/cron bin/
-cp -r $HOME/.local/bin/dwm_keybinds bin/
-cp -r $HOME/.local/bin/i3-used-keybinds bin/
-cp -r $HOME/.local/bin/my_scripts bin/
-cp -r $HOME/.local/bin/statusbar bin/
-cp -r $HOME/.local/bin/widgets bin/
-cp -r $HOME/.local/bin/xyz bin/
-cp -r $HOME/.local/bin/lfub bin/
-cp -r $HOME/.local/bin/lf-select bin/
-cp -r $HOME/.local/bin/greenclip bin/
-
-cp -r $HOME/.bashrc .bashrc
-cp -r $HOME/.tmux.conf .tmux.conf
-cp -r $HOME/.wezterm.lua .wezterm.lua
-cp -r $HOME/.xinitrc .xinitrc
-cp -r $HOME/.Xresources .Xresources
-cp -r $HOME/.Xresources_cat .Xresources_cat
-cp -r $HOME/.zshrc .zshrc
-cp -r $HOME/.zshenv .zshenv
+for file in .bashrc .tmux.conf .wezterm.lua .xinitrc .Xresources .Xresources_cat .zshrc .zshenv; do
+    sync_file "$HOME/$file" "$file"
+done
 
 # Copy selected Claude configuration
-mkdir -p .claude
-if [[ -f "$HOME/.claude/settings.json" ]]; then
-    cp "$HOME/.claude/settings.json" .claude/
-else
-    log_warn "File $HOME/.claude/settings.json does not exist. Skipping copy."
-fi
+sync_file "$HOME/.claude/settings.json" ".claude/settings.json"
+sync_dir "$HOME/.claude/hooks" ".claude/hooks"
 
-if [[ -d "$HOME/.claude/hooks" ]]; then
-    cp -r "$HOME/.claude/hooks" .claude/
-else
-    log_warn "Directory $HOME/.claude/hooks does not exist. Skipping copy."
-fi
+log_ok "Synced files..."
 
 rm --f .config/dmenu/dmenu
 rm --f .config/dmenu/stest
