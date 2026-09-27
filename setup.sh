@@ -2625,7 +2625,7 @@ fix_other_files() {
             target_file="$target_dir/$file_name"
 
             if [ ! -f "$target_file" ]; then
-                sudo cp "$source_file" "$target_file"
+                cp "$source_file" "$target_file"
                 log_info "Copied $source_file -> $target_file"
             else
                 log_ok "$target_file already exists. Skipping."
