@@ -404,7 +404,7 @@ check_font_exists() {
 install_jetbrains_mono() {
     log_step "JetBrains Mono font"
     log_info "Downloading JetBrains Mono font..."
-    cd $HOME/Downloads && wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip
+    cd $HOME/Downloads && wget -N https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip
     
     log_info "Installing JetBrains Mono font..."
     mkdir -p $HOME/.local/share/fonts/ && unzip -o JetBrainsMono.zip -d $HOME/.local/share/fonts/
