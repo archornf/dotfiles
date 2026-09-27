@@ -1884,6 +1884,7 @@ copy_game_data() {
     mkdir -p $HOME/.local/share/supertuxkart/addons
     mkdir -p $HOME/.local/share/OpenJKDF2/openjkdf2
     mkdir -p $HOME/.local/share/openjk/JediOutcast/base
+    mkdir -p $HOME/.local/share/openjk/JediAcademy/base
     mkdir -p $HOME/.local/share/openjk/japlus
     mkdir -p $HOME/acore/bin
     mkdir -p $HOME/tcore/bin
