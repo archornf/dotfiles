@@ -1092,7 +1092,7 @@ compile_projects() {
         fi
 
         if check_dir "jk2mv" "build_new"; then
-            cmake .. CMAKE_BUILD_TYPE=Release
+            cmake .. -DCMAKE_BUILD_TYPE=Release
             make -j$(nproc)
             sudo make install
             cd "$HOME/Code/c++"
