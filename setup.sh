@@ -582,7 +582,7 @@ clone_projects() {
     clone_repo_if_missing "stk-code" "https://github.com/ornfelt/stk-code"
     if [ ! -d "stk-assets" ]; then
         if $justInform; then
-            log_info "$repo_dir NOT cloned."
+            log_warn "stk-assets NOT cloned."
         else
             svn co https://svn.code.sf.net/p/supertuxkart/code/stk-assets stk-assets
             log_ok "stk-assets cloned."
