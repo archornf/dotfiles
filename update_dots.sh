@@ -31,6 +31,13 @@ log_sep()   { log_info "--------------------------------------------------------
 say()       { printf "%b\n" "$*"; }
 die()       { log_err "$*"; exit 1; }
 
+# Everything below rm -rf's relative paths, so it must run inside the dotfiles repo
+# (from ~ it would delete the real ~/.config/nvim, ~/.bashrc, ...)
+cd "$(dirname "$(readlink -f "$0")")" || die "Failed to cd to the script dir"
+if [ ! -d .git ] || [ ! -f setup.sh ]; then
+    die "$PWD doesn't look like the dotfiles repo (no .git or setup.sh). Exiting."
+fi
+
 arg=$(echo "$1" | tr '[:upper:]' '[:lower:]')
 
 if [ $# -eq 0 ]; then
