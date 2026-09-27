@@ -2016,6 +2016,8 @@ copy_game_data() {
     DEST_FILE="$HOME/tcore/bin/$FILE_NAME"
     if [ -f "$DEST_FILE" ]; then
         log_ok "TDB file already exists: $DEST_FILE (skip)"
+    elif [ ! -f "$SRC_FILE" ]; then
+        log_warn "$SRC_FILE does NOT exist, skipping."
     else
         cp "$SRC_FILE" "$DEST_FILE"
         log_info "Copied $FILE_NAME -> $HOME/tcore/bin"
@@ -2290,11 +2292,14 @@ copy_game_data() {
             log_info "Created directory $HOME/Code2/C#/BloogBot/Bot"
         fi
 
-        if [ ! -f "$HOME/Code2/C#/BloogBot/Bot/db.db" ]; then
-            cp "$MEDIA_PATH/my_files/my_docs/db_bkp/bloogbot/db.db" "$HOME/Code2/C#/BloogBot/Bot"
-            log_info "Copied db.db -> $HOME/Code2/C#/BloogBot/Bot"
-        else
+        BLOOGBOT_DB_SRC="$MEDIA_PATH/my_files/my_docs/db_bkp/bloogbot/db.db"
+        if [ -f "$HOME/Code2/C#/BloogBot/Bot/db.db" ]; then
             log_ok "File db.db already exists in $HOME/Code2/C#/BloogBot/Bot"
+        elif [ ! -f "$BLOOGBOT_DB_SRC" ]; then
+            log_warn "$BLOOGBOT_DB_SRC does NOT exist, skipping."
+        else
+            cp "$BLOOGBOT_DB_SRC" "$HOME/Code2/C#/BloogBot/Bot"
+            log_info "Copied db.db -> $HOME/Code2/C#/BloogBot/Bot"
         fi
     else
         log_warn "Directory $HOME/Code2/C#/BloogBot does not exist."
