@@ -1506,10 +1506,12 @@ compile_projects() {
         GO_VERSION=$(go version 2>/dev/null)
 
         if [ -z "$GO_VERSION" ]; then
-            die "Go is not installed."
+            # Treat as 0.0 so it gets installed below instead of aborting all remaining compiles
+            log_warn "Go is not installed."
+            MAJOR_MINOR="0.0"
+        else
+            MAJOR_MINOR=$(echo "$GO_VERSION" | grep -oP 'go\d+\.\d+' | grep -oP '\d+\.\d+')
         fi
-
-        MAJOR_MINOR=$(echo "$GO_VERSION" | grep -oP 'go\d+\.\d+' | grep -oP '\d+\.\d+')
         IFS='.' read -r MAJOR MINOR PATCH <<< "$MAJOR_MINOR.0" # Adding .0 to handle versions without patch number
 
         log_info "Go version: $MAJOR_MINOR"
