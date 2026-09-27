@@ -935,7 +935,6 @@ fix_ownerships() {
             # Get owner of dir
             local DIR_OWNER=$(stat -c '%U' "$dir")
             if [ "$DIR_OWNER" != "$CURRENT_USER" ]; then
-                sudo chown -R "$CURRENT_USER" "$dir" || log_err "Failed to chown $dir"
                 if sudo chown -R "$CURRENT_USER" "$dir"; then
                     log_ok "Changed ownership of $dir to $CURRENT_USER"
                 else
