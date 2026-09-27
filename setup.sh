@@ -1606,7 +1606,7 @@ compile_projects() {
         #cd .. && make
         #cd ..
         cd src
-        mkdir build && cd build
+        mkdir -p build && cd build
         cmake .. && make -j$(nproc)
         cd "$HOME/Code2/Wow/tools"
     fi
