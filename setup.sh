@@ -1508,15 +1508,18 @@ compile_projects() {
         if [ -z "$GO_VERSION" ]; then
             # Treat as 0.0 so it gets installed below instead of aborting all remaining compiles
             log_warn "Go is not installed."
-            MAJOR_MINOR="0.0"
+            GO_SEMVER="0.0"
         else
-            MAJOR_MINOR=$(echo "$GO_VERSION" | grep -oP 'go\d+\.\d+' | grep -oP '\d+\.\d+')
+            # "go version go1.21.5 linux/amd64" -> "1.21.5" (patch kept, so 1.21.5 isn't read as 1.21.0)
+            GO_SEMVER=$(echo "$GO_VERSION" | grep -oP 'go\K\d+\.\d+(\.\d+)?')
         fi
-        IFS='.' read -r MAJOR MINOR PATCH <<< "$MAJOR_MINOR.0" # Adding .0 to handle versions without patch number
+        # Adding .0 to handle versions without patch number; _ swallows the extra .0 otherwise
+        IFS='.' read -r MAJOR MINOR PATCH _ <<< "$GO_SEMVER.0"
 
-        log_info "Go version: $MAJOR_MINOR"
+        log_info "Go version: $GO_SEMVER"
         log_info "Go major version: $MAJOR"
         log_info "Go minor version: $MINOR"
+        log_info "Go patch version: $PATCH"
 
         if (( MAJOR < 1 )) || { (( MAJOR == 1 )) && (( MINOR < 21 )); } || { (( MAJOR == 1 )) && (( MINOR == 21 )) && (( PATCH < 1 )); }; then
             log_warn "Go version is below 1.21.1. Installing go 1.21.1..."
