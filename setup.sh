@@ -55,6 +55,7 @@ cp -r .config/somewm/ $HOME/.config/
 cp -r .config/cava/ $HOME/.config/
 cp -r .config/conky/ $HOME/.config/
 cp -r .config/dmenu/ $HOME/.config/
+cp -r .config/dunst/ $HOME/.config/
 cp -r .config/dwm/ $HOME/.config/
 cp -r .config/dwmblocks/ $HOME/.config/
 cp -r .config/dwmr/ $HOME/.config/
