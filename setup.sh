@@ -1505,10 +1505,16 @@ compile_projects() {
             log_warn "Go version is below 1.21.1. Installing go 1.21.1..."
             # Don't install dependencies through apt since they are too old for
             # this repo...
-            curl -O https://dl.google.com/go/go1.21.1.linux-amd64.tar.gz
-            sudo rm -rf /usr/local/go 
-            sudo rm /usr/bin/go
-            sudo tar -C /usr/local -xzf go1.21.1.linux-amd64.tar.gz
+            case "$(uname -m)" in
+                aarch64|arm64) GO_ARCH="arm64" ;;
+                arm*) GO_ARCH="armv6l" ;;
+                *) GO_ARCH="amd64" ;;
+            esac
+            GO_TARBALL="go1.21.1.linux-${GO_ARCH}.tar.gz"
+            curl -O "https://dl.google.com/go/$GO_TARBALL"
+            sudo rm -rf /usr/local/go
+            sudo rm -f /usr/bin/go
+            sudo tar -C /usr/local -xzf "$GO_TARBALL"
 
             # .bashrc/.zshrc from these dotfiles already add go to PATH, so only
             # update PATH for the rest of this script
