@@ -2346,12 +2346,15 @@ USE_MYSQL_PWD_ENV=true
 # Check if database exists
 check_database_exists() {
     local db_name=$1
+    # Escape _ so LIKE matches it literally instead of as a single-char wildcard
+    local like_name="${db_name//_/\\_}"
     if $USE_MYSQL_PWD_ENV; then
-        result=$(MYSQL_PWD="$MYSQL_PASSWORD" mysql -u"$MYSQL_USER" -h"$MYSQL_HOST" -P"$MYSQL_PORT" -e "SHOW DATABASES LIKE '$db_name';" 2>/dev/null)
+        result=$(MYSQL_PWD="$MYSQL_PASSWORD" mysql -N -u"$MYSQL_USER" -h"$MYSQL_HOST" -P"$MYSQL_PORT" -e "SHOW DATABASES LIKE '$like_name';" 2>/dev/null)
     else
-        result=$(mysql -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" -h"$MYSQL_HOST" -P"$MYSQL_PORT" -e "SHOW DATABASES LIKE '$db_name';" 2>/dev/null)
+        result=$(mysql -N -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" -h"$MYSQL_HOST" -P"$MYSQL_PORT" -e "SHOW DATABASES LIKE '$like_name';" 2>/dev/null)
     fi
-    if [[ "$result" == *"$db_name"* ]]; then
+    # -N drops the column header, so an exact match is possible
+    if [[ "$result" == "$db_name" ]]; then
         log_ok "Database $db_name exists."
     else
         log_warn "Database $db_name does NOT exist."
