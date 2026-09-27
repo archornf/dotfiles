@@ -1372,9 +1372,12 @@ compile_projects() {
         if ! python3 -c "import cogapp" &> /dev/null; then
             log_warn "Python package 'cogapp' is required to compile OpenJKDF2 (pip install cogapp)."
         else
-            export CC=clang
-            export CXX=clang++
-            source build_linux64.sh
+            # Subshell so CC/CXX (and anything the build script sets) don't leak into later builds
+            (
+                export CC=clang
+                export CXX=clang++
+                source build_linux64.sh
+            )
         fi
         cd "$HOME/Code2/C++"
     fi
