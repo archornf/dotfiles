@@ -197,12 +197,42 @@ test_disabled_setting() {
     fi
 }
 
-# Use `tr` instead of Bash-only `${1,,}` because this script may be
-# sourced from another shell, such as zsh. The shebang is ignored when sourced.
-server="$(printf '%s' "${1:-}" | tr '[:upper:]' '[:lower:]')"
+# Usage (no server name = vmangos):
+#   mangos.sh
+#   mangos.sh tbc        (same as t, mangos-tbc, mangostbc, cmangos-tbc)
+#   mangos.sh classic    (same as c, cm, cmangos, mangos-classic)
+#   mangos.sh zero       (same as 0, z, mz, mangos0, mangoszero)
+SERVER_NAMES_HELP="vmangos (v, vm), cmangos (c, cm, classic, mangos-classic), cmangos-tbc (t, tbc, mangos-tbc), mangoszero (0, z, zero, mz, mangos0)"
+DEFAULT_SERVER="vmangos"
+
+resolve_server() {
+    # resolve_server <name> - prints the server for an accepted name, matched lower-cased with
+    # '-', '_', '.' and spaces dropped. Keep in sync with mangos.ps1 and update_conf_classic.py.
+    # Use `tr` instead of Bash-only `${1,,}` because this script may be
+    # sourced from another shell, such as zsh. The shebang is ignored when sourced.
+    local key
+    key="$(printf '%s' "$1" | tr '[:upper:]' '[:lower:]' | tr -d ' ._-')"
+
+    case "$key" in
+    v|vm|vmangos) printf '%s\n' "vmangos" ;;
+    c|cm|classic|cmangos|cmangosclassic|mangosclassic) printf '%s\n' "cmangos" ;;
+    t|tbc|mangostbc|cmangostbc) printf '%s\n' "cmangos-tbc" ;;
+    0|z|zero|mz|mangos0|mangoszero) printf '%s\n' "mangoszero" ;;
+    *) return 1 ;;
+    esac
+}
+
+if [[ -z "${1:-}" ]]; then
+    server="$DEFAULT_SERVER"
+elif ! server="$(resolve_server "$1")"; then
+    write_err "Unknown server '$1'. Accepted: $SERVER_NAMES_HELP"
+
+    # Return when sourced; exit when executed directly.
+    return 1 2>/dev/null || exit 1
+fi
 
 case "$server" in
-0|z)
+mangoszero)
     write_alt "MangosZero chosen..."
     mangos_path="$HOME/mangoszero/run/bin"
     required_dirs="$MANGOSZERO_REQUIRED_DIRS"
@@ -210,7 +240,7 @@ case "$server" in
     local_data_path="$LOCAL_DATA_ROOT/mangos_zero_linux"
     ;;
 
-c)
+cmangos)
     write_alt "Cmangos chosen..."
     mangos_path="$HOME/cmangos/run/bin"
     required_dirs="$MANGOS_CLASSIC_REQUIRED_DIRS"
@@ -218,7 +248,7 @@ c)
     local_data_path=""
     ;;
 
-tbc)
+cmangos-tbc)
     write_alt "Cmangos tbc chosen..."
     mangos_path="$HOME/cmangos-tbc/run/bin"
     required_dirs="$MANGOS_TBC_REQUIRED_DIRS"
@@ -226,7 +256,7 @@ tbc)
     local_data_path="$LOCAL_DATA_ROOT/mangos_tbc_linux"
     ;;
 
-*)
+vmangos)
     write_alt "Vmangos chosen..."
     mangos_path="$HOME/vmangos/bin"
     required_dirs="$VMANGOS_REQUIRED_DIRS"
@@ -257,7 +287,7 @@ resolve_data_path "$local_data_path" "$mangos_path" "$required_dirs"
 test_required_dirs "$data_path" "$required_dirs" "$optional_dirs"
 test_conf_data_dir "$mangos_path" "$data_path"
 
-if [[ "$server" == "tbc" ]]; then
+if [[ "$server" == "cmangos-tbc" ]]; then
     printf '\n'
 
     if anticheat_file="$(find_config_file "anticheat.conf")"; then
@@ -314,7 +344,7 @@ if [[ "$server" == "tbc" ]]; then
 
     printf '\n'
 
-elif [[ "$server" != "0" && "$server" != "z" && "$server" != "c" ]]; then
+elif [[ "$server" == "vmangos" ]]; then
     printf '\n'
 
     if realmd_file="$(find_config_file "realmd.conf")"; then
