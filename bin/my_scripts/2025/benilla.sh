@@ -7,7 +7,8 @@
 # cd into the repo and print how to run it, through this script and by hand (runs nothing):
 # .benilla
 #
-# the release build (target/release) on the gfx library's default window and device:
+# the release build (target/release) on the platform's window (win32 / x11) and the gfx
+# library's default device:
 # .benilla run
 #
 # pick the gfx device and / or window:
@@ -122,6 +123,15 @@ PRINT_TOKENS=(print onlyprint showcmd)
 GFX_DEVICES=(gl4 gl3 gles3 vk d3d11 d3d12)
 declare -A GFX_DEVICE_ALIASES=([vulkan]=vk [dx11]=d3d11 [dx12]=d3d12)
 GFX_WINDOWS=(x11 sdl glfw win32)
+# The window when none is named and WOW_GFX_WINDOW is not set: the platform's own, win32 on
+# Windows (Git Bash / MSYS / Cygwin) and x11 on Linux; elsewhere the library's first.
+case "${OSTYPE:-}" in
+    msys* | cygwin* | win32*) DEFAULT_GFX_WINDOW="win32" ;;
+    linux*) DEFAULT_GFX_WINDOW="x11" ;;
+    *) DEFAULT_GFX_WINDOW="" ;;
+esac
+DEFAULT_GFX_WINDOW_INFO="$DEFAULT_GFX_WINDOW"
+if [[ -z "$DEFAULT_GFX_WINDOW_INFO" ]]; then DEFAULT_GFX_WINDOW_INFO="the library's first"; fi
 OPTION_VALUE_SEPARATOR="="
 ENV_ARG_PATTERN='^[A-Z][A-Z0-9]*_[A-Z0-9_]*='
 # win / size=: WOW_WIN=<W>x<H> runs the client windowed at that size for this run only (never
@@ -165,7 +175,8 @@ EOF
     cat <<EOF
   build                  cargo build first (copies a newer gfx library beside the client too)
 
-gfx backends (WOW_GFX_DEVICE / WOW_GFX_WINDOW; unset, the library's first):
+gfx backends (WOW_GFX_DEVICE / WOW_GFX_WINDOW; the device unset is the library's first, the
+window $DEFAULT_GFX_WINDOW_INFO unless named or WOW_GFX_WINDOW is set):
   $(join_by ' | ' "${GFX_DEVICES[@]}")   (vulkan = vk, dx11 / dx12 = d3d11 / d3d12)
   $(join_by ' | ' "${GFX_WINDOWS[@]}")
   d3d11 / d3d12 / win32 are Windows only; a name the library lacks stops the boot, listing its names.
@@ -448,7 +459,11 @@ get_run_env() {
     fi
 
     [[ -n "$opt_device" ]] && run_env+=("WOW_GFX_DEVICE=$opt_device")
-    [[ -n "$opt_window" ]] && run_env+=("WOW_GFX_WINDOW=$opt_window")
+    if [[ -n "$opt_window" ]]; then run_env+=("WOW_GFX_WINDOW=$opt_window")
+    elif [[ -z "${WOW_GFX_WINDOW:-}" && -n "$DEFAULT_GFX_WINDOW" &&
+            " ${opt_env[*]} " != *" WOW_GFX_WINDOW="* ]]; then
+        run_env+=("WOW_GFX_WINDOW=$DEFAULT_GFX_WINDOW")
+    fi
     if [[ -n "$opt_size" ]]; then run_env+=("WOW_WIN=$opt_size")
     elif $opt_win; then run_env+=("WOW_WIN=$WINDOWED_DEFAULT_SIZE"); fi
     $opt_panel && run_env+=("WOW_PANEL=1")
