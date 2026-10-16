@@ -28,6 +28,10 @@
 # the engine viewer over Goldshire:
 # .cenilla run at=-9460,62
 #
+# windowed for this run, at the client's default 1600x900 or a size of your own:
+# .cenilla run win
+# .cenilla run size=1280x720
+#
 # any other env var (an upper-case name with an underscore) as it is:
 # .cenilla run WOW_MSAA=4 WOW_FARCLIP=800
 #
@@ -129,6 +133,11 @@ declare -A GFX_DEVICE_ALIASES=([vulkan]=vk [dx11]=d3d11 [dx12]=d3d12)
 GFX_WINDOWS=(x11 sdl glfw win32)
 OPTION_VALUE_SEPARATOR="="
 ENV_ARG_PATTERN='^[A-Z][A-Z0-9]*_[A-Z0-9_]*='
+# win / size=: WOW_WIN=<W>x<H> runs the client windowed at that size for this run only (never
+# saved; the in-game Windowed Mode, gxWindow 1, is what persists); win alone takes the client's
+# default windowed size (DEFAULT_WINDOWED, gxResolution's default)
+WINDOWED_DEFAULT_SIZE="1600x900"
+WINDOW_SIZE_PATTERN='^[0-9]+x[0-9]+$'
 
 join_by() {
     # join_by <separator> <items...>
@@ -170,6 +179,10 @@ gfx backends (WOW_GFX_DEVICE / WOW_GFX_WINDOW; unset, the library's first):
   $(join_by ' | ' "${GFX_DEVICES[@]}")   (vulkan = vk, dx11 / dx12 = d3d11 / d3d12)
   $(join_by ' | ' "${GFX_WINDOWS[@]}")
   d3d11 / d3d12 / win32 are Windows only; a name the library lacks stops the boot, listing its names.
+
+Window (this run only; the in-game Windowed Mode / gxWindow 1 is what is saved):
+  win                    windowed at $WINDOWED_DEFAULT_SIZE (WOW_WIN; also: windowed)
+  size=<W>x<H>           windowed at that size (WOW_WIN=<W>x<H>)
 
 Dev tools:
   panel                  the debug panel open at boot (WOW_PANEL=1)
@@ -257,7 +270,7 @@ read_command() {
 read_options() {
     # Sets the opt_* launch options from the script args; exits on an unknown one
     opt_help=false; opt_print_only=false; opt_tree=""; opt_tree_dir=""; opt_build=false
-    opt_device=""; opt_window=""; opt_panel=false; opt_hud=false; opt_worldview=false; opt_at=""
+    opt_device=""; opt_window=""; opt_win=false; opt_size=""; opt_panel=false; opt_hud=false; opt_worldview=false; opt_at=""
     opt_host=""; opt_realm=""; opt_char=""; opt_probe=false; opt_nosound=false; opt_unattended=false
     opt_capture=""; opt_out=""; opt_fps=""; opt_exit=""; opt_soft=false; opt_validate=false
     opt_data=""; opt_data_set=false; opt_env=()
@@ -291,6 +304,8 @@ read_options() {
         elif [[ "$name" == "tree" && -n "$value" ]]; then opt_tree_dir="$value"
         elif [[ "$name" == "build" ]]; then opt_build=true
         elif [[ "$name" == "panel" ]]; then opt_panel=true
+        elif [[ "$name" == "win" || "$name" == "windowed" ]]; then opt_win=true
+        elif [[ "$name" == "size" && -n "$value" ]]; then opt_size="${value,,}"
         elif [[ "$name" == "hud" ]]; then opt_hud=true
         elif [[ "$name" == "worldview" ]]; then opt_worldview=true
         elif [[ "$name" == "at" && -n "$value" ]]; then opt_at="$value"; opt_worldview=true
@@ -308,7 +323,7 @@ read_options() {
         elif [[ "$name" == "validate" ]]; then opt_validate=true
         elif [[ "$name" == "data" && -n "$value" ]]; then opt_data="$(realpath -m -- "$value")"; opt_data_set=true
         else
-            write_err "Unknown arg: $raw (tree= / at= / host= / realm= / char= / capture= / out= / fps= / exit= need a value) - see '$ALIAS_NAME help'."
+            write_err "Unknown arg: $raw (tree= / size= / at= / host= / realm= / char= / capture= / out= / fps= / exit= need a value) - see '$ALIAS_NAME help'."
             exit 1
         fi
     done
@@ -324,6 +339,10 @@ read_options() {
         fi
     fi
     if [[ -n "$opt_out" && -z "$opt_capture" ]]; then write_warn "out= is for a capture - ignoring it."; fi
+    if [[ -n "$opt_size" && ! "$opt_size" =~ $WINDOW_SIZE_PATTERN ]]; then
+        write_err "size= takes <W>x<H>, e.g. size=$WINDOWED_DEFAULT_SIZE (got: $opt_size)."
+        exit 1
+    fi
     if $opt_worldview && [[ -n "$opt_capture" ]]; then
         write_warn "A capture runs in the client - ignoring worldview / at=."
         opt_worldview=false; opt_at=""
@@ -501,6 +520,8 @@ get_run_env() {
 
     [[ -n "$opt_device" ]] && run_env+=("WOW_GFX_DEVICE=$opt_device")
     [[ -n "$opt_window" ]] && run_env+=("WOW_GFX_WINDOW=$opt_window")
+    if [[ -n "$opt_size" ]]; then run_env+=("WOW_WIN=$opt_size")
+    elif $opt_win; then run_env+=("WOW_WIN=$WINDOWED_DEFAULT_SIZE"); fi
     $opt_panel && run_env+=("WOW_PANEL=1")
     $opt_hud && run_env+=("WOW_PERF_HUD=1")
     [[ -n "$opt_at" ]] && run_env+=("WOW_WORLDVIEW_AT=$opt_at")
