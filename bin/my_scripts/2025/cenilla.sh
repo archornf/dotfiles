@@ -134,7 +134,8 @@ D3D_DEVICES=(d3d11 d3d12)
 D3D_WINDOW="win32"
 declare -A GFX_DEVICE_ALIASES=([vulkan]=vk [dx11]=d3d11 [dx12]=d3d12)
 GFX_WINDOWS=(x11 sdl glfw win32)
-# The window when none is named and WOW_GFX_WINDOW is not set: the platform's own, win32 on
+# The window when none is named as an arg (a window option or a WOW_GFX_WINDOW= arg), even over
+# a WOW_GFX_WINDOW left in the environment: the platform's own, win32 on
 # Windows (Git Bash / MSYS / Cygwin) and x11 on Linux; elsewhere the library's first.
 case "${OSTYPE:-}" in
     msys* | cygwin* | win32*) DEFAULT_GFX_WINDOW="win32" ;;
@@ -188,7 +189,7 @@ EOF
   build                  build the tree first (cmake --build: relinks and copies a newer gfx library)
 
 gfx backends (WOW_GFX_DEVICE / WOW_GFX_WINDOW; the device unset is the library's first, the
-window $DEFAULT_GFX_WINDOW_INFO unless named or WOW_GFX_WINDOW is set):
+window $DEFAULT_GFX_WINDOW_INFO unless named as an arg, even over a WOW_GFX_WINDOW in the environment):
   $(join_by ' | ' "${GFX_DEVICES[@]}")   (vulkan = vk, dx11 / dx12 = d3d11 / d3d12)
   $(join_by ' | ' "${GFX_WINDOWS[@]}")
   d3d11 / d3d12 / win32 are Windows only; a name the library lacks stops the boot, listing its names.
@@ -533,8 +534,7 @@ get_run_env() {
 
     [[ -n "$opt_device" ]] && run_env+=("WOW_GFX_DEVICE=$opt_device")
     if [[ -n "$opt_window" ]]; then run_env+=("WOW_GFX_WINDOW=$opt_window")
-    elif [[ -z "${WOW_GFX_WINDOW:-}" && -n "$DEFAULT_GFX_WINDOW" &&
-            " ${opt_env[*]} " != *" WOW_GFX_WINDOW="* ]]; then
+    elif [[ -n "$DEFAULT_GFX_WINDOW" && " ${opt_env[*]} " != *" WOW_GFX_WINDOW="* ]]; then
         run_env+=("WOW_GFX_WINDOW=$DEFAULT_GFX_WINDOW")
     fi
     if [[ -n "$opt_size" ]]; then run_env+=("WOW_WIN=$opt_size")
@@ -662,7 +662,8 @@ fi
 
 check_gfx_pair() {
     # Names a WOW_GFX_WINDOW / WOW_GFX_DEVICE the run takes from the environment (the launch line
-    # lists only what this script sets), and warns about a d3d device in a window other than win32
+    # lists only what this script sets) or a WOW_GFX_WINDOW there it overrides, and warns about a
+    # d3d device in a window other than win32
     local entry window="" device="" hint=""
     for entry in "${run_env[@]}"; do
         case "$entry" in
@@ -670,7 +671,9 @@ check_gfx_pair() {
             WOW_GFX_DEVICE=*) device="${entry#*=}" ;;
         esac
     done
-    if [[ -z "$window" && -n "${WOW_GFX_WINDOW:-}" ]]; then
+    if [[ -n "$window" && -n "${WOW_GFX_WINDOW:-}" && "${WOW_GFX_WINDOW,,}" != "${window,,}" ]]; then
+        write_label "WOW_GFX_WINDOW=$WOW_GFX_WINDOW in the environment is not used: the window is $window."
+    elif [[ -z "$window" && -n "${WOW_GFX_WINDOW:-}" ]]; then
         window="$WOW_GFX_WINDOW"
         hint=", or unset WOW_GFX_WINDOW"
         write_label "WOW_GFX_WINDOW=$window (from the environment)"
