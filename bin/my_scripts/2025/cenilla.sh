@@ -7,7 +7,8 @@
 # cd into the repo and print how to run it, through this script and by hand (runs nothing):
 # .cenilla
 #
-# the optimized build (build-rel) on the gfx library's default window and device:
+# the first build tree that exists (build-rel, else build/, ...) on the gfx library's default
+# window and device:
 # .cenilla run
 #
 # pick the gfx device and / or window:
@@ -65,6 +66,9 @@ fi
 DEFAULT_TREE="rel"
 TREE_NAMES=(rel debug pgo player clang)
 declare -A TREE_DIRS=([rel]=build-rel [debug]=build [pgo]=build-release [player]=build-player [clang]=build-clang)
+# With no tree named, the first of these that is configured (holds its CMakeCache.txt) runs:
+# build-rel, else build/, else the rest. When none is, DEFAULT_TREE is configured and built.
+TREE_AUTO_ORDER=(rel debug pgo player clang)
 declare -A TREE_ALIASES=([release]=rel [relwithdebinfo]=rel [dev]=debug [ship]=pgo)
 declare -A TREE_INFO=(
     [rel]="RelWithDebInfo, no sanitizers: the playable build (also: release)"
@@ -153,7 +157,7 @@ Usage: $ALIAS_NAME $RUN_COMMAND [options] [VAR_NAME=value...]
 Nothing runs without $RUN_COMMAND as the first arg; a bare $ALIAS_NAME cds into the repo and prints how to run it.
 Options are case insensitive, in any order, with or without leading dashes.
 
-Build tree (default $DEFAULT_TREE):
+Build tree (default: the first configured of $(join_by ', ' "${TREE_AUTO_ORDER[@]}"), else $DEFAULT_TREE):
 EOF
     for name in "${TREE_NAMES[@]}"; do
         printf '  %-8s %-14s %s\n' "$name" "${TREE_DIRS[$name]}/" "${TREE_INFO[$name]}"
@@ -216,10 +220,24 @@ show_usage() {
     show_manual_run
 }
 
+find_tree() {
+    # Prints the first tree of TREE_AUTO_ORDER that is configured, else DEFAULT_TREE
+    local name
+    for name in "${TREE_AUTO_ORDER[@]}"; do
+        if [[ -f "$REPO_ROOT/${TREE_DIRS[$name]}/$CMAKE_CACHE_NAME" ]]; then
+            printf '%s\n' "$name"
+            return
+        fi
+    done
+    printf '%s\n' "$DEFAULT_TREE"
+}
+
 show_manual_run() {
     # Prints how to start the default tree's client by hand, without this script
-    write_label "Or run it manually (from $REPO_ROOT, once ${TREE_DIRS[$DEFAULT_TREE]}/ is built):"
-    write_extra "export $WOW_DATA_VAR=\"\$wow_classic_dir/$WOW_DATA_SUBDIR\" && ./${TREE_DIRS[$DEFAULT_TREE]}/$EXE_SUBDIR/$CLIENT_EXE_NAME"
+    local tree_name
+    tree_name="$(find_tree)"
+    write_label "Or run it manually (from $REPO_ROOT, once ${TREE_DIRS[$tree_name]}/ is built):"
+    write_extra "export $WOW_DATA_VAR=\"\$wow_classic_dir/$WOW_DATA_SUBDIR\" && ./${TREE_DIRS[$tree_name]}/$EXE_SUBDIR/$CLIENT_EXE_NAME"
 }
 
 read_command() {
@@ -299,7 +317,12 @@ read_options() {
         write_warn "tree=$opt_tree_dir is used - ignoring $opt_tree."
         opt_tree=""
     fi
-    if [[ -z "$opt_tree" && -z "$opt_tree_dir" ]]; then opt_tree="$DEFAULT_TREE"; fi
+    if [[ -z "$opt_tree" && -z "$opt_tree_dir" ]]; then
+        opt_tree="$(find_tree)"
+        if [[ "$opt_tree" != "$DEFAULT_TREE" ]]; then
+            write_label "No ${TREE_DIRS[$DEFAULT_TREE]}/ - using ${TREE_DIRS[$opt_tree]}/."
+        fi
+    fi
     if [[ -n "$opt_out" && -z "$opt_capture" ]]; then write_warn "out= is for a capture - ignoring it."; fi
     if $opt_worldview && [[ -n "$opt_capture" ]]; then
         write_warn "A capture runs in the client - ignoring worldview / at=."
