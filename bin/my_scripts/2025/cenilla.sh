@@ -129,6 +129,9 @@ RUN_COMMAND="run"
 HELP_TOKENS=(help h)
 PRINT_TOKENS=(print onlyprint showcmd)
 GFX_DEVICES=(gl4 gl3 gles3 vk d3d11 d3d12)
+# A d3d device opens only in a win32 window; with any other the window is never created
+D3D_DEVICES=(d3d11 d3d12)
+D3D_WINDOW="win32"
 declare -A GFX_DEVICE_ALIASES=([vulkan]=vk [dx11]=d3d11 [dx12]=d3d12)
 GFX_WINDOWS=(x11 sdl glfw win32)
 # The window when none is named and WOW_GFX_WINDOW is not set: the platform's own, win32 on
@@ -657,11 +660,36 @@ if [[ ! -d "$REPO_ROOT" ]]; then
     exit 1
 fi
 
+check_gfx_pair() {
+    # Names a WOW_GFX_WINDOW / WOW_GFX_DEVICE the run takes from the environment (the launch line
+    # lists only what this script sets), and warns about a d3d device in a window other than win32
+    local entry window="" device="" hint=""
+    for entry in "${run_env[@]}"; do
+        case "$entry" in
+            WOW_GFX_WINDOW=*) window="${entry#*=}" ;;
+            WOW_GFX_DEVICE=*) device="${entry#*=}" ;;
+        esac
+    done
+    if [[ -z "$window" && -n "${WOW_GFX_WINDOW:-}" ]]; then
+        window="$WOW_GFX_WINDOW"
+        hint=", or unset WOW_GFX_WINDOW"
+        write_label "WOW_GFX_WINDOW=$window (from the environment)"
+    fi
+    if [[ -z "$device" && -n "${WOW_GFX_DEVICE:-}" ]]; then
+        device="$WOW_GFX_DEVICE"
+        write_label "WOW_GFX_DEVICE=$device (from the environment)"
+    fi
+    if in_list "${device,,}" "${D3D_DEVICES[@]}" && [[ -n "$window" && "${window,,}" != "$D3D_WINDOW" ]]; then
+        write_warn "$device opens only in a $D3D_WINDOW window, not $window: its window will not be created - name $D3D_WINDOW$hint."
+    fi
+}
+
 capture_out=""
 resolve_wow_data
 resolve_tree
 resolve_gfx_library
 get_run_env
+check_gfx_pair
 
 if $opt_print_only; then
     show_launch_command
